@@ -363,14 +363,8 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
       <h3><i class="fas fa-sign-in-alt"></i> Sign in to your account</h3>
       <div class="sub">Enter your username and password to continue</div>
       <div class="err" id="loginError"><i class="fas fa-exclamation-circle"></i> <span id="loginErrorText"></span></div>
-      <div class="field">
-        <label>Username</label>
-        <input type="text" id="loginUsername" placeholder="Enter your username" autocomplete="username">
-      </div>
-      <div class="field">
-        <label>Password</label>
-        <input type="password" id="loginPassword" placeholder="Enter your password" autocomplete="current-password">
-      </div>
+      <div class="field"><label>Username</label><input type="text" id="loginUsername" placeholder="Enter your username" autocomplete="username"></div>
+      <div class="field"><label>Password</label><input type="password" id="loginPassword" placeholder="Enter your password" autocomplete="current-password"></div>
       <button class="btn-signin" id="loginBtn" onclick="doLogin()"><i class="fas fa-sign-in-alt"></i> Sign in</button>
       <div class="hint" id="loginLoading" style="display:none;"><i class="fas fa-spinner fa-spin"></i> Connecting...</div>
     </div>
@@ -423,15 +417,15 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
     </div>
   </div>
 
-  <div class="tab-nav">
+  <!-- ✅ Team tab NO LONGER has 'hidden' class hardcoded. JS controls visibility. -->
+  <div class="tab-nav" id="userTabNav">
     <button class="tab-btn active" data-tab="daily" onclick="switchTab('daily')"><i class="fas fa-calendar-day"></i> Daily Performance</button>
     <button class="tab-btn" data-tab="purchases" onclick="switchTab('purchases')"><i class="fas fa-truck"></i> Daily Purchases</button>
     <button class="tab-btn" data-tab="audit" onclick="switchTab('audit')"><i class="fas fa-shield-halved"></i> Closure Audit</button>
     <button class="tab-btn" data-tab="log" onclick="switchTab('log')"><i class="fas fa-history"></i> Audit Log</button>
-    <button class="tab-btn team-only hidden" data-tab="team" id="teamTabBtn" onclick="switchTab('team')"><i class="fas fa-users-gear"></i> Team Management</button>
+    <button class="tab-btn" data-tab="team" id="teamTabBtn" onclick="switchTab('team')"><i class="fas fa-users-gear"></i> Team Management</button>
   </div>
 
-  <!-- DAILY -->
   <div class="tab-panel active" id="tab-daily">
     <div class="month-bar">
       <label><i class="fas fa-calendar-alt"></i> Active month:</label>
@@ -446,7 +440,6 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
     </div>
     <div id="closedDetail" style="display:none;" class="closed-month-detail"></div>
     <div class="summary-grid" id="summaryGrid"></div>
-
     <div style="display:flex;justify-content:space-between;align-items:center;margin:1.5rem 0 0.8rem 0;">
       <div class="section-title" style="margin:0;"><i class="fas fa-receipt"></i> Monthly expenses &amp; fixed costs</div>
       <button class="add-row-btn editor-only" onclick="addExpenseRow()"><i class="fas fa-plus-circle"></i> Add expense</button>
@@ -454,12 +447,7 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
     <div class="table-card">
       <div class="table-scroll">
         <table id="expenseTable">
-          <thead><tr>
-            <th style="width:220px;">Expense Type</th>
-            <th style="width:150px;">Amount (UGX)</th>
-            <th style="width:180px;">Note / Detail</th>
-            <th style="width:60px;"></th>
-          </tr></thead>
+          <thead><tr><th style="width:220px;">Expense Type</th><th style="width:150px;">Amount (UGX)</th><th style="width:180px;">Note / Detail</th><th style="width:60px;"></th></tr></thead>
           <tbody id="expenseBody"></tbody>
         </table>
       </div>
@@ -467,7 +455,6 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
         <strong style="color:#0b2b44;">Total monthly expenses:</strong> <span id="expenseTotal" style="font-weight:700;color:#0b2b44;">UGX 0</span>
       </div>
     </div>
-
     <div class="section-title"><i class="fas fa-calendar-day"></i> Daily entries</div>
     <div class="table-card">
       <div class="table-scroll"><table id="dailyTable"><thead><tr>
@@ -484,7 +471,6 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
     <div class="table-card"><div class="table-scroll"><table id="totalsTable"><thead><tr><th>Metric</th><th>Value (UGX)</th></tr></thead><tbody id="totalsBody"></tbody></table></div></div>
   </div>
 
-  <!-- PURCHASES -->
   <div class="tab-panel" id="tab-purchases">
     <div class="month-bar">
       <label><i class="fas fa-calendar-alt"></i> Active month:</label>
@@ -509,7 +495,6 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
     <div class="table-card"><div class="table-scroll"><table id="categoryTable"><thead><tr><th>Category</th><th>Purchases (UGX)</th><th>% of Total</th><th># Orders</th></tr></thead><tbody id="categoryBody"></tbody></table></div></div>
   </div>
 
-  <!-- AUDIT -->
   <div class="tab-panel" id="tab-audit">
     <div style="background:white;padding:1.2rem 1.5rem;border-radius:16px;border:1px solid #e3ebf3;margin-bottom:1.5rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">
       <i class="fas fa-shield-halved" style="font-size:1.8rem;color:#1d7a4b;"></i>
@@ -547,7 +532,6 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
     </div>
   </div>
 
-  <!-- LOG -->
   <div class="tab-panel" id="tab-log">
     <div style="background:white;padding:1.2rem 1.5rem;border-radius:16px;border:1px solid #e3ebf3;margin-bottom:1.5rem;">
       <div style="font-weight:700;color:#0b2b44;font-size:1rem;"><i class="fas fa-history" style="color:#1f4970;"></i> Audit Log</div>
@@ -556,7 +540,6 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
     <div class="table-card"><div class="table-scroll"><table id="logTable"><thead><tr><th style="width:180px;">Time</th><th style="width:150px;">User</th><th style="width:150px;">Action</th><th>Details</th></tr></thead><tbody id="logBody"></tbody></table></div></div>
   </div>
 
-  <!-- TEAM MANAGEMENT -->
   <div class="tab-panel" id="tab-team">
     <div style="background:white;padding:1.2rem 1.5rem;border-radius:16px;border:1px solid #e3ebf3;margin-bottom:1.5rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">
       <i class="fas fa-users-gear" style="font-size:1.8rem;color:#1d7a4b;"></i>
@@ -627,12 +610,7 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
     <div class="admin-stats" id="adminStats"></div>
     <div class="section-title"><i class="fas fa-chart-bar"></i> Location Performance Snapshot</div>
     <div class="table-card">
-      <div class="table-scroll">
-        <table id="adminPerfTable">
-          <thead><tr><th>Location</th><th>Users</th><th>Entries</th><th>Total Sales (UGX)</th><th>Net Profit (UGX)</th><th>Status</th></tr></thead>
-          <tbody id="adminPerfBody"></tbody>
-        </table>
-      </div>
+      <div class="table-scroll"><table id="adminPerfTable"><thead><tr><th>Location</th><th>Users</th><th>Entries</th><th>Total Sales (UGX)</th><th>Net Profit (UGX)</th><th>Status</th></tr></thead><tbody id="adminPerfBody"></tbody></table></div>
     </div>
   </div>
   <div class="tab-panel" id="atab-locations">
@@ -681,7 +659,6 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
   </div>
 </div>
 
-<!-- MODALS -->
 <div class="modal-overlay" id="auditModal">
   <div class="modal">
     <div class="modal-header">
@@ -691,58 +668,40 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
     <div class="modal-body" id="auditReportBody"></div>
   </div>
 </div>
-
 <div class="modal-overlay" id="pwdModal">
   <div class="modal narrow">
-    <div class="modal-header">
-      <div><h2><i class="fas fa-key"></i> Change Password</h2></div>
-      <button class="modal-close" onclick="closeChangePassword()"><i class="fas fa-times"></i></button>
-    </div>
+    <div class="modal-header"><div><h2><i class="fas fa-key"></i> Change Password</h2></div><button class="modal-close" onclick="closeChangePassword()"><i class="fas fa-times"></i></button></div>
     <div class="modal-body">
-      <div class="login-field"><label>Current Password</label><input type="password" id="pwdCurrent" placeholder="••••••••"></div>
-      <div class="login-field"><label>New Password</label><input type="password" id="pwdNew" placeholder="Min 6 chars"></div>
-      <div class="login-field"><label>Confirm New Password</label><input type="password" id="pwdNew2" placeholder="Re-enter"></div>
-      <button class="login-btn" onclick="saveUserPassword()" style="width:100%;background:#1d7a4b;color:white;border:none;padding:0.85rem;border-radius:12px;font-weight:700;font-size:0.95rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:0.5rem;margin-top:0.5rem;font-family:inherit;"><i class="fas fa-save"></i> Update Password</button>
+      <div class="login-field"><label>Current Password</label><input type="password" id="pwdCurrent"></div>
+      <div class="login-field"><label>New Password</label><input type="password" id="pwdNew"></div>
+      <div class="login-field"><label>Confirm New Password</label><input type="password" id="pwdNew2"></div>
+      <button class="login-btn" onclick="saveUserPassword()" style="width:100%;background:#1d7a4b;color:white;border:none;padding:0.85rem;border-radius:12px;font-weight:700;cursor:pointer;margin-top:0.5rem;font-family:inherit;"><i class="fas fa-save"></i> Update Password</button>
     </div>
   </div>
 </div>
-
 <div class="modal-overlay" id="adminPwdModal">
   <div class="modal narrow">
-    <div class="modal-header">
-      <div><h2><i class="fas fa-key"></i> Change Admin Password</h2></div>
-      <button class="modal-close" onclick="closeAdminChangePassword()"><i class="fas fa-times"></i></button>
-    </div>
+    <div class="modal-header"><div><h2><i class="fas fa-key"></i> Change Admin Password</h2></div><button class="modal-close" onclick="closeAdminChangePassword()"><i class="fas fa-times"></i></button></div>
     <div class="modal-body">
-      <div class="login-field"><label>Current Admin Password</label><input type="password" id="admPwdCurrent" placeholder="••••••••"></div>
-      <div class="login-field"><label>New Admin Password</label><input type="password" id="admPwdNew" placeholder="Min 6 chars"></div>
-      <div class="login-field"><label>Confirm New Password</label><input type="password" id="admPwdNew2" placeholder="Re-enter"></div>
-      <button class="login-btn" onclick="saveAdminPassword()" style="width:100%;background:#1d7a4b;color:white;border:none;padding:0.85rem;border-radius:12px;font-weight:700;font-size:0.95rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:0.5rem;margin-top:0.5rem;font-family:inherit;"><i class="fas fa-save"></i> Update Admin Password</button>
+      <div class="login-field"><label>Current Admin Password</label><input type="password" id="admPwdCurrent"></div>
+      <div class="login-field"><label>New Admin Password</label><input type="password" id="admPwdNew"></div>
+      <div class="login-field"><label>Confirm New Password</label><input type="password" id="admPwdNew2"></div>
+      <button class="login-btn" onclick="saveAdminPassword()" style="width:100%;background:#1d7a4b;color:white;border:none;padding:0.85rem;border-radius:12px;font-weight:700;cursor:pointer;margin-top:0.5rem;font-family:inherit;"><i class="fas fa-save"></i> Update Admin Password</button>
     </div>
   </div>
 </div>
-
 <div class="modal-overlay" id="userModal">
   <div class="modal narrow">
-    <div class="modal-header">
-      <div><h2><i class="fas fa-user-edit"></i> Edit User — <span id="editUserName"></span></h2></div>
-      <button class="modal-close" onclick="closeUserModal()"><i class="fas fa-times"></i></button>
-    </div>
+    <div class="modal-header"><div><h2><i class="fas fa-user-edit"></i> Edit User — <span id="editUserName"></span></h2></div><button class="modal-close" onclick="closeUserModal()"><i class="fas fa-times"></i></button></div>
     <div class="modal-body">
       <input type="hidden" id="editUserKey">
       <div class="login-field"><label>Full Name</label><input type="text" id="editFullName"></div>
       <div class="login-field"><label>Location</label><select id="editLocation"></select></div>
       <div class="login-field"><label>Role</label>
-        <select id="editRole">
-          <option value="manager">Manager — full control</option>
-          <option value="accountant">Accountant — limited editing</option>
-          <option value="cashier">Cashier — view only</option>
-        </select>
+        <select id="editRole"><option value="manager">Manager</option><option value="accountant">Accountant</option><option value="cashier">Cashier</option></select>
       </div>
-      <div class="login-field"><label>Status</label>
-        <select id="editStatus"><option value="active">Active</option><option value="suspended">Suspended</option></select>
-      </div>
-      <div class="login-field"><label>Reset Password (leave blank to keep)</label><input type="text" id="editNewPass" placeholder="New password (optional)"></div>
+      <div class="login-field"><label>Status</label><select id="editStatus"><option value="active">Active</option><option value="suspended">Suspended</option></select></div>
+      <div class="login-field"><label>Reset Password (leave blank to keep)</label><input type="text" id="editNewPass"></div>
       <div style="display:flex;gap:0.5rem;margin-top:1rem;">
         <button class="btn btn-primary" style="flex:1;justify-content:center;" onclick="saveUserEdit()"><i class="fas fa-save"></i> Save</button>
         <button class="btn btn-danger" onclick="deleteUserConfirm()"><i class="fas fa-trash"></i> Delete</button>
@@ -750,13 +709,9 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
     </div>
   </div>
 </div>
-
 <div class="modal-overlay" id="locModal">
   <div class="modal">
-    <div class="modal-header">
-      <div><h2><i class="fas fa-location-dot"></i> <span id="locModalName"></span></h2><div class="sub" id="locModalCode"></div></div>
-      <button class="modal-close" onclick="closeLocModal()"><i class="fas fa-times"></i></button>
-    </div>
+    <div class="modal-header"><div><h2><i class="fas fa-location-dot"></i> <span id="locModalName"></span></h2><div class="sub" id="locModalCode"></div></div><button class="modal-close" onclick="closeLocModal()"><i class="fas fa-times"></i></button></div>
     <div class="modal-body" id="locModalBody"></div>
   </div>
 </div>
@@ -779,9 +734,7 @@ const firebaseConfig = {
 let db = null, firebaseReady = false;
 try { firebase.initializeApp(firebaseConfig); db = firebase.firestore(); firebaseReady = true; } catch(e) { console.error(e); }
 
-/* ============================================================
-   CONSTANTS
-   ============================================================ */
+/* CONSTANTS */
 const EXPENSE_TYPES = ['Salary','Rent','Utilities (Electricity/Water)','Transport','Fuel','Packaging Materials','Cleaning Supplies','Security Services','Wifi / Internet','Telephone / Airtime','Waste Disposal','Licenses & Permits','Insurance','Marketing & Advertising','Repairs & Maintenance','Bank Charges','Loan Repayment','Taxes','Staff Welfare','Loss / Theft','Other'];
 
 const DEFAULT_PERMISSIONS = {
@@ -790,17 +743,13 @@ const DEFAULT_PERMISSIONS = {
   cashier:    { view:true, editDaily:false, editPurchases:false, editExpenses:false, closeMonth:false, viewAudit:false, viewLog:false, manageUsers:false }
 };
 
-/* ============================================================
-   STATE
-   ============================================================ */
+/* STATE */
 let allMonthsData = {}, currentMonthKey = '', weeklyClosures = [], auditLog = [];
 let saveTimeout = null, activeTab = 'daily', activeAdminTab = 'overview';
 let currentUser = null, currentLocationId = null;
 let allUsersCache = {}, allLocationsCache = {};
 
-/* ============================================================
-   HELPERS
-   ============================================================ */
+/* HELPERS */
 function defaultExpenses(){ return [{ type: 'Salary', amount: 600000, note: '' }, { type: 'Rent', amount: 550000, note: '' }]; }
 function currentEntries(){ return allMonthsData[currentMonthKey]?.entries || []; }
 function currentExpenses(){
@@ -829,11 +778,10 @@ function fmtSigned(n){if(n===undefined||n===null||isNaN(n))return '—';const a=
 function monthLabel(key){return new Date(key+'-01').toLocaleString('en',{month:'long',year:'numeric'});}
 function shortMonth(key){return new Date(key+'-01').toLocaleString('en',{month:'short',year:'numeric'});}
 
-/* ✅ FIXED: robust permission check with safe defaults */
+/* ✅ Permission check */
 function hasPerm(perm){
   if(!currentUser) return false;
   if(currentUser.role === 'admin' || currentUser.role === 'superadmin') return true;
-  // If permissions object missing entirely, fall back to role defaults
   const perms = currentUser.permissions || DEFAULT_PERMISSIONS[currentUser.role] || DEFAULT_PERMISSIONS.cashier;
   return !!perms[perm];
 }
@@ -849,9 +797,28 @@ function showSaveStatus(status, msg, target){
   else { el.classList.add('error'); el.querySelector('i').className='fas fa-exclamation-triangle'; txt.textContent = msg || 'Save failed'; }
 }
 
-/* ============================================================
-   AUTO-SEED
-   ============================================================ */
+/* ✅ BULLETPROOF TAB VISIBILITY: uses inline style ONLY, no CSS class dependency */
+function updateTabVisibility(){
+  const teamBtn = document.getElementById('teamTabBtn');
+  if(!teamBtn) { console.warn('[TabVisibility] teamTabBtn not found'); return; }
+  const show = !!currentUser && hasPerm('manageUsers');
+  if(show) {
+    teamBtn.style.setProperty('display', 'inline-flex', 'important');
+    teamBtn.style.removeProperty('visibility');
+    console.log('[TabVisibility] ✅ Team tab SHOWN. role:', currentUser.role, '| manageUsers:', currentUser.permissions?.manageUsers);
+  } else {
+    teamBtn.style.setProperty('display', 'none', 'important');
+    console.log('[TabVisibility] Team tab HIDDEN. role:', currentUser?.role, '| manageUsers:', currentUser?.permissions?.manageUsers);
+    if(activeTab === 'team') {
+      activeTab = 'daily';
+      document.querySelectorAll('#app .tab-panel').forEach(p => p.classList.remove('active'));
+      const daily = document.getElementById('tab-daily');
+      if(daily) daily.classList.add('active');
+    }
+  }
+}
+
+/* AUTO-SEED */
 async function autoSeed() {
   if(!firebaseReady) return;
   try {
@@ -866,9 +833,7 @@ async function autoSeed() {
   } catch(e) { console.error('Auto-seed failed', e); }
 }
 
-/* ============================================================
-   FIRESTORE DATA
-   ============================================================ */
+/* DATA */
 async function loadLocationData(locationId) {
   if(!firebaseReady) { showSaveStatus('error','No Firebase'); return; }
   showSaveStatus('saving','Loading...');
@@ -915,9 +880,7 @@ function addLog(action, details){
   if(activeTab === 'log') renderLog();
 }
 
-/* ============================================================
-   CONTACT FORM
-   ============================================================ */
+/* CONTACT */
 function openContactModal(){ document.getElementById('contactModal').classList.add('active'); document.getElementById('contactError').style.display='none'; document.getElementById('contactSuccess').style.display='none'; }
 function closeContactModal(){ document.getElementById('contactModal').classList.remove('active'); }
 document.getElementById('contactModal').addEventListener('click', function(e){ if(e.target === this) closeContactModal(); });
@@ -937,16 +900,14 @@ async function sendContactForm(){
     await db.collection('contactMessages').add({ name, email, subject, message, createdAt: new Date().toISOString(), source: 'landing-page' });
     const mailtoBody = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`);
     const mailtoSubject = encodeURIComponent(`[Bright Mesh] ${subject}`);
-    sucTxt.innerHTML = `Thank you! Your message has been saved. We'll get back to you soon.<br><br><a href="mailto:brightmesh.app@gmail.com?subject=${mailtoSubject}&body=${mailtoBody}" style="color:#1d7a4b;font-weight:700;">Click here to also send via email app</a>`;
+    sucTxt.innerHTML = `Thank you! Your message has been saved.<br><br><a href="mailto:brightmesh.app@gmail.com?subject=${mailtoSubject}&body=${mailtoBody}" style="color:#1d7a4b;font-weight:700;">Click here to also send via email app</a>`;
     sucBox.style.display = 'flex';
     document.getElementById('contactName').value = ''; document.getElementById('contactEmail').value = ''; document.getElementById('contactSubject').value = ''; document.getElementById('contactMessage').value = '';
   } catch(e) { errTxt.textContent = 'Could not send: ' + e.message; errBox.style.display = 'flex'; }
   finally { btn.disabled = false; btn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Message'; }
 }
 
-/* ============================================================
-   LOGIN / LOGOUT
-   ============================================================ */
+/* LOGIN */
 document.getElementById('year').textContent = new Date().getFullYear();
 document.getElementById('loginUsername').addEventListener('keypress', e=>{ if(e.key==='Enter') document.getElementById('loginPassword').focus(); });
 document.getElementById('loginPassword').addEventListener('keypress', e=>{ if(e.key==='Enter') doLogin(); });
@@ -979,7 +940,6 @@ async function doLogin(){
     if(userData.password !== p) throw new Error('Invalid password');
     const locDoc = await db.collection('locations').doc(userData.locationId).get();
     const locData = locDoc.exists ? locDoc.data() : { name: userData.locationId };
-    /* ✅ FIXED: Ensure permissions object always exists */
     const userRole = userData.role || 'cashier';
     const userPerms = userData.permissions || DEFAULT_PERMISSIONS[userRole] || DEFAULT_PERMISSIONS.cashier;
     currentUser = { username: u, fullName: userData.fullName || u, locationId: userData.locationId, locationName: locData.name || userData.locationId, role: userRole, permissions: userPerms };
@@ -1000,17 +960,8 @@ async function showUserDashboard(){
   document.getElementById('locationTitle').textContent = '· ' + currentUser.locationName;
   document.getElementById('teamLocationName').textContent = currentUser.locationName;
 
-  // ✅ FIXED: Use hasPerm() instead of raw permissions check so it always respects role defaults
-  const teamBtn = document.getElementById('teamTabBtn');
-  if(teamBtn) {
-    if(hasPerm('manageUsers')) {
-      teamBtn.classList.remove('hidden');
-      teamBtn.style.display = 'inline-flex';
-    } else {
-      teamBtn.classList.add('hidden');
-      teamBtn.style.display = 'none';
-    }
-  }
+  /* ✅ Set tab visibility FIRST (before any awaits that might race) */
+  updateTabVisibility();
 
   await loadLocationData(currentLocationId);
   applyPermissions();
@@ -1022,6 +973,13 @@ async function showUserDashboard(){
   renderLog();
   if(hasPerm('manageUsers')) renderTeam();
   switchTab('daily');
+
+  /* ✅ Set again AFTER everything — belt and suspenders */
+  updateTabVisibility();
+  /* ✅ And once more after a tick — catches any late re-renders */
+  setTimeout(updateTabVisibility, 100);
+  setTimeout(updateTabVisibility, 500);
+
   addLog('Login', `${currentUser.username} signed in`);
   showToast('Welcome, ' + (currentUser.fullName || currentUser.username), 'success');
 }
@@ -1057,9 +1015,7 @@ function doLogout(){
   document.getElementById('signin-section').scrollIntoView({behavior:'smooth'});
 }
 
-/* ============================================================
-   ADMIN DASHBOARD
-   ============================================================ */
+/* ADMIN */
 async function loadAdminData(){
   if(!firebaseReady) return;
   try {
@@ -1170,7 +1126,6 @@ async function renderAdminActivity(){
   } catch(e) { showSaveStatus('error','Failed','admin'); }
 }
 
-/* ✅ NEW: Clear all activity logs */
 async function clearAllActivityLogs(){
   const confirmed = confirm('Are you sure you want to permanently delete ALL activity logs across ALL locations?\n\nThis action cannot be undone.');
   if(!confirmed) return;
@@ -1182,7 +1137,6 @@ async function clearAllActivityLogs(){
     for(const locId of Object.keys(allLocationsCache)) {
       const snap = await db.collection('locations').doc(locId).collection('auditLog').get();
       if(snap.empty) continue;
-      // Delete in batches of 500 (Firestore limit)
       let batch = db.batch();
       let count = 0;
       const docs = snap.docs;
@@ -1207,9 +1161,6 @@ async function clearAllActivityLogs(){
   }
 }
 
-/* ============================================================
-   ADMIN ACTIONS
-   ============================================================ */
 async function adminCreateLocation(){
   const name = document.getElementById('admLocName').value.trim();
   const code = document.getElementById('admLocCode').value.trim().toLowerCase();
@@ -1320,9 +1271,7 @@ async function deleteUserConfirm(username){
   await loadAdminData(); renderAdminAccounts(); renderAdminOverview();
 }
 
-/* ============================================================
-   PASSWORD CHANGE
-   ============================================================ */
+/* PASSWORD */
 function openChangePassword(){ document.getElementById('pwdCurrent').value=''; document.getElementById('pwdNew').value=''; document.getElementById('pwdNew2').value=''; document.getElementById('pwdModal').classList.add('active'); }
 function closeChangePassword(){ document.getElementById('pwdModal').classList.remove('active'); }
 async function saveUserPassword(){
@@ -1357,9 +1306,7 @@ async function saveAdminPassword(){
   } catch(e) { showToast('Error: ' + e.message, 'error'); }
 }
 
-/* ============================================================
-   TEAM MANAGEMENT
-   ============================================================ */
+/* TEAM */
 function renderTeam(){ renderTeamPermissionGrid(DEFAULT_PERMISSIONS.manager); renderTeamMembers(); }
 function renderTeamPermissionGrid(selected){
   const perms = [
@@ -1370,7 +1317,6 @@ function renderTeamPermissionGrid(selected){
 }
 function onTeamRoleChange(){ const role = document.getElementById('teamUserRole').value; renderTeamPermissionGrid(DEFAULT_PERMISSIONS[role] || {}); }
 
-/* ✅ FIXED: More verbose errors, explicit permission check with fallback */
 async function createTeamUser(){
   if(!currentUser){ showToast('Not logged in', 'error'); return; }
   if(!hasPerm('manageUsers')){ showToast('You do not have permission to create users', 'error'); return; }
@@ -1386,13 +1332,7 @@ async function createTeamUser(){
   try {
     const existing = await db.collection('users').doc(username).get();
     if(existing.exists){ showToast('Username already exists', 'error'); return; }
-    await db.collection('users').doc(username).set({
-      username, fullName, password,
-      locationId: currentLocationId,
-      role, permissions, status: 'active',
-      createdAt: new Date().toISOString(),
-      createdBy: currentUser.username
-    });
+    await db.collection('users').doc(username).set({ username, fullName, password, locationId: currentLocationId, role, permissions, status: 'active', createdAt: new Date().toISOString(), createdBy: currentUser.username });
     addLog('Create User', `${username} (${role}) created by ${currentUser.username}`);
     document.getElementById('teamUserName').value = ''; document.getElementById('teamUserFullName').value = ''; document.getElementById('teamUserPass').value = '';
     showToast('User created: ' + username, 'success');
@@ -1463,9 +1403,7 @@ async function editTeamUser(username){
   renderTeamMembers();
 }
 
-/* ============================================================
-   USER TABS & RENDER
-   ============================================================ */
+/* ✅ switchTab — also reasserts visibility */
 function switchTab(tab){
   activeTab = tab;
   document.querySelectorAll('#app .tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
@@ -1476,7 +1414,9 @@ function switchTab(tab){
   if(tab === 'purchases') renderPurchases();
   if(tab === 'log') renderLog();
   if(tab === 'team') renderTeam();
+  updateTabVisibility();
 }
+
 function renderMonthSelect(){
   const sel = document.getElementById('monthSelect'); if(!sel) return;
   const months = Object.keys(allMonthsData).sort();
@@ -1866,9 +1806,6 @@ function downloadPDF(){
   showToast('PDF downloaded', 'success');
 }
 
-/* ============================================================
-   BOOTSTRAP
-   ============================================================ */
 renderTeamPermissionGrid(DEFAULT_PERMISSIONS.manager);
 window.addEventListener('DOMContentLoaded', async () => {
   if(firebaseReady) { await autoSeed(); }
