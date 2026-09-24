@@ -8,10 +8,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
-<!-- Firebase SDK (compat build - simpler for single-file apps) -->
+<!-- Firebase SDK (compat build) -->
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;}
 body{background:#f4f7fc;padding:2rem 1.5rem;color:#1e2a3a;}
@@ -38,17 +37,11 @@ body{background:#f4f7fc;padding:2rem 1.5rem;color:#1e2a3a;}
 .btn-primary{background:#1d7a4b;color:white;border:1px solid #1d7a4b;}
 .btn-primary:hover{background:#16633c;}
 .btn-excel{background:#217346;color:white;border:none;}
-.btn-excel:hover{background:#1a5e38;}
 .btn-pdf{background:#b0302a;color:white;border:none;}
-.btn-pdf:hover{background:#8f2620;}
 .btn-close-month{background:#1f4970;color:white;border:none;}
-.btn-close-month:hover{background:#15344e;}
 .btn-audit{background:#7c2d12;color:white;border:none;padding:0.7rem 1.5rem;font-size:0.9rem;}
-.btn-audit:hover{background:#6a2410;}
 .btn-danger{background:#b33a3a;color:white;border:none;}
-.btn-danger:hover{background:#8f2c2c;}
 .btn-logout{background:#f0f4f9;color:#b33a3a;border:1px solid #f0c8c8;}
-.btn-logout:hover{background:#fce8e8;}
 .toolbar{display:flex;flex-wrap:wrap;gap:0.7rem;margin-bottom:1.5rem;align-items:center;}
 .month-bar{display:flex;flex-wrap:wrap;align-items:center;gap:1rem;background:white;padding:0.8rem 1.2rem;border-radius:16px;border:1px solid #e3ebf3;box-shadow:0 4px 12px rgba(0,20,30,0.04);margin-bottom:1.5rem;}
 .month-bar label{font-weight:600;font-size:0.85rem;color:#1f3c54;}
@@ -163,7 +156,6 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
 .badge-pill.amber{background:#fff4e5;color:#b06d00;}
 .badge-pill.green{background:#e3f0eb;color:#1d6b4f;}
 .badge-pill.blue{background:#e7f0fd;color:#1f4970;}
-.badge-pill.purple{background:#efe7fd;color:#5b21b6;}
 .recon-box{background:#f8fafd;border:1px solid #e3ebf3;border-radius:12px;padding:0.9rem 1rem;margin-bottom:0.8rem;font-size:0.82rem;}
 .recon-box .row{display:flex;justify-content:space-between;padding:0.25rem 0;border-bottom:1px dashed #e3ebf3;}
 .recon-box .row:last-child{border-bottom:none;font-weight:700;color:#0b2b44;padding-top:0.5rem;}
@@ -184,8 +176,8 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
 .login-btn:disabled{opacity:0.6;cursor:not-allowed;}
 .login-error{background:#fce8e8;color:#b33a3a;padding:0.7rem 1rem;border-radius:10px;font-size:0.82rem;margin-bottom:1rem;display:none;align-items:center;gap:0.5rem;}
 .login-error.show{display:flex;}
-.login-hint{margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid #eef3f8;font-size:0.75rem;color:#6a7f94;line-height:1.6;}
-.login-hint strong{color:#0b2b44;}
+.login-loading{margin-top:1rem;text-align:center;font-size:0.8rem;color:#6a7f94;display:none;}
+.login-loading.show{display:block;}
 
 /* USER BADGE */
 .user-badge{display:flex;align-items:center;gap:0.5rem;background:#eef3f9;padding:0.35rem 0.9rem;border-radius:30px;font-size:0.78rem;font-weight:600;color:#1f4970;}
@@ -193,7 +185,6 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
 .user-badge .role.accountant{background:#7c2d12;}
 .user-badge .role.cashier{background:#6b7280;}
 .user-badge .role.admin{background:#5b21b6;}
-.user-badge .role.superadmin{background:#b0302a;}
 
 /* ADMIN */
 .admin-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;margin-bottom:2rem;}
@@ -207,11 +198,6 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
 .location-card .info{flex:1;min-width:200px;}
 .location-card .name{font-weight:700;color:#0b2b44;font-size:0.95rem;}
 .location-card .meta{font-size:0.75rem;color:#6a7f94;margin-top:0.2rem;}
-.user-row{display:flex;justify-content:space-between;align-items:center;padding:0.7rem 0;border-bottom:1px solid #f0f4f9;gap:0.8rem;flex-wrap:wrap;}
-.user-row:last-child{border-bottom:none;}
-.user-row .uinfo{flex:1;min-width:180px;}
-.user-row .uname{font-weight:600;color:#0b2b44;font-size:0.9rem;}
-.user-row .umeta{font-size:0.72rem;color:#6a7f94;margin-top:0.15rem;}
 .permission-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:0.5rem;margin-top:0.6rem;}
 .perm-item{display:flex;align-items:center;gap:0.5rem;font-size:0.78rem;color:#1f3c54;padding:0.4rem 0.6rem;background:#f8fafd;border-radius:8px;cursor:pointer;user-select:none;}
 .perm-item input[type="checkbox"]{width:auto;min-width:auto;cursor:pointer;}
@@ -227,17 +213,14 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
     <div class="login-error" id="loginError"><i class="fas fa-exclamation-circle"></i> <span id="loginErrorText"></span></div>
     <div class="login-field">
       <label>Username</label>
-      <input type="text" id="loginUsername" placeholder="e.g. wamombl1" autocomplete="username">
+      <input type="text" id="loginUsername" placeholder="Enter your username" autocomplete="username">
     </div>
     <div class="login-field">
       <label>Password</label>
-      <input type="password" id="loginPassword" placeholder="••••••••" autocomplete="current-password">
+      <input type="password" id="loginPassword" placeholder="Enter your password" autocomplete="current-password">
     </div>
     <button class="login-btn" id="loginBtn" onclick="doLogin()"><i class="fas fa-sign-in-alt"></i> Sign in</button>
-    <div class="login-hint">
-      <strong>Default admin:</strong> <code>admin</code> / <code>admin</code><br>
-      <strong>Sample location user:</strong> <code>wamombl1</code> / <code>wamo123@</code>
-    </div>
+    <div class="login-loading" id="loginLoading"><i class="fas fa-spinner fa-spin"></i> Connecting to Firebase...</div>
   </div>
 </div>
 
@@ -274,7 +257,7 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
     <button class="tab-btn admin-only hidden" data-tab="admin" onclick="switchTab('admin')"><i class="fas fa-user-shield"></i> Admin</button>
   </div>
 
-  <!-- ================= DAILY ================= -->
+  <!-- DAILY -->
   <div class="tab-panel active" id="tab-daily">
     <div class="month-bar">
       <label><i class="fas fa-calendar-alt"></i> Active month:</label>
@@ -287,92 +270,54 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
         <div class="closed-list" id="closedList"></div>
       </div>
     </div>
-
     <div id="closedDetail" style="display:none;" class="closed-month-detail"></div>
     <div class="summary-grid" id="summaryGrid"></div>
-
     <div class="section-title"><i class="fas fa-receipt"></i> Monthly expenses &amp; fixed costs</div>
     <div class="table-card"><div class="expense-grid" id="expenseGrid"></div></div>
-
     <div class="section-title"><i class="fas fa-calendar-day"></i> Daily entries</div>
     <div class="table-card">
-      <div class="table-scroll">
-        <table id="dailyTable">
-          <thead><tr>
-            <th style="width:110px;">Day</th><th style="width:130px;">Date</th>
-            <th style="width:100px;">Total Cost</th><th style="width:100px;">Total Sales</th>
-            <th style="width:100px;">Expenses</th><th style="width:110px;">Gross Profit</th>
-            <th style="width:60px;"></th>
-          </tr></thead>
-          <tbody id="tableBody"></tbody>
-        </table>
-      </div>
+      <div class="table-scroll"><table id="dailyTable"><thead><tr>
+        <th style="width:110px;">Day</th><th style="width:130px;">Date</th>
+        <th style="width:100px;">Total Cost</th><th style="width:100px;">Total Sales</th>
+        <th style="width:100px;">Expenses</th><th style="width:110px;">Gross Profit</th><th style="width:60px;"></th>
+      </tr></thead><tbody id="tableBody"></tbody></table></div>
       <div style="padding:0.8rem 1.2rem;border-top:1px solid #eef3f8;display:flex;justify-content:space-between;align-items:center;">
         <button class="add-row-btn editor-only" onclick="addRow()"><i class="fas fa-plus-circle"></i> Add row</button>
         <span style="font-size:0.75rem;color:#7b8fa0;"><i class="fas fa-info-circle"></i> Auto-synced · every edit is logged</span>
       </div>
     </div>
-
     <div class="section-title"><i class="fas fa-chart-bar"></i> Computed totals</div>
-    <div class="table-card">
-      <div class="table-scroll">
-        <table id="totalsTable"><thead><tr><th>Metric</th><th>Value (UGX)</th></tr></thead><tbody id="totalsBody"></tbody></table>
-      </div>
-    </div>
+    <div class="table-card"><div class="table-scroll"><table id="totalsTable"><thead><tr><th>Metric</th><th>Value (UGX)</th></tr></thead><tbody id="totalsBody"></tbody></table></div></div>
   </div>
 
-  <!-- ================= PURCHASES ================= -->
+  <!-- PURCHASES -->
   <div class="tab-panel" id="tab-purchases">
     <div class="month-bar">
       <label><i class="fas fa-calendar-alt"></i> Active month:</label>
       <select id="purchaseMonthSelect" onchange="onPurchaseMonthChange()"></select>
       <span style="font-size:0.8rem;color:#5f7385;"><i class="fas fa-info-circle"></i> Record each purchase with supplier, category &amp; payment mode</span>
     </div>
-
     <div class="summary-grid" id="purchaseSummaryGrid"></div>
-
     <div class="section-title"><i class="fas fa-truck"></i> Daily purchases — <span id="purchaseMonthLabel"></span></div>
     <div class="table-card">
-      <div class="table-scroll">
-        <table id="purchasesTable">
-          <thead><tr>
-            <th style="width:120px;">Date</th><th style="width:170px;">Supplier</th>
-            <th style="width:150px;">Category</th><th style="width:100px;">Qty</th>
-            <th style="width:120px;">Unit Cost</th><th style="width:130px;">Total Cost</th>
-            <th style="width:130px;">Payment Mode</th><th style="width:120px;">Reference</th>
-            <th style="width:60px;"></th>
-          </tr></thead>
-          <tbody id="purchasesBody"></tbody>
-        </table>
-      </div>
+      <div class="table-scroll"><table id="purchasesTable"><thead><tr>
+        <th style="width:120px;">Date</th><th style="width:170px;">Supplier</th>
+        <th style="width:150px;">Category</th><th style="width:100px;">Qty</th>
+        <th style="width:120px;">Unit Cost</th><th style="width:130px;">Total Cost</th>
+        <th style="width:130px;">Payment Mode</th><th style="width:120px;">Reference</th><th style="width:60px;"></th>
+      </tr></thead><tbody id="purchasesBody"></tbody></table></div>
       <div style="padding:0.8rem 1.2rem;border-top:1px solid #eef3f8;display:flex;justify-content:space-between;align-items:center;">
         <button class="add-row-btn editor-only" onclick="addPurchaseRow()"><i class="fas fa-plus-circle"></i> Add purchase</button>
         <span style="font-size:0.75rem;color:#7b8fa0;"><i class="fas fa-cloud"></i> Auto-synced</span>
       </div>
     </div>
-
     <div class="section-title"><i class="fas fa-chart-pie"></i> Supplier breakdown</div>
-    <div class="table-card">
-      <div class="table-scroll">
-        <table id="supplierTable">
-          <thead><tr><th>Supplier</th><th>Purchases (UGX)</th><th>% of Total</th><th># Orders</th><th>Avg Order</th></tr></thead>
-          <tbody id="supplierBody"></tbody>
-        </table>
-      </div>
-    </div>
-
+    <div class="table-card"><div class="table-scroll"><table id="supplierTable"><thead><tr><th>Supplier</th><th>Purchases (UGX)</th><th>% of Total</th><th># Orders</th><th>Avg Order</th></tr></thead><tbody id="supplierBody"></tbody></table></div></div>
     <div class="section-title"><i class="fas fa-tags"></i> Category breakdown</div>
-    <div class="table-card">
-      <div class="table-scroll">
-        <table id="categoryTable">
-          <thead><tr><th>Category</th><th>Purchases (UGX)</th><th>% of Total</th><th># Orders</th></tr></thead>
-          <tbody id="categoryBody"></tbody>
-        </table>
-      </div>
-    </div>
+    <div class="table-card"><div class="table-scroll"><table id="categoryTable"><thead><tr><th>Category</th><th>Purchases (UGX)</th><th>% of Total</th><th># Orders</th></tr></thead><tbody id="categoryBody"></tbody></table></div></div>
   </div>
 
-  <!-- ================= CLOSURE AUDIT ================= -->
+  <!-- AUDIT -->
   <div class="tab-panel" id="tab-audit">
     <div style="background:white;padding:1.2rem 1.5rem;border-radius:16px;border:1px solid #e3ebf3;margin-bottom:1.5rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">
       <i class="fas fa-shield-halved" style="font-size:1.8rem;color:#1d7a4b;"></i>
@@ -382,30 +327,22 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
       </div>
       <button class="btn btn-audit" style="margin-left:auto;" onclick="openAuditReport()"><i class="fas fa-magnifying-glass-chart"></i> Run full audit</button>
     </div>
-
     <div class="audit-summary" id="auditSummary"></div>
-
     <div class="section-title"><i class="fas fa-table"></i> Weekly closure records</div>
     <div class="table-card">
-      <div class="table-scroll">
-        <table id="auditTable">
-          <thead><tr>
-            <th style="width:40px;"></th><th style="width:130px;">Date</th>
-            <th style="width:140px;">Total Stock</th><th style="width:140px;">Total Credit</th>
-            <th style="width:140px;">Cash at Hand</th>
-            <th style="width:120px;">Stock Δ</th><th style="width:120px;">Credit Δ</th>
-            <th style="width:120px;">Cash Δ</th><th style="width:180px;">Flag</th>
-          </tr></thead>
-          <tbody id="auditBody"></tbody>
-        </table>
-      </div>
+      <div class="table-scroll"><table id="auditTable"><thead><tr>
+        <th style="width:40px;"></th><th style="width:130px;">Date</th>
+        <th style="width:140px;">Total Stock</th><th style="width:140px;">Total Credit</th>
+        <th style="width:140px;">Cash at Hand</th>
+        <th style="width:120px;">Stock Δ</th><th style="width:120px;">Credit Δ</th>
+        <th style="width:120px;">Cash Δ</th><th style="width:180px;">Flag</th>
+      </tr></thead><tbody id="auditBody"></tbody></table></div>
       <div class="legend">
         <div class="legend-item"><span class="legend-dot red"></span> <strong>Red flag</strong> — sharp drop or unusual pattern</div>
         <div class="legend-item"><span class="legend-dot amber"></span> <strong>Amber</strong> — moderate concern, monitor</div>
         <div class="legend-item"><span class="legend-dot green"></span> <strong>Green</strong> — normal range</div>
       </div>
     </div>
-
     <div class="section-title editor-only"><i class="fas fa-plus-circle"></i> Add weekly closure entry</div>
     <div class="table-card editor-only" style="padding:1.2rem;">
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;">
@@ -418,7 +355,7 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
     </div>
   </div>
 
-  <!-- ================= AUDIT LOG ================= -->
+  <!-- LOG -->
   <div class="tab-panel" id="tab-log">
     <div style="background:white;padding:1.2rem 1.5rem;border-radius:16px;border:1px solid #e3ebf3;margin-bottom:1.5rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">
       <i class="fas fa-history" style="font-size:1.8rem;color:#1f4970;"></i>
@@ -428,21 +365,12 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
       </div>
       <button class="btn btn-danger admin-only hidden" style="margin-left:auto;" onclick="clearLog()"><i class="fas fa-trash"></i> Clear log</button>
     </div>
-
-    <div class="table-card">
-      <div class="table-scroll">
-        <table id="logTable">
-          <thead><tr><th style="width:180px;">Time</th><th style="width:150px;">User</th><th style="width:150px;">Action</th><th>Details</th></tr></thead>
-          <tbody id="logBody"></tbody>
-        </table>
-      </div>
-    </div>
+    <div class="table-card"><div class="table-scroll"><table id="logTable"><thead><tr><th style="width:180px;">Time</th><th style="width:150px;">User</th><th style="width:150px;">Action</th><th>Details</th></tr></thead><tbody id="logBody"></tbody></table></div></div>
   </div>
 
-  <!-- ================= ADMIN ================= -->
+  <!-- ADMIN -->
   <div class="tab-panel" id="tab-admin">
     <div class="admin-grid">
-      <!-- LOCATIONS -->
       <div class="admin-card">
         <h3><i class="fas fa-map-marker-alt"></i> Locations</h3>
         <div id="locationsList"></div>
@@ -452,8 +380,6 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
           <button class="btn btn-primary" onclick="createLocation()" style="width:100%;justify-content:center;"><i class="fas fa-plus"></i> Create Location</button>
         </div>
       </div>
-
-      <!-- USERS -->
       <div class="admin-card">
         <h3><i class="fas fa-users"></i> Users</h3>
         <div class="form-row"><label>Username</label><input type="text" id="newUserName" placeholder="e.g. ahmed" style="text-transform:lowercase;"></div>
@@ -473,32 +399,18 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
         </div>
         <button class="btn btn-primary" onclick="createUser()" style="width:100%;justify-content:center;margin-top:1rem;"><i class="fas fa-user-plus"></i> Create User</button>
       </div>
-
-      <!-- ADMIN PASSWORD -->
       <div class="admin-card">
         <h3><i class="fas fa-key"></i> Admin Password</h3>
         <div class="form-row"><label>Current Admin Password</label><input type="password" id="curAdminPass" placeholder="••••••••"></div>
         <div class="form-row"><label>New Admin Password</label><input type="password" id="newAdminPass" placeholder="Min 6 chars"></div>
         <div class="form-row"><label>Confirm New Password</label><input type="password" id="newAdminPass2" placeholder="Re-enter"></div>
         <button class="btn btn-primary" onclick="changeAdminPassword()" style="width:100%;justify-content:center;"><i class="fas fa-save"></i> Update Admin Password</button>
-        <div style="margin-top:1rem;padding-top:1rem;border-top:1px solid #eef3f8;font-size:0.75rem;color:#6a7f94;">
-          <i class="fas fa-info-circle"></i> The admin can register locations and users. Admin username: <strong>admin</strong>
-        </div>
       </div>
     </div>
-
-    <!-- ALL USERS TABLE -->
     <div class="section-title"><i class="fas fa-list"></i> All Users</div>
-    <div class="table-card">
-      <div class="table-scroll">
-        <table id="allUsersTable">
-          <thead><tr>
-            <th>Username</th><th>Full Name</th><th>Location</th><th>Role</th><th>Status</th><th>Actions</th>
-          </tr></thead>
-          <tbody id="allUsersBody"></tbody>
-        </table>
-      </div>
-    </div>
+    <div class="table-card"><div class="table-scroll"><table id="allUsersTable"><thead><tr>
+      <th>Username</th><th>Full Name</th><th>Location</th><th>Role</th><th>Status</th><th>Actions</th>
+    </tr></thead><tbody id="allUsersBody"></tbody></table></div></div>
   </div>
 
   <div class="footer-note">
@@ -508,21 +420,17 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
   </div>
 </div>
 
-<!-- ============ AUDIT REPORT MODAL ============ -->
+<!-- MODALS -->
 <div class="modal-overlay" id="auditModal">
   <div class="modal">
     <div class="modal-header">
-      <div>
-        <h2><i class="fas fa-magnifying-glass-chart"></i> Bright Mesh Audit Report — <span id="auditReportMonth"></span></h2>
-        <div class="sub" id="auditReportDate"></div>
-      </div>
+      <div><h2><i class="fas fa-magnifying-glass-chart"></i> Bright Mesh Audit Report — <span id="auditReportMonth"></span></h2><div class="sub" id="auditReportDate"></div></div>
       <button class="modal-close" onclick="closeAuditReport()"><i class="fas fa-times"></i></button>
     </div>
     <div class="modal-body" id="auditReportBody"></div>
   </div>
 </div>
 
-<!-- ============ CHANGE PASSWORD MODAL ============ -->
 <div class="modal-overlay" id="pwdModal">
   <div class="modal narrow">
     <div class="modal-header">
@@ -538,7 +446,6 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
   </div>
 </div>
 
-<!-- ============ USER DETAILS MODAL (Admin) ============ -->
 <div class="modal-overlay" id="userModal">
   <div class="modal narrow">
     <div class="modal-header">
@@ -549,7 +456,7 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
       <input type="hidden" id="editUserKey">
       <div class="login-field"><label>Full Name</label><input type="text" id="editFullName"></div>
       <div class="login-field"><label>Role</label>
-        <select id="editRole" onchange="onEditRoleChange()">
+        <select id="editRole">
           <option value="manager">Manager — full control</option>
           <option value="accountant">Accountant — limited editing</option>
           <option value="cashier">Cashier — view only</option>
@@ -574,31 +481,27 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
 
 <script>
 /* ============================================================
-   FIREBASE CONFIG — REPLACE WITH YOUR OWN
+   FIREBASE — YOUR CONFIG
    ============================================================ */
-<script type="module">
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-analytics.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
+const firebaseConfig = {
+  apiKey: "AIzaSyBquSyKnnQp4NMtCaooAD7k1tp3KPVdahU",
+  authDomain: "bright-mesh.firebaseapp.com",
+  projectId: "bright-mesh",
+  storageBucket: "bright-mesh.firebasestorage.app",
+  messagingSenderId: "731415620829",
+  appId: "1:731415620829:web:f34028a823efb50211bf34",
+  measurementId: "G-V73LRY2Z0F"
+};
 
-  // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-  const firebaseConfig = {
-    apiKey: "AIzaSyBquSyKnnQp4NMtCaooAD7k1tp3KPVdahU",
-    authDomain: "bright-mesh.firebaseapp.com",
-    projectId: "bright-mesh",
-    storageBucket: "bright-mesh.firebasestorage.app",
-    messagingSenderId: "731415620829",
-    appId: "1:731415620829:web:f34028a823efb50211bf34",
-    measurementId: "G-V73LRY2Z0F"
-  };
-
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
-</script>
+let db = null, firebaseReady = false;
+try {
+  firebase.initializeApp(firebaseConfig);
+  db = firebase.firestore();
+  firebaseReady = true;
+  console.log('✅ Firebase initialized:', firebaseConfig.projectId);
+} catch(e) {
+  console.error('❌ Firebase init failed', e);
+}
 
 /* ============================================================
    STATE
@@ -609,14 +512,11 @@ let weeklyClosures = [];
 let auditLog = [];
 let saveTimeout = null;
 let activeTab = 'daily';
-let currentUser = null;       // { username, fullName, locationId, locationName, role, permissions }
-let currentLocationId = null; // e.g. 'wamombl1'
+let currentUser = null;
+let currentLocationId = null;
 let allUsersCache = {};
 let allLocationsCache = {};
 
-/* ============================================================
-   ROLE DEFAULT PERMISSIONS
-   ============================================================ */
 const DEFAULT_PERMISSIONS = {
   manager:    { view:true, editDaily:true, editPurchases:true, editExpenses:true, closeMonth:true, viewAudit:true, viewLog:true },
   accountant: { view:true, editDaily:true, editPurchases:true, editExpenses:true, closeMonth:false, viewAudit:true, viewLog:true },
@@ -647,9 +547,6 @@ function hasPerm(perm) {
   return !!currentUser.permissions?.[perm];
 }
 
-/* ============================================================
-   TOAST
-   ============================================================ */
 function showToast(msg, type){
   const t = document.getElementById('toast');
   t.className = 'toast' + (type ? ' ' + type : '');
@@ -659,9 +556,6 @@ function showToast(msg, type){
   t._timer = setTimeout(()=>t.classList.remove('show'), 2600);
 }
 
-/* ============================================================
-   SAVE STATUS
-   ============================================================ */
 function showSaveStatus(status, msg){
   const el = document.getElementById('saveIndicator');
   const txt = document.getElementById('saveStatus');
@@ -679,8 +573,60 @@ function showSaveStatus(status, msg){
 }
 
 /* ============================================================
-   FIRESTORE: DATA LOAD / SAVE
-   Path: locations/{locationId}/months/{YYYY-MM}
+   AUTO-SEED
+   Creates admin config, sample location 'wamombl1' and user 'wamombl1'
+   Runs once when app opens if collections are empty.
+   ============================================================ */
+async function autoSeed() {
+  if(!firebaseReady) return;
+  try {
+    // Ensure admin config exists
+    const adminDoc = await db.collection('config').doc('admin').get();
+    if(!adminDoc.exists) {
+      await db.collection('config').doc('admin').set({ password: 'admin', createdAt: new Date().toISOString() });
+      console.log('✅ Admin config created (password: admin)');
+    }
+    // Check if wamombl1 user exists
+    const userDoc = await db.collection('users').doc('wamombl1').get();
+    if(userDoc.exists) {
+      console.log('ℹ️ Sample user wamombl1 already exists');
+      return;
+    }
+    // Create location
+    await db.collection('locations').doc('wamombl1').set({
+      name: 'Wamo Mbale 1',
+      code: 'wamombl1',
+      createdAt: new Date().toISOString()
+    });
+    // Create user
+    await db.collection('users').doc('wamombl1').set({
+      username: 'wamombl1',
+      fullName: 'Ahmed',
+      password: 'wamo123@',
+      locationId: 'wamombl1',
+      role: 'manager',
+      permissions: DEFAULT_PERMISSIONS.manager,
+      status: 'active',
+      createdAt: new Date().toISOString()
+    });
+    // Seed current month with default structure
+    const now = new Date();
+    const curKey = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0');
+    await db.collection('locations').doc('wamombl1').collection('months').doc(curKey).set({
+      entries: [],
+      expenses: defaultExpenses(),
+      closed: false,
+      purchases: []
+    });
+    console.log('✅ Auto-seeded location wamombl1 and user wamombl1 (Ahmed)');
+  } catch(e) {
+    console.error('Auto-seed failed', e);
+    // Ignore — will retry next load
+  }
+}
+
+/* ============================================================
+   FIRESTORE DATA
    ============================================================ */
 async function loadLocationData(locationId) {
   if(!firebaseReady) { showSaveStatus('error','No Firebase'); return; }
@@ -689,23 +635,19 @@ async function loadLocationData(locationId) {
     const snap = await db.collection('locations').doc(locationId).collection('months').get();
     allMonthsData = {};
     snap.forEach(doc => { allMonthsData[doc.id] = doc.data(); });
-    // Load weekly closures
     const wSnap = await db.collection('locations').doc(locationId).collection('weeklyClosures').get();
     weeklyClosures = [];
     wSnap.forEach(doc => weeklyClosures.push(doc.data()));
     weeklyClosures.sort((a,b)=>new Date(a.date)-new Date(b.date));
-    // Load audit log (last 500)
     const lSnap = await db.collection('locations').doc(locationId).collection('auditLog').orderBy('time','desc').limit(500).get();
     auditLog = [];
     lSnap.forEach(doc => auditLog.push(doc.data()));
-    // Ensure at least current month exists in memory
     const now = new Date();
     const curKey = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0');
     if(!allMonthsData[curKey]) {
       allMonthsData[curKey] = { entries: [], expenses: defaultExpenses(), closed: false, purchases: [] };
       await db.collection('locations').doc(locationId).collection('months').doc(curKey).set(allMonthsData[curKey]);
     }
-    // Pick latest month as current
     const monthsSorted = Object.keys(allMonthsData).sort();
     if(!currentMonthKey || !allMonthsData[currentMonthKey]) {
       currentMonthKey = monthsSorted.length ? monthsSorted[monthsSorted.length-1] : curKey;
@@ -714,7 +656,7 @@ async function loadLocationData(locationId) {
   } catch(e) {
     console.error('Load failed', e);
     showSaveStatus('error','Load failed');
-    showToast('Failed to load data: ' + e.message, 'error');
+    showToast('Failed to load: ' + e.message, 'error');
   }
 }
 
@@ -725,7 +667,7 @@ async function saveMonthToFirestore(monthKey) {
     if(!data) return;
     await db.collection('locations').doc(currentLocationId).collection('months').doc(monthKey).set(data);
   } catch(e) {
-    console.error('Save month failed', e);
+    console.error('Save failed', e);
     showToast('Save failed: ' + e.message, 'error');
   }
 }
@@ -733,8 +675,7 @@ async function saveMonthToFirestore(monthKey) {
 async function saveClosureToFirestore(closure) {
   if(!firebaseReady || !currentLocationId) return;
   try {
-    const id = closure.date; // use date as doc id to prevent dupes
-    await db.collection('locations').doc(currentLocationId).collection('weeklyClosures').doc(id).set(closure);
+    await db.collection('locations').doc(currentLocationId).collection('weeklyClosures').doc(closure.date).set(closure);
   } catch(e) { console.error('Save closure failed', e); }
 }
 
@@ -754,9 +695,6 @@ function scheduleSave(monthKey) {
   }, 800);
 }
 
-/* ============================================================
-   AUDIT LOG
-   ============================================================ */
 function addLog(action, details){
   const entry = {
     time: new Date().toISOString(),
@@ -771,40 +709,6 @@ function addLog(action, details){
   if(activeTab === 'log') renderLog();
 }
 
-function renderLog(){
-  const tbody = document.getElementById('logBody');
-  if(!auditLog.length){
-    tbody.innerHTML = `<tr><td colspan="4" style="text-align:center;padding:2rem;color:#7b8fa0;">No changes logged yet.</td></tr>`;
-    return;
-  }
-  tbody.innerHTML = auditLog.slice(0,200).map(l=>{
-    const d = new Date(l.time);
-    const badge = l.action.toLowerCase().includes('delete')||l.action.toLowerCase().includes('remove')
-      ? 'red' : l.action.toLowerCase().includes('add') ? 'green' : 'blue';
-    return `<tr>
-      <td style="font-size:0.78rem;color:#6a7f94;">${d.toLocaleString()}</td>
-      <td><strong>${l.user || '—'}</strong></td>
-      <td><span class="badge-pill ${badge}">${l.action}</span></td>
-      <td style="font-size:0.82rem;">${l.details} <span style="color:#6a7f94;">· ${monthLabel(l.month)}</span></td>
-    </tr>`;
-  }).join('');
-}
-
-function clearLog(){
-  if(!hasPerm('viewLog')) { showToast('Permission denied', 'error'); return; }
-  if(!confirm('Clear the entire audit log? This cannot be undone.')) return;
-  auditLog = [];
-  if(firebaseReady && currentLocationId) {
-    db.collection('locations').doc(currentLocationId).collection('auditLog').get().then(snap => {
-      const batch = db.batch();
-      snap.forEach(doc => batch.delete(doc.ref));
-      return batch.commit();
-    });
-  }
-  renderLog();
-  showToast('Audit log cleared');
-}
-
 /* ============================================================
    LOGIN
    ============================================================ */
@@ -814,22 +718,24 @@ async function doLogin(){
   const errBox = document.getElementById('loginError');
   const errTxt = document.getElementById('loginErrorText');
   const btn = document.getElementById('loginBtn');
+  const loading = document.getElementById('loginLoading');
   errBox.classList.remove('show');
   if(!u || !p){ errTxt.textContent = 'Please enter username and password'; errBox.classList.add('show'); return; }
+  if(!firebaseReady){ errTxt.textContent = 'Firebase not ready. Check your config.'; errBox.classList.add('show'); return; }
   btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing in...';
+  loading.classList.add('show');
 
   try {
-    // ADMIN login (default admin/admin)
+    // ADMIN login
     if(u === 'admin') {
       const adminDoc = await db.collection('config').doc('admin').get();
       let adminPass = 'admin';
       if(adminDoc.exists && adminDoc.data().password) adminPass = adminDoc.data().password;
       if(p !== adminPass) throw new Error('Invalid admin password');
       currentUser = { username: 'admin', fullName: 'Administrator', locationId: null, locationName: 'All Locations', role: 'admin', permissions: {view:true,editDaily:true,editPurchases:true,editExpenses:true,closeMonth:true,viewAudit:true,viewLog:true} };
-      onLoginSuccess();
+      await onLoginSuccess();
       return;
     }
-
     // REGULAR USER login
     const userDoc = await db.collection('users').doc(u).get();
     if(!userDoc.exists) throw new Error('User not found');
@@ -847,12 +753,13 @@ async function doLogin(){
       permissions: userData.permissions || DEFAULT_PERMISSIONS[userData.role] || DEFAULT_PERMISSIONS.cashier
     };
     currentLocationId = userData.locationId;
-    onLoginSuccess();
+    await onLoginSuccess();
   } catch(e) {
     errTxt.textContent = e.message || 'Login failed';
     errBox.classList.add('show');
   } finally {
     btn.disabled = false; btn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Sign in';
+    loading.classList.remove('show');
   }
 }
 
@@ -864,7 +771,6 @@ async function onLoginSuccess(){
   roleEl.textContent = currentUser.role;
   roleEl.className = 'role ' + currentUser.role;
 
-  // Show/hide admin tab
   const adminBtn = document.querySelector('.tab-btn[data-tab="admin"]');
   if(currentUser.role === 'admin' || currentUser.role === 'superadmin') {
     adminBtn.classList.remove('hidden');
@@ -873,7 +779,6 @@ async function onLoginSuccess(){
     adminBtn.classList.add('hidden');
   }
 
-  // If admin, still need a location to view data (default to first)
   if(currentUser.role === 'admin') {
     const locsSnap = await db.collection('locations').get();
     if(!locsSnap.empty) {
@@ -897,7 +802,7 @@ async function onLoginSuccess(){
   renderLog();
   switchTab(activeTab, true);
   addLog('Login', `${currentUser.username} signed in`);
-  showToast('Welcome, ' + (currentUser.fullName || currentUser.username));
+  showToast('Welcome, ' + (currentUser.fullName || currentUser.username), 'success');
 }
 
 function applyPermissions(){
@@ -922,25 +827,22 @@ function doLogout(){
 }
 
 /* ============================================================
-   ADMIN DATA LOAD
+   ADMIN
    ============================================================ */
 async function loadAdminData(){
   if(!firebaseReady) return;
   try {
-    // Load locations
     const locSnap = await db.collection('locations').get();
     allLocationsCache = {};
     locSnap.forEach(d => allLocationsCache[d.id] = d.data());
-    // Load users
     const usSnap = await db.collection('users').get();
     allUsersCache = {};
     usSnap.forEach(d => allUsersCache[d.id] = d.data());
     renderAdmin();
-  } catch(e) { console.error('Admin load failed', e); showToast('Admin load failed', 'error'); }
+  } catch(e) { console.error('Admin load failed', e); }
 }
 
 function renderAdmin(){
-  // Locations list
   const locList = document.getElementById('locationsList');
   const locEntries = Object.entries(allLocationsCache);
   locList.innerHTML = locEntries.length ? locEntries.map(([id, l])=>{
@@ -953,13 +855,11 @@ function renderAdmin(){
     </div>`;
   }).join('') : '<div style="color:#7b8fa0;padding:1rem;text-align:center;">No locations yet</div>';
 
-  // Populate location dropdown for user creation
   const locSel = document.getElementById('newUserLocation');
   locSel.innerHTML = locEntries.length
     ? locEntries.map(([id, l])=>`<option value="${id}">${l.name || id}</option>`).join('')
     : '<option value="">No locations — create one first</option>';
 
-  // All users table
   const usersBody = document.getElementById('allUsersBody');
   const userEntries = Object.entries(allUsersCache);
   usersBody.innerHTML = userEntries.length ? userEntries.map(([u, data])=>{
@@ -996,25 +896,16 @@ function onRoleChange(){
   const role = document.getElementById('newUserRole').value;
   renderPermissionGrid('permissionGrid', DEFAULT_PERMISSIONS[role] || {});
 }
-function onEditRoleChange(){
-  const role = document.getElementById('editRole').value;
-  // We don't render a grid here; role alone drives permissions on save
-}
 
-/* ============================================================
-   ADMIN ACTIONS
-   ============================================================ */
 async function createLocation(){
   const name = document.getElementById('newLocName').value.trim();
   const code = document.getElementById('newLocCode').value.trim().toLowerCase();
   if(!name || !code){ showToast('Enter location name and code', 'error'); return; }
-  if(!/^[a-z0-9]+$/.test(code)){ showToast('Code must be alphanumeric lowercase', 'error'); return; }
+  if(!/^[a-z0-9]+$/.test(code)){ showToast('Code must be lowercase alphanumeric', 'error'); return; }
   try {
     const existing = await db.collection('locations').doc(code).get();
     if(existing.exists){ showToast('Location code already exists', 'error'); return; }
-    await db.collection('locations').doc(code).set({
-      name, code, createdAt: new Date().toISOString()
-    });
+    await db.collection('locations').doc(code).set({ name, code, createdAt: new Date().toISOString() });
     document.getElementById('newLocName').value = '';
     document.getElementById('newLocCode').value = '';
     showToast('Location created', 'success');
@@ -1023,7 +914,7 @@ async function createLocation(){
 }
 
 async function deleteLocation(id){
-  if(!confirm(`Delete location "${id}"? This will NOT delete its data (kept for audit). Continue?`)) return;
+  if(!confirm(`Delete location "${id}"?`)) return;
   try {
     await db.collection('locations').doc(id).delete();
     showToast('Location deleted', 'success');
@@ -1038,13 +929,10 @@ async function createUser(){
   const locationId = document.getElementById('newUserLocation').value;
   const role = document.getElementById('newUserRole').value;
   if(!username || !password || !locationId){ showToast('Fill username, password & location', 'error'); return; }
-  if(password.length < 6){ showToast('Password must be at least 6 characters', 'error'); return; }
-  if(!/^[a-z0-9]+$/.test(username)){ showToast('Username must be alphanumeric lowercase', 'error'); return; }
-  // Collect custom permissions from checkboxes
+  if(password.length < 6){ showToast('Password must be at least 6 chars', 'error'); return; }
+  if(!/^[a-z0-9]+$/.test(username)){ showToast('Username must be lowercase alphanumeric', 'error'); return; }
   const permissions = {};
-  document.querySelectorAll('#permissionGrid input[data-perm]').forEach(cb => {
-    permissions[cb.dataset.perm] = cb.checked;
-  });
+  document.querySelectorAll('#permissionGrid input[data-perm]').forEach(cb => { permissions[cb.dataset.perm] = cb.checked; });
   try {
     const existing = await db.collection('users').doc(username).get();
     if(existing.exists){ showToast('Username already exists', 'error'); return; }
@@ -1064,7 +952,7 @@ async function changeAdminPassword(){
   const cur = document.getElementById('curAdminPass').value;
   const n1 = document.getElementById('newAdminPass').value;
   const n2 = document.getElementById('newAdminPass2').value;
-  if(!n1 || n1.length < 6){ showToast('New password must be at least 6 characters', 'error'); return; }
+  if(!n1 || n1.length < 6){ showToast('New password must be at least 6 chars', 'error'); return; }
   if(n1 !== n2){ showToast('New passwords do not match', 'error'); return; }
   try {
     const adminDoc = await db.collection('config').doc('admin').get();
@@ -1112,7 +1000,7 @@ async function saveUserEdit(){
 
 async function deleteUserConfirm(){
   const username = document.getElementById('editUserKey').value;
-  if(!confirm(`Delete user "${username}"? This cannot be undone.`)) return;
+  if(!confirm(`Delete user "${username}"?`)) return;
   try {
     await db.collection('users').doc(username).delete();
     showToast('User deleted', 'success');
@@ -1121,9 +1009,6 @@ async function deleteUserConfirm(){
   } catch(e) { showToast('Error: ' + e.message, 'error'); }
 }
 
-/* ============================================================
-   CHANGE PASSWORD (logged-in user)
-   ============================================================ */
 function openChangePassword(){
   document.getElementById('pwdCurrent').value = '';
   document.getElementById('pwdNew').value = '';
@@ -1140,7 +1025,6 @@ async function saveUserPassword(){
   if(n1.length < 6){ showToast('New password must be at least 6 chars', 'error'); return; }
   if(n1 !== n2){ showToast('New passwords do not match', 'error'); return; }
   try {
-    // Admin change
     if(currentUser.role === 'admin') {
       const adminDoc = await db.collection('config').doc('admin').get();
       const curPass = adminDoc.exists && adminDoc.data().password ? adminDoc.data().password : 'admin';
@@ -1153,8 +1037,8 @@ async function saveUserPassword(){
       await db.collection('users').doc(currentUser.username).update({ password: n1 });
     }
     closeChangePassword();
-    showToast('Password updated successfully', 'success');
-    addLog('Change Password', `${currentUser.username} changed their password`);
+    showToast('Password updated', 'success');
+    addLog('Change Password', `${currentUser.username} changed password`);
   } catch(e) { showToast('Error: ' + e.message, 'error'); }
 }
 
@@ -1179,10 +1063,7 @@ function switchTab(tab, skipSave){
 function renderMonthSelect(){
   const sel = document.getElementById('monthSelect');
   const months = Object.keys(allMonthsData).sort();
-  if(!months.length){
-    sel.innerHTML = '<option>No data yet</option>';
-    return;
-  }
+  if(!months.length){ sel.innerHTML = '<option>No data yet</option>'; return; }
   sel.innerHTML = months.map(m=>{
     const closed = allMonthsData[m].closed ? ' ✓' : '';
     return `<option value="${m}" ${m===currentMonthKey?'selected':''}>${monthLabel(m)}${closed}</option>`;
@@ -1275,9 +1156,6 @@ function renderExpenses(){
   `;
 }
 
-/* ============================================================
-   DAILY MUTATIONS
-   ============================================================ */
 function updateField(idx,field,value){
   if(!hasPerm('editDaily')) { showToast('No permission', 'error'); return; }
   if(allMonthsData[currentMonthKey]?.closed) return;
@@ -1324,7 +1202,7 @@ async function closeMonth(){
   addLog('Close Month', `${monthLabel(currentMonthKey)} locked`);
   await saveMonthToFirestore(currentMonthKey);
   renderMonthSelect(); renderPurchaseMonthSelect(); renderAll();
-  showToast(`Month closed`);
+  showToast('Month closed', 'success');
 }
 
 function renderClosedDetail(){
@@ -1368,9 +1246,6 @@ function onPurchaseMonthChange(){
   renderAll(); renderPurchases();
 }
 
-/* ============================================================
-   SUMMARY
-   ============================================================ */
 function renderSummary(){
   const entries = currentEntries();
   const exp = currentExpenses();
@@ -1413,9 +1288,6 @@ function renderTotals(){
   document.getElementById('totalsBody').innerHTML = rows.map(([k,v])=>`<tr><td style="font-weight:500;">${k}</td><td style="font-weight:600;">${v}</td></tr>`).join('');
 }
 
-/* ============================================================
-   PURCHASES
-   ============================================================ */
 function renderPurchases(){
   const purchases = currentPurchases();
   const isClosed = allMonthsData[currentMonthKey]?.closed;
@@ -1462,7 +1334,6 @@ function renderPurchases(){
       </tr>`;
     }).join('');
   }
-  // Supplier breakdown
   const supMap = {};
   purchases.forEach(p=>{ const s = p.supplier||'(Unnamed)'; if(!supMap[s]) supMap[s]={total:0,count:0}; supMap[s].total += parseFloat(p.total)||0; supMap[s].count++; });
   const supArr = Object.entries(supMap).sort((a,b)=>b[1].total-a[1].total);
@@ -1472,7 +1343,6 @@ function renderPurchases(){
     const avg = s.count ? s.total/s.count : 0;
     return `<tr><td><strong>${name}</strong></td><td>${fmt(s.total)}</td><td>${pct.toFixed(1)}%</td><td>${s.count}</td><td>${fmt(avg)}</td></tr>`;
   }).join('') : `<tr><td colspan="5" style="text-align:center;padding:1.5rem;color:#7b8fa0;">No supplier data</td></tr>`;
-  // Category breakdown
   const catMap = {};
   purchases.forEach(p=>{ const c = p.category||'(Uncategorised)'; if(!catMap[c]) catMap[c]={total:0,count:0}; catMap[c].total += parseFloat(p.total)||0; catMap[c].count++; });
   const catArr = Object.entries(catMap).sort((a,b)=>b[1].total-a[1].total);
@@ -1517,9 +1387,6 @@ function removePurchase(idx){
   renderPurchases(); scheduleSave();
 }
 
-/* ============================================================
-   CLOSURE AUDIT
-   ============================================================ */
 function computeAuditFlags(){
   const sorted = [...weeklyClosures].sort((a,b)=>new Date(a.date)-new Date(b.date));
   return sorted.map((row,i)=>{
@@ -1594,9 +1461,6 @@ async function addClosureEntry(){
   renderAudit(); showToast('Closure entry added', 'success');
 }
 
-/* ============================================================
-   FULL AUDIT REPORT (same checks as before)
-   ============================================================ */
 function openAuditReport(){
   const monthKey = currentMonthKey;
   const data = allMonthsData[monthKey];
@@ -1616,26 +1480,30 @@ function openAuditReport(){
   const monthlyExp = totalMonthlyExpenses(exp);
   const net = gross-monthlyExp;
   const totalPurchasesAmt = purchases.reduce((s,p)=>s+(parseFloat(p.total)||0),0);
-
-  // Stock flow
   const closuresInMonth = weeklyClosures.filter(w=>w.date.startsWith(monthKey)).sort((a,b)=>new Date(a.date)-new Date(b.date));
+  let reconHtml = '';
   if(closuresInMonth.length > 0){
     const openingStock = closuresInMonth.length > 1 ? closuresInMonth[0].stock : (data.openingStock || closuresInMonth[0].stock);
     const closingStock = closuresInMonth[closuresInMonth.length-1].stock;
     const expectedClosing = openingStock + totalPurchasesAmt - totalCost;
     const stockGap = closingStock - expectedClosing;
     const stockGapPct = expectedClosing ? (stockGap/Math.abs(expectedClosing))*100 : 0;
-    window._stockRecon = { openingStock, closingStock, expectedClosing, stockGap, stockGapPct, purchases: totalPurchasesAmt, cost: totalCost };
     if(Math.abs(stockGap) > 500000){
-      issues.red.push({ title:'Stock Flow Mismatch — Possible Leakage', desc:`Opening <strong>${fmt(openingStock)}</strong> + Purchases <strong>${fmt(totalPurchasesAmt)}</strong> − Cost <strong>${fmt(totalCost)}</strong> = Expected <strong>${fmt(expectedClosing)}</strong>. Actual closing = <strong>${fmt(closingStock)}</strong>. Gap <strong>UGX ${fmtSigned(stockGap)}</strong> (${stockGapPct.toFixed(1)}%).` });
+      issues.red.push({ title:'Stock Flow Mismatch — Possible Leakage', desc:`Expected closing <strong>${fmt(expectedClosing)}</strong>, actual <strong>${fmt(closingStock)}</strong>. Gap <strong>UGX ${fmtSigned(stockGap)}</strong> (${stockGapPct.toFixed(1)}%).` });
     } else if(Math.abs(stockGap) > 200000){
-      issues.amber.push({ title:'Stock Flow Variance', desc:`Closing stock differs by <strong>UGX ${fmtSigned(stockGap)}</strong> (${stockGapPct.toFixed(1)}%).` });
+      issues.amber.push({ title:'Stock Flow Variance', desc:`Gap <strong>UGX ${fmtSigned(stockGap)}</strong>.` });
     } else {
-      issues.green.push({ title:'Stock Flow Reconciliation', desc:`Closing stock matches within <strong>UGX ${fmt(Math.abs(stockGap))}</strong>.` });
+      issues.green.push({ title:'Stock Flow Reconciliation', desc:`Matches within <strong>UGX ${fmt(Math.abs(stockGap))}</strong>.` });
     }
+    reconHtml += `<div class="report-section"><div class="report-section-header"><i class="fas fa-boxes-stacked"></i> Stock Flow</div><div class="report-section-body"><div class="recon-box">
+      <div class="row"><span class="lbl">Opening Stock</span><span>${fmt(openingStock)}</span></div>
+      <div class="row"><span class="lbl">+ Purchases</span><span>${fmt(totalPurchasesAmt)}</span></div>
+      <div class="row"><span class="lbl">− Recorded Cost</span><span>−${fmt(totalCost)}</span></div>
+      <div class="row"><span class="lbl">= Expected Closing</span><span>${fmt(expectedClosing)}</span></div>
+      <div class="row"><span class="lbl">Actual Closing</span><span>${fmt(closingStock)}</span></div>
+      <div class="row"><span class="lbl">Unaccounted</span><span style="color:${Math.abs(stockGap)>500000?'#b33a3a':'#1d7a4b'};">${fmtSigned(stockGap)} (${stockGapPct.toFixed(1)}%)</span></div>
+    </div></div></div>`;
   }
-
-  // Cash flow
   if(closuresInMonth.length > 0){
     const openingCash = closuresInMonth[0].cash;
     const closingCash = closuresInMonth[closuresInMonth.length-1].cash;
@@ -1644,38 +1512,39 @@ function openAuditReport(){
     const expectedCash = openingCash + cashSales - cashPurchases - totalDailyExp - monthlyExp;
     const cashGap = closingCash - expectedCash;
     const cashGapPct = expectedCash ? (cashGap/Math.abs(expectedCash))*100 : 0;
-    window._cashRecon = { openingCash, closingCash, expectedCash, cashGap, cashGapPct, cashSales, cashPurchases, expenses: totalDailyExp + monthlyExp };
     if(Math.abs(cashGap) > 500000){
       issues.red.push({ title:'Cash Flow Mismatch — Possible Missing Cash', desc:`Expected <strong>${fmt(expectedCash)}</strong>, actual <strong>${fmt(closingCash)}</strong>. Gap <strong>UGX ${fmtSigned(cashGap)}</strong> (${cashGapPct.toFixed(1)}%).` });
     } else if(Math.abs(cashGap) > 200000){
-      issues.amber.push({ title:'Cash Flow Variance', desc:`Expected vs actual diff <strong>UGX ${fmtSigned(cashGap)}</strong>.` });
+      issues.amber.push({ title:'Cash Flow Variance', desc:`Diff <strong>UGX ${fmtSigned(cashGap)}</strong>.` });
     } else {
-      issues.green.push({ title:'Cash Flow Reconciliation', desc:`Cash matches within <strong>UGX ${fmt(Math.abs(cashGap))}</strong>.` });
+      issues.green.push({ title:'Cash Flow Reconciliation', desc:`Matches within <strong>UGX ${fmt(Math.abs(cashGap))}</strong>.` });
     }
+    reconHtml += `<div class="report-section"><div class="report-section-header"><i class="fas fa-money-bill-wave"></i> Cash Flow</div><div class="report-section-body"><div class="recon-box">
+      <div class="row"><span class="lbl">Opening Cash</span><span>${fmt(openingCash)}</span></div>
+      <div class="row"><span class="lbl">+ Sales</span><span>${fmt(cashSales)}</span></div>
+      <div class="row"><span class="lbl">− Cash Purchases</span><span>−${fmt(cashPurchases)}</span></div>
+      <div class="row"><span class="lbl">− Expenses</span><span>−${fmt(totalDailyExp + monthlyExp)}</span></div>
+      <div class="row"><span class="lbl">= Expected</span><span>${fmt(expectedCash)}</span></div>
+      <div class="row"><span class="lbl">Actual</span><span>${fmt(closingCash)}</span></div>
+      <div class="row"><span class="lbl">Unaccounted</span><span style="color:${Math.abs(cashGap)>500000?'#b33a3a':'#1d7a4b'};">${fmtSigned(cashGap)} (${cashGapPct.toFixed(1)}%)</span></div>
+    </div></div></div>`;
   }
-
-  // Purchase vs cost
   const pvcDiff = totalPurchasesAmt - totalCost;
   const pvcPct = totalCost ? (pvcDiff/totalCost)*100 : 0;
   if(Math.abs(pvcDiff) > 100000){
-    issues.red.push({ title:'Purchase / Cost Mismatch', desc:`Purchases <strong>${fmt(totalPurchasesAmt)}</strong> vs cost <strong>${fmt(totalCost)}</strong> = <strong>UGX ${fmtSigned(pvcDiff)}</strong> (${pvcPct.toFixed(1)}%).` });
+    issues.red.push({ title:'Purchase / Cost Mismatch', desc:`Variance <strong>UGX ${fmtSigned(pvcDiff)}</strong> (${pvcPct.toFixed(1)}%).` });
   } else if(Math.abs(pvcDiff) > 30000){
-    issues.amber.push({ title:'Purchase / Cost Variance', desc:`Variance <strong>UGX ${fmtSigned(pvcDiff)}</strong>.` });
+    issues.amber.push({ title:'Purchase / Cost Variance', desc:`<strong>UGX ${fmtSigned(pvcDiff)}</strong>.` });
   } else {
     issues.green.push({ title:'Purchase / Cost Reconciliation', desc:`Align within UGX ${fmt(Math.abs(pvcDiff))}.` });
   }
-
-  // Margin
   const marginPct = totalSales ? (gross/totalSales*100) : 0;
-  if(marginPct < 15) issues.red.push({ title:'Low Gross Margin', desc:`Only <strong>${marginPct.toFixed(1)}%</strong>.` });
+  if(marginPct < 15) issues.red.push({ title:'Low Gross Margin', desc:`<strong>${marginPct.toFixed(1)}%</strong>.` });
   else if(marginPct < 20) issues.amber.push({ title:'Moderate Gross Margin', desc:`<strong>${marginPct.toFixed(1)}%</strong>.` });
   else issues.green.push({ title:'Gross Margin', desc:`<strong>${marginPct.toFixed(1)}%</strong> — healthy.` });
-
   if(net < 0) issues.red.push({ title:'Negative Net Profit', desc:`<strong>UGX ${fmt(net)}</strong>.` });
   else if(net < 500000) issues.amber.push({ title:'Low Net Profit', desc:`<strong>UGX ${fmt(net)}</strong>.` });
   else issues.green.push({ title:'Net Profit', desc:`<strong>UGX ${fmt(net)}</strong>.` });
-
-  // Duplicates
   const duplicates = [];
   for(let i=0;i<purchases.length;i++){
     for(let j=i+1;j<purchases.length;j++){
@@ -1689,63 +1558,30 @@ function openAuditReport(){
     }
   }
   if(duplicates.length){
-    issues.red.push({ title:'Possible Duplicate Purchases', desc:`<strong>${duplicates.length}</strong> duplicates found.` });
+    issues.red.push({ title:'Possible Duplicate Purchases', desc:`<strong>${duplicates.length}</strong> duplicates.` });
   } else issues.green.push({ title:'Duplicate Check', desc:'No duplicates within 3 days.' });
-
-  // Round numbers
   const roundPurchases = purchases.filter(p=>{ const t = parseFloat(p.total)||0; return t >= 100000 && t % 100000 === 0; });
-  if(roundPurchases.length >= 3){
-    issues.amber.push({ title:'Round-Number Purchases', desc:`<strong>${roundPurchases.length}</strong> exact round amounts.` });
-  }
-
-  // Missing refs
+  if(roundPurchases.length >= 3) issues.amber.push({ title:'Round-Number Purchases', desc:`<strong>${roundPurchases.length}</strong> exact round amounts.` });
   const noRef = purchases.filter(p=>!p.reference).length;
-  if(noRef > 0) issues.amber.push({ title:'Missing References', desc:`<strong>${noRef}</strong> purchases without invoice reference.` });
-
-  // Missing days
+  if(noRef > 0) issues.amber.push({ title:'Missing References', desc:`<strong>${noRef}</strong> without invoice reference.` });
   const daysInMonth = new Date(monthKey.split('-')[0], monthKey.split('-')[1], 0).getDate();
   const datesRecorded = new Set(entries.filter(e=>(parseFloat(e.sales)||0)>0 || (parseFloat(e.cost)||0)>0).map(e=>e.date));
   const missingDays = daysInMonth - datesRecorded.size;
   if(missingDays > 0) issues.amber.push({ title:'Missing Daily Entries', desc:`<strong>${missingDays}</strong> day(s) without activity.` });
 
-  // Build UI
   let verdictClass, verdictIcon, verdictTitle, verdictSub;
   if(issues.red.length > 0){
     verdictClass='bad'; verdictIcon='fa-circle-exclamation';
     verdictTitle='Action Required';
-    verdictSub=`${issues.red.length} critical red flag(s) detected.`;
+    verdictSub=`${issues.red.length} critical red flag(s).`;
   } else if(issues.amber.length > 0){
     verdictClass='warn'; verdictIcon='fa-triangle-exclamation';
     verdictTitle='Review Recommended';
-    verdictSub=`${issues.amber.length} warning(s) found.`;
+    verdictSub=`${issues.amber.length} warning(s).`;
   } else {
     verdictClass='good'; verdictIcon='fa-circle-check';
     verdictTitle='Clean Audit';
     verdictSub='No red flags detected.';
-  }
-  let reconHtml = '';
-  if(window._stockRecon){
-    const r = window._stockRecon;
-    reconHtml += `<div class="report-section"><div class="report-section-header"><i class="fas fa-boxes-stacked"></i> Stock Flow</div><div class="report-section-body"><div class="recon-box">
-      <div class="row"><span class="lbl">Opening Stock</span><span>${fmt(r.openingStock)}</span></div>
-      <div class="row"><span class="lbl">+ Purchases</span><span>${fmt(r.purchases)}</span></div>
-      <div class="row"><span class="lbl">− Recorded Cost</span><span>−${fmt(r.cost)}</span></div>
-      <div class="row"><span class="lbl">= Expected Closing</span><span>${fmt(r.expectedClosing)}</span></div>
-      <div class="row"><span class="lbl">Actual Closing</span><span>${fmt(r.closingStock)}</span></div>
-      <div class="row"><span class="lbl">Unaccounted</span><span style="color:${Math.abs(r.stockGap)>500000?'#b33a3a':'#1d7a4b'};">${fmtSigned(r.stockGap)} (${r.stockGapPct.toFixed(1)}%)</span></div>
-    </div></div></div>`;
-  }
-  if(window._cashRecon){
-    const r = window._cashRecon;
-    reconHtml += `<div class="report-section"><div class="report-section-header"><i class="fas fa-money-bill-wave"></i> Cash Flow</div><div class="report-section-body"><div class="recon-box">
-      <div class="row"><span class="lbl">Opening Cash</span><span>${fmt(r.openingCash)}</span></div>
-      <div class="row"><span class="lbl">+ Sales</span><span>${fmt(r.cashSales)}</span></div>
-      <div class="row"><span class="lbl">− Cash Purchases</span><span>−${fmt(r.cashPurchases)}</span></div>
-      <div class="row"><span class="lbl">− Expenses</span><span>−${fmt(r.expenses)}</span></div>
-      <div class="row"><span class="lbl">= Expected</span><span>${fmt(r.expectedCash)}</span></div>
-      <div class="row"><span class="lbl">Actual</span><span>${fmt(r.closingCash)}</span></div>
-      <div class="row"><span class="lbl">Unaccounted</span><span style="color:${Math.abs(r.cashGap)>500000?'#b33a3a':'#1d7a4b'};">${fmtSigned(r.cashGap)} (${r.cashGapPct.toFixed(1)}%)</span></div>
-    </div></div></div>`;
   }
   const scoreGrid = `<div class="score-grid">
     <div class="score-item"><div class="num ${issues.red.length>0?'red':'green'}">${issues.red.length}</div><div class="lbl">Red Flags</div></div>
@@ -1767,9 +1603,6 @@ document.getElementById('auditModal').addEventListener('click', function(e){ if(
 document.getElementById('pwdModal').addEventListener('click', function(e){ if(e.target===this) closeChangePassword(); });
 document.getElementById('userModal').addEventListener('click', function(e){ if(e.target===this) closeUserModal(); });
 
-/* ============================================================
-   EXPORTS (Excel / PDF)
-   ============================================================ */
 function downloadExcel(){
   const wb = XLSX.utils.book_new();
   const entries = currentEntries();
@@ -1781,8 +1614,7 @@ function downloadExcel(){
     const tc = entries.reduce((s,r)=>s+(parseFloat(r.cost)||0),0);
     const te = entries.reduce((s,r)=>s+(parseFloat(r.expenses)||0),0);
     dailyRows.push({'#':'','Day':'TOTAL','Date':'','Total Cost':tc,'Total Sales':ts,'Expenses':te,'Gross Profit':ts-tc-te});
-    const wsDaily = XLSX.utils.json_to_sheet(dailyRows);
-    XLSX.utils.book_append_sheet(wb, wsDaily, 'Daily Data');
+    XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(dailyRows), 'Daily Data');
     const me = totalMonthlyExpenses(exp);
     const summaryRows = [
       ['Metric','Value (UGX)'],['Total sales',ts],['Total cost',tc],['Daily expenses',te],
@@ -1840,7 +1672,6 @@ function downloadPDF(){
       head:[['Date','Supplier','Category','Qty','Unit','Total','Payment','Ref']],
       body:pBody, theme:'grid',
       headStyles:{fillColor:[11,43,68],textColor:255,fontSize:8}, bodyStyles:{fontSize:7.5},
-      columnStyles:{3:{halign:'right'},4:{halign:'right'},5:{halign:'right',fontStyle:'bold'}},
       margin:{left:14,right:14}
     });
   }
@@ -1852,15 +1683,7 @@ function downloadPDF(){
       head:[['Date','Stock','Credit','Cash','Stock Δ','Credit Δ','Cash Δ','Flag']],
       body:ab, theme:'grid',
       headStyles:{fillColor:[11,43,68],textColor:255,fontSize:8}, bodyStyles:{fontSize:7.5},
-      margin:{left:14,right:14},
-      didParseCell:function(d){
-        const idx = d.row.index;
-        if(idx<audit.length){
-          const f = audit[idx].flag;
-          if(f==='red'){ d.cell.styles.fillColor=[254,245,245]; d.cell.styles.textColor=[179,58,58]; }
-          else if(f==='amber'){ d.cell.styles.fillColor=[255,251,240]; d.cell.styles.textColor=[176,109,0]; }
-        }
-      }
+      margin:{left:14,right:14}
     });
   }
   doc.save(`BrightMesh_${currentLocationId || 'admin'}_${currentMonthKey}.pdf`);
@@ -1868,39 +1691,21 @@ function downloadPDF(){
 }
 
 /* ============================================================
-   INITIAL PERMISSION GRID
+   BOOTSTRAP
    ============================================================ */
 renderPermissionGrid('permissionGrid', DEFAULT_PERMISSIONS.manager);
 
-/* Enter key on login */
 document.getElementById('loginUsername').addEventListener('keypress', e=>{ if(e.key==='Enter') document.getElementById('loginPassword').focus(); });
 document.getElementById('loginPassword').addEventListener('keypress', e=>{ if(e.key==='Enter') doLogin(); });
 
-/* ============================================================
-   SELF-SEED ON FIRST LOAD (optional, runs once per browser if admin)
-   Creates the sample wamombl1 user and seed data if not present.
-   Commented out by default — enable if you want auto-seed.
-   ============================================================ */
-/*
-async function autoSeed() {
-  try {
-    const userDoc = await db.collection('users').doc('wamombl1').get();
-    if(userDoc.exists) return; // already seeded
-    // Create location
-    await db.collection('locations').doc('wamombl1').set({
-      name: 'Wamo Mbale 1', code: 'wamombl1', createdAt: new Date().toISOString()
-    });
-    // Create user
-    await db.collection('users').doc('wamombl1').set({
-      username: 'wamombl1', fullName: 'Ahmed', password: 'wamo123@',
-      locationId: 'wamombl1', role: 'manager',
-      permissions: DEFAULT_PERMISSIONS.manager,
-      status: 'active', createdAt: new Date().toISOString()
-    });
-    console.log('Auto-seeded sample user wamombl1');
-  } catch(e) { console.error('Auto-seed failed', e); }
-}
-*/
+// Run auto-seed on page load
+window.addEventListener('DOMContentLoaded', async () => {
+  if(firebaseReady) {
+    document.getElementById('loginLoading').classList.add('show');
+    await autoSeed();
+    document.getElementById('loginLoading').classList.remove('show');
+  }
+});
 </script>
 </body>
 </html>
