@@ -1,0 +1,1906 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bright Mesh · Audit & Performance</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+<!-- Firebase SDK (compat build - simpler for single-file apps) -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;}
+body{background:#f4f7fc;padding:2rem 1.5rem;color:#1e2a3a;}
+.app{max-width:1440px;margin:0 auto;}
+.app-header{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;margin-bottom:1.5rem;}
+.app-header h1{font-size:1.9rem;font-weight:700;color:#0b2b44;display:flex;align-items:center;gap:0.7rem;}
+.app-header h1 i{color:#1d7a4b;}
+.app-header .sub{color:#5f7385;font-size:0.9rem;margin-top:0.2rem;display:flex;gap:1.2rem;flex-wrap:wrap;}
+.app-header .sub i{color:#1d7a4b;margin-right:0.3rem;}
+.save-indicator{display:flex;align-items:center;gap:0.4rem;background:#e3f0eb;color:#1d6b4f;padding:0.4rem 0.9rem;border-radius:30px;font-size:0.75rem;font-weight:600;transition:all 0.3s;}
+.save-indicator.saving{background:#fff4e5;color:#b06d00;}
+.save-indicator.saved{background:#e3f0eb;color:#1d6b4f;}
+.save-indicator.error{background:#fce8e8;color:#b33a3a;}
+.tab-nav{display:flex;gap:0.4rem;margin-bottom:1.5rem;background:white;padding:0.4rem;border-radius:16px;border:1px solid #e3ebf3;box-shadow:0 4px 12px rgba(0,20,30,0.04);flex-wrap:wrap;}
+.tab-btn{border:none;background:transparent;padding:0.7rem 1.4rem;border-radius:12px;font-weight:600;font-size:0.85rem;cursor:pointer;color:#5f7385;display:inline-flex;align-items:center;gap:0.5rem;transition:all 0.15s;}
+.tab-btn:hover{background:#f0f6fc;color:#1e2a3a;}
+.tab-btn.active{background:#1d7a4b;color:white;}
+.tab-btn.hidden{display:none;}
+.tab-panel{display:none;}
+.tab-panel.active{display:block;}
+.btn{border:none;border-radius:40px;padding:0.65rem 1.3rem;font-weight:600;font-size:0.82rem;cursor:pointer;display:inline-flex;align-items:center;gap:0.5rem;transition:all 0.15s;background:white;color:#1e2a3a;box-shadow:0 2px 8px rgba(0,20,30,0.06);border:1px solid #dce5ed;}
+.btn:hover{background:#f0f6fc;transform:translateY(-1px);}
+.btn:disabled{opacity:0.6;cursor:not-allowed;transform:none;}
+.btn-primary{background:#1d7a4b;color:white;border:1px solid #1d7a4b;}
+.btn-primary:hover{background:#16633c;}
+.btn-excel{background:#217346;color:white;border:none;}
+.btn-excel:hover{background:#1a5e38;}
+.btn-pdf{background:#b0302a;color:white;border:none;}
+.btn-pdf:hover{background:#8f2620;}
+.btn-close-month{background:#1f4970;color:white;border:none;}
+.btn-close-month:hover{background:#15344e;}
+.btn-audit{background:#7c2d12;color:white;border:none;padding:0.7rem 1.5rem;font-size:0.9rem;}
+.btn-audit:hover{background:#6a2410;}
+.btn-danger{background:#b33a3a;color:white;border:none;}
+.btn-danger:hover{background:#8f2c2c;}
+.btn-logout{background:#f0f4f9;color:#b33a3a;border:1px solid #f0c8c8;}
+.btn-logout:hover{background:#fce8e8;}
+.toolbar{display:flex;flex-wrap:wrap;gap:0.7rem;margin-bottom:1.5rem;align-items:center;}
+.month-bar{display:flex;flex-wrap:wrap;align-items:center;gap:1rem;background:white;padding:0.8rem 1.2rem;border-radius:16px;border:1px solid #e3ebf3;box-shadow:0 4px 12px rgba(0,20,30,0.04);margin-bottom:1.5rem;}
+.month-bar label{font-weight:600;font-size:0.85rem;color:#1f3c54;}
+.month-bar select{padding:0.5rem 1rem;border-radius:10px;border:1px solid #d2dfeb;font-size:0.85rem;background:white;color:#1e2a3a;font-weight:500;}
+.table-card{background:white;border-radius:24px;box-shadow:0 8px 24px rgba(0,20,30,0.06);border:1px solid #e3ebf3;overflow:hidden;margin-bottom:1.8rem;}
+.table-scroll{overflow-x:auto;max-width:100%;}
+table{width:100%;border-collapse:collapse;font-size:0.85rem;min-width:700px;}
+th{background:#edf3fa;color:#1e3a5f;font-weight:600;font-size:0.7rem;text-transform:uppercase;letter-spacing:0.3px;padding:0.9rem 0.8rem;text-align:left;white-space:nowrap;border-bottom:2px solid #d2dfeb;}
+td{padding:0.5rem 0.6rem;border-bottom:1px solid #eef3f8;vertical-align:middle;}
+tr:hover td{background:#fafdff;}
+input,select{width:100%;padding:0.45rem 0.5rem;border:1px solid #d2dfeb;border-radius:8px;font-size:0.8rem;background:white;color:#1e2a3a;transition:0.15s;min-width:70px;font-family:inherit;}
+input:focus,select:focus{outline:2px solid #1d7a4b40;border-color:#1d7a4b;}
+input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
+.profit-input{font-weight:600;color:#0b4b2b;}
+.summary-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:1rem;margin-bottom:1.5rem;}
+.sum-card{background:white;padding:1.2rem 1.2rem;border-radius:18px;border:1px solid #e3ebf3;box-shadow:0 4px 14px rgba(0,20,30,0.04);}
+.sum-card.flag-red{border-left:5px solid #b33a3a;background:#fef5f5;}
+.sum-card.flag-amber{border-left:5px solid #d48a00;background:#fffbf0;}
+.sum-card.flag-green{border-left:5px solid #1d7a4b;background:#f4faf7;}
+.sum-label{font-size:0.7rem;text-transform:uppercase;letter-spacing:0.4px;font-weight:600;color:#6a7f94;}
+.sum-value{font-size:1.5rem;font-weight:700;color:#0b2b44;margin-top:0.3rem;line-height:1.3;}
+.sum-value.positive{color:#1d7a4b;}
+.sum-value.negative{color:#b33a3a;}
+.sum-sub{font-size:0.75rem;color:#6a7f94;margin-top:0.2rem;}
+.section-title{font-size:1.15rem;font-weight:600;color:#0b2b44;margin:1.5rem 0 0.8rem 0;display:flex;align-items:center;gap:0.5rem;}
+.section-title i{color:#1d7a4b;}
+.footer-note{margin-top:2.5rem;font-size:0.75rem;color:#7b8fa0;text-align:center;border-top:1px solid #dce5ed;padding-top:1.2rem;display:flex;justify-content:center;gap:1.8rem;flex-wrap:wrap;}
+.remove-btn{background:transparent;border:none;color:#b33a3a;cursor:pointer;font-size:0.9rem;padding:0.2rem 0.4rem;border-radius:6px;transition:0.15s;}
+.remove-btn:hover{background:#fce8e8;}
+.add-row-btn{background:white;border:1px dashed #1d7a4b;color:#1d7a4b;font-weight:600;padding:0.6rem 1.2rem;border-radius:30px;cursor:pointer;font-size:0.85rem;display:inline-flex;align-items:center;gap:0.4rem;transition:0.15s;}
+.add-row-btn:hover{background:#e9f5ef;}
+.toast{position:fixed;bottom:2rem;right:2rem;background:#0b2b44;color:white;padding:0.8rem 1.5rem;border-radius:40px;font-size:0.85rem;font-weight:500;box-shadow:0 8px 24px rgba(0,0,0,0.15);opacity:0;transform:translateY(10px);transition:0.25s;pointer-events:none;z-index:9999;}
+.toast.show{opacity:1;transform:translateY(0);}
+.toast.error{background:#b33a3a;}
+.toast.success{background:#1d7a4b;}
+.expense-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;padding:1.2rem;}
+.expense-item label{display:block;font-size:0.75rem;font-weight:600;color:#5f7385;margin-bottom:0.3rem;text-transform:uppercase;letter-spacing:0.3px;}
+.expense-item input{width:100%;padding:0.6rem 0.8rem;border:1px solid #d2dfeb;border-radius:10px;font-size:0.9rem;font-weight:500;}
+.closed-month-detail{background:#f4f9fe;border-radius:16px;padding:1.2rem;margin-top:1rem;border:1px solid #d2dfeb;}
+.closed-month-detail h3{font-size:1rem;color:#0b2b44;margin-bottom:0.8rem;}
+.closed-month-detail p{font-size:0.85rem;color:#2a4a6a;margin-bottom:0.3rem;}
+.closed-month-detail p strong{color:#0b2b44;}
+.closed-badge{background:#e3f0eb;color:#1d6b4f;padding:0.2rem 0.7rem;border-radius:20px;font-size:0.7rem;font-weight:600;margin-left:0.5rem;}
+.closed-list{display:flex;flex-wrap:wrap;gap:0.5rem;margin-top:0.5rem;}
+.closed-list span{background:#eef3f9;padding:0.3rem 0.8rem;border-radius:20px;font-size:0.8rem;font-weight:500;color:#1f4970;cursor:pointer;transition:0.15s;}
+.closed-list span:hover{background:#d9e6f2;}
+.flag-badge{display:inline-flex;align-items:center;gap:0.3rem;padding:0.25rem 0.7rem;border-radius:20px;font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.3px;}
+.flag-badge.red{background:#fce8e8;color:#b33a3a;}
+.flag-badge.amber{background:#fff4e5;color:#b06d00;}
+.flag-badge.green{background:#e3f0eb;color:#1d6b4f;}
+.audit-summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-bottom:1.5rem;}
+.audit-card{background:white;padding:1.2rem;border-radius:18px;border:1px solid #e3ebf3;box-shadow:0 4px 14px rgba(0,20,30,0.04);}
+.audit-card.red{border-left:5px solid #b33a3a;background:#fef5f5;}
+.audit-card.amber{border-left:5px solid #d48a00;background:#fffbf0;}
+.audit-card.green{border-left:5px solid #1d7a4b;background:#f4faf7;}
+.audit-card .label{font-size:0.7rem;text-transform:uppercase;letter-spacing:0.4px;font-weight:600;color:#6a7f94;}
+.audit-card .value{font-size:1.4rem;font-weight:700;color:#0b2b44;margin-top:0.3rem;}
+.audit-card .detail{font-size:0.75rem;color:#6a7f94;margin-top:0.2rem;}
+.red-flag-row{background:#fef5f5!important;}
+.amber-flag-row{background:#fffbf0!important;}
+.legend{display:flex;gap:1.5rem;flex-wrap:wrap;padding:0.8rem 1.2rem;background:#f8fafd;border-top:1px solid #eef3f8;font-size:0.75rem;color:#5f7385;}
+.legend-item{display:flex;align-items:center;gap:0.4rem;}
+.legend-dot{width:10px;height:10px;border-radius:50%;}
+.legend-dot.red{background:#b33a3a;}
+.legend-dot.amber{background:#d48a00;}
+.legend-dot.green{background:#1d7a4b;}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(10,25,40,0.55);backdrop-filter:blur(3px);z-index:1000;align-items:flex-start;justify-content:center;padding:2rem 1rem;overflow-y:auto;}
+.modal-overlay.active{display:flex;}
+.modal{background:#f6f9fd;width:100%;max-width:1050px;border-radius:24px;box-shadow:0 25px 60px rgba(0,10,20,0.3);overflow:hidden;animation:slideUp 0.25s ease;}
+.modal.narrow{max-width:520px;}
+@keyframes slideUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+.modal-header{background:linear-gradient(135deg,#0b2b44,#1f4970);color:white;padding:1.3rem 1.8rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.8rem;}
+.modal-header h2{font-size:1.25rem;display:flex;align-items:center;gap:0.6rem;}
+.modal-header .sub{font-size:0.8rem;opacity:0.85;margin-top:0.2rem;}
+.modal-close{background:rgba(255,255,255,0.15);border:none;color:white;width:38px;height:38px;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:0.15s;}
+.modal-close:hover{background:rgba(255,255,255,0.3);}
+.modal-body{padding:1.5rem 1.8rem 2rem;max-height:75vh;overflow-y:auto;}
+.report-section{background:white;border-radius:16px;border:1px solid #e3ebf3;margin-bottom:1.2rem;overflow:hidden;}
+.report-section-header{padding:1rem 1.3rem;background:#f0f6fc;font-weight:700;color:#0b2b44;font-size:0.95rem;display:flex;align-items:center;gap:0.6rem;border-bottom:1px solid #e3ebf3;}
+.report-section-header i{color:#1d7a4b;}
+.report-section-body{padding:1rem 1.3rem;}
+.report-item{display:flex;align-items:flex-start;gap:0.8rem;padding:0.7rem 0;border-bottom:1px solid #f0f4f9;font-size:0.87rem;}
+.report-item:last-child{border-bottom:none;}
+.report-item .icon{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:0.8rem;}
+.report-item .icon.red{background:#fce8e8;color:#b33a3a;}
+.report-item .icon.amber{background:#fff4e5;color:#b06d00;}
+.report-item .icon.green{background:#e3f0eb;color:#1d6b4f;}
+.report-item .icon.blue{background:#e7f0fd;color:#1f4970;}
+.report-item .content{flex:1;}
+.report-item .content .title{font-weight:600;color:#0b2b44;margin-bottom:0.15rem;}
+.report-item .content .desc{color:#5f7385;font-size:0.8rem;line-height:1.4;}
+.report-item .content .desc strong{color:#0b2b44;}
+.verdict-banner{border-radius:16px;padding:1.2rem 1.5rem;margin-bottom:1.2rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;}
+.verdict-banner.good{background:#e9f5ef;border:1px solid #b8dfca;}
+.verdict-banner.warn{background:#fff8ec;border:1px solid #f0d8a8;}
+.verdict-banner.bad{background:#fdeeee;border:1px solid #f0b8b8;}
+.verdict-banner .verdict-icon{font-size:2rem;}
+.verdict-banner.good .verdict-icon{color:#1d7a4b;}
+.verdict-banner.warn .verdict-icon{color:#d48a00;}
+.verdict-banner.bad .verdict-icon{color:#b33a3a;}
+.verdict-banner .verdict-text .title{font-size:1.1rem;font-weight:700;color:#0b2b44;}
+.verdict-banner .verdict-text .sub{font-size:0.85rem;color:#5f7385;margin-top:0.15rem;}
+.score-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:0.8rem;margin-bottom:1.2rem;}
+.score-item{background:white;border-radius:14px;padding:0.9rem 1rem;border:1px solid #e3ebf3;text-align:center;}
+.score-item .num{font-size:1.5rem;font-weight:700;color:#0b2b44;}
+.score-item .num.red{color:#b33a3a;}
+.score-item .num.amber{color:#d48a00;}
+.score-item .num.green{color:#1d7a4b;}
+.score-item .lbl{font-size:0.7rem;text-transform:uppercase;letter-spacing:0.3px;color:#6a7f94;font-weight:600;margin-top:0.2rem;}
+.badge-pill{display:inline-block;padding:0.15rem 0.55rem;border-radius:10px;font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:0.3px;}
+.badge-pill.red{background:#fce8e8;color:#b33a3a;}
+.badge-pill.amber{background:#fff4e5;color:#b06d00;}
+.badge-pill.green{background:#e3f0eb;color:#1d6b4f;}
+.badge-pill.blue{background:#e7f0fd;color:#1f4970;}
+.badge-pill.purple{background:#efe7fd;color:#5b21b6;}
+.recon-box{background:#f8fafd;border:1px solid #e3ebf3;border-radius:12px;padding:0.9rem 1rem;margin-bottom:0.8rem;font-size:0.82rem;}
+.recon-box .row{display:flex;justify-content:space-between;padding:0.25rem 0;border-bottom:1px dashed #e3ebf3;}
+.recon-box .row:last-child{border-bottom:none;font-weight:700;color:#0b2b44;padding-top:0.5rem;}
+.recon-box .row .lbl{color:#5f7385;}
+
+/* LOGIN */
+.login-wrapper{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:2rem 1rem;background:linear-gradient(135deg,#0b2b44 0%,#1f4970 100%);}
+.login-card{background:white;max-width:430px;width:100%;padding:2.5rem 2rem;border-radius:24px;box-shadow:0 25px 60px rgba(0,10,20,0.3);}
+.login-logo{display:flex;align-items:center;gap:0.7rem;font-size:1.5rem;font-weight:700;color:#0b2b44;margin-bottom:0.4rem;}
+.login-logo i{color:#1d7a4b;font-size:1.6rem;}
+.login-sub{color:#5f7385;font-size:0.9rem;margin-bottom:1.8rem;}
+.login-field{margin-bottom:1rem;}
+.login-field label{display:block;font-size:0.78rem;font-weight:600;color:#1f3c54;margin-bottom:0.4rem;text-transform:uppercase;letter-spacing:0.3px;}
+.login-field input{width:100%;padding:0.75rem 1rem;border:1px solid #d2dfeb;border-radius:10px;font-size:0.9rem;font-family:inherit;}
+.login-field input:focus{outline:2px solid #1d7a4b40;border-color:#1d7a4b;}
+.login-btn{width:100%;background:#1d7a4b;color:white;border:none;padding:0.85rem;border-radius:12px;font-weight:700;font-size:0.95rem;cursor:pointer;margin-top:0.5rem;display:flex;align-items:center;justify-content:center;gap:0.5rem;transition:0.15s;}
+.login-btn:hover:not(:disabled){background:#16633c;}
+.login-btn:disabled{opacity:0.6;cursor:not-allowed;}
+.login-error{background:#fce8e8;color:#b33a3a;padding:0.7rem 1rem;border-radius:10px;font-size:0.82rem;margin-bottom:1rem;display:none;align-items:center;gap:0.5rem;}
+.login-error.show{display:flex;}
+.login-hint{margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid #eef3f8;font-size:0.75rem;color:#6a7f94;line-height:1.6;}
+.login-hint strong{color:#0b2b44;}
+
+/* USER BADGE */
+.user-badge{display:flex;align-items:center;gap:0.5rem;background:#eef3f9;padding:0.35rem 0.9rem;border-radius:30px;font-size:0.78rem;font-weight:600;color:#1f4970;}
+.user-badge .role{background:#1d7a4b;color:white;font-size:0.65rem;padding:0.15rem 0.5rem;border-radius:10px;text-transform:uppercase;letter-spacing:0.3px;}
+.user-badge .role.accountant{background:#7c2d12;}
+.user-badge .role.cashier{background:#6b7280;}
+.user-badge .role.admin{background:#5b21b6;}
+.user-badge .role.superadmin{background:#b0302a;}
+
+/* ADMIN */
+.admin-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;margin-bottom:2rem;}
+.admin-card{background:white;padding:1.5rem;border-radius:20px;border:1px solid #e3ebf3;box-shadow:0 4px 14px rgba(0,20,30,0.04);}
+.admin-card h3{font-size:1rem;color:#0b2b44;margin-bottom:1rem;display:flex;align-items:center;gap:0.5rem;}
+.admin-card h3 i{color:#1d7a4b;}
+.admin-card .form-row{margin-bottom:0.8rem;}
+.admin-card label{display:block;font-size:0.72rem;font-weight:600;color:#5f7385;margin-bottom:0.3rem;text-transform:uppercase;letter-spacing:0.3px;}
+.admin-card input,.admin-card select{width:100%;padding:0.6rem 0.8rem;border:1px solid #d2dfeb;border-radius:10px;font-size:0.85rem;font-family:inherit;}
+.location-card{background:white;padding:1rem 1.2rem;border-radius:14px;border:1px solid #e3ebf3;margin-bottom:0.8rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.8rem;}
+.location-card .info{flex:1;min-width:200px;}
+.location-card .name{font-weight:700;color:#0b2b44;font-size:0.95rem;}
+.location-card .meta{font-size:0.75rem;color:#6a7f94;margin-top:0.2rem;}
+.user-row{display:flex;justify-content:space-between;align-items:center;padding:0.7rem 0;border-bottom:1px solid #f0f4f9;gap:0.8rem;flex-wrap:wrap;}
+.user-row:last-child{border-bottom:none;}
+.user-row .uinfo{flex:1;min-width:180px;}
+.user-row .uname{font-weight:600;color:#0b2b44;font-size:0.9rem;}
+.user-row .umeta{font-size:0.72rem;color:#6a7f94;margin-top:0.15rem;}
+.permission-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:0.5rem;margin-top:0.6rem;}
+.perm-item{display:flex;align-items:center;gap:0.5rem;font-size:0.78rem;color:#1f3c54;padding:0.4rem 0.6rem;background:#f8fafd;border-radius:8px;cursor:pointer;user-select:none;}
+.perm-item input[type="checkbox"]{width:auto;min-width:auto;cursor:pointer;}
+</style>
+</head>
+<body>
+
+<!-- =================== LOGIN SCREEN =================== -->
+<div id="loginScreen" class="login-wrapper">
+  <div class="login-card">
+    <div class="login-logo"><i class="fas fa-cubes"></i> Bright Mesh</div>
+    <div class="login-sub">Sign in to continue · Multi-location Audit Platform</div>
+    <div class="login-error" id="loginError"><i class="fas fa-exclamation-circle"></i> <span id="loginErrorText"></span></div>
+    <div class="login-field">
+      <label>Username</label>
+      <input type="text" id="loginUsername" placeholder="e.g. wamombl1" autocomplete="username">
+    </div>
+    <div class="login-field">
+      <label>Password</label>
+      <input type="password" id="loginPassword" placeholder="••••••••" autocomplete="current-password">
+    </div>
+    <button class="login-btn" id="loginBtn" onclick="doLogin()"><i class="fas fa-sign-in-alt"></i> Sign in</button>
+    <div class="login-hint">
+      <strong>Default admin:</strong> <code>admin</code> / <code>admin</code><br>
+      <strong>Sample location user:</strong> <code>wamombl1</code> / <code>wamo123@</code>
+    </div>
+  </div>
+</div>
+
+<!-- =================== APP =================== -->
+<div class="app" id="app" style="display:none;">
+  <div class="app-header">
+    <div>
+      <h1><i class="fas fa-cubes"></i> Bright Mesh <span id="locationTitle" style="font-size:1rem;color:#5f7385;font-weight:500;margin-left:0.5rem;"></span></h1>
+      <div class="sub">
+        <span><i class="fas fa-pen"></i> Daily entries, purchases &amp; expenses</span>
+        <span><i class="fas fa-shield-halved"></i> Reconciliation &amp; red-flag audit</span>
+        <span><i class="fas fa-cloud"></i> Synced to Firestore</span>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:flex-end;gap:0.5rem;">
+      <div style="display:flex;gap:0.5rem;align-items:center;">
+        <div class="user-badge"><i class="fas fa-user-circle"></i> <span id="currentUserLabel">—</span> <span class="role" id="currentUserRole">—</span></div>
+        <div class="save-indicator saved" id="saveIndicator"><i class="fas fa-cloud-check"></i> <span id="saveStatus">Ready</span></div>
+      </div>
+      <div class="toolbar" style="margin-bottom:0;">
+        <button class="btn btn-excel" onclick="downloadExcel()"><i class="fas fa-file-excel"></i> Excel</button>
+        <button class="btn btn-pdf" onclick="downloadPDF()"><i class="fas fa-file-pdf"></i> PDF</button>
+        <button class="btn" onclick="openChangePassword()"><i class="fas fa-key"></i> Change Password</button>
+        <button class="btn btn-logout" onclick="doLogout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="tab-nav">
+    <button class="tab-btn active" data-tab="daily" onclick="switchTab('daily')"><i class="fas fa-calendar-day"></i> Daily Performance</button>
+    <button class="tab-btn" data-tab="purchases" onclick="switchTab('purchases')"><i class="fas fa-truck"></i> Daily Purchases</button>
+    <button class="tab-btn" data-tab="audit" onclick="switchTab('audit')"><i class="fas fa-shield-halved"></i> Closure Audit</button>
+    <button class="tab-btn" data-tab="log" onclick="switchTab('log')"><i class="fas fa-history"></i> Audit Log</button>
+    <button class="tab-btn admin-only hidden" data-tab="admin" onclick="switchTab('admin')"><i class="fas fa-user-shield"></i> Admin</button>
+  </div>
+
+  <!-- ================= DAILY ================= -->
+  <div class="tab-panel active" id="tab-daily">
+    <div class="month-bar">
+      <label><i class="fas fa-calendar-alt"></i> Active month:</label>
+      <select id="monthSelect" onchange="onMonthChange()"></select>
+      <button class="btn btn-close-month editor-only" onclick="closeMonth()"><i class="fas fa-lock"></i> Close month</button>
+      <button class="btn btn-audit" onclick="openAuditReport()"><i class="fas fa-magnifying-glass-chart"></i> Audit Report</button>
+      <span id="closedStatus" style="font-size:0.8rem;color:#1d7a4b;font-weight:600;"></span>
+      <div style="margin-left:auto;display:flex;gap:0.5rem;align-items:center;">
+        <span style="font-size:0.75rem;color:#6a7f94;">Closed months:</span>
+        <div class="closed-list" id="closedList"></div>
+      </div>
+    </div>
+
+    <div id="closedDetail" style="display:none;" class="closed-month-detail"></div>
+    <div class="summary-grid" id="summaryGrid"></div>
+
+    <div class="section-title"><i class="fas fa-receipt"></i> Monthly expenses &amp; fixed costs</div>
+    <div class="table-card"><div class="expense-grid" id="expenseGrid"></div></div>
+
+    <div class="section-title"><i class="fas fa-calendar-day"></i> Daily entries</div>
+    <div class="table-card">
+      <div class="table-scroll">
+        <table id="dailyTable">
+          <thead><tr>
+            <th style="width:110px;">Day</th><th style="width:130px;">Date</th>
+            <th style="width:100px;">Total Cost</th><th style="width:100px;">Total Sales</th>
+            <th style="width:100px;">Expenses</th><th style="width:110px;">Gross Profit</th>
+            <th style="width:60px;"></th>
+          </tr></thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+      </div>
+      <div style="padding:0.8rem 1.2rem;border-top:1px solid #eef3f8;display:flex;justify-content:space-between;align-items:center;">
+        <button class="add-row-btn editor-only" onclick="addRow()"><i class="fas fa-plus-circle"></i> Add row</button>
+        <span style="font-size:0.75rem;color:#7b8fa0;"><i class="fas fa-info-circle"></i> Auto-synced · every edit is logged</span>
+      </div>
+    </div>
+
+    <div class="section-title"><i class="fas fa-chart-bar"></i> Computed totals</div>
+    <div class="table-card">
+      <div class="table-scroll">
+        <table id="totalsTable"><thead><tr><th>Metric</th><th>Value (UGX)</th></tr></thead><tbody id="totalsBody"></tbody></table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= PURCHASES ================= -->
+  <div class="tab-panel" id="tab-purchases">
+    <div class="month-bar">
+      <label><i class="fas fa-calendar-alt"></i> Active month:</label>
+      <select id="purchaseMonthSelect" onchange="onPurchaseMonthChange()"></select>
+      <span style="font-size:0.8rem;color:#5f7385;"><i class="fas fa-info-circle"></i> Record each purchase with supplier, category &amp; payment mode</span>
+    </div>
+
+    <div class="summary-grid" id="purchaseSummaryGrid"></div>
+
+    <div class="section-title"><i class="fas fa-truck"></i> Daily purchases — <span id="purchaseMonthLabel"></span></div>
+    <div class="table-card">
+      <div class="table-scroll">
+        <table id="purchasesTable">
+          <thead><tr>
+            <th style="width:120px;">Date</th><th style="width:170px;">Supplier</th>
+            <th style="width:150px;">Category</th><th style="width:100px;">Qty</th>
+            <th style="width:120px;">Unit Cost</th><th style="width:130px;">Total Cost</th>
+            <th style="width:130px;">Payment Mode</th><th style="width:120px;">Reference</th>
+            <th style="width:60px;"></th>
+          </tr></thead>
+          <tbody id="purchasesBody"></tbody>
+        </table>
+      </div>
+      <div style="padding:0.8rem 1.2rem;border-top:1px solid #eef3f8;display:flex;justify-content:space-between;align-items:center;">
+        <button class="add-row-btn editor-only" onclick="addPurchaseRow()"><i class="fas fa-plus-circle"></i> Add purchase</button>
+        <span style="font-size:0.75rem;color:#7b8fa0;"><i class="fas fa-cloud"></i> Auto-synced</span>
+      </div>
+    </div>
+
+    <div class="section-title"><i class="fas fa-chart-pie"></i> Supplier breakdown</div>
+    <div class="table-card">
+      <div class="table-scroll">
+        <table id="supplierTable">
+          <thead><tr><th>Supplier</th><th>Purchases (UGX)</th><th>% of Total</th><th># Orders</th><th>Avg Order</th></tr></thead>
+          <tbody id="supplierBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="section-title"><i class="fas fa-tags"></i> Category breakdown</div>
+    <div class="table-card">
+      <div class="table-scroll">
+        <table id="categoryTable">
+          <thead><tr><th>Category</th><th>Purchases (UGX)</th><th>% of Total</th><th># Orders</th></tr></thead>
+          <tbody id="categoryBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= CLOSURE AUDIT ================= -->
+  <div class="tab-panel" id="tab-audit">
+    <div style="background:white;padding:1.2rem 1.5rem;border-radius:16px;border:1px solid #e3ebf3;margin-bottom:1.5rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">
+      <i class="fas fa-shield-halved" style="font-size:1.8rem;color:#1d7a4b;"></i>
+      <div>
+        <div style="font-weight:700;color:#0b2b44;font-size:1rem;">Weekly Closure Audit</div>
+        <div style="font-size:0.8rem;color:#5f7385;">Week-to-week movement in stock, credit and cash. Sharp drops are automatically flagged.</div>
+      </div>
+      <button class="btn btn-audit" style="margin-left:auto;" onclick="openAuditReport()"><i class="fas fa-magnifying-glass-chart"></i> Run full audit</button>
+    </div>
+
+    <div class="audit-summary" id="auditSummary"></div>
+
+    <div class="section-title"><i class="fas fa-table"></i> Weekly closure records</div>
+    <div class="table-card">
+      <div class="table-scroll">
+        <table id="auditTable">
+          <thead><tr>
+            <th style="width:40px;"></th><th style="width:130px;">Date</th>
+            <th style="width:140px;">Total Stock</th><th style="width:140px;">Total Credit</th>
+            <th style="width:140px;">Cash at Hand</th>
+            <th style="width:120px;">Stock Δ</th><th style="width:120px;">Credit Δ</th>
+            <th style="width:120px;">Cash Δ</th><th style="width:180px;">Flag</th>
+          </tr></thead>
+          <tbody id="auditBody"></tbody>
+        </table>
+      </div>
+      <div class="legend">
+        <div class="legend-item"><span class="legend-dot red"></span> <strong>Red flag</strong> — sharp drop or unusual pattern</div>
+        <div class="legend-item"><span class="legend-dot amber"></span> <strong>Amber</strong> — moderate concern, monitor</div>
+        <div class="legend-item"><span class="legend-dot green"></span> <strong>Green</strong> — normal range</div>
+      </div>
+    </div>
+
+    <div class="section-title editor-only"><i class="fas fa-plus-circle"></i> Add weekly closure entry</div>
+    <div class="table-card editor-only" style="padding:1.2rem;">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;">
+        <div><label style="font-size:0.75rem;font-weight:600;color:#5f7385;text-transform:uppercase;">Date</label><input type="date" id="newClosureDate" style="margin-top:0.3rem;"></div>
+        <div><label style="font-size:0.75rem;font-weight:600;color:#5f7385;text-transform:uppercase;">Total Stock (UGX)</label><input type="number" id="newClosureStock" placeholder="0" style="margin-top:0.3rem;"></div>
+        <div><label style="font-size:0.75rem;font-weight:600;color:#5f7385;text-transform:uppercase;">Total Credit (UGX)</label><input type="number" id="newClosureCredit" placeholder="0" style="margin-top:0.3rem;"></div>
+        <div><label style="font-size:0.75rem;font-weight:600;color:#5f7385;text-transform:uppercase;">Cash at Hand (UGX)</label><input type="number" id="newClosureCash" placeholder="0" style="margin-top:0.3rem;"></div>
+        <div style="display:flex;align-items:flex-end;"><button class="btn btn-primary" onclick="addClosureEntry()" style="width:100%;justify-content:center;"><i class="fas fa-plus"></i> Add entry</button></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= AUDIT LOG ================= -->
+  <div class="tab-panel" id="tab-log">
+    <div style="background:white;padding:1.2rem 1.5rem;border-radius:16px;border:1px solid #e3ebf3;margin-bottom:1.5rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">
+      <i class="fas fa-history" style="font-size:1.8rem;color:#1f4970;"></i>
+      <div>
+        <div style="font-weight:700;color:#0b2b44;font-size:1rem;">Audit Log</div>
+        <div style="font-size:0.8rem;color:#5f7385;">Every change made in Bright Mesh is recorded with a timestamp, user and location.</div>
+      </div>
+      <button class="btn btn-danger admin-only hidden" style="margin-left:auto;" onclick="clearLog()"><i class="fas fa-trash"></i> Clear log</button>
+    </div>
+
+    <div class="table-card">
+      <div class="table-scroll">
+        <table id="logTable">
+          <thead><tr><th style="width:180px;">Time</th><th style="width:150px;">User</th><th style="width:150px;">Action</th><th>Details</th></tr></thead>
+          <tbody id="logBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= ADMIN ================= -->
+  <div class="tab-panel" id="tab-admin">
+    <div class="admin-grid">
+      <!-- LOCATIONS -->
+      <div class="admin-card">
+        <h3><i class="fas fa-map-marker-alt"></i> Locations</h3>
+        <div id="locationsList"></div>
+        <div style="margin-top:1rem;padding-top:1rem;border-top:1px solid #eef3f8;">
+          <div class="form-row"><label>New Location Name</label><input type="text" id="newLocName" placeholder="e.g. Wamo Mbale 1"></div>
+          <div class="form-row"><label>Location Code (username prefix)</label><input type="text" id="newLocCode" placeholder="e.g. wamombl1" style="text-transform:lowercase;"></div>
+          <button class="btn btn-primary" onclick="createLocation()" style="width:100%;justify-content:center;"><i class="fas fa-plus"></i> Create Location</button>
+        </div>
+      </div>
+
+      <!-- USERS -->
+      <div class="admin-card">
+        <h3><i class="fas fa-users"></i> Users</h3>
+        <div class="form-row"><label>Username</label><input type="text" id="newUserName" placeholder="e.g. ahmed" style="text-transform:lowercase;"></div>
+        <div class="form-row"><label>Full Name</label><input type="text" id="newUserFullName" placeholder="e.g. Ahmed Ssekandi"></div>
+        <div class="form-row"><label>Password</label><input type="text" id="newUserPass" placeholder="Min 6 chars"></div>
+        <div class="form-row"><label>Location</label><select id="newUserLocation"></select></div>
+        <div class="form-row"><label>Role</label>
+          <select id="newUserRole" onchange="onRoleChange()">
+            <option value="manager">Manager — full control</option>
+            <option value="accountant">Accountant — limited editing</option>
+            <option value="cashier">Cashier — view only</option>
+          </select>
+        </div>
+        <div id="permissionsBox" style="margin-top:0.6rem;">
+          <label style="font-size:0.72rem;font-weight:600;color:#5f7385;text-transform:uppercase;">Custom Permissions</label>
+          <div class="permission-grid" id="permissionGrid"></div>
+        </div>
+        <button class="btn btn-primary" onclick="createUser()" style="width:100%;justify-content:center;margin-top:1rem;"><i class="fas fa-user-plus"></i> Create User</button>
+      </div>
+
+      <!-- ADMIN PASSWORD -->
+      <div class="admin-card">
+        <h3><i class="fas fa-key"></i> Admin Password</h3>
+        <div class="form-row"><label>Current Admin Password</label><input type="password" id="curAdminPass" placeholder="••••••••"></div>
+        <div class="form-row"><label>New Admin Password</label><input type="password" id="newAdminPass" placeholder="Min 6 chars"></div>
+        <div class="form-row"><label>Confirm New Password</label><input type="password" id="newAdminPass2" placeholder="Re-enter"></div>
+        <button class="btn btn-primary" onclick="changeAdminPassword()" style="width:100%;justify-content:center;"><i class="fas fa-save"></i> Update Admin Password</button>
+        <div style="margin-top:1rem;padding-top:1rem;border-top:1px solid #eef3f8;font-size:0.75rem;color:#6a7f94;">
+          <i class="fas fa-info-circle"></i> The admin can register locations and users. Admin username: <strong>admin</strong>
+        </div>
+      </div>
+    </div>
+
+    <!-- ALL USERS TABLE -->
+    <div class="section-title"><i class="fas fa-list"></i> All Users</div>
+    <div class="table-card">
+      <div class="table-scroll">
+        <table id="allUsersTable">
+          <thead><tr>
+            <th>Username</th><th>Full Name</th><th>Location</th><th>Role</th><th>Status</th><th>Actions</th>
+          </tr></thead>
+          <tbody id="allUsersBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-note">
+    <span><i class="fas fa-database"></i> Bright Mesh multi-location platform</span>
+    <span><i class="fas fa-cloud"></i> Synced to Firebase Firestore</span>
+    <span><i class="fas fa-shield-halved"></i> Role-based access control</span>
+  </div>
+</div>
+
+<!-- ============ AUDIT REPORT MODAL ============ -->
+<div class="modal-overlay" id="auditModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div>
+        <h2><i class="fas fa-magnifying-glass-chart"></i> Bright Mesh Audit Report — <span id="auditReportMonth"></span></h2>
+        <div class="sub" id="auditReportDate"></div>
+      </div>
+      <button class="modal-close" onclick="closeAuditReport()"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body" id="auditReportBody"></div>
+  </div>
+</div>
+
+<!-- ============ CHANGE PASSWORD MODAL ============ -->
+<div class="modal-overlay" id="pwdModal">
+  <div class="modal narrow">
+    <div class="modal-header">
+      <div><h2><i class="fas fa-key"></i> Change Password</h2></div>
+      <button class="modal-close" onclick="closeChangePassword()"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="login-field"><label>Current Password</label><input type="password" id="pwdCurrent" placeholder="••••••••"></div>
+      <div class="login-field"><label>New Password</label><input type="password" id="pwdNew" placeholder="Min 6 chars"></div>
+      <div class="login-field"><label>Confirm New Password</label><input type="password" id="pwdNew2" placeholder="Re-enter"></div>
+      <button class="login-btn" onclick="saveUserPassword()"><i class="fas fa-save"></i> Update Password</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ USER DETAILS MODAL (Admin) ============ -->
+<div class="modal-overlay" id="userModal">
+  <div class="modal narrow">
+    <div class="modal-header">
+      <div><h2><i class="fas fa-user-edit"></i> Edit User — <span id="editUserName"></span></h2></div>
+      <button class="modal-close" onclick="closeUserModal()"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="editUserKey">
+      <div class="login-field"><label>Full Name</label><input type="text" id="editFullName"></div>
+      <div class="login-field"><label>Role</label>
+        <select id="editRole" onchange="onEditRoleChange()">
+          <option value="manager">Manager — full control</option>
+          <option value="accountant">Accountant — limited editing</option>
+          <option value="cashier">Cashier — view only</option>
+        </select>
+      </div>
+      <div class="login-field"><label>Status</label>
+        <select id="editStatus">
+          <option value="active">Active</option>
+          <option value="suspended">Suspended</option>
+        </select>
+      </div>
+      <div class="login-field"><label>Reset Password (leave blank to keep)</label><input type="text" id="editNewPass" placeholder="New password (optional)"></div>
+      <div style="display:flex;gap:0.5rem;margin-top:1rem;">
+        <button class="btn btn-primary" style="flex:1;justify-content:center;" onclick="saveUserEdit()"><i class="fas fa-save"></i> Save</button>
+        <button class="btn btn-danger" onclick="deleteUserConfirm()"><i class="fas fa-trash"></i> Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"><i class="fas fa-check-circle"></i> <span id="toastMsg">Done</span></div>
+
+<script>
+/* ============================================================
+   FIREBASE CONFIG — REPLACE WITH YOUR OWN
+   ============================================================ */
+<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-analytics.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyBquSyKnnQp4NMtCaooAD7k1tp3KPVdahU",
+    authDomain: "bright-mesh.firebaseapp.com",
+    projectId: "bright-mesh",
+    storageBucket: "bright-mesh.firebasestorage.app",
+    messagingSenderId: "731415620829",
+    appId: "1:731415620829:web:f34028a823efb50211bf34",
+    measurementId: "G-V73LRY2Z0F"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+</script>
+
+/* ============================================================
+   STATE
+   ============================================================ */
+let allMonthsData = {};
+let currentMonthKey = '';
+let weeklyClosures = [];
+let auditLog = [];
+let saveTimeout = null;
+let activeTab = 'daily';
+let currentUser = null;       // { username, fullName, locationId, locationName, role, permissions }
+let currentLocationId = null; // e.g. 'wamombl1'
+let allUsersCache = {};
+let allLocationsCache = {};
+
+/* ============================================================
+   ROLE DEFAULT PERMISSIONS
+   ============================================================ */
+const DEFAULT_PERMISSIONS = {
+  manager:    { view:true, editDaily:true, editPurchases:true, editExpenses:true, closeMonth:true, viewAudit:true, viewLog:true },
+  accountant: { view:true, editDaily:true, editPurchases:true, editExpenses:true, closeMonth:false, viewAudit:true, viewLog:true },
+  cashier:    { view:true, editDaily:false, editPurchases:false, editExpenses:false, closeMonth:false, viewAudit:false, viewLog:false }
+};
+
+/* ============================================================
+   HELPERS
+   ============================================================ */
+function defaultExpenses(){return {salary:600000,rent:550000,utilities:0,transport:0,other:0};}
+function currentEntries(){return allMonthsData[currentMonthKey]?.entries || [];}
+function currentExpenses(){return allMonthsData[currentMonthKey]?.expenses || defaultExpenses();}
+function currentPurchases(){
+  if(!allMonthsData[currentMonthKey]) allMonthsData[currentMonthKey]={entries:[],expenses:defaultExpenses(),closed:false,purchases:[]};
+  if(!allMonthsData[currentMonthKey].purchases) allMonthsData[currentMonthKey].purchases=[];
+  return allMonthsData[currentMonthKey].purchases;
+}
+function totalMonthlyExpenses(exp){return (exp.salary||0)+(exp.rent||0)+(exp.utilities||0)+(exp.transport||0)+(exp.other||0);}
+function grossProfit(row){const c=parseFloat(row.cost)||0,s=parseFloat(row.sales)||0,e=parseFloat(row.expenses)||0;return s-c-e;}
+function fmt(n){if(n===undefined||n===null||isNaN(n))return '0';return Number(n).toLocaleString('en-UG',{maximumFractionDigits:0});}
+function fmtSigned(n){if(n===undefined||n===null||isNaN(n))return '—';const a=Math.abs(n).toLocaleString('en-UG',{maximumFractionDigits:0});return (n>=0?'+':'−')+a;}
+function monthLabel(key){return new Date(key+'-01').toLocaleString('en',{month:'long',year:'numeric'});}
+function shortMonth(key){return new Date(key+'-01').toLocaleString('en',{month:'short',year:'numeric'});}
+
+function hasPerm(perm) {
+  if(!currentUser) return false;
+  if(currentUser.role === 'admin' || currentUser.role === 'superadmin') return true;
+  return !!currentUser.permissions?.[perm];
+}
+
+/* ============================================================
+   TOAST
+   ============================================================ */
+function showToast(msg, type){
+  const t = document.getElementById('toast');
+  t.className = 'toast' + (type ? ' ' + type : '');
+  document.getElementById('toastMsg').textContent = msg;
+  t.classList.add('show');
+  clearTimeout(t._timer);
+  t._timer = setTimeout(()=>t.classList.remove('show'), 2600);
+}
+
+/* ============================================================
+   SAVE STATUS
+   ============================================================ */
+function showSaveStatus(status, msg){
+  const el = document.getElementById('saveIndicator');
+  const txt = document.getElementById('saveStatus');
+  if(!el||!txt) return;
+  el.classList.remove('saving','saved','error');
+  if(status==='saving'){
+    el.classList.add('saving'); el.querySelector('i').className='fas fa-spinner fa-spin'; txt.textContent='Saving...';
+  } else if(status==='saved'){
+    el.classList.add('saved'); el.querySelector('i').className='fas fa-cloud-check';
+    const t = new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+    txt.textContent = msg || `Saved ${t}`;
+  } else {
+    el.classList.add('error'); el.querySelector('i').className='fas fa-exclamation-triangle'; txt.textContent = msg || 'Save failed';
+  }
+}
+
+/* ============================================================
+   FIRESTORE: DATA LOAD / SAVE
+   Path: locations/{locationId}/months/{YYYY-MM}
+   ============================================================ */
+async function loadLocationData(locationId) {
+  if(!firebaseReady) { showSaveStatus('error','No Firebase'); return; }
+  showSaveStatus('saving','Loading...');
+  try {
+    const snap = await db.collection('locations').doc(locationId).collection('months').get();
+    allMonthsData = {};
+    snap.forEach(doc => { allMonthsData[doc.id] = doc.data(); });
+    // Load weekly closures
+    const wSnap = await db.collection('locations').doc(locationId).collection('weeklyClosures').get();
+    weeklyClosures = [];
+    wSnap.forEach(doc => weeklyClosures.push(doc.data()));
+    weeklyClosures.sort((a,b)=>new Date(a.date)-new Date(b.date));
+    // Load audit log (last 500)
+    const lSnap = await db.collection('locations').doc(locationId).collection('auditLog').orderBy('time','desc').limit(500).get();
+    auditLog = [];
+    lSnap.forEach(doc => auditLog.push(doc.data()));
+    // Ensure at least current month exists in memory
+    const now = new Date();
+    const curKey = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0');
+    if(!allMonthsData[curKey]) {
+      allMonthsData[curKey] = { entries: [], expenses: defaultExpenses(), closed: false, purchases: [] };
+      await db.collection('locations').doc(locationId).collection('months').doc(curKey).set(allMonthsData[curKey]);
+    }
+    // Pick latest month as current
+    const monthsSorted = Object.keys(allMonthsData).sort();
+    if(!currentMonthKey || !allMonthsData[currentMonthKey]) {
+      currentMonthKey = monthsSorted.length ? monthsSorted[monthsSorted.length-1] : curKey;
+    }
+    showSaveStatus('saved','Loaded');
+  } catch(e) {
+    console.error('Load failed', e);
+    showSaveStatus('error','Load failed');
+    showToast('Failed to load data: ' + e.message, 'error');
+  }
+}
+
+async function saveMonthToFirestore(monthKey) {
+  if(!firebaseReady || !currentLocationId) return;
+  try {
+    const data = allMonthsData[monthKey];
+    if(!data) return;
+    await db.collection('locations').doc(currentLocationId).collection('months').doc(monthKey).set(data);
+  } catch(e) {
+    console.error('Save month failed', e);
+    showToast('Save failed: ' + e.message, 'error');
+  }
+}
+
+async function saveClosureToFirestore(closure) {
+  if(!firebaseReady || !currentLocationId) return;
+  try {
+    const id = closure.date; // use date as doc id to prevent dupes
+    await db.collection('locations').doc(currentLocationId).collection('weeklyClosures').doc(id).set(closure);
+  } catch(e) { console.error('Save closure failed', e); }
+}
+
+async function saveLogEntry(entry) {
+  if(!firebaseReady || !currentLocationId) return;
+  try {
+    await db.collection('locations').doc(currentLocationId).collection('auditLog').add(entry);
+  } catch(e) { console.error('Save log failed', e); }
+}
+
+function scheduleSave(monthKey) {
+  showSaveStatus('saving');
+  if(saveTimeout) clearTimeout(saveTimeout);
+  saveTimeout = setTimeout(async () => {
+    await saveMonthToFirestore(monthKey || currentMonthKey);
+    showSaveStatus('saved');
+  }, 800);
+}
+
+/* ============================================================
+   AUDIT LOG
+   ============================================================ */
+function addLog(action, details){
+  const entry = {
+    time: new Date().toISOString(),
+    action, details,
+    month: currentMonthKey,
+    user: currentUser?.username || 'unknown',
+    locationId: currentLocationId
+  };
+  auditLog.unshift(entry);
+  if(auditLog.length > 500) auditLog.length = 500;
+  saveLogEntry(entry);
+  if(activeTab === 'log') renderLog();
+}
+
+function renderLog(){
+  const tbody = document.getElementById('logBody');
+  if(!auditLog.length){
+    tbody.innerHTML = `<tr><td colspan="4" style="text-align:center;padding:2rem;color:#7b8fa0;">No changes logged yet.</td></tr>`;
+    return;
+  }
+  tbody.innerHTML = auditLog.slice(0,200).map(l=>{
+    const d = new Date(l.time);
+    const badge = l.action.toLowerCase().includes('delete')||l.action.toLowerCase().includes('remove')
+      ? 'red' : l.action.toLowerCase().includes('add') ? 'green' : 'blue';
+    return `<tr>
+      <td style="font-size:0.78rem;color:#6a7f94;">${d.toLocaleString()}</td>
+      <td><strong>${l.user || '—'}</strong></td>
+      <td><span class="badge-pill ${badge}">${l.action}</span></td>
+      <td style="font-size:0.82rem;">${l.details} <span style="color:#6a7f94;">· ${monthLabel(l.month)}</span></td>
+    </tr>`;
+  }).join('');
+}
+
+function clearLog(){
+  if(!hasPerm('viewLog')) { showToast('Permission denied', 'error'); return; }
+  if(!confirm('Clear the entire audit log? This cannot be undone.')) return;
+  auditLog = [];
+  if(firebaseReady && currentLocationId) {
+    db.collection('locations').doc(currentLocationId).collection('auditLog').get().then(snap => {
+      const batch = db.batch();
+      snap.forEach(doc => batch.delete(doc.ref));
+      return batch.commit();
+    });
+  }
+  renderLog();
+  showToast('Audit log cleared');
+}
+
+/* ============================================================
+   LOGIN
+   ============================================================ */
+async function doLogin(){
+  const u = document.getElementById('loginUsername').value.trim().toLowerCase();
+  const p = document.getElementById('loginPassword').value;
+  const errBox = document.getElementById('loginError');
+  const errTxt = document.getElementById('loginErrorText');
+  const btn = document.getElementById('loginBtn');
+  errBox.classList.remove('show');
+  if(!u || !p){ errTxt.textContent = 'Please enter username and password'; errBox.classList.add('show'); return; }
+  btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing in...';
+
+  try {
+    // ADMIN login (default admin/admin)
+    if(u === 'admin') {
+      const adminDoc = await db.collection('config').doc('admin').get();
+      let adminPass = 'admin';
+      if(adminDoc.exists && adminDoc.data().password) adminPass = adminDoc.data().password;
+      if(p !== adminPass) throw new Error('Invalid admin password');
+      currentUser = { username: 'admin', fullName: 'Administrator', locationId: null, locationName: 'All Locations', role: 'admin', permissions: {view:true,editDaily:true,editPurchases:true,editExpenses:true,closeMonth:true,viewAudit:true,viewLog:true} };
+      onLoginSuccess();
+      return;
+    }
+
+    // REGULAR USER login
+    const userDoc = await db.collection('users').doc(u).get();
+    if(!userDoc.exists) throw new Error('User not found');
+    const userData = userDoc.data();
+    if(userData.status === 'suspended') throw new Error('Account suspended. Contact admin.');
+    if(userData.password !== p) throw new Error('Invalid password');
+    const locDoc = await db.collection('locations').doc(userData.locationId).get();
+    const locData = locDoc.exists ? locDoc.data() : { name: userData.locationId };
+    currentUser = {
+      username: u,
+      fullName: userData.fullName || u,
+      locationId: userData.locationId,
+      locationName: locData.name || userData.locationId,
+      role: userData.role || 'cashier',
+      permissions: userData.permissions || DEFAULT_PERMISSIONS[userData.role] || DEFAULT_PERMISSIONS.cashier
+    };
+    currentLocationId = userData.locationId;
+    onLoginSuccess();
+  } catch(e) {
+    errTxt.textContent = e.message || 'Login failed';
+    errBox.classList.add('show');
+  } finally {
+    btn.disabled = false; btn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Sign in';
+  }
+}
+
+async function onLoginSuccess(){
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  document.getElementById('currentUserLabel').textContent = currentUser.fullName || currentUser.username;
+  const roleEl = document.getElementById('currentUserRole');
+  roleEl.textContent = currentUser.role;
+  roleEl.className = 'role ' + currentUser.role;
+
+  // Show/hide admin tab
+  const adminBtn = document.querySelector('.tab-btn[data-tab="admin"]');
+  if(currentUser.role === 'admin' || currentUser.role === 'superadmin') {
+    adminBtn.classList.remove('hidden');
+    await loadAdminData();
+  } else {
+    adminBtn.classList.add('hidden');
+  }
+
+  // If admin, still need a location to view data (default to first)
+  if(currentUser.role === 'admin') {
+    const locsSnap = await db.collection('locations').get();
+    if(!locsSnap.empty) {
+      currentLocationId = locsSnap.docs[0].id;
+      document.getElementById('locationTitle').textContent = '· ' + (locsSnap.docs[0].data().name || currentLocationId) + ' (Admin view)';
+      await loadLocationData(currentLocationId);
+    } else {
+      document.getElementById('locationTitle').textContent = '· No locations yet';
+    }
+  } else {
+    document.getElementById('locationTitle').textContent = '· ' + currentUser.locationName;
+    await loadLocationData(currentLocationId);
+  }
+
+  applyPermissions();
+  renderMonthSelect();
+  renderPurchaseMonthSelect();
+  renderAll();
+  renderAudit();
+  renderPurchases();
+  renderLog();
+  switchTab(activeTab, true);
+  addLog('Login', `${currentUser.username} signed in`);
+  showToast('Welcome, ' + (currentUser.fullName || currentUser.username));
+}
+
+function applyPermissions(){
+  document.querySelectorAll('.editor-only').forEach(el => {
+    const canEdit = hasPerm('editDaily') || hasPerm('editPurchases') || hasPerm('editExpenses') || hasPerm('closeMonth');
+    el.style.display = canEdit ? '' : 'none';
+  });
+}
+
+function doLogout(){
+  if(!confirm('Sign out?')) return;
+  currentUser = null;
+  currentLocationId = null;
+  allMonthsData = {};
+  weeklyClosures = [];
+  auditLog = [];
+  document.getElementById('loginScreen').style.display = 'flex';
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('loginUsername').value = '';
+  document.getElementById('loginPassword').value = '';
+  document.getElementById('loginError').classList.remove('show');
+}
+
+/* ============================================================
+   ADMIN DATA LOAD
+   ============================================================ */
+async function loadAdminData(){
+  if(!firebaseReady) return;
+  try {
+    // Load locations
+    const locSnap = await db.collection('locations').get();
+    allLocationsCache = {};
+    locSnap.forEach(d => allLocationsCache[d.id] = d.data());
+    // Load users
+    const usSnap = await db.collection('users').get();
+    allUsersCache = {};
+    usSnap.forEach(d => allUsersCache[d.id] = d.data());
+    renderAdmin();
+  } catch(e) { console.error('Admin load failed', e); showToast('Admin load failed', 'error'); }
+}
+
+function renderAdmin(){
+  // Locations list
+  const locList = document.getElementById('locationsList');
+  const locEntries = Object.entries(allLocationsCache);
+  locList.innerHTML = locEntries.length ? locEntries.map(([id, l])=>{
+    return `<div class="location-card">
+      <div class="info">
+        <div class="name">${l.name || id}</div>
+        <div class="meta">Code: <strong>${id}</strong> · Created ${l.createdAt ? new Date(l.createdAt).toLocaleDateString() : '—'}</div>
+      </div>
+      <button class="btn btn-danger" onclick="deleteLocation('${id}')" style="font-size:0.72rem;padding:0.4rem 0.8rem;"><i class="fas fa-trash"></i></button>
+    </div>`;
+  }).join('') : '<div style="color:#7b8fa0;padding:1rem;text-align:center;">No locations yet</div>';
+
+  // Populate location dropdown for user creation
+  const locSel = document.getElementById('newUserLocation');
+  locSel.innerHTML = locEntries.length
+    ? locEntries.map(([id, l])=>`<option value="${id}">${l.name || id}</option>`).join('')
+    : '<option value="">No locations — create one first</option>';
+
+  // All users table
+  const usersBody = document.getElementById('allUsersBody');
+  const userEntries = Object.entries(allUsersCache);
+  usersBody.innerHTML = userEntries.length ? userEntries.map(([u, data])=>{
+    const locName = allLocationsCache[data.locationId]?.name || data.locationId || '—';
+    return `<tr>
+      <td><strong>${u}</strong></td>
+      <td>${data.fullName || '—'}</td>
+      <td>${locName}</td>
+      <td><span class="badge-pill ${data.role === 'manager' ? 'green' : data.role === 'accountant' ? 'amber' : 'blue'}">${data.role || 'cashier'}</span></td>
+      <td><span class="badge-pill ${data.status === 'suspended' ? 'red' : 'green'}">${data.status || 'active'}</span></td>
+      <td><button class="btn" onclick="openUserEdit('${u}')" style="font-size:0.72rem;padding:0.35rem 0.8rem;"><i class="fas fa-edit"></i> Edit</button></td>
+    </tr>`;
+  }).join('') : '<tr><td colspan="6" style="text-align:center;padding:2rem;color:#7b8fa0;">No users yet</td></tr>';
+}
+
+function renderPermissionGrid(containerId, selected){
+  const perms = [
+    {key:'view', label:'View data'},
+    {key:'editDaily', label:'Edit daily'},
+    {key:'editPurchases', label:'Edit purchases'},
+    {key:'editExpenses', label:'Edit expenses'},
+    {key:'closeMonth', label:'Close month'},
+    {key:'viewAudit', label:'View audit'},
+    {key:'viewLog', label:'View log'}
+  ];
+  document.getElementById(containerId).innerHTML = perms.map(p => `
+    <label class="perm-item">
+      <input type="checkbox" data-perm="${p.key}" ${selected[p.key]?'checked':''}> ${p.label}
+    </label>
+  `).join('');
+}
+
+function onRoleChange(){
+  const role = document.getElementById('newUserRole').value;
+  renderPermissionGrid('permissionGrid', DEFAULT_PERMISSIONS[role] || {});
+}
+function onEditRoleChange(){
+  const role = document.getElementById('editRole').value;
+  // We don't render a grid here; role alone drives permissions on save
+}
+
+/* ============================================================
+   ADMIN ACTIONS
+   ============================================================ */
+async function createLocation(){
+  const name = document.getElementById('newLocName').value.trim();
+  const code = document.getElementById('newLocCode').value.trim().toLowerCase();
+  if(!name || !code){ showToast('Enter location name and code', 'error'); return; }
+  if(!/^[a-z0-9]+$/.test(code)){ showToast('Code must be alphanumeric lowercase', 'error'); return; }
+  try {
+    const existing = await db.collection('locations').doc(code).get();
+    if(existing.exists){ showToast('Location code already exists', 'error'); return; }
+    await db.collection('locations').doc(code).set({
+      name, code, createdAt: new Date().toISOString()
+    });
+    document.getElementById('newLocName').value = '';
+    document.getElementById('newLocCode').value = '';
+    showToast('Location created', 'success');
+    await loadAdminData();
+  } catch(e) { showToast('Error: ' + e.message, 'error'); }
+}
+
+async function deleteLocation(id){
+  if(!confirm(`Delete location "${id}"? This will NOT delete its data (kept for audit). Continue?`)) return;
+  try {
+    await db.collection('locations').doc(id).delete();
+    showToast('Location deleted', 'success');
+    await loadAdminData();
+  } catch(e) { showToast('Error: ' + e.message, 'error'); }
+}
+
+async function createUser(){
+  const username = document.getElementById('newUserName').value.trim().toLowerCase();
+  const fullName = document.getElementById('newUserFullName').value.trim();
+  const password = document.getElementById('newUserPass').value;
+  const locationId = document.getElementById('newUserLocation').value;
+  const role = document.getElementById('newUserRole').value;
+  if(!username || !password || !locationId){ showToast('Fill username, password & location', 'error'); return; }
+  if(password.length < 6){ showToast('Password must be at least 6 characters', 'error'); return; }
+  if(!/^[a-z0-9]+$/.test(username)){ showToast('Username must be alphanumeric lowercase', 'error'); return; }
+  // Collect custom permissions from checkboxes
+  const permissions = {};
+  document.querySelectorAll('#permissionGrid input[data-perm]').forEach(cb => {
+    permissions[cb.dataset.perm] = cb.checked;
+  });
+  try {
+    const existing = await db.collection('users').doc(username).get();
+    if(existing.exists){ showToast('Username already exists', 'error'); return; }
+    await db.collection('users').doc(username).set({
+      username, fullName, password, locationId, role, permissions,
+      status: 'active', createdAt: new Date().toISOString()
+    });
+    document.getElementById('newUserName').value = '';
+    document.getElementById('newUserFullName').value = '';
+    document.getElementById('newUserPass').value = '';
+    showToast('User created: ' + username, 'success');
+    await loadAdminData();
+  } catch(e) { showToast('Error: ' + e.message, 'error'); }
+}
+
+async function changeAdminPassword(){
+  const cur = document.getElementById('curAdminPass').value;
+  const n1 = document.getElementById('newAdminPass').value;
+  const n2 = document.getElementById('newAdminPass2').value;
+  if(!n1 || n1.length < 6){ showToast('New password must be at least 6 characters', 'error'); return; }
+  if(n1 !== n2){ showToast('New passwords do not match', 'error'); return; }
+  try {
+    const adminDoc = await db.collection('config').doc('admin').get();
+    const curPass = adminDoc.exists && adminDoc.data().password ? adminDoc.data().password : 'admin';
+    if(cur !== curPass){ showToast('Current admin password is incorrect', 'error'); return; }
+    await db.collection('config').doc('admin').set({ password: n1, updatedAt: new Date().toISOString() });
+    document.getElementById('curAdminPass').value = '';
+    document.getElementById('newAdminPass').value = '';
+    document.getElementById('newAdminPass2').value = '';
+    showToast('Admin password updated', 'success');
+  } catch(e) { showToast('Error: ' + e.message, 'error'); }
+}
+
+function openUserEdit(username){
+  const u = allUsersCache[username];
+  if(!u) return;
+  document.getElementById('editUserKey').value = username;
+  document.getElementById('editUserName').textContent = username;
+  document.getElementById('editFullName').value = u.fullName || '';
+  document.getElementById('editRole').value = u.role || 'cashier';
+  document.getElementById('editStatus').value = u.status || 'active';
+  document.getElementById('editNewPass').value = '';
+  document.getElementById('userModal').classList.add('active');
+}
+function closeUserModal(){ document.getElementById('userModal').classList.remove('active'); }
+
+async function saveUserEdit(){
+  const username = document.getElementById('editUserKey').value;
+  const fullName = document.getElementById('editFullName').value.trim();
+  const role = document.getElementById('editRole').value;
+  const status = document.getElementById('editStatus').value;
+  const newPass = document.getElementById('editNewPass').value;
+  try {
+    const updates = { fullName, role, status, permissions: DEFAULT_PERMISSIONS[role] };
+    if(newPass) {
+      if(newPass.length < 6){ showToast('Password too short', 'error'); return; }
+      updates.password = newPass;
+    }
+    await db.collection('users').doc(username).update(updates);
+    showToast('User updated', 'success');
+    closeUserModal();
+    await loadAdminData();
+  } catch(e) { showToast('Error: ' + e.message, 'error'); }
+}
+
+async function deleteUserConfirm(){
+  const username = document.getElementById('editUserKey').value;
+  if(!confirm(`Delete user "${username}"? This cannot be undone.`)) return;
+  try {
+    await db.collection('users').doc(username).delete();
+    showToast('User deleted', 'success');
+    closeUserModal();
+    await loadAdminData();
+  } catch(e) { showToast('Error: ' + e.message, 'error'); }
+}
+
+/* ============================================================
+   CHANGE PASSWORD (logged-in user)
+   ============================================================ */
+function openChangePassword(){
+  document.getElementById('pwdCurrent').value = '';
+  document.getElementById('pwdNew').value = '';
+  document.getElementById('pwdNew2').value = '';
+  document.getElementById('pwdModal').classList.add('active');
+}
+function closeChangePassword(){ document.getElementById('pwdModal').classList.remove('active'); }
+
+async function saveUserPassword(){
+  const cur = document.getElementById('pwdCurrent').value;
+  const n1 = document.getElementById('pwdNew').value;
+  const n2 = document.getElementById('pwdNew2').value;
+  if(!cur || !n1 || !n2){ showToast('Fill all password fields', 'error'); return; }
+  if(n1.length < 6){ showToast('New password must be at least 6 chars', 'error'); return; }
+  if(n1 !== n2){ showToast('New passwords do not match', 'error'); return; }
+  try {
+    // Admin change
+    if(currentUser.role === 'admin') {
+      const adminDoc = await db.collection('config').doc('admin').get();
+      const curPass = adminDoc.exists && adminDoc.data().password ? adminDoc.data().password : 'admin';
+      if(cur !== curPass){ showToast('Current password incorrect', 'error'); return; }
+      await db.collection('config').doc('admin').set({ password: n1, updatedAt: new Date().toISOString() });
+    } else {
+      const uDoc = await db.collection('users').doc(currentUser.username).get();
+      if(!uDoc.exists){ showToast('User not found', 'error'); return; }
+      if(uDoc.data().password !== cur){ showToast('Current password incorrect', 'error'); return; }
+      await db.collection('users').doc(currentUser.username).update({ password: n1 });
+    }
+    closeChangePassword();
+    showToast('Password updated successfully', 'success');
+    addLog('Change Password', `${currentUser.username} changed their password`);
+  } catch(e) { showToast('Error: ' + e.message, 'error'); }
+}
+
+/* ============================================================
+   TABS
+   ============================================================ */
+function switchTab(tab, skipSave){
+  activeTab = tab;
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.toggle('active', b.dataset.tab === tab));
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  const panel = document.getElementById('tab-'+tab);
+  if(panel) panel.classList.add('active');
+  if(tab === 'audit') renderAudit();
+  if(tab === 'purchases') renderPurchases();
+  if(tab === 'log') renderLog();
+  if(tab === 'admin') loadAdminData();
+}
+
+/* ============================================================
+   MONTH SELECTS
+   ============================================================ */
+function renderMonthSelect(){
+  const sel = document.getElementById('monthSelect');
+  const months = Object.keys(allMonthsData).sort();
+  if(!months.length){
+    sel.innerHTML = '<option>No data yet</option>';
+    return;
+  }
+  sel.innerHTML = months.map(m=>{
+    const closed = allMonthsData[m].closed ? ' ✓' : '';
+    return `<option value="${m}" ${m===currentMonthKey?'selected':''}>${monthLabel(m)}${closed}</option>`;
+  }).join('');
+}
+function renderPurchaseMonthSelect(){
+  const sel = document.getElementById('purchaseMonthSelect');
+  const months = Object.keys(allMonthsData).sort();
+  if(!months.length){ sel.innerHTML = '<option>No data yet</option>'; return; }
+  sel.innerHTML = months.map(m=>{
+    const closed = allMonthsData[m].closed ? ' ✓' : '';
+    return `<option value="${m}" ${m===currentMonthKey?'selected':''}>${monthLabel(m)}${closed}</option>`;
+  }).join('');
+}
+
+/* ============================================================
+   RENDER
+   ============================================================ */
+function renderAll(){
+  const data = allMonthsData[currentMonthKey];
+  if(!data) return;
+  const isClosed = data.closed || false;
+  if(isClosed){
+    renderClosedDetail();
+    document.getElementById('closedDetail').style.display='block';
+    document.getElementById('closedStatus').innerHTML='<i class="fas fa-lock"></i> Closed';
+    document.getElementById('closedStatus').style.color='#b33a3a';
+  } else {
+    document.getElementById('closedDetail').style.display='none';
+    document.getElementById('closedStatus').innerHTML='<i class="fas fa-lock-open"></i> Open';
+    document.getElementById('closedStatus').style.color='#1d7a4b';
+  }
+  const canEdit = hasPerm('editDaily') && !isClosed;
+  document.querySelectorAll('#tableBody input, #expenseGrid input').forEach(inp=>{
+    if(!canEdit){ inp.setAttribute('readonly',true); inp.style.background='#f2f6fa'; }
+    else { inp.removeAttribute('readonly'); inp.style.background='white'; }
+  });
+  renderTable(); renderExpenses(); renderSummary(); renderTotals(); renderClosedList();
+}
+
+function renderTable(){
+  const tbody = document.getElementById('tableBody');
+  const entries = currentEntries();
+  const isClosed = allMonthsData[currentMonthKey]?.closed;
+  const canEdit = hasPerm('editDaily') && !isClosed;
+  if(!entries.length){
+    tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:2rem;color:#7b8fa0;">No data for this month.</td></tr>`;
+    return;
+  }
+  tbody.innerHTML = entries.map((row,idx)=>{
+    const gp = grossProfit(row);
+    const ro = !canEdit ? 'readonly' : '';
+    const bg = !canEdit ? 'background:#f2f6fa;' : '';
+    return `<tr>
+      <td><input type="text" value="${row.day||''}" ${ro} onchange="updateField(${idx},'day',this.value)" style="${bg}"></td>
+      <td><input type="date" value="${row.date||''}" ${ro} onchange="updateField(${idx},'date',this.value)" style="${bg}"></td>
+      <td><input type="number" step="0.01" value="${row.cost??''}" ${ro} onchange="updateField(${idx},'cost',this.value)" style="color:#b33a3a;${bg}"></td>
+      <td><input type="number" step="0.01" value="${row.sales??''}" ${ro} onchange="updateField(${idx},'sales',this.value)" style="color:#1d7a4b;${bg}"></td>
+      <td><input type="number" step="0.01" value="${row.expenses??''}" ${ro} onchange="updateField(${idx},'expenses',this.value)" style="color:#b33a3a;${bg}"></td>
+      <td><input type="text" readonly value="${fmt(gp)}" class="profit-input" style="${bg}"></td>
+      <td>${canEdit?`<button class="remove-btn" onclick="removeRow(${idx})"><i class="fas fa-trash-alt"></i></button>`:''}</td>
+    </tr>`;
+  }).join('');
+}
+
+function renderExpenses(){
+  const exp = currentExpenses();
+  const isClosed = allMonthsData[currentMonthKey]?.closed;
+  const canEdit = hasPerm('editExpenses') && !isClosed;
+  const ro = !canEdit ? 'readonly' : '';
+  const bg = !canEdit ? 'background:#f2f6fa;' : '';
+  const fields = [
+    {key:'salary',label:'Salary (UGX)',icon:'fa-user-tie'},
+    {key:'rent',label:'Rent (UGX)',icon:'fa-building'},
+    {key:'utilities',label:'Utilities (UGX)',icon:'fa-bolt'},
+    {key:'transport',label:'Transport (UGX)',icon:'fa-truck'},
+    {key:'other',label:'Other (UGX)',icon:'fa-ellipsis-h'},
+  ];
+  document.getElementById('expenseGrid').innerHTML = fields.map(f=>`
+    <div class="expense-item">
+      <label><i class="fas ${f.icon}"></i> ${f.label}</label>
+      <input type="number" step="0.01" value="${exp[f.key]||0}" ${ro} onchange="updateExpense('${f.key}',this.value)" style="${bg}">
+    </div>
+  `).join('') + `
+    <div class="expense-item" style="display:flex;align-items:flex-end;">
+      <div style="font-size:0.8rem;color:#6a7f94;padding-bottom:0.6rem;">
+        <i class="fas fa-calculator"></i> Total monthly expenses: <strong style="color:#0b2b44;">UGX ${fmt(totalMonthlyExpenses(exp))}</strong>
+      </div>
+    </div>
+  `;
+}
+
+/* ============================================================
+   DAILY MUTATIONS
+   ============================================================ */
+function updateField(idx,field,value){
+  if(!hasPerm('editDaily')) { showToast('No permission', 'error'); return; }
+  if(allMonthsData[currentMonthKey]?.closed) return;
+  const entries = currentEntries();
+  if(field==='cost'||field==='sales'||field==='expenses') entries[idx][field] = value===''?0:parseFloat(value);
+  else entries[idx][field] = value;
+  if(field==='cost') addLog('Edit Cost', `${entries[idx].day||''} ${entries[idx].date||''} → UGX ${fmt(entries[idx].cost)}`);
+  if(field==='sales') addLog('Edit Sales', `${entries[idx].day||''} ${entries[idx].date||''} → UGX ${fmt(entries[idx].sales)}`);
+  if(field==='expenses') addLog('Edit Expense', `${entries[idx].day||''} ${entries[idx].date||''} → UGX ${fmt(entries[idx].expenses)}`);
+  renderTable(); renderSummary(); renderTotals(); scheduleSave();
+}
+function updateExpense(key,value){
+  if(!hasPerm('editExpenses')) { showToast('No permission', 'error'); return; }
+  if(allMonthsData[currentMonthKey]?.closed) return;
+  allMonthsData[currentMonthKey].expenses[key] = value===''?0:parseFloat(value);
+  addLog('Edit Monthly Expense', `${key} → UGX ${fmt(allMonthsData[currentMonthKey].expenses[key])}`);
+  renderExpenses(); renderSummary(); renderTotals(); scheduleSave();
+}
+function addRow(){
+  if(!hasPerm('editDaily')) { showToast('No permission', 'error'); return; }
+  if(allMonthsData[currentMonthKey]?.closed){ showToast('Month is closed'); return; }
+  const entries = currentEntries();
+  const last = entries[entries.length-1];
+  let newDate = '';
+  if(last && last.date){ const d = new Date(last.date); d.setDate(d.getDate()+1); newDate = d.toISOString().split('T')[0]; }
+  else newDate = currentMonthKey + '-01';
+  entries.push({day:'',date:newDate,cost:0,sales:0,expenses:0});
+  addLog('Add Row', `Daily entry for ${newDate}`);
+  renderTable(); renderSummary(); renderTotals(); scheduleSave();
+}
+function removeRow(idx){
+  if(!hasPerm('editDaily')) { showToast('No permission', 'error'); return; }
+  if(allMonthsData[currentMonthKey]?.closed){ showToast('Month is closed'); return; }
+  const row = currentEntries()[idx];
+  currentEntries().splice(idx,1);
+  addLog('Delete Row', `Removed ${row?.date||'—'}`);
+  renderTable(); renderSummary(); renderTotals(); scheduleSave();
+}
+async function closeMonth(){
+  if(!hasPerm('closeMonth')) { showToast('No permission', 'error'); return; }
+  if(allMonthsData[currentMonthKey]?.closed){ showToast('Month already closed'); return; }
+  if(!confirm(`Close ${currentMonthKey}? This will lock all data.`)) return;
+  allMonthsData[currentMonthKey].closed = true;
+  addLog('Close Month', `${monthLabel(currentMonthKey)} locked`);
+  await saveMonthToFirestore(currentMonthKey);
+  renderMonthSelect(); renderPurchaseMonthSelect(); renderAll();
+  showToast(`Month closed`);
+}
+
+function renderClosedDetail(){
+  const data = allMonthsData[currentMonthKey];
+  if(!data) return;
+  const entries = data.entries;
+  const exp = data.expenses;
+  const totalSales = entries.reduce((s,r)=>s+(parseFloat(r.sales)||0),0);
+  const totalCost = entries.reduce((s,r)=>s+(parseFloat(r.cost)||0),0);
+  const totalExp = entries.reduce((s,r)=>s+(parseFloat(r.expenses)||0),0);
+  const gross = totalSales-totalCost-totalExp;
+  const monthlyExp = totalMonthlyExpenses(exp);
+  const net = gross-monthlyExp;
+  document.getElementById('closedDetail').innerHTML = `
+    <h3><i class="fas fa-lock"></i> ${monthLabel(currentMonthKey)} — Closed <span class="closed-badge">FINAL</span></h3>
+    <p><strong>Entries:</strong> ${entries.length} days · <strong>Sales:</strong> UGX ${fmt(totalSales)} · <strong>Cost:</strong> UGX ${fmt(totalCost)} · <strong>Daily Exp:</strong> UGX ${fmt(totalExp)}</p>
+    <p><strong>Gross:</strong> UGX ${fmt(gross)} · <strong>Monthly Expenses:</strong> UGX ${fmt(monthlyExp)}</p>
+    <p style="font-size:1.1rem;margin-top:0.5rem;"><strong>Net Profit:</strong> <span style="color:${net>=0?'#1d7a4b':'#b33a3a'};">UGX ${fmt(net)}</span></p>
+  `;
+}
+function renderClosedList(){
+  const closed = Object.keys(allMonthsData).filter(m=>allMonthsData[m].closed);
+  document.getElementById('closedList').innerHTML = closed.map(m=>{
+    return `<span onclick="selectMonth('${m}')">${shortMonth(m)}</span>`;
+  }).join('') || '<span style="color:#7b8fa0;">None yet</span>';
+}
+function selectMonth(m){
+  currentMonthKey = m;
+  document.getElementById('monthSelect').value = m;
+  document.getElementById('purchaseMonthSelect').value = m;
+  renderAll(); renderPurchases();
+}
+function onMonthChange(){
+  currentMonthKey = document.getElementById('monthSelect').value;
+  document.getElementById('purchaseMonthSelect').value = currentMonthKey;
+  renderAll(); renderPurchases();
+}
+function onPurchaseMonthChange(){
+  currentMonthKey = document.getElementById('purchaseMonthSelect').value;
+  document.getElementById('monthSelect').value = currentMonthKey;
+  renderAll(); renderPurchases();
+}
+
+/* ============================================================
+   SUMMARY
+   ============================================================ */
+function renderSummary(){
+  const entries = currentEntries();
+  const exp = currentExpenses();
+  const totalSales = entries.reduce((s,r)=>s+(parseFloat(r.sales)||0),0);
+  const totalCost = entries.reduce((s,r)=>s+(parseFloat(r.cost)||0),0);
+  const totalDailyExp = entries.reduce((s,r)=>s+(parseFloat(r.expenses)||0),0);
+  const gross = totalSales-totalCost-totalDailyExp;
+  const monthlyExp = totalMonthlyExpenses(exp);
+  const net = gross-monthlyExp;
+  const margin = totalSales ? (gross/totalSales*100) : 0;
+  const cards = [
+    {label:'Total sales',value:fmt(totalSales),sub:'UGX',cls:''},
+    {label:'Total cost',value:fmt(totalCost),sub:'UGX',cls:''},
+    {label:'Gross profit',value:fmt(gross),sub:`margin ${margin.toFixed(1)}%`,cls:gross>=0?'positive':'negative'},
+    {label:'Monthly expenses',value:fmt(monthlyExp),sub:'salary, rent, etc.',cls:''},
+    {label:'Net profit',value:fmt(net),sub:'after all expenses',cls:net>=0?'positive':'negative'},
+  ];
+  document.getElementById('summaryGrid').innerHTML = cards.map(c=>`
+    <div class="sum-card"><div class="sum-label">${c.label}</div><div class="sum-value ${c.cls}">${c.value}</div><div class="sum-sub">${c.sub}</div></div>
+  `).join('');
+}
+function renderTotals(){
+  const entries = currentEntries();
+  const exp = currentExpenses();
+  const totalSales = entries.reduce((s,r)=>s+(parseFloat(r.sales)||0),0);
+  const totalCost = entries.reduce((s,r)=>s+(parseFloat(r.cost)||0),0);
+  const totalDailyExp = entries.reduce((s,r)=>s+(parseFloat(r.expenses)||0),0);
+  const gross = totalSales-totalCost-totalDailyExp;
+  const monthlyExp = totalMonthlyExpenses(exp);
+  const net = gross-monthlyExp;
+  const rows = [
+    ['Total sales',fmt(totalSales)],['Total cost',fmt(totalCost)],['Daily expenses',fmt(totalDailyExp)],
+    ['Gross profit',fmt(gross)],['Salary',fmt(exp.salary||0)],['Rent',fmt(exp.rent||0)],
+    ['Utilities',fmt(exp.utilities||0)],['Transport',fmt(exp.transport||0)],['Other',fmt(exp.other||0)],
+    ['Total monthly expenses',fmt(monthlyExp)],['Net profit',fmt(net)],
+    ['Gross margin',totalSales?(gross/totalSales*100).toFixed(1)+'%':'—'],
+    ['Net margin',totalSales?(net/totalSales*100).toFixed(1)+'%':'—'],
+    ['Entry count',entries.length],
+  ];
+  document.getElementById('totalsBody').innerHTML = rows.map(([k,v])=>`<tr><td style="font-weight:500;">${k}</td><td style="font-weight:600;">${v}</td></tr>`).join('');
+}
+
+/* ============================================================
+   PURCHASES
+   ============================================================ */
+function renderPurchases(){
+  const purchases = currentPurchases();
+  const isClosed = allMonthsData[currentMonthKey]?.closed;
+  const canEdit = hasPerm('editPurchases') && !isClosed;
+  const monthLbl = document.getElementById('purchaseMonthLabel');
+  if(monthLbl) monthLbl.textContent = monthLabel(currentMonthKey);
+  const total = purchases.reduce((s,p)=>s+(parseFloat(p.total)||0),0);
+  const totalDailyCost = currentEntries().reduce((s,r)=>s+(parseFloat(r.cost)||0),0);
+  const diff = total - totalDailyCost;
+  const suppliers = [...new Set(purchases.map(p=>p.supplier).filter(Boolean))];
+  const cashPurchases = purchases.filter(p=>(p.payment||'').toLowerCase()==='cash').reduce((s,p)=>s+(parseFloat(p.total)||0),0);
+  const creditPurchases = purchases.filter(p=>(p.payment||'').toLowerCase()==='credit').reduce((s,p)=>s+(parseFloat(p.total)||0),0);
+  const sumGrid = document.getElementById('purchaseSummaryGrid');
+  if(sumGrid) sumGrid.innerHTML = `
+    <div class="sum-card"><div class="sum-label"><i class="fas fa-truck"></i> Total purchases</div><div class="sum-value">${fmt(total)}</div><div class="sum-sub">${purchases.length} entries</div></div>
+    <div class="sum-card"><div class="sum-label"><i class="fas fa-list-check"></i> Recorded daily cost</div><div class="sum-value">${fmt(totalDailyCost)}</div><div class="sum-sub">From daily entries</div></div>
+    <div class="sum-card ${Math.abs(diff)>50000?'flag-amber':'flag-green'}"><div class="sum-label"><i class="fas fa-scale-balanced"></i> Variance</div><div class="sum-value" style="color:${Math.abs(diff)>50000?'#b06d00':'#1d7a4b'};">${fmtSigned(diff)}</div><div class="sum-sub">${Math.abs(diff)>50000?'Large gap — verify':'Within tolerance'}</div></div>
+    <div class="sum-card"><div class="sum-label"><i class="fas fa-users"></i> Suppliers</div><div class="sum-value">${suppliers.length}</div><div class="sum-sub">Active this month</div></div>
+    <div class="sum-card"><div class="sum-label"><i class="fas fa-money-bill"></i> Cash vs Credit</div><div class="sum-value" style="font-size:1.1rem;">${fmt(cashPurchases)} / ${fmt(creditPurchases)}</div><div class="sum-sub">Cash / Credit</div></div>
+  `;
+  const tbody = document.getElementById('purchasesBody');
+  if(!tbody) return;
+  if(!purchases.length){
+    tbody.innerHTML = `<tr><td colspan="9" style="text-align:center;padding:2rem;color:#7b8fa0;">No purchases recorded.</td></tr>`;
+  } else {
+    tbody.innerHTML = purchases.map((p,idx)=>{
+      const ro = !canEdit ? 'readonly' : '';
+      const bg = !canEdit ? 'background:#f2f6fa;' : '';
+      return `<tr>
+        <td><input type="date" value="${p.date||''}" ${ro} onchange="updatePurchase(${idx},'date',this.value)" style="${bg}"></td>
+        <td><input type="text" value="${p.supplier||''}" ${ro} onchange="updatePurchase(${idx},'supplier',this.value)" style="${bg}"></td>
+        <td><input type="text" value="${p.category||''}" ${ro} onchange="updatePurchase(${idx},'category',this.value)" style="${bg}"></td>
+        <td><input type="number" step="0.01" value="${p.qty??''}" ${ro} onchange="updatePurchase(${idx},'qty',this.value)" style="${bg}"></td>
+        <td><input type="number" step="0.01" value="${p.unit??''}" ${ro} onchange="updatePurchase(${idx},'unit',this.value)" style="${bg}"></td>
+        <td><input type="number" step="0.01" value="${p.total??''}" ${ro} onchange="updatePurchase(${idx},'total',this.value)" style="font-weight:600;color:#0b4b2b;${bg}"></td>
+        <td><select ${ro} onchange="updatePurchase(${idx},'payment',this.value)" style="${bg}">
+          <option value="Cash" ${p.payment==='Cash'?'selected':''}>Cash</option>
+          <option value="Credit" ${p.payment==='Credit'?'selected':''}>Credit</option>
+          <option value="Mobile Money" ${p.payment==='Mobile Money'?'selected':''}>Mobile Money</option>
+          <option value="Bank" ${p.payment==='Bank'?'selected':''}>Bank</option>
+        </select></td>
+        <td><input type="text" value="${p.reference||''}" ${ro} onchange="updatePurchase(${idx},'reference',this.value)" style="${bg}"></td>
+        <td>${canEdit?`<button class="remove-btn" onclick="removePurchase(${idx})"><i class="fas fa-trash-alt"></i></button>`:''}</td>
+      </tr>`;
+    }).join('');
+  }
+  // Supplier breakdown
+  const supMap = {};
+  purchases.forEach(p=>{ const s = p.supplier||'(Unnamed)'; if(!supMap[s]) supMap[s]={total:0,count:0}; supMap[s].total += parseFloat(p.total)||0; supMap[s].count++; });
+  const supArr = Object.entries(supMap).sort((a,b)=>b[1].total-a[1].total);
+  const supBody = document.getElementById('supplierBody');
+  if(supBody) supBody.innerHTML = supArr.length ? supArr.map(([name,s])=>{
+    const pct = total ? (s.total/total*100) : 0;
+    const avg = s.count ? s.total/s.count : 0;
+    return `<tr><td><strong>${name}</strong></td><td>${fmt(s.total)}</td><td>${pct.toFixed(1)}%</td><td>${s.count}</td><td>${fmt(avg)}</td></tr>`;
+  }).join('') : `<tr><td colspan="5" style="text-align:center;padding:1.5rem;color:#7b8fa0;">No supplier data</td></tr>`;
+  // Category breakdown
+  const catMap = {};
+  purchases.forEach(p=>{ const c = p.category||'(Uncategorised)'; if(!catMap[c]) catMap[c]={total:0,count:0}; catMap[c].total += parseFloat(p.total)||0; catMap[c].count++; });
+  const catArr = Object.entries(catMap).sort((a,b)=>b[1].total-a[1].total);
+  const catBody = document.getElementById('categoryBody');
+  if(catBody) catBody.innerHTML = catArr.length ? catArr.map(([name,c])=>{
+    const pct = total ? (c.total/total*100) : 0;
+    return `<tr><td><strong>${name}</strong></td><td>${fmt(c.total)}</td><td>${pct.toFixed(1)}%</td><td>${c.count}</td></tr>`;
+  }).join('') : `<tr><td colspan="4" style="text-align:center;padding:1.5rem;color:#7b8fa0;">No category data</td></tr>`;
+}
+function updatePurchase(idx,field,value){
+  if(!hasPerm('editPurchases')) { showToast('No permission', 'error'); return; }
+  if(allMonthsData[currentMonthKey]?.closed) return;
+  const purchases = currentPurchases();
+  if(field==='qty'||field==='unit'||field==='total'){
+    purchases[idx][field] = value===''?0:parseFloat(value);
+    if((field==='qty'||field==='unit') && (purchases[idx].total===0 || purchases[idx].total===undefined)){
+      purchases[idx].total = (purchases[idx].qty||0)*(purchases[idx].unit||0);
+    }
+  } else purchases[idx][field] = value;
+  if(field==='total' && purchases[idx].supplier){
+    addLog('Edit Purchase', `${purchases[idx].supplier} on ${purchases[idx].date} → UGX ${fmt(purchases[idx].total)}`);
+  }
+  renderPurchases(); scheduleSave();
+}
+function addPurchaseRow(){
+  if(!hasPerm('editPurchases')) { showToast('No permission', 'error'); return; }
+  if(allMonthsData[currentMonthKey]?.closed){ showToast('Month is closed'); return; }
+  const purchases = currentPurchases();
+  let newDate = new Date().toISOString().split('T')[0];
+  if(purchases.length && purchases[purchases.length-1].date) newDate = purchases[purchases.length-1].date;
+  purchases.push({date:newDate,supplier:'',category:'',qty:0,unit:0,total:0,payment:'Cash',reference:''});
+  addLog('Add Purchase', `New purchase for ${newDate}`);
+  renderPurchases(); scheduleSave();
+  setTimeout(()=>{ const t = document.getElementById('purchasesBody'); if(t && t.lastElementChild) t.lastElementChild.scrollIntoView({behavior:'smooth',block:'center'}); },100);
+}
+function removePurchase(idx){
+  if(!hasPerm('editPurchases')) { showToast('No permission', 'error'); return; }
+  if(allMonthsData[currentMonthKey]?.closed){ showToast('Month is closed'); return; }
+  const p = currentPurchases()[idx];
+  currentPurchases().splice(idx,1);
+  addLog('Delete Purchase', `${p?.supplier||'—'} on ${p?.date||'—'}`);
+  renderPurchases(); scheduleSave();
+}
+
+/* ============================================================
+   CLOSURE AUDIT
+   ============================================================ */
+function computeAuditFlags(){
+  const sorted = [...weeklyClosures].sort((a,b)=>new Date(a.date)-new Date(b.date));
+  return sorted.map((row,i)=>{
+    if(i===0) return {...row,stockDelta:null,creditDelta:null,cashDelta:null,flag:'green',flagNote:'First record (baseline)'};
+    const prev = sorted[i-1];
+    const sd = row.stock - prev.stock, cd = row.credit - prev.credit, cad = row.cash - prev.cash;
+    const sp = prev.stock ? (sd/prev.stock)*100 : 0;
+    const cp = prev.credit ? (cd/prev.credit)*100 : 0;
+    const cap = prev.cash ? (cad/prev.cash)*100 : 0;
+    let flag='green', note='Normal range';
+    if(sp<-12){flag='red';note=`Stock dropped ${Math.abs(sp).toFixed(1)}%`;}
+    else if(cp<-20){flag='red';note=`Credit dropped ${Math.abs(cp).toFixed(1)}%`;}
+    else if(cap<-25){flag='red';note=`Cash dropped ${Math.abs(cap).toFixed(1)}%`;}
+    else if(cp>30){flag='red';note=`Credit jumped ${cp.toFixed(1)}%`;}
+    else if(sp<-6){flag='amber';note=`Stock dropped ${Math.abs(sp).toFixed(1)}%`;}
+    else if(cp<-10){flag='amber';note=`Credit dropped ${Math.abs(cp).toFixed(1)}%`;}
+    else if(cap<-15){flag='amber';note=`Cash dropped ${Math.abs(cap).toFixed(1)}%`;}
+    else if(cp>18){flag='amber';note=`Credit increased ${cp.toFixed(1)}%`;}
+    return {...row,stockDelta:sd,creditDelta:cd,cashDelta:cad,stockPct:sp,creditPct:cp,cashPct:cap,flag,flagNote:note};
+  });
+}
+function renderAudit(){
+  const audit = computeAuditFlags().reverse();
+  const redCount = audit.filter(a=>a.flag==='red').length;
+  const amberCount = audit.filter(a=>a.flag==='amber').length;
+  const greenCount = audit.filter(a=>a.flag==='green').length;
+  const latest = weeklyClosures.length ? [...weeklyClosures].sort((a,b)=>new Date(b.date)-new Date(a.date))[0] : null;
+  const sumEl = document.getElementById('auditSummary');
+  if(sumEl) sumEl.innerHTML = `
+    <div class="audit-card ${redCount>0?'red':'green'}"><div class="label"><i class="fas fa-flag"></i> Red flags</div><div class="value">${redCount}</div><div class="detail">Critical discrepancies</div></div>
+    <div class="audit-card ${amberCount>0?'amber':'green'}"><div class="label"><i class="fas fa-exclamation-triangle"></i> Amber warnings</div><div class="value">${amberCount}</div><div class="detail">Monitor</div></div>
+    <div class="audit-card green"><div class="label"><i class="fas fa-check-circle"></i> Normal records</div><div class="value">${greenCount}</div><div class="detail">Within range</div></div>
+    <div class="audit-card ${latest && latest.cash<500000?'amber':'green'}"><div class="label"><i class="fas fa-money-bill-wave"></i> Latest cash</div><div class="value">${latest?fmt(latest.cash):'—'}</div><div class="detail">${latest?new Date(latest.date).toLocaleDateString():'No data'}</div></div>
+  `;
+  const tbody = document.getElementById('auditBody');
+  if(!tbody) return;
+  if(!audit.length){ tbody.innerHTML = `<tr><td colspan="9" style="text-align:center;padding:2rem;color:#7b8fa0;">No weekly closure records.</td></tr>`; return; }
+  tbody.innerHTML = audit.map((row,i)=>{
+    const rowClass = row.flag==='red'?'red-flag-row':row.flag==='amber'?'amber-flag-row':'';
+    const badge = row.flag==='red'?`<span class="flag-badge red"><i class="fas fa-flag"></i> RED</span>`:row.flag==='amber'?`<span class="flag-badge amber"><i class="fas fa-exclamation-triangle"></i> AMBER</span>`:`<span class="flag-badge green"><i class="fas fa-check"></i> OK</span>`;
+    const sd = row.stockDelta!==null?`<span style="color:${row.stockDelta<0?'#b33a3a':'#1d7a4b'};font-weight:600;">${fmtSigned(row.stockDelta)}</span>`:'—';
+    const cd = row.creditDelta!==null?`<span style="color:${row.creditDelta<0?'#b33a3a':'#1d7a4b'};font-weight:600;">${fmtSigned(row.creditDelta)}</span>`:'—';
+    const cad = row.cashDelta!==null?`<span style="color:${row.cashDelta<0?'#b33a3a':'#1d7a4b'};font-weight:600;">${fmtSigned(row.cashDelta)}</span>`:'—';
+    return `<tr class="${rowClass}">
+      <td style="font-weight:600;color:#6a7f94;">${audit.length-i}</td>
+      <td>${new Date(row.date).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'})}</td>
+      <td style="font-weight:600;">${fmt(row.stock)}</td>
+      <td style="font-weight:600;">${fmt(row.credit)}</td>
+      <td style="font-weight:600;">${fmt(row.cash)}</td>
+      <td>${sd}</td><td>${cd}</td><td>${cad}</td>
+      <td>${badge} <span style="font-size:0.72rem;color:#5f7385;display:block;margin-top:0.2rem;">${row.flagNote}</span></td>
+    </tr>`;
+  }).join('');
+}
+async function addClosureEntry(){
+  if(!hasPerm('editDaily')){ showToast('No permission', 'error'); return; }
+  const date = document.getElementById('newClosureDate').value;
+  const stock = parseFloat(document.getElementById('newClosureStock').value)||0;
+  const credit = parseFloat(document.getElementById('newClosureCredit').value)||0;
+  const cash = parseFloat(document.getElementById('newClosureCash').value)||0;
+  if(!date){ showToast('Please enter a date', 'error'); return; }
+  if(stock===0&&credit===0&&cash===0){ showToast('Enter at least one value', 'error'); return; }
+  const closure = {date,stock,credit,cash};
+  weeklyClosures.push(closure);
+  weeklyClosures.sort((a,b)=>new Date(a.date)-new Date(b.date));
+  await saveClosureToFirestore(closure);
+  addLog('Add Closure', `${date} — stock ${fmt(stock)}, credit ${fmt(credit)}, cash ${fmt(cash)}`);
+  document.getElementById('newClosureDate').value='';
+  document.getElementById('newClosureStock').value='';
+  document.getElementById('newClosureCredit').value='';
+  document.getElementById('newClosureCash').value='';
+  renderAudit(); showToast('Closure entry added', 'success');
+}
+
+/* ============================================================
+   FULL AUDIT REPORT (same checks as before)
+   ============================================================ */
+function openAuditReport(){
+  const monthKey = currentMonthKey;
+  const data = allMonthsData[monthKey];
+  if(!data){ showToast('No data', 'error'); return; }
+  const monthName = monthLabel(monthKey);
+  document.getElementById('auditReportMonth').textContent = monthName;
+  document.getElementById('auditReportDate').textContent = `Generated: ${new Date().toLocaleString()} · Location: ${currentUser?.locationName || currentLocationId} · Entries: ${data.entries.length}`;
+  const body = document.getElementById('auditReportBody');
+  const issues = { red:[], amber:[], green:[] };
+  const entries = data.entries||[];
+  const purchases = data.purchases||[];
+  const exp = data.expenses||defaultExpenses();
+  const totalSales = entries.reduce((s,r)=>s+(parseFloat(r.sales)||0),0);
+  const totalCost = entries.reduce((s,r)=>s+(parseFloat(r.cost)||0),0);
+  const totalDailyExp = entries.reduce((s,r)=>s+(parseFloat(r.expenses)||0),0);
+  const gross = totalSales-totalCost-totalDailyExp;
+  const monthlyExp = totalMonthlyExpenses(exp);
+  const net = gross-monthlyExp;
+  const totalPurchasesAmt = purchases.reduce((s,p)=>s+(parseFloat(p.total)||0),0);
+
+  // Stock flow
+  const closuresInMonth = weeklyClosures.filter(w=>w.date.startsWith(monthKey)).sort((a,b)=>new Date(a.date)-new Date(b.date));
+  if(closuresInMonth.length > 0){
+    const openingStock = closuresInMonth.length > 1 ? closuresInMonth[0].stock : (data.openingStock || closuresInMonth[0].stock);
+    const closingStock = closuresInMonth[closuresInMonth.length-1].stock;
+    const expectedClosing = openingStock + totalPurchasesAmt - totalCost;
+    const stockGap = closingStock - expectedClosing;
+    const stockGapPct = expectedClosing ? (stockGap/Math.abs(expectedClosing))*100 : 0;
+    window._stockRecon = { openingStock, closingStock, expectedClosing, stockGap, stockGapPct, purchases: totalPurchasesAmt, cost: totalCost };
+    if(Math.abs(stockGap) > 500000){
+      issues.red.push({ title:'Stock Flow Mismatch — Possible Leakage', desc:`Opening <strong>${fmt(openingStock)}</strong> + Purchases <strong>${fmt(totalPurchasesAmt)}</strong> − Cost <strong>${fmt(totalCost)}</strong> = Expected <strong>${fmt(expectedClosing)}</strong>. Actual closing = <strong>${fmt(closingStock)}</strong>. Gap <strong>UGX ${fmtSigned(stockGap)}</strong> (${stockGapPct.toFixed(1)}%).` });
+    } else if(Math.abs(stockGap) > 200000){
+      issues.amber.push({ title:'Stock Flow Variance', desc:`Closing stock differs by <strong>UGX ${fmtSigned(stockGap)}</strong> (${stockGapPct.toFixed(1)}%).` });
+    } else {
+      issues.green.push({ title:'Stock Flow Reconciliation', desc:`Closing stock matches within <strong>UGX ${fmt(Math.abs(stockGap))}</strong>.` });
+    }
+  }
+
+  // Cash flow
+  if(closuresInMonth.length > 0){
+    const openingCash = closuresInMonth[0].cash;
+    const closingCash = closuresInMonth[closuresInMonth.length-1].cash;
+    const cashSales = totalSales;
+    const cashPurchases = purchases.filter(p=>(p.payment||'').toLowerCase()==='cash').reduce((s,p)=>s+(parseFloat(p.total)||0),0);
+    const expectedCash = openingCash + cashSales - cashPurchases - totalDailyExp - monthlyExp;
+    const cashGap = closingCash - expectedCash;
+    const cashGapPct = expectedCash ? (cashGap/Math.abs(expectedCash))*100 : 0;
+    window._cashRecon = { openingCash, closingCash, expectedCash, cashGap, cashGapPct, cashSales, cashPurchases, expenses: totalDailyExp + monthlyExp };
+    if(Math.abs(cashGap) > 500000){
+      issues.red.push({ title:'Cash Flow Mismatch — Possible Missing Cash', desc:`Expected <strong>${fmt(expectedCash)}</strong>, actual <strong>${fmt(closingCash)}</strong>. Gap <strong>UGX ${fmtSigned(cashGap)}</strong> (${cashGapPct.toFixed(1)}%).` });
+    } else if(Math.abs(cashGap) > 200000){
+      issues.amber.push({ title:'Cash Flow Variance', desc:`Expected vs actual diff <strong>UGX ${fmtSigned(cashGap)}</strong>.` });
+    } else {
+      issues.green.push({ title:'Cash Flow Reconciliation', desc:`Cash matches within <strong>UGX ${fmt(Math.abs(cashGap))}</strong>.` });
+    }
+  }
+
+  // Purchase vs cost
+  const pvcDiff = totalPurchasesAmt - totalCost;
+  const pvcPct = totalCost ? (pvcDiff/totalCost)*100 : 0;
+  if(Math.abs(pvcDiff) > 100000){
+    issues.red.push({ title:'Purchase / Cost Mismatch', desc:`Purchases <strong>${fmt(totalPurchasesAmt)}</strong> vs cost <strong>${fmt(totalCost)}</strong> = <strong>UGX ${fmtSigned(pvcDiff)}</strong> (${pvcPct.toFixed(1)}%).` });
+  } else if(Math.abs(pvcDiff) > 30000){
+    issues.amber.push({ title:'Purchase / Cost Variance', desc:`Variance <strong>UGX ${fmtSigned(pvcDiff)}</strong>.` });
+  } else {
+    issues.green.push({ title:'Purchase / Cost Reconciliation', desc:`Align within UGX ${fmt(Math.abs(pvcDiff))}.` });
+  }
+
+  // Margin
+  const marginPct = totalSales ? (gross/totalSales*100) : 0;
+  if(marginPct < 15) issues.red.push({ title:'Low Gross Margin', desc:`Only <strong>${marginPct.toFixed(1)}%</strong>.` });
+  else if(marginPct < 20) issues.amber.push({ title:'Moderate Gross Margin', desc:`<strong>${marginPct.toFixed(1)}%</strong>.` });
+  else issues.green.push({ title:'Gross Margin', desc:`<strong>${marginPct.toFixed(1)}%</strong> — healthy.` });
+
+  if(net < 0) issues.red.push({ title:'Negative Net Profit', desc:`<strong>UGX ${fmt(net)}</strong>.` });
+  else if(net < 500000) issues.amber.push({ title:'Low Net Profit', desc:`<strong>UGX ${fmt(net)}</strong>.` });
+  else issues.green.push({ title:'Net Profit', desc:`<strong>UGX ${fmt(net)}</strong>.` });
+
+  // Duplicates
+  const duplicates = [];
+  for(let i=0;i<purchases.length;i++){
+    for(let j=i+1;j<purchases.length;j++){
+      const a = purchases[i], b = purchases[j];
+      if(!a.supplier || !b.supplier) continue;
+      if(a.supplier.toLowerCase()===b.supplier.toLowerCase() && Math.abs((parseFloat(a.total)||0)-(parseFloat(b.total)||0))<1){
+        const d1 = new Date(a.date), d2 = new Date(b.date);
+        const diffDays = Math.abs((d1-d2)/(1000*60*60*24));
+        if(diffDays <= 3) duplicates.push(`${a.supplier} on ${a.date} & ${b.date}`);
+      }
+    }
+  }
+  if(duplicates.length){
+    issues.red.push({ title:'Possible Duplicate Purchases', desc:`<strong>${duplicates.length}</strong> duplicates found.` });
+  } else issues.green.push({ title:'Duplicate Check', desc:'No duplicates within 3 days.' });
+
+  // Round numbers
+  const roundPurchases = purchases.filter(p=>{ const t = parseFloat(p.total)||0; return t >= 100000 && t % 100000 === 0; });
+  if(roundPurchases.length >= 3){
+    issues.amber.push({ title:'Round-Number Purchases', desc:`<strong>${roundPurchases.length}</strong> exact round amounts.` });
+  }
+
+  // Missing refs
+  const noRef = purchases.filter(p=>!p.reference).length;
+  if(noRef > 0) issues.amber.push({ title:'Missing References', desc:`<strong>${noRef}</strong> purchases without invoice reference.` });
+
+  // Missing days
+  const daysInMonth = new Date(monthKey.split('-')[0], monthKey.split('-')[1], 0).getDate();
+  const datesRecorded = new Set(entries.filter(e=>(parseFloat(e.sales)||0)>0 || (parseFloat(e.cost)||0)>0).map(e=>e.date));
+  const missingDays = daysInMonth - datesRecorded.size;
+  if(missingDays > 0) issues.amber.push({ title:'Missing Daily Entries', desc:`<strong>${missingDays}</strong> day(s) without activity.` });
+
+  // Build UI
+  let verdictClass, verdictIcon, verdictTitle, verdictSub;
+  if(issues.red.length > 0){
+    verdictClass='bad'; verdictIcon='fa-circle-exclamation';
+    verdictTitle='Action Required';
+    verdictSub=`${issues.red.length} critical red flag(s) detected.`;
+  } else if(issues.amber.length > 0){
+    verdictClass='warn'; verdictIcon='fa-triangle-exclamation';
+    verdictTitle='Review Recommended';
+    verdictSub=`${issues.amber.length} warning(s) found.`;
+  } else {
+    verdictClass='good'; verdictIcon='fa-circle-check';
+    verdictTitle='Clean Audit';
+    verdictSub='No red flags detected.';
+  }
+  let reconHtml = '';
+  if(window._stockRecon){
+    const r = window._stockRecon;
+    reconHtml += `<div class="report-section"><div class="report-section-header"><i class="fas fa-boxes-stacked"></i> Stock Flow</div><div class="report-section-body"><div class="recon-box">
+      <div class="row"><span class="lbl">Opening Stock</span><span>${fmt(r.openingStock)}</span></div>
+      <div class="row"><span class="lbl">+ Purchases</span><span>${fmt(r.purchases)}</span></div>
+      <div class="row"><span class="lbl">− Recorded Cost</span><span>−${fmt(r.cost)}</span></div>
+      <div class="row"><span class="lbl">= Expected Closing</span><span>${fmt(r.expectedClosing)}</span></div>
+      <div class="row"><span class="lbl">Actual Closing</span><span>${fmt(r.closingStock)}</span></div>
+      <div class="row"><span class="lbl">Unaccounted</span><span style="color:${Math.abs(r.stockGap)>500000?'#b33a3a':'#1d7a4b'};">${fmtSigned(r.stockGap)} (${r.stockGapPct.toFixed(1)}%)</span></div>
+    </div></div></div>`;
+  }
+  if(window._cashRecon){
+    const r = window._cashRecon;
+    reconHtml += `<div class="report-section"><div class="report-section-header"><i class="fas fa-money-bill-wave"></i> Cash Flow</div><div class="report-section-body"><div class="recon-box">
+      <div class="row"><span class="lbl">Opening Cash</span><span>${fmt(r.openingCash)}</span></div>
+      <div class="row"><span class="lbl">+ Sales</span><span>${fmt(r.cashSales)}</span></div>
+      <div class="row"><span class="lbl">− Cash Purchases</span><span>−${fmt(r.cashPurchases)}</span></div>
+      <div class="row"><span class="lbl">− Expenses</span><span>−${fmt(r.expenses)}</span></div>
+      <div class="row"><span class="lbl">= Expected</span><span>${fmt(r.expectedCash)}</span></div>
+      <div class="row"><span class="lbl">Actual</span><span>${fmt(r.closingCash)}</span></div>
+      <div class="row"><span class="lbl">Unaccounted</span><span style="color:${Math.abs(r.cashGap)>500000?'#b33a3a':'#1d7a4b'};">${fmtSigned(r.cashGap)} (${r.cashGapPct.toFixed(1)}%)</span></div>
+    </div></div></div>`;
+  }
+  const scoreGrid = `<div class="score-grid">
+    <div class="score-item"><div class="num ${issues.red.length>0?'red':'green'}">${issues.red.length}</div><div class="lbl">Red Flags</div></div>
+    <div class="score-item"><div class="num ${issues.amber.length>0?'amber':'green'}">${issues.amber.length}</div><div class="lbl">Warnings</div></div>
+    <div class="score-item"><div class="num green">${issues.green.length}</div><div class="lbl">Passed</div></div>
+    <div class="score-item"><div class="num">${fmt(totalSales)}</div><div class="lbl">Sales</div></div>
+    <div class="score-item"><div class="num ${net>=0?'green':'red'}">${fmt(net)}</div><div class="lbl">Net Profit</div></div>
+  </div>`;
+  const verdictBanner = `<div class="verdict-banner ${verdictClass}"><i class="fas ${verdictIcon} verdict-icon"></i><div class="verdict-text"><div class="title">${verdictTitle}</div><div class="sub">${verdictSub}</div></div></div>`;
+  let issuesHtml = '';
+  if(issues.red.length) issuesHtml += `<div class="report-section"><div class="report-section-header" style="background:#fdeeee;color:#b33a3a;"><i class="fas fa-flag" style="color:#b33a3a;"></i> Red Flags (${issues.red.length})</div><div class="report-section-body">${issues.red.map(i=>`<div class="report-item"><div class="icon red"><i class="fas fa-exclamation"></i></div><div class="content"><div class="title">${i.title}</div><div class="desc">${i.desc}</div></div></div>`).join('')}</div></div>`;
+  if(issues.amber.length) issuesHtml += `<div class="report-section"><div class="report-section-header" style="background:#fff8ec;color:#b06d00;"><i class="fas fa-triangle-exclamation" style="color:#b06d00;"></i> Warnings (${issues.amber.length})</div><div class="report-section-body">${issues.amber.map(i=>`<div class="report-item"><div class="icon amber"><i class="fas fa-exclamation-triangle"></i></div><div class="content"><div class="title">${i.title}</div><div class="desc">${i.desc}</div></div></div>`).join('')}</div></div>`;
+  if(issues.green.length) issuesHtml += `<div class="report-section"><div class="report-section-header" style="background:#e9f5ef;color:#1d6b4f;"><i class="fas fa-check-circle" style="color:#1d6b4f;"></i> Passed Checks (${issues.green.length})</div><div class="report-section-body">${issues.green.map(i=>`<div class="report-item"><div class="icon green"><i class="fas fa-check"></i></div><div class="content"><div class="title">${i.title}</div><div class="desc">${i.desc}</div></div></div>`).join('')}</div></div>`;
+  body.innerHTML = verdictBanner + scoreGrid + reconHtml + issuesHtml;
+  document.getElementById('auditModal').classList.add('active');
+}
+function closeAuditReport(){ document.getElementById('auditModal').classList.remove('active'); }
+document.getElementById('auditModal').addEventListener('click', function(e){ if(e.target===this) closeAuditReport(); });
+document.getElementById('pwdModal').addEventListener('click', function(e){ if(e.target===this) closeChangePassword(); });
+document.getElementById('userModal').addEventListener('click', function(e){ if(e.target===this) closeUserModal(); });
+
+/* ============================================================
+   EXPORTS (Excel / PDF)
+   ============================================================ */
+function downloadExcel(){
+  const wb = XLSX.utils.book_new();
+  const entries = currentEntries();
+  const exp = currentExpenses();
+  const purchases = currentPurchases();
+  if(entries.length){
+    const dailyRows = entries.map((r,i)=>({'#':i+1,'Day':r.day||'','Date':r.date||'','Total Cost':parseFloat(r.cost)||0,'Total Sales':parseFloat(r.sales)||0,'Expenses':parseFloat(r.expenses)||0,'Gross Profit':grossProfit(r)}));
+    const ts = entries.reduce((s,r)=>s+(parseFloat(r.sales)||0),0);
+    const tc = entries.reduce((s,r)=>s+(parseFloat(r.cost)||0),0);
+    const te = entries.reduce((s,r)=>s+(parseFloat(r.expenses)||0),0);
+    dailyRows.push({'#':'','Day':'TOTAL','Date':'','Total Cost':tc,'Total Sales':ts,'Expenses':te,'Gross Profit':ts-tc-te});
+    const wsDaily = XLSX.utils.json_to_sheet(dailyRows);
+    XLSX.utils.book_append_sheet(wb, wsDaily, 'Daily Data');
+    const me = totalMonthlyExpenses(exp);
+    const summaryRows = [
+      ['Metric','Value (UGX)'],['Total sales',ts],['Total cost',tc],['Daily expenses',te],
+      ['Gross profit',ts-tc-te],['Salary',exp.salary||0],['Rent',exp.rent||0],
+      ['Utilities',exp.utilities||0],['Transport',exp.transport||0],['Other',exp.other||0],
+      ['Total monthly expenses',me],['Net profit',ts-tc-te-me],
+    ];
+    XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(summaryRows), 'Summary');
+  }
+  if(purchases.length){
+    const pRows = purchases.map(p=>({'Date':p.date||'','Supplier':p.supplier||'','Category':p.category||'','Quantity':parseFloat(p.qty)||0,'Unit Cost':parseFloat(p.unit)||0,'Total':parseFloat(p.total)||0,'Payment':p.payment||'','Reference':p.reference||''}));
+    XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(pRows), 'Purchases');
+  }
+  const audit = computeAuditFlags();
+  if(audit.length){
+    const auditRows = audit.map(r=>({'Date':r.date,'Total Stock':r.stock,'Total Credit':r.credit,'Cash at Hand':r.cash,'Stock Δ':r.stockDelta,'Credit Δ':r.creditDelta,'Cash Δ':r.cashDelta,'Flag':r.flag.toUpperCase(),'Note':r.flagNote}));
+    XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(auditRows), 'Closure Audit');
+  }
+  if(auditLog.length){
+    const logRows = auditLog.map(l=>({'Time':new Date(l.time).toLocaleString(),'User':l.user||'','Action':l.action,'Details':l.details,'Month':l.month}));
+    XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(logRows), 'Audit Log');
+  }
+  XLSX.writeFile(wb, `BrightMesh_${currentLocationId || 'admin'}_${currentMonthKey}.xlsx`);
+  showToast('Excel downloaded', 'success');
+}
+
+function downloadPDF(){
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({orientation:'landscape',unit:'mm',format:'a4'});
+  const monthName = monthLabel(currentMonthKey);
+  doc.setFontSize(18); doc.setTextColor(11,43,68);
+  doc.text(`Bright Mesh · ${monthName}`, 14, 18);
+  doc.setFontSize(10); doc.setTextColor(90,110,130);
+  doc.text(`Location: ${currentUser?.locationName || currentLocationId} · Generated: ${new Date().toLocaleString()}`, 14, 26);
+  const entries = currentEntries();
+  const exp = currentExpenses();
+  const purchases = currentPurchases();
+  if(entries.length){
+    const ts = entries.reduce((s,r)=>s+(parseFloat(r.sales)||0),0);
+    const tc = entries.reduce((s,r)=>s+(parseFloat(r.cost)||0),0);
+    const te = entries.reduce((s,r)=>s+(parseFloat(r.expenses)||0),0);
+    const me = totalMonthlyExpenses(exp);
+    doc.autoTable({
+      startY:32,
+      head:[['Monthly Metric','Value (UGX)']],
+      body:[['Total sales',fmt(ts)],['Total cost',fmt(tc)],['Daily expenses',fmt(te)],['Gross profit',fmt(ts-tc-te)],['Total monthly expenses',fmt(me)],['Net profit',fmt(ts-tc-te-me)],['Total purchases',fmt(purchases.reduce((s,p)=>s+(parseFloat(p.total)||0),0))]],
+      theme:'striped', headStyles:{fillColor:[29,122,75],textColor:255,fontSize:9}, bodyStyles:{fontSize:8.5},
+      columnStyles:{0:{fontStyle:'bold',cellWidth:60},1:{halign:'right'}}, margin:{left:14,right:14}
+    });
+  }
+  if(purchases.length){
+    const pBody = purchases.map(p=>[p.date||'',p.supplier||'',p.category||'',fmt(parseFloat(p.qty)||0),fmt(parseFloat(p.unit)||0),fmt(parseFloat(p.total)||0),p.payment||'',p.reference||'']);
+    doc.autoTable({
+      startY:doc.lastAutoTable.finalY+10,
+      head:[['Date','Supplier','Category','Qty','Unit','Total','Payment','Ref']],
+      body:pBody, theme:'grid',
+      headStyles:{fillColor:[11,43,68],textColor:255,fontSize:8}, bodyStyles:{fontSize:7.5},
+      columnStyles:{3:{halign:'right'},4:{halign:'right'},5:{halign:'right',fontStyle:'bold'}},
+      margin:{left:14,right:14}
+    });
+  }
+  const audit = computeAuditFlags().reverse();
+  if(audit.length){
+    const ab = audit.map(r=>[new Date(r.date).toLocaleDateString(),fmt(r.stock),fmt(r.credit),fmt(r.cash),r.stockDelta!==null?fmtSigned(r.stockDelta):'—',r.creditDelta!==null?fmtSigned(r.creditDelta):'—',r.cashDelta!==null?fmtSigned(r.cashDelta):'—',r.flag.toUpperCase()]);
+    doc.autoTable({
+      startY:doc.lastAutoTable?doc.lastAutoTable.finalY+10:32,
+      head:[['Date','Stock','Credit','Cash','Stock Δ','Credit Δ','Cash Δ','Flag']],
+      body:ab, theme:'grid',
+      headStyles:{fillColor:[11,43,68],textColor:255,fontSize:8}, bodyStyles:{fontSize:7.5},
+      margin:{left:14,right:14},
+      didParseCell:function(d){
+        const idx = d.row.index;
+        if(idx<audit.length){
+          const f = audit[idx].flag;
+          if(f==='red'){ d.cell.styles.fillColor=[254,245,245]; d.cell.styles.textColor=[179,58,58]; }
+          else if(f==='amber'){ d.cell.styles.fillColor=[255,251,240]; d.cell.styles.textColor=[176,109,0]; }
+        }
+      }
+    });
+  }
+  doc.save(`BrightMesh_${currentLocationId || 'admin'}_${currentMonthKey}.pdf`);
+  showToast('PDF downloaded', 'success');
+}
+
+/* ============================================================
+   INITIAL PERMISSION GRID
+   ============================================================ */
+renderPermissionGrid('permissionGrid', DEFAULT_PERMISSIONS.manager);
+
+/* Enter key on login */
+document.getElementById('loginUsername').addEventListener('keypress', e=>{ if(e.key==='Enter') document.getElementById('loginPassword').focus(); });
+document.getElementById('loginPassword').addEventListener('keypress', e=>{ if(e.key==='Enter') doLogin(); });
+
+/* ============================================================
+   SELF-SEED ON FIRST LOAD (optional, runs once per browser if admin)
+   Creates the sample wamombl1 user and seed data if not present.
+   Commented out by default — enable if you want auto-seed.
+   ============================================================ */
+/*
+async function autoSeed() {
+  try {
+    const userDoc = await db.collection('users').doc('wamombl1').get();
+    if(userDoc.exists) return; // already seeded
+    // Create location
+    await db.collection('locations').doc('wamombl1').set({
+      name: 'Wamo Mbale 1', code: 'wamombl1', createdAt: new Date().toISOString()
+    });
+    // Create user
+    await db.collection('users').doc('wamombl1').set({
+      username: 'wamombl1', fullName: 'Ahmed', password: 'wamo123@',
+      locationId: 'wamombl1', role: 'manager',
+      permissions: DEFAULT_PERMISSIONS.manager,
+      status: 'active', createdAt: new Date().toISOString()
+    });
+    console.log('Auto-seeded sample user wamombl1');
+  } catch(e) { console.error('Auto-seed failed', e); }
+}
+*/
+</script>
+</body>
+</html>
