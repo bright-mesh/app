@@ -204,6 +204,20 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
 .feature-icon{width:52px;height:52px;border-radius:14px;background:rgba(74,222,128,0.15);color:#4ade80;display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin-bottom:1.2rem;}
 .feature-card h3{font-size:1.15rem;font-weight:700;margin-bottom:0.6rem;}
 .feature-card p{color:rgba(255,255,255,0.65);font-size:0.9rem;line-height:1.6;}
+/* FAQ */
+.landing-faq{position:relative;z-index:2;padding:5rem 3rem;background:rgba(0,0,0,0.1);}
+.landing-faq-inner{max-width:900px;margin:0 auto;}
+.faq-header{text-align:center;margin-bottom:3rem;}
+.faq-header h2{font-size:2.5rem;font-weight:800;margin-bottom:0.8rem;}
+.faq-header p{color:rgba(255,255,255,0.7);font-size:1.05rem;}
+.faq-item{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:16px;margin-bottom:0.9rem;overflow:hidden;transition:0.2s;}
+.faq-item:hover{background:rgba(255,255,255,0.08);border-color:rgba(74,222,128,0.3);}
+.faq-question{padding:1.2rem 1.5rem;font-weight:600;font-size:1rem;color:white;display:flex;justify-content:space-between;align-items:center;cursor:pointer;gap:1rem;user-select:none;}
+.faq-question .icon{color:#4ade80;font-size:0.9rem;transition:transform 0.25s;flex-shrink:0;}
+.faq-item.open .faq-question .icon{transform:rotate(180deg);}
+.faq-answer{max-height:0;overflow:hidden;transition:max-height 0.3s ease;color:rgba(255,255,255,0.75);font-size:0.92rem;line-height:1.65;}
+.faq-answer-inner{padding:0 1.5rem 1.3rem;}
+.faq-answer strong{color:#4ade80;}
 .landing-cta{position:relative;z-index:2;padding:5rem 3rem;text-align:center;}
 .landing-cta h2{font-size:2.2rem;font-weight:800;margin-bottom:1rem;}
 .landing-cta p{color:rgba(255,255,255,0.7);font-size:1.05rem;margin-bottom:2rem;}
@@ -293,6 +307,8 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
   .landing-nav-links{display:none;}
   .landing-features{padding:3rem 1.5rem;}
   .features-header h2{font-size:1.8rem;}
+  .landing-faq{padding:3rem 1.5rem;}
+  .faq-header h2{font-size:1.8rem;}
   .landing-cta{padding:3rem 1.5rem;}
   .landing-cta h2{font-size:1.6rem;}
 }
@@ -307,6 +323,7 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
     <div class="landing-logo"><i class="fas fa-cubes"></i> Bright Mesh</div>
     <div class="landing-nav-links">
       <a onclick="document.getElementById('features').scrollIntoView({behavior:'smooth'})">Features</a>
+      <a onclick="document.getElementById('faq').scrollIntoView({behavior:'smooth'})">FAQ</a>
       <a onclick="document.getElementById('signin-section').scrollIntoView({behavior:'smooth'})">Sign in</a>
       <a onclick="openContactModal()">Contact us</a>
     </div>
@@ -352,6 +369,66 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
         <div class="feature-card"><div class="feature-icon"><i class="fas fa-truck-fast"></i></div><h3>Purchase Tracking</h3><p>Record each purchase with supplier, category, quantity, payment mode — and auto-flag anomalies.</p></div>
         <div class="feature-card"><div class="feature-icon"><i class="fas fa-file-export"></i></div><h3>Excel &amp; PDF Export</h3><p>Download detailed reports with one click. Perfect for accountants, auditors, and tax season.</p></div>
         <div class="feature-card"><div class="feature-icon"><i class="fas fa-cloud"></i></div><h3>Cloud Sync</h3><p>Powered by Firebase. Every entry is synced in real-time across all devices — safe and backed up.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="landing-faq" id="faq">
+    <div class="landing-faq-inner">
+      <div class="faq-header">
+        <h2>Frequently Asked Questions</h2>
+        <p>Everything you need to know about Bright Mesh.</p>
+      </div>
+
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-question">What is Bright Mesh?<i class="fas fa-chevron-down icon"></i></div>
+        <div class="faq-answer"><div class="faq-answer-inner">Bright Mesh is a multi-location audit platform for grocery and retail businesses. It lets you track daily sales, purchases, cash flow, expenses and stock — and automatically flags leakages, anomalies and red flags so you can act before money disappears.</div></div>
+      </div>
+
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-question">How do I get started?<i class="fas fa-chevron-down icon"></i></div>
+        <div class="faq-answer"><div class="faq-answer-inner">Contact your administrator to create a location and user account for you. Once you have a username and password, click <strong>Sign in</strong> at the top of the page, enter your details, and you'll land directly on your dashboard.</div></div>
+      </div>
+
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-question">Who can create new users?<i class="fas fa-chevron-down icon"></i></div>
+        <div class="faq-answer"><div class="faq-answer-inner">There are three ways users get created:<br><br><strong>1.</strong> The Admin creates locations and their first manager.<br><strong>2.</strong> Location managers can create additional users (Accountants, Cashiers) for their own location using the <strong>Team Management</strong> tab.<br><strong>3.</strong> The Admin can view and edit every user, at every location.</div></div>
+      </div>
+
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-question">What's the difference between Manager, Accountant and Cashier?<i class="fas fa-chevron-down icon"></i></div>
+        <div class="faq-answer"><div class="faq-answer-inner"><strong>Manager</strong> — full control of the location, including creating users and closing months.<br><br><strong>Accountant</strong> — can edit daily entries, purchases and expenses, but cannot close a month or manage users.<br><br><strong>Cashier</strong> — view-only access. Cannot edit any data or see the audit log.</div></div>
+      </div>
+
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-question">What are "red flags" and how do they work?<i class="fas fa-chevron-down icon"></i></div>
+        <div class="faq-answer"><div class="faq-answer-inner">Red flags are automatic warnings the system raises when it detects suspicious patterns — like stock dropping more than 12% between closures, cash dropping more than 25%, duplicate purchases within 3 days, or exact round-number purchase amounts (a sign of fabricated invoices). The audit report sorts them into Red (critical), Amber (monitor), and Green (passed).</div></div>
+      </div>
+
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-question">Is my data safe?<i class="fas fa-chevron-down icon"></i></div>
+        <div class="faq-answer"><div class="faq-answer-inner">Yes. All data is stored securely in Google Firebase (Firestore) — the same infrastructure trusted by thousands of businesses worldwide. Every entry is backed up in real time. Your login credentials and location data are never shared with other businesses on the platform.</div></div>
+      </div>
+
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-question">Can I export my data?<i class="fas fa-chevron-down icon"></i></div>
+        <div class="faq-answer"><div class="faq-answer-inner">Absolutely. From your dashboard, click <strong>Excel</strong> to download a multi-sheet spreadsheet with daily data, expenses, purchases and audit closures — or <strong>PDF</strong> for a formatted report you can send to an accountant or auditor.</div></div>
+      </div>
+
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-question">Will I be logged out if I refresh the page?<i class="fas fa-chevron-down icon"></i></div>
+        <div class="faq-answer"><div class="faq-answer-inner">No. Your session is remembered for the duration of your browser tab. You can safely refresh the page or navigate away and return without re-entering your password. If you close the browser tab, you will need to sign in again for security.</div></div>
+      </div>
+
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-question">Can I change my password?<i class="fas fa-chevron-down icon"></i></div>
+        <div class="faq-answer"><div class="faq-answer-inner">Yes. Once logged in, click <strong>Change Password</strong> in the top toolbar. You'll be asked for your current password and your new one. Choose something at least 6 characters long.</div></div>
+      </div>
+
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-question">Is Bright Mesh free?<i class="fas fa-chevron-down icon"></i></div>
+        <div class="faq-answer"><div class="faq-answer-inner">Yes — Bright Mesh is free to use. There are no subscription fees, no per-location charges, and no limits on the number of entries you can record. Reach out via the <strong>Contact us</strong> form to get started.</div></div>
       </div>
     </div>
   </section>
@@ -417,13 +494,12 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
     </div>
   </div>
 
-  <!-- ✅ Team tab NO LONGER has 'hidden' class hardcoded. JS controls visibility. -->
   <div class="tab-nav" id="userTabNav">
     <button class="tab-btn active" data-tab="daily" onclick="switchTab('daily')"><i class="fas fa-calendar-day"></i> Daily Performance</button>
     <button class="tab-btn" data-tab="purchases" onclick="switchTab('purchases')"><i class="fas fa-truck"></i> Daily Purchases</button>
     <button class="tab-btn" data-tab="audit" onclick="switchTab('audit')"><i class="fas fa-shield-halved"></i> Closure Audit</button>
     <button class="tab-btn" data-tab="log" onclick="switchTab('log')"><i class="fas fa-history"></i> Audit Log</button>
-    <button class="tab-btn" data-tab="team" id="teamTabBtn" onclick="switchTab('team')"><i class="fas fa-users-gear"></i> Team Management</button>
+    <button class="tab-btn hidden" data-tab="team" id="teamTabBtn" onclick="switchTab('team')"><i class="fas fa-users-gear"></i> Team Management</button>
   </div>
 
   <div class="tab-panel active" id="tab-daily">
@@ -743,6 +819,8 @@ const DEFAULT_PERMISSIONS = {
   cashier:    { view:true, editDaily:false, editPurchases:false, editExpenses:false, closeMonth:false, viewAudit:false, viewLog:false, manageUsers:false }
 };
 
+const SESSION_KEY = 'brightmesh_session_v1';
+
 /* STATE */
 let allMonthsData = {}, currentMonthKey = '', weeklyClosures = [], auditLog = [];
 let saveTimeout = null, activeTab = 'daily', activeAdminTab = 'overview';
@@ -778,12 +856,70 @@ function fmtSigned(n){if(n===undefined||n===null||isNaN(n))return '—';const a=
 function monthLabel(key){return new Date(key+'-01').toLocaleString('en',{month:'long',year:'numeric'});}
 function shortMonth(key){return new Date(key+'-01').toLocaleString('en',{month:'short',year:'numeric'});}
 
-/* ✅ Permission check */
+/* ✅ FIXED: merge role defaults OVER saved permissions. Missing keys fall back to role defaults. */
 function hasPerm(perm){
   if(!currentUser) return false;
   if(currentUser.role === 'admin' || currentUser.role === 'superadmin') return true;
-  const perms = currentUser.permissions || DEFAULT_PERMISSIONS[currentUser.role] || DEFAULT_PERMISSIONS.cashier;
-  return !!perms[perm];
+  const roleDefaults = DEFAULT_PERMISSIONS[currentUser.role] || DEFAULT_PERMISSIONS.cashier;
+  const saved = currentUser.permissions || {};
+  // Role defaults first, then saved values override (so if saved says false, it stays false)
+  const merged = { ...roleDefaults, ...saved };
+  // manageUsers special case: managers always have it unless saved explicitly says false
+  if(perm === 'manageUsers' && currentUser.role === 'manager' && saved.manageUsers !== false) return true;
+  return !!merged[perm];
+}
+
+/* ✅ SESSION PERSISTENCE */
+function saveSession(){
+  if(!currentUser) { sessionStorage.removeItem(SESSION_KEY); return; }
+  try {
+    sessionStorage.setItem(SESSION_KEY, JSON.stringify({
+      username: currentUser.username,
+      locationId: currentLocationId,
+      isAdmin: currentUser.role === 'admin' || currentUser.role === 'superadmin'
+    }));
+  } catch(e) {}
+}
+function loadSession(){
+  try {
+    const raw = sessionStorage.getItem(SESSION_KEY);
+    if(!raw) return null;
+    return JSON.parse(raw);
+  } catch(e) { return null; }
+}
+function clearSession(){
+  try { sessionStorage.removeItem(SESSION_KEY); } catch(e) {}
+}
+
+/* ✅ Restore session on page load */
+async function restoreSession(){
+  const s = loadSession();
+  if(!s || !firebaseReady) return false;
+  try {
+    if(s.isAdmin) {
+      currentUser = { username: 'admin', fullName: 'Administrator', role: 'admin', permissions: DEFAULT_PERMISSIONS.manager };
+      currentLocationId = null;
+      await showAdminDashboard();
+      return true;
+    }
+    const userDoc = await db.collection('users').doc(s.username).get();
+    if(!userDoc.exists) { clearSession(); return false; }
+    const u = userDoc.data();
+    if(u.status === 'suspended') { clearSession(); return false; }
+    const locDoc = await db.collection('locations').doc(u.locationId).get();
+    const locData = locDoc.exists ? locDoc.data() : { name: u.locationId };
+    const userRole = u.role || 'cashier';
+    const userPerms = u.permissions || {};
+    currentUser = { username: s.username, fullName: u.fullName || s.username, locationId: u.locationId, locationName: locData.name || u.locationId, role: userRole, permissions: userPerms };
+    currentLocationId = u.locationId;
+    await showUserDashboard();
+    console.log('[Session] Restored for', s.username);
+    return true;
+  } catch(e) {
+    console.error('[Session] Restore failed', e);
+    clearSession();
+    return false;
+  }
 }
 
 function showToast(msg, type){ const t = document.getElementById('toast'); t.className = 'toast' + (type ? ' ' + type : ''); document.getElementById('toastMsg').textContent = msg; t.classList.add('show'); clearTimeout(t._timer); t._timer = setTimeout(()=>t.classList.remove('show'), 2600); }
@@ -797,18 +933,17 @@ function showSaveStatus(status, msg, target){
   else { el.classList.add('error'); el.querySelector('i').className='fas fa-exclamation-triangle'; txt.textContent = msg || 'Save failed'; }
 }
 
-/* ✅ BULLETPROOF TAB VISIBILITY: uses inline style ONLY, no CSS class dependency */
+/* ✅ Tab visibility */
 function updateTabVisibility(){
   const teamBtn = document.getElementById('teamTabBtn');
-  if(!teamBtn) { console.warn('[TabVisibility] teamTabBtn not found'); return; }
+  if(!teamBtn) return;
   const show = !!currentUser && hasPerm('manageUsers');
   if(show) {
-    teamBtn.style.setProperty('display', 'inline-flex', 'important');
-    teamBtn.style.removeProperty('visibility');
-    console.log('[TabVisibility] ✅ Team tab SHOWN. role:', currentUser.role, '| manageUsers:', currentUser.permissions?.manageUsers);
+    teamBtn.classList.remove('hidden');
+    console.log('[TabVisibility] Team tab SHOWN. role:', currentUser.role);
   } else {
-    teamBtn.style.setProperty('display', 'none', 'important');
-    console.log('[TabVisibility] Team tab HIDDEN. role:', currentUser?.role, '| manageUsers:', currentUser?.permissions?.manageUsers);
+    teamBtn.classList.add('hidden');
+    console.log('[TabVisibility] Team tab HIDDEN. role:', currentUser?.role);
     if(activeTab === 'team') {
       activeTab = 'daily';
       document.querySelectorAll('#app .tab-panel').forEach(p => p.classList.remove('active'));
@@ -880,6 +1015,17 @@ function addLog(action, details){
   if(activeTab === 'log') renderLog();
 }
 
+/* FAQ toggle */
+function toggleFaq(el){
+  const isOpen = el.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(i => { i.classList.remove('open'); i.querySelector('.faq-answer').style.maxHeight = null; });
+  if(!isOpen){
+    el.classList.add('open');
+    const ans = el.querySelector('.faq-answer');
+    ans.style.maxHeight = ans.scrollHeight + 'px';
+  }
+}
+
 /* CONTACT */
 function openContactModal(){ document.getElementById('contactModal').classList.add('active'); document.getElementById('contactError').style.display='none'; document.getElementById('contactSuccess').style.display='none'; }
 function closeContactModal(){ document.getElementById('contactModal').classList.remove('active'); }
@@ -928,8 +1074,9 @@ async function doLogin(){
       let adminPass = 'admin';
       if(adminDoc.exists && adminDoc.data().password) adminPass = adminDoc.data().password;
       if(p !== adminPass) throw new Error('Invalid admin password');
-      currentUser = { username: 'admin', fullName: 'Administrator', role: 'admin', permissions: { view:true, editDaily:true, editPurchases:true, editExpenses:true, closeMonth:true, viewAudit:true, viewLog:true, manageUsers:true } };
+      currentUser = { username: 'admin', fullName: 'Administrator', role: 'admin', permissions: DEFAULT_PERMISSIONS.manager };
       currentLocationId = null;
+      saveSession();
       await showAdminDashboard();
       return;
     }
@@ -941,9 +1088,10 @@ async function doLogin(){
     const locDoc = await db.collection('locations').doc(userData.locationId).get();
     const locData = locDoc.exists ? locDoc.data() : { name: userData.locationId };
     const userRole = userData.role || 'cashier';
-    const userPerms = userData.permissions || DEFAULT_PERMISSIONS[userRole] || DEFAULT_PERMISSIONS.cashier;
+    const userPerms = userData.permissions || {};
     currentUser = { username: u, fullName: userData.fullName || u, locationId: userData.locationId, locationName: locData.name || userData.locationId, role: userRole, permissions: userPerms };
     currentLocationId = userData.locationId;
+    saveSession();
     await showUserDashboard();
   } catch(e) { errTxt.textContent = e.message || 'Login failed'; errBox.classList.add('show'); }
   finally { btn.disabled = false; btn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Sign in'; loading.style.display = 'none'; }
@@ -960,7 +1108,6 @@ async function showUserDashboard(){
   document.getElementById('locationTitle').textContent = '· ' + currentUser.locationName;
   document.getElementById('teamLocationName').textContent = currentUser.locationName;
 
-  /* ✅ Set tab visibility FIRST (before any awaits that might race) */
   updateTabVisibility();
 
   await loadLocationData(currentLocationId);
@@ -974,9 +1121,7 @@ async function showUserDashboard(){
   if(hasPerm('manageUsers')) renderTeam();
   switchTab('daily');
 
-  /* ✅ Set again AFTER everything — belt and suspenders */
   updateTabVisibility();
-  /* ✅ And once more after a tick — catches any late re-renders */
   setTimeout(updateTabVisibility, 100);
   setTimeout(updateTabVisibility, 500);
 
@@ -1004,6 +1149,7 @@ function applyPermissions(){
 
 function doLogout(){
   if(!confirm('Sign out?')) return;
+  clearSession();
   currentUser = null; currentLocationId = null;
   allMonthsData = {}; weeklyClosures = []; auditLog = [];
   document.getElementById('landingPage').style.display = 'block';
@@ -1403,7 +1549,6 @@ async function editTeamUser(username){
   renderTeamMembers();
 }
 
-/* ✅ switchTab — also reasserts visibility */
 function switchTab(tab){
   activeTab = tab;
   document.querySelectorAll('#app .tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
@@ -1808,7 +1953,14 @@ function downloadPDF(){
 
 renderTeamPermissionGrid(DEFAULT_PERMISSIONS.manager);
 window.addEventListener('DOMContentLoaded', async () => {
-  if(firebaseReady) { await autoSeed(); }
+  if(firebaseReady) {
+    await autoSeed();
+    // ✅ Try to restore an existing session (e.g. after page refresh)
+    const restored = await restoreSession();
+    if(!restored) {
+      console.log('[Session] No active session — showing landing page');
+    }
+  }
 });
 </script>
 </body>
