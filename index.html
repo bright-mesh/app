@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bright Mesh · Multi-Location Audit Platform</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230b2b44'/%3E%3Cg transform='translate(50,50)'%3E%3Cpath d='M-25,-15 L-5,-25 L-5,-5 L-25,5 Z' fill='%234ade80'/%3E%3Cpath d='M5,-25 L25,-15 L25,5 L5,-5 Z' fill='%2322c55e'/%3E%3Cpath d='M-25,5 L-5,-5 L-5,15 L-25,25 Z' fill='%2316a34a'/%3E%3Cpath d='M5,-5 L25,5 L25,25 L5,15 Z' fill='%2315803d'/%3E%3C/g%3E%3C/svg%3E">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -27,7 +28,7 @@ body{background:#f4f7fc;padding:2rem 1.5rem;color:#1e2a3a;}
 .tab-btn{border:none;background:transparent;padding:0.7rem 1.4rem;border-radius:12px;font-weight:600;font-size:0.85rem;cursor:pointer;color:#5f7385;display:inline-flex;align-items:center;gap:0.5rem;transition:all 0.15s;}
 .tab-btn:hover{background:#f0f6fc;color:#1e2a3a;}
 .tab-btn.active{background:#1d7a4b;color:white;}
-.tab-btn.hidden{display:none;}
+.tab-btn.hidden{display:none !important;}
 .tab-panel{display:none;}
 .tab-panel.active{display:block;}
 .btn{border:none;border-radius:40px;padding:0.65rem 1.3rem;font-weight:600;font-size:0.82rem;cursor:pointer;display:inline-flex;align-items:center;gap:0.5rem;transition:all 0.15s;background:white;color:#1e2a3a;box-shadow:0 2px 8px rgba(0,20,30,0.06);border:1px solid #dce5ed;font-family:inherit;}
@@ -76,9 +77,6 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
 .toast.show{opacity:1;transform:translateY(0);}
 .toast.error{background:#b33a3a;}
 .toast.success{background:#1d7a4b;}
-.expense-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;padding:1.2rem;}
-.expense-item label{display:block;font-size:0.75rem;font-weight:600;color:#5f7385;margin-bottom:0.3rem;text-transform:uppercase;letter-spacing:0.3px;}
-.expense-item input{width:100%;padding:0.6rem 0.8rem;border:1px solid #d2dfeb;border-radius:10px;font-size:0.9rem;font-weight:500;}
 .closed-month-detail{background:#f4f9fe;border-radius:16px;padding:1.2rem;margin-top:1rem;border:1px solid #d2dfeb;}
 .closed-month-detail h3{font-size:1rem;color:#0b2b44;margin-bottom:0.8rem;}
 .closed-month-detail p{font-size:0.85rem;color:#2a4a6a;margin-bottom:0.3rem;}
@@ -159,21 +157,16 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
 .recon-box .row{display:flex;justify-content:space-between;padding:0.25rem 0;border-bottom:1px dashed #e3ebf3;}
 .recon-box .row:last-child{border-bottom:none;font-weight:700;color:#0b2b44;padding-top:0.5rem;}
 .recon-box .row .lbl{color:#5f7385;}
-
-/* ============================================================
-   LANDING PAGE
-   ============================================================ */
 .landing{min-height:100vh;background:#0b2b44;color:white;overflow-x:hidden;position:relative;}
 .landing::before{content:'';position:absolute;top:0;left:0;right:0;height:100%;background:radial-gradient(ellipse at top right,rgba(29,122,75,0.25) 0%,transparent 50%),radial-gradient(ellipse at bottom left,rgba(31,73,112,0.5) 0%,transparent 50%);pointer-events:none;}
 .landing-nav{position:relative;z-index:2;display:flex;justify-content:space-between;align-items:center;padding:1.5rem 3rem;max-width:1400px;margin:0 auto;}
 .landing-logo{display:flex;align-items:center;gap:0.7rem;font-size:1.4rem;font-weight:700;color:white;}
 .landing-logo i{color:#4ade80;font-size:1.6rem;}
 .landing-nav-links{display:flex;gap:2rem;align-items:center;}
-.landing-nav-links a{color:rgba(255,255,255,0.8);text-decoration:none;font-size:0.9rem;font-weight:500;transition:0.2s;}
+.landing-nav-links a{color:rgba(255,255,255,0.8);text-decoration:none;font-size:0.9rem;font-weight:500;transition:0.2s;cursor:pointer;}
 .landing-nav-links a:hover{color:white;}
 .landing-nav .nav-btn{background:#1d7a4b;color:white;padding:0.6rem 1.4rem;border-radius:30px;border:none;font-weight:600;font-size:0.85rem;cursor:pointer;transition:0.2s;font-family:inherit;}
 .landing-nav .nav-btn:hover{background:#16633c;transform:translateY(-1px);}
-
 .landing-hero{position:relative;z-index:2;max-width:1400px;margin:0 auto;padding:4rem 3rem 6rem;display:grid;grid-template-columns:1.1fr 1fr;gap:4rem;align-items:center;}
 .hero-content h1{font-size:3.5rem;font-weight:800;line-height:1.1;letter-spacing:-0.02em;margin-bottom:1.2rem;}
 .hero-content h1 .accent{color:#4ade80;}
@@ -200,7 +193,6 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
 .mock-row .value.warn{color:#fbbf24;}
 .mock-badge{display:inline-block;padding:0.2rem 0.6rem;border-radius:20px;font-size:0.7rem;font-weight:700;background:rgba(74,222,128,0.15);color:#4ade80;}
 .mock-badge.warn{background:rgba(251,191,36,0.15);color:#fbbf24;}
-
 .landing-features{position:relative;z-index:2;padding:5rem 3rem;background:rgba(0,0,0,0.15);}
 .landing-features-inner{max-width:1400px;margin:0 auto;}
 .features-header{text-align:center;margin-bottom:3.5rem;}
@@ -212,43 +204,30 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
 .feature-icon{width:52px;height:52px;border-radius:14px;background:rgba(74,222,128,0.15);color:#4ade80;display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin-bottom:1.2rem;}
 .feature-card h3{font-size:1.15rem;font-weight:700;margin-bottom:0.6rem;}
 .feature-card p{color:rgba(255,255,255,0.65);font-size:0.9rem;line-height:1.6;}
-
 .landing-cta{position:relative;z-index:2;padding:5rem 3rem;text-align:center;}
 .landing-cta h2{font-size:2.2rem;font-weight:800;margin-bottom:1rem;}
 .landing-cta p{color:rgba(255,255,255,0.7);font-size:1.05rem;margin-bottom:2rem;}
+.signin-box{max-width:520px;margin:0 auto;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);border-radius:20px;padding:2rem 2rem 2.4rem;text-align:left;backdrop-filter:blur(10px);box-shadow:0 20px 60px rgba(0,0,0,0.3);}
+.signin-box h3{font-size:1.2rem;font-weight:700;margin-bottom:0.3rem;color:white;display:flex;align-items:center;gap:0.5rem;}
+.signin-box h3 i{color:#4ade80;}
+.signin-box .sub{font-size:0.85rem;color:rgba(255,255,255,0.6);margin-bottom:1.4rem;}
+.signin-box .field{margin-bottom:1rem;}
+.signin-box label{display:block;font-size:0.72rem;font-weight:600;color:rgba(255,255,255,0.75);margin-bottom:0.4rem;text-transform:uppercase;letter-spacing:0.3px;}
+.signin-box input{width:100%;padding:0.8rem 1rem;border-radius:12px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.08);color:white;font-size:0.9rem;font-family:inherit;transition:0.15s;}
+.signin-box input::placeholder{color:rgba(255,255,255,0.4);}
+.signin-box input:focus{outline:none;border-color:#4ade80;background:rgba(255,255,255,0.12);box-shadow:0 0 0 3px rgba(74,222,128,0.15);}
+.signin-box .btn-signin{width:100%;background:#1d7a4b;color:white;border:none;padding:0.9rem;border-radius:12px;font-weight:700;font-size:0.95rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:0.5rem;transition:0.2s;margin-top:0.5rem;font-family:inherit;}
+.signin-box .btn-signin:hover:not(:disabled){background:#16633c;transform:translateY(-1px);box-shadow:0 10px 30px rgba(29,122,75,0.4);}
+.signin-box .btn-signin:disabled{opacity:0.6;cursor:not-allowed;}
+.signin-box .err{background:rgba(239,68,68,0.15);color:#fca5a5;border:1px solid rgba(239,68,68,0.3);padding:0.7rem 1rem;border-radius:10px;font-size:0.82rem;margin-bottom:1rem;display:none;align-items:center;gap:0.5rem;}
+.signin-box .err.show{display:flex;}
+.signin-box .hint{margin-top:1.2rem;font-size:0.75rem;color:rgba(255,255,255,0.5);text-align:center;}
 .landing-footer{position:relative;z-index:2;text-align:center;padding:2rem;font-size:0.8rem;color:rgba(255,255,255,0.4);border-top:1px solid rgba(255,255,255,0.08);}
-
-/* ============================================================
-   LOGIN MODAL
-   ============================================================ */
-.login-modal{position:fixed;inset:0;background:rgba(10,25,40,0.75);backdrop-filter:blur(6px);z-index:1000;display:none;align-items:center;justify-content:center;padding:2rem 1rem;}
-.login-modal.active{display:flex;}
-.login-card{background:white;max-width:430px;width:100%;padding:2.5rem 2rem;border-radius:24px;box-shadow:0 30px 80px rgba(0,10,20,0.5);animation:slideUp 0.25s ease;position:relative;}
-.login-close{position:absolute;top:1rem;right:1rem;background:#f0f4f9;border:none;width:36px;height:36px;border-radius:50%;cursor:pointer;color:#5f7385;display:flex;align-items:center;justify-content:center;transition:0.15s;}
-.login-close:hover{background:#e3ebf3;color:#1e2a3a;}
-.login-logo{display:flex;align-items:center;gap:0.7rem;font-size:1.5rem;font-weight:700;color:#0b2b44;margin-bottom:0.4rem;}
-.login-logo i{color:#1d7a4b;font-size:1.6rem;}
-.login-sub{color:#5f7385;font-size:0.9rem;margin-bottom:1.8rem;}
-.login-field{margin-bottom:1rem;}
-.login-field label{display:block;font-size:0.78rem;font-weight:600;color:#1f3c54;margin-bottom:0.4rem;text-transform:uppercase;letter-spacing:0.3px;}
-.login-field input{width:100%;padding:0.75rem 1rem;border:1px solid #d2dfeb;border-radius:10px;font-size:0.9rem;font-family:inherit;}
-.login-field input:focus{outline:2px solid #1d7a4b40;border-color:#1d7a4b;}
-.login-btn{width:100%;background:#1d7a4b;color:white;border:none;padding:0.85rem;border-radius:12px;font-weight:700;font-size:0.95rem;cursor:pointer;margin-top:0.5rem;display:flex;align-items:center;justify-content:center;gap:0.5rem;transition:0.15s;font-family:inherit;}
-.login-btn:hover:not(:disabled){background:#16633c;}
-.login-btn:disabled{opacity:0.6;cursor:not-allowed;}
-.login-error{background:#fce8e8;color:#b33a3a;padding:0.7rem 1rem;border-radius:10px;font-size:0.82rem;margin-bottom:1rem;display:none;align-items:center;gap:0.5rem;}
-.login-error.show{display:flex;}
-.login-loading{margin-top:1rem;text-align:center;font-size:0.8rem;color:#6a7f94;display:none;}
-.login-loading.show{display:block;}
-
-/* USER BADGE */
 .user-badge{display:flex;align-items:center;gap:0.5rem;background:#eef3f9;padding:0.35rem 0.9rem;border-radius:30px;font-size:0.78rem;font-weight:600;color:#1f4970;}
 .user-badge .role{background:#1d7a4b;color:white;font-size:0.65rem;padding:0.15rem 0.5rem;border-radius:10px;text-transform:uppercase;letter-spacing:0.3px;}
 .user-badge .role.accountant{background:#7c2d12;}
 .user-badge .role.cashier{background:#6b7280;}
 .user-badge .role.admin{background:#5b21b6;}
-
-/* ADMIN DASHBOARD */
 .admin-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1rem;margin-bottom:1.5rem;}
 .admin-stat{background:white;padding:1.3rem;border-radius:16px;border:1px solid #e3ebf3;box-shadow:0 4px 14px rgba(0,20,30,0.04);display:flex;align-items:center;gap:1rem;}
 .admin-stat .icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;}
@@ -258,7 +237,6 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
 .admin-stat .icon.purple{background:#efe7fd;color:#5b21b6;}
 .admin-stat .meta .num{font-size:1.5rem;font-weight:700;color:#0b2b44;line-height:1;}
 .admin-stat .meta .lbl{font-size:0.72rem;color:#6a7f94;text-transform:uppercase;letter-spacing:0.3px;font-weight:600;margin-top:0.3rem;}
-
 .admin-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1.5rem;margin-bottom:2rem;}
 .admin-card{background:white;padding:1.5rem;border-radius:20px;border:1px solid #e3ebf3;box-shadow:0 4px 14px rgba(0,20,30,0.04);}
 .admin-card h3{font-size:1rem;color:#0b2b44;margin-bottom:1rem;display:flex;align-items:center;gap:0.5rem;}
@@ -266,7 +244,6 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
 .admin-card .form-row{margin-bottom:0.8rem;}
 .admin-card label{display:block;font-size:0.72rem;font-weight:600;color:#5f7385;margin-bottom:0.3rem;text-transform:uppercase;letter-spacing:0.3px;}
 .admin-card input,.admin-card select{width:100%;padding:0.6rem 0.8rem;border:1px solid #d2dfeb;border-radius:10px;font-size:0.85rem;font-family:inherit;}
-
 .locations-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1rem;margin-bottom:1.5rem;}
 .location-card{background:white;padding:1.2rem 1.3rem;border-radius:16px;border:1px solid #e3ebf3;box-shadow:0 4px 14px rgba(0,20,30,0.04);transition:0.15s;}
 .location-card:hover{box-shadow:0 8px 24px rgba(0,20,30,0.08);}
@@ -281,26 +258,34 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
 .location-card .metric .l{font-size:0.65rem;color:#6a7f94;text-transform:uppercase;letter-spacing:0.3px;margin-top:0.2rem;font-weight:600;}
 .location-card .actions{display:flex;gap:0.4rem;flex-wrap:wrap;}
 .location-card .actions .btn{padding:0.4rem 0.8rem;font-size:0.72rem;}
-
 .user-row{display:flex;justify-content:space-between;align-items:center;padding:0.9rem 0;border-bottom:1px solid #f0f4f9;gap:0.8rem;flex-wrap:wrap;}
 .user-row:last-child{border-bottom:none;}
 .user-row .uinfo{flex:1;min-width:180px;}
-.user-row .uname{font-weight:600;color:#0b2b44;font-size:0.9rem;display:flex;align-items:center;gap:0.5rem;}
+.user-row .uname{font-weight:600;color:#0b2b44;font-size:0.9rem;display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;}
 .user-row .umeta{font-size:0.72rem;color:#6a7f94;margin-top:0.2rem;}
 .user-row .actions{display:flex;gap:0.3rem;flex-wrap:wrap;}
 .user-row .actions .btn{padding:0.35rem 0.7rem;font-size:0.7rem;}
 .permission-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:0.5rem;margin-top:0.6rem;}
 .perm-item{display:flex;align-items:center;gap:0.5rem;font-size:0.78rem;color:#1f3c54;padding:0.4rem 0.6rem;background:#f8fafd;border-radius:8px;cursor:pointer;user-select:none;}
 .perm-item input[type="checkbox"]{width:auto;min-width:auto;cursor:pointer;}
-
-/* account performance card */
-.acct-perf{background:#f8fafd;border-radius:14px;padding:1rem;margin-top:0.8rem;border:1px solid #e3ebf3;}
-.acct-perf .row{display:flex;justify-content:space-between;padding:0.3rem 0;font-size:0.82rem;}
-.acct-perf .row .l{color:#6a7f94;}
-.acct-perf .row .v{font-weight:700;color:#0b2b44;}
-.acct-perf .row .v.green{color:#1d7a4b;}
-.acct-perf .row .v.red{color:#b33a3a;}
-
+.contact-modal{position:fixed;inset:0;background:rgba(10,25,40,0.75);backdrop-filter:blur(6px);z-index:1000;display:none;align-items:center;justify-content:center;padding:2rem 1rem;overflow-y:auto;}
+.contact-modal.active{display:flex;}
+.contact-card{background:white;max-width:520px;width:100%;padding:2.2rem;border-radius:24px;box-shadow:0 30px 80px rgba(0,10,20,0.5);animation:slideUp 0.25s ease;position:relative;max-height:90vh;overflow-y:auto;}
+.contact-card h3{font-size:1.4rem;color:#0b2b44;margin-bottom:0.3rem;display:flex;align-items:center;gap:0.5rem;}
+.contact-card h3 i{color:#1d7a4b;}
+.contact-card .sub{color:#5f7385;font-size:0.88rem;margin-bottom:1.5rem;}
+.contact-card .field{margin-bottom:1rem;}
+.contact-card label{display:block;font-size:0.72rem;font-weight:600;color:#1f3c54;margin-bottom:0.35rem;text-transform:uppercase;letter-spacing:0.3px;}
+.contact-card input,.contact-card textarea{width:100%;padding:0.7rem 0.9rem;border:1px solid #d2dfeb;border-radius:10px;font-size:0.9rem;font-family:inherit;background:white;}
+.contact-card textarea{min-height:120px;resize:vertical;}
+.contact-card input:focus,.contact-card textarea:focus{outline:none;border-color:#1d7a4b;box-shadow:0 0 0 3px rgba(29,122,75,0.12);}
+.contact-card .send-btn{width:100%;background:#1d7a4b;color:white;border:none;padding:0.9rem;border-radius:12px;font-weight:700;font-size:0.95rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:0.5rem;transition:0.2s;font-family:inherit;margin-top:0.5rem;}
+.contact-card .send-btn:hover:not(:disabled){background:#16633c;}
+.contact-card .send-btn:disabled{opacity:0.6;cursor:not-allowed;}
+.contact-card .contact-info{margin-top:1.4rem;padding-top:1.2rem;border-top:1px solid #eef3f8;font-size:0.8rem;color:#6a7f94;text-align:center;}
+.contact-card .contact-info i{color:#1d7a4b;margin-right:0.4rem;}
+.contact-close{position:absolute;top:1rem;right:1rem;background:#f0f4f9;border:none;width:36px;height:36px;border-radius:50%;cursor:pointer;color:#5f7385;display:flex;align-items:center;justify-content:center;transition:0.15s;}
+.contact-close:hover{background:#e3ebf3;color:#1e2a3a;}
 @media (max-width:900px){
   .landing-hero{grid-template-columns:1fr;padding:2rem 1.5rem 4rem;gap:2rem;}
   .hero-content h1{font-size:2.3rem;}
@@ -311,21 +296,21 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
   .landing-cta{padding:3rem 1.5rem;}
   .landing-cta h2{font-size:1.6rem;}
 }
-@media (max-width:700px){body{padding:1rem 0.8rem;}.app-header h1{font-size:1.4rem;}.toolbar{gap:0.5rem;}.btn{padding:0.5rem 1rem;font-size:0.75rem;}.expense-grid{grid-template-columns:1fr;}.tab-btn{padding:0.5rem 0.9rem;font-size:0.75rem;}.modal-body{padding:1rem;}}
+@media (max-width:700px){body{padding:1rem 0.8rem;}.app-header h1{font-size:1.4rem;}.toolbar{gap:0.5rem;}.btn{padding:0.5rem 1rem;font-size:0.75rem;}.tab-btn{padding:0.5rem 0.9rem;font-size:0.75rem;}.modal-body{padding:1rem;}}
 </style>
 </head>
 <body>
 
-<!-- =================== LANDING PAGE =================== -->
+<!-- LANDING PAGE -->
 <div id="landingPage" class="landing">
   <nav class="landing-nav">
     <div class="landing-logo"><i class="fas fa-cubes"></i> Bright Mesh</div>
     <div class="landing-nav-links">
-      <a href="#features">Features</a>
-      <a href="#how">How it works</a>
-      <a href="#contact">Contact</a>
+      <a onclick="document.getElementById('features').scrollIntoView({behavior:'smooth'})">Features</a>
+      <a onclick="document.getElementById('signin-section').scrollIntoView({behavior:'smooth'})">Sign in</a>
+      <a onclick="openContactModal()">Contact us</a>
     </div>
-    <button class="nav-btn" onclick="openLoginModal()"><i class="fas fa-sign-in-alt"></i> Sign in</button>
+    <button class="nav-btn" onclick="document.getElementById('signin-section').scrollIntoView({behavior:'smooth'})"><i class="fas fa-sign-in-alt"></i> Sign in</button>
   </nav>
 
   <section class="landing-hero">
@@ -333,7 +318,7 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
       <h1>Stop the leaks.<br><span class="accent">See every shilling.</span></h1>
       <p class="tagline">Bright Mesh is a multi-location audit platform for grocery and retail businesses. Track daily sales, purchases, and cash — and let the built-in audit engine surface leakages before they cost you.</p>
       <div class="hero-buttons">
-        <button class="btn-hero" onclick="openLoginModal()"><i class="fas fa-rocket"></i> Get Started</button>
+        <button class="btn-hero" onclick="document.getElementById('signin-section').scrollIntoView({behavior:'smooth'})"><i class="fas fa-rocket"></i> Get Started</button>
         <button class="btn-hero-outline" onclick="document.getElementById('features').scrollIntoView({behavior:'smooth'})"><i class="fas fa-play-circle"></i> See Features</button>
       </div>
       <div class="hero-stats">
@@ -361,72 +346,59 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
         <p>Built for grocery owners who want transparency across every branch — without spreadsheets and guesswork.</p>
       </div>
       <div class="features-grid">
-        <div class="feature-card">
-          <div class="feature-icon"><i class="fas fa-shield-halved"></i></div>
-          <h3>15+ Audit Checks</h3>
-          <p>Stock flow, cash flow, duplicate purchases, round-number detection, Benford's Law, and more — all automatic.</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon"><i class="fas fa-location-dot"></i></div>
-          <h3>Multi-Location</h3>
-          <p>Manage unlimited branches from one dashboard. Each location has its own data, users, and audit history.</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon"><i class="fas fa-user-shield"></i></div>
-          <h3>Role-Based Access</h3>
-          <p>Managers get full control, accountants can edit with limits, cashiers see read-only views. Customize per user.</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon"><i class="fas fa-truck-fast"></i></div>
-          <h3>Purchase Tracking</h3>
-          <p>Record each purchase with supplier, category, quantity, payment mode — and auto-flag anomalies.</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon"><i class="fas fa-file-export"></i></div>
-          <h3>Excel &amp; PDF Export</h3>
-          <p>Download detailed reports with one click. Perfect for accountants, auditors, and tax season.</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon"><i class="fas fa-cloud"></i></div>
-          <h3>Cloud Sync</h3>
-          <p>Powered by Firebase. Every entry is synced in real-time across all devices — safe and backed up.</p>
-        </div>
+        <div class="feature-card"><div class="feature-icon"><i class="fas fa-shield-halved"></i></div><h3>15+ Audit Checks</h3><p>Stock flow, cash flow, duplicate purchases, round-number detection, Benford's Law, and more — all automatic.</p></div>
+        <div class="feature-card"><div class="feature-icon"><i class="fas fa-location-dot"></i></div><h3>Multi-Location</h3><p>Manage unlimited branches from one dashboard. Each location has its own data, users, and audit history.</p></div>
+        <div class="feature-card"><div class="feature-icon"><i class="fas fa-user-shield"></i></div><h3>Role-Based Access</h3><p>Managers get full control, accountants can edit with limits, cashiers see read-only views. Customize per user.</p></div>
+        <div class="feature-card"><div class="feature-icon"><i class="fas fa-truck-fast"></i></div><h3>Purchase Tracking</h3><p>Record each purchase with supplier, category, quantity, payment mode — and auto-flag anomalies.</p></div>
+        <div class="feature-card"><div class="feature-icon"><i class="fas fa-file-export"></i></div><h3>Excel &amp; PDF Export</h3><p>Download detailed reports with one click. Perfect for accountants, auditors, and tax season.</p></div>
+        <div class="feature-card"><div class="feature-icon"><i class="fas fa-cloud"></i></div><h3>Cloud Sync</h3><p>Powered by Firebase. Every entry is synced in real-time across all devices — safe and backed up.</p></div>
       </div>
     </div>
   </section>
 
-  <section class="landing-cta" id="how">
+  <section class="landing-cta" id="signin-section">
     <h2>Ready to take control?</h2>
     <p>Sign in with your Bright Mesh account — or contact your administrator to be added.</p>
-    <button class="btn-hero" onclick="openLoginModal()"><i class="fas fa-sign-in-alt"></i> Sign in to your account</button>
+    <div class="signin-box">
+      <h3><i class="fas fa-sign-in-alt"></i> Sign in to your account</h3>
+      <div class="sub">Enter your username and password to continue</div>
+      <div class="err" id="loginError"><i class="fas fa-exclamation-circle"></i> <span id="loginErrorText"></span></div>
+      <div class="field">
+        <label>Username</label>
+        <input type="text" id="loginUsername" placeholder="Enter your username" autocomplete="username">
+      </div>
+      <div class="field">
+        <label>Password</label>
+        <input type="password" id="loginPassword" placeholder="Enter your password" autocomplete="current-password">
+      </div>
+      <button class="btn-signin" id="loginBtn" onclick="doLogin()"><i class="fas fa-sign-in-alt"></i> Sign in</button>
+      <div class="hint" id="loginLoading" style="display:none;"><i class="fas fa-spinner fa-spin"></i> Connecting...</div>
+    </div>
   </section>
 
   <footer class="landing-footer">
-    <p>© <span id="year"></span> Bright Mesh · Multi-location audit platform · Powered by Firebase</p>
+    <p>© <span id="year"></span> Bright Mesh · Multi-location audit platform · Powered by Firebase · <a onclick="openContactModal()" style="color:#4ade80;cursor:pointer;text-decoration:none;">Contact us</a></p>
   </footer>
 </div>
 
-<!-- =================== LOGIN MODAL =================== -->
-<div class="login-modal" id="loginModal">
-  <div class="login-card">
-    <button class="login-close" onclick="closeLoginModal()"><i class="fas fa-times"></i></button>
-    <div class="login-logo"><i class="fas fa-cubes"></i> Bright Mesh</div>
-    <div class="login-sub">Sign in to continue</div>
-    <div class="login-error" id="loginError"><i class="fas fa-exclamation-circle"></i> <span id="loginErrorText"></span></div>
-    <div class="login-field">
-      <label>Username</label>
-      <input type="text" id="loginUsername" placeholder="Enter your username" autocomplete="username">
-    </div>
-    <div class="login-field">
-      <label>Password</label>
-      <input type="password" id="loginPassword" placeholder="Enter your password" autocomplete="current-password">
-    </div>
-    <button class="login-btn" id="loginBtn" onclick="doLogin()"><i class="fas fa-sign-in-alt"></i> Sign in</button>
-    <div class="login-loading" id="loginLoading"><i class="fas fa-spinner fa-spin"></i> Connecting...</div>
+<!-- CONTACT MODAL -->
+<div class="contact-modal" id="contactModal">
+  <div class="contact-card">
+    <button class="contact-close" onclick="closeContactModal()"><i class="fas fa-times"></i></button>
+    <h3><i class="fas fa-envelope"></i> Contact Bright Mesh</h3>
+    <div class="sub">Have a question, need a demo, or want to get started? Send us a message.</div>
+    <div class="err" id="contactError" style="background:#fce8e8;color:#b33a3a;padding:0.7rem 1rem;border-radius:10px;font-size:0.82rem;margin-bottom:1rem;display:none;align-items:center;gap:0.5rem;"><i class="fas fa-exclamation-circle"></i> <span id="contactErrorText"></span></div>
+    <div class="err" id="contactSuccess" style="background:#e3f0eb;color:#1d6b4f;padding:0.7rem 1rem;border-radius:10px;font-size:0.82rem;margin-bottom:1rem;display:none;align-items:center;gap:0.5rem;"><i class="fas fa-check-circle"></i> <span id="contactSuccessText"></span></div>
+    <div class="field"><label>Your Name</label><input type="text" id="contactName" placeholder="e.g. Ahmed Ssekandi"></div>
+    <div class="field"><label>Email Address</label><input type="email" id="contactEmail" placeholder="you@example.com"></div>
+    <div class="field"><label>Subject</label><input type="text" id="contactSubject" placeholder="e.g. Request a demo"></div>
+    <div class="field"><label>Message</label><textarea id="contactMessage" placeholder="Tell us how we can help..."></textarea></div>
+    <button class="send-btn" id="contactSendBtn" onclick="sendContactForm()"><i class="fas fa-paper-plane"></i> Send Message</button>
+    <div class="contact-info"><i class="fas fa-envelope"></i> Or email us directly at <strong>brightmesh.app@gmail.com</strong></div>
   </div>
 </div>
 
-<!-- =================== APP (Location User Dashboard) =================== -->
+<!-- USER APP -->
 <div class="app" id="app" style="display:none;">
   <div class="app-header">
     <div>
@@ -456,7 +428,7 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
     <button class="tab-btn" data-tab="purchases" onclick="switchTab('purchases')"><i class="fas fa-truck"></i> Daily Purchases</button>
     <button class="tab-btn" data-tab="audit" onclick="switchTab('audit')"><i class="fas fa-shield-halved"></i> Closure Audit</button>
     <button class="tab-btn" data-tab="log" onclick="switchTab('log')"><i class="fas fa-history"></i> Audit Log</button>
-    <button class="tab-btn team-only hidden" data-tab="team" onclick="switchTab('team')"><i class="fas fa-users-gear"></i> Team Management</button>
+    <button class="tab-btn team-only hidden" data-tab="team" id="teamTabBtn" onclick="switchTab('team')"><i class="fas fa-users-gear"></i> Team Management</button>
   </div>
 
   <!-- DAILY -->
@@ -474,8 +446,28 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
     </div>
     <div id="closedDetail" style="display:none;" class="closed-month-detail"></div>
     <div class="summary-grid" id="summaryGrid"></div>
-    <div class="section-title"><i class="fas fa-receipt"></i> Monthly expenses &amp; fixed costs</div>
-    <div class="table-card"><div class="expense-grid" id="expenseGrid"></div></div>
+
+    <div style="display:flex;justify-content:space-between;align-items:center;margin:1.5rem 0 0.8rem 0;">
+      <div class="section-title" style="margin:0;"><i class="fas fa-receipt"></i> Monthly expenses &amp; fixed costs</div>
+      <button class="add-row-btn editor-only" onclick="addExpenseRow()"><i class="fas fa-plus-circle"></i> Add expense</button>
+    </div>
+    <div class="table-card">
+      <div class="table-scroll">
+        <table id="expenseTable">
+          <thead><tr>
+            <th style="width:220px;">Expense Type</th>
+            <th style="width:150px;">Amount (UGX)</th>
+            <th style="width:180px;">Note / Detail</th>
+            <th style="width:60px;"></th>
+          </tr></thead>
+          <tbody id="expenseBody"></tbody>
+        </table>
+      </div>
+      <div style="padding:0.8rem 1.2rem;border-top:1px solid #eef3f8;text-align:right;font-size:0.85rem;color:#5f7385;">
+        <strong style="color:#0b2b44;">Total monthly expenses:</strong> <span id="expenseTotal" style="font-weight:700;color:#0b2b44;">UGX 0</span>
+      </div>
+    </div>
+
     <div class="section-title"><i class="fas fa-calendar-day"></i> Daily entries</div>
     <div class="table-card">
       <div class="table-scroll"><table id="dailyTable"><thead><tr>
@@ -564,16 +556,15 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
     <div class="table-card"><div class="table-scroll"><table id="logTable"><thead><tr><th style="width:180px;">Time</th><th style="width:150px;">User</th><th style="width:150px;">Action</th><th>Details</th></tr></thead><tbody id="logBody"></tbody></table></div></div>
   </div>
 
-  <!-- TEAM MANAGEMENT (Location managers can create users) -->
+  <!-- TEAM MANAGEMENT -->
   <div class="tab-panel" id="tab-team">
     <div style="background:white;padding:1.2rem 1.5rem;border-radius:16px;border:1px solid #e3ebf3;margin-bottom:1.5rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">
       <i class="fas fa-users-gear" style="font-size:1.8rem;color:#1d7a4b;"></i>
       <div>
         <div style="font-weight:700;color:#0b2b44;font-size:1rem;">Team Management</div>
-        <div style="font-size:0.8rem;color:#5f7385;">Create and manage users for your location. Assign roles and customize permissions.</div>
+        <div style="font-size:0.8rem;color:#5f7385;">Create and manage users for <strong id="teamLocationName"></strong>. Admin can see and edit all users.</div>
       </div>
     </div>
-
     <div class="admin-grid">
       <div class="admin-card">
         <h3><i class="fas fa-user-plus"></i> Create New User</h3>
@@ -591,7 +582,6 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
         <div class="permission-grid" id="teamPermissionGrid"></div>
         <button class="btn btn-primary" onclick="createTeamUser()" style="width:100%;justify-content:center;margin-top:1rem;"><i class="fas fa-user-plus"></i> Create User</button>
       </div>
-
       <div class="admin-card">
         <h3><i class="fas fa-users"></i> Team Members</h3>
         <div id="teamMembersList" style="max-height:500px;overflow-y:auto;"></div>
@@ -606,7 +596,7 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
   </div>
 </div>
 
-<!-- =================== ADMIN DASHBOARD =================== -->
+<!-- ADMIN DASHBOARD -->
 <div class="app" id="adminApp" style="display:none;">
   <div class="app-header">
     <div>
@@ -627,38 +617,30 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
       </div>
     </div>
   </div>
-
   <div class="tab-nav">
     <button class="tab-btn active" data-atab="overview" onclick="switchAdminTab('overview')"><i class="fas fa-chart-line"></i> Overview</button>
     <button class="tab-btn" data-atab="locations" onclick="switchAdminTab('locations')"><i class="fas fa-location-dot"></i> Locations</button>
     <button class="tab-btn" data-atab="accounts" onclick="switchAdminTab('accounts')"><i class="fas fa-users"></i> Accounts</button>
     <button class="tab-btn" data-atab="activity" onclick="switchAdminTab('activity')"><i class="fas fa-list-check"></i> Activity Log</button>
   </div>
-
-  <!-- ADMIN: OVERVIEW -->
   <div class="tab-panel active" id="atab-overview">
     <div class="admin-stats" id="adminStats"></div>
-
     <div class="section-title"><i class="fas fa-chart-bar"></i> Location Performance Snapshot</div>
     <div class="table-card">
       <div class="table-scroll">
         <table id="adminPerfTable">
-          <thead><tr>
-            <th>Location</th><th>Users</th><th>Entries</th><th>Total Sales (UGX)</th><th>Net Profit (UGX)</th><th>Status</th>
-          </tr></thead>
+          <thead><tr><th>Location</th><th>Users</th><th>Entries</th><th>Total Sales (UGX)</th><th>Net Profit (UGX)</th><th>Status</th></tr></thead>
           <tbody id="adminPerfBody"></tbody>
         </table>
       </div>
     </div>
   </div>
-
-  <!-- ADMIN: LOCATIONS -->
   <div class="tab-panel" id="atab-locations">
     <div class="admin-grid" style="grid-template-columns:1fr 1fr;">
       <div class="admin-card">
         <h3><i class="fas fa-plus-circle"></i> Create New Location</h3>
         <div class="form-row"><label>Location Name</label><input type="text" id="admLocName" placeholder="e.g. Wamo Mbale 2"></div>
-        <div class="form-row"><label>Location Code (used as username prefix)</label><input type="text" id="admLocCode" placeholder="e.g. wamombl2" style="text-transform:lowercase;"></div>
+        <div class="form-row"><label>Location Code</label><input type="text" id="admLocCode" placeholder="e.g. wamombl2" style="text-transform:lowercase;"></div>
         <div class="form-row"><label>First Manager Username</label><input type="text" id="admLocManager" placeholder="e.g. manager1" style="text-transform:lowercase;"></div>
         <div class="form-row"><label>Manager Full Name</label><input type="text" id="admLocManagerName" placeholder="e.g. Sarah Nakato"></div>
         <div class="form-row"><label>Manager Password</label><input type="text" id="admLocManagerPass" placeholder="Min 6 chars"></div>
@@ -666,52 +648,33 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
       </div>
       <div class="admin-card">
         <h3><i class="fas fa-info-circle"></i> About Locations</h3>
-        <p style="font-size:0.85rem;color:#5f7385;line-height:1.6;">
-          Each location operates independently with its own data, users, and audit history.
-          The manager you create can then add more users for their location with custom roles.
-          <br><br>
-          You retain full oversight — view every location's data, edit users, reset passwords, and suspend accounts at any time.
-        </p>
+        <p style="font-size:0.85rem;color:#5f7385;line-height:1.6;">Each location operates independently with its own data, users, and audit history. The manager you create can then add more users for their location with custom roles.<br><br>You retain full oversight — view every location's data, edit users, reset passwords, and suspend accounts at any time.</p>
       </div>
     </div>
-
     <div class="section-title"><i class="fas fa-location-dot"></i> All Locations</div>
     <div class="locations-grid" id="adminLocationsGrid"></div>
   </div>
-
-  <!-- ADMIN: ACCOUNTS -->
   <div class="tab-panel" id="atab-accounts">
     <div class="admin-card" style="margin-bottom:1.5rem;">
       <h3><i class="fas fa-filter"></i> Filter Accounts</h3>
       <div style="display:grid;grid-template-columns:2fr 1fr;gap:1rem;">
-        <div>
-          <label style="font-size:0.72rem;font-weight:600;color:#5f7385;text-transform:uppercase;">Search</label>
-          <input type="text" id="adminSearch" placeholder="Search by username, name, or location..." oninput="renderAdminAccounts()">
-        </div>
-        <div>
-          <label style="font-size:0.72rem;font-weight:600;color:#5f7385;text-transform:uppercase;">Filter by Location</label>
-          <select id="adminLocFilter" onchange="renderAdminAccounts()"><option value="">All locations</option></select>
-        </div>
+        <div><label style="font-size:0.72rem;font-weight:600;color:#5f7385;text-transform:uppercase;">Search</label><input type="text" id="adminSearch" placeholder="Search..." oninput="renderAdminAccounts()"></div>
+        <div><label style="font-size:0.72rem;font-weight:600;color:#5f7385;text-transform:uppercase;">Filter by Location</label><select id="adminLocFilter" onchange="renderAdminAccounts()"><option value="">All locations</option></select></div>
       </div>
     </div>
-
     <div class="section-title"><i class="fas fa-users"></i> All Accounts</div>
-    <div class="admin-card">
-      <div id="adminAccountsList"></div>
-    </div>
+    <div class="admin-card"><div id="adminAccountsList"></div></div>
   </div>
-
-  <!-- ADMIN: ACTIVITY -->
   <div class="tab-panel" id="atab-activity">
-    <div style="background:white;padding:1.2rem 1.5rem;border-radius:16px;border:1px solid #e3ebf3;margin-bottom:1.5rem;">
-      <div style="font-weight:700;color:#0b2b44;font-size:1rem;"><i class="fas fa-list-check" style="color:#1f4970;"></i> Platform Activity</div>
-      <div style="font-size:0.8rem;color:#5f7385;margin-top:0.2rem;">Recent activity across all locations — logins, data edits, user changes.</div>
+    <div style="background:white;padding:1.2rem 1.5rem;border-radius:16px;border:1px solid #e3ebf3;margin-bottom:1.5rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">
+      <div>
+        <div style="font-weight:700;color:#0b2b44;font-size:1rem;"><i class="fas fa-list-check" style="color:#1f4970;"></i> Platform Activity</div>
+        <div style="font-size:0.8rem;color:#5f7385;margin-top:0.2rem;">Recent activity across all locations.</div>
+      </div>
+      <button class="btn btn-danger" style="margin-left:auto;" onclick="clearAllActivityLogs()"><i class="fas fa-trash"></i> Clear All Logs</button>
     </div>
-    <div class="table-card"><div class="table-scroll"><table id="adminActivityTable"><thead><tr>
-      <th style="width:180px;">Time</th><th style="width:160px;">User</th><th style="width:160px;">Location</th><th style="width:150px;">Action</th><th>Details</th>
-    </tr></thead><tbody id="adminActivityBody"></tbody></table></div></div>
+    <div class="table-card"><div class="table-scroll"><table id="adminActivityTable"><thead><tr><th style="width:180px;">Time</th><th style="width:160px;">User</th><th style="width:160px;">Location</th><th style="width:150px;">Action</th><th>Details</th></tr></thead><tbody id="adminActivityBody"></tbody></table></div></div>
   </div>
-
   <div class="footer-note">
     <span><i class="fas fa-database"></i> Bright Mesh Admin</span>
     <span><i class="fas fa-cloud"></i> Synced to Firebase Firestore</span>
@@ -739,7 +702,7 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
       <div class="login-field"><label>Current Password</label><input type="password" id="pwdCurrent" placeholder="••••••••"></div>
       <div class="login-field"><label>New Password</label><input type="password" id="pwdNew" placeholder="Min 6 chars"></div>
       <div class="login-field"><label>Confirm New Password</label><input type="password" id="pwdNew2" placeholder="Re-enter"></div>
-      <button class="login-btn" onclick="saveUserPassword()"><i class="fas fa-save"></i> Update Password</button>
+      <button class="login-btn" onclick="saveUserPassword()" style="width:100%;background:#1d7a4b;color:white;border:none;padding:0.85rem;border-radius:12px;font-weight:700;font-size:0.95rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:0.5rem;margin-top:0.5rem;font-family:inherit;"><i class="fas fa-save"></i> Update Password</button>
     </div>
   </div>
 </div>
@@ -754,12 +717,11 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
       <div class="login-field"><label>Current Admin Password</label><input type="password" id="admPwdCurrent" placeholder="••••••••"></div>
       <div class="login-field"><label>New Admin Password</label><input type="password" id="admPwdNew" placeholder="Min 6 chars"></div>
       <div class="login-field"><label>Confirm New Password</label><input type="password" id="admPwdNew2" placeholder="Re-enter"></div>
-      <button class="login-btn" onclick="saveAdminPassword()"><i class="fas fa-save"></i> Update Admin Password</button>
+      <button class="login-btn" onclick="saveAdminPassword()" style="width:100%;background:#1d7a4b;color:white;border:none;padding:0.85rem;border-radius:12px;font-weight:700;font-size:0.95rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:0.5rem;margin-top:0.5rem;font-family:inherit;"><i class="fas fa-save"></i> Update Admin Password</button>
     </div>
   </div>
 </div>
 
-<!-- USER DETAIL / EDIT MODAL (Admin) -->
 <div class="modal-overlay" id="userModal">
   <div class="modal narrow">
     <div class="modal-header">
@@ -778,10 +740,7 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
         </select>
       </div>
       <div class="login-field"><label>Status</label>
-        <select id="editStatus">
-          <option value="active">Active</option>
-          <option value="suspended">Suspended</option>
-        </select>
+        <select id="editStatus"><option value="active">Active</option><option value="suspended">Suspended</option></select>
       </div>
       <div class="login-field"><label>Reset Password (leave blank to keep)</label><input type="text" id="editNewPass" placeholder="New password (optional)"></div>
       <div style="display:flex;gap:0.5rem;margin-top:1rem;">
@@ -792,7 +751,6 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
   </div>
 </div>
 
-<!-- LOCATION DETAIL MODAL -->
 <div class="modal-overlay" id="locModal">
   <div class="modal">
     <div class="modal-header">
@@ -807,7 +765,7 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
 
 <script>
 /* ============================================================
-   FIREBASE CONFIG
+   FIREBASE
    ============================================================ */
 const firebaseConfig = {
   apiKey: "AIzaSyBquSyKnnQp4NMtCaooAD7k1tp3KPVdahU",
@@ -818,31 +776,13 @@ const firebaseConfig = {
   appId: "1:731415620829:web:f34028a823efb50211bf34",
   measurementId: "G-V73LRY2Z0F"
 };
-
 let db = null, firebaseReady = false;
-try {
-  firebase.initializeApp(firebaseConfig);
-  db = firebase.firestore();
-  firebaseReady = true;
-  console.log('✅ Firebase initialized:', firebaseConfig.projectId);
-} catch(e) {
-  console.error('❌ Firebase init failed', e);
-}
+try { firebase.initializeApp(firebaseConfig); db = firebase.firestore(); firebaseReady = true; } catch(e) { console.error(e); }
 
 /* ============================================================
-   STATE
+   CONSTANTS
    ============================================================ */
-let allMonthsData = {};
-let currentMonthKey = '';
-let weeklyClosures = [];
-let auditLog = [];
-let saveTimeout = null;
-let activeTab = 'daily';
-let activeAdminTab = 'overview';
-let currentUser = null;
-let currentLocationId = null;
-let allUsersCache = {};
-let allLocationsCache = {};
+const EXPENSE_TYPES = ['Salary','Rent','Utilities (Electricity/Water)','Transport','Fuel','Packaging Materials','Cleaning Supplies','Security Services','Wifi / Internet','Telephone / Airtime','Waste Disposal','Licenses & Permits','Insurance','Marketing & Advertising','Repairs & Maintenance','Bank Charges','Loan Repayment','Taxes','Staff Welfare','Loss / Theft','Other'];
 
 const DEFAULT_PERMISSIONS = {
   manager:    { view:true, editDaily:true, editPurchases:true, editExpenses:true, closeMonth:true, viewAudit:true, viewLog:true, manageUsers:true },
@@ -851,53 +791,62 @@ const DEFAULT_PERMISSIONS = {
 };
 
 /* ============================================================
+   STATE
+   ============================================================ */
+let allMonthsData = {}, currentMonthKey = '', weeklyClosures = [], auditLog = [];
+let saveTimeout = null, activeTab = 'daily', activeAdminTab = 'overview';
+let currentUser = null, currentLocationId = null;
+let allUsersCache = {}, allLocationsCache = {};
+
+/* ============================================================
    HELPERS
    ============================================================ */
-function defaultExpenses(){return {salary:600000,rent:550000,utilities:0,transport:0,other:0};}
-function currentEntries(){return allMonthsData[currentMonthKey]?.entries || [];}
-function currentExpenses(){return allMonthsData[currentMonthKey]?.expenses || defaultExpenses();}
+function defaultExpenses(){ return [{ type: 'Salary', amount: 600000, note: '' }, { type: 'Rent', amount: 550000, note: '' }]; }
+function currentEntries(){ return allMonthsData[currentMonthKey]?.entries || []; }
+function currentExpenses(){
+  const raw = allMonthsData[currentMonthKey]?.expenses;
+  if(!raw) return defaultExpenses();
+  if(Array.isArray(raw)) return raw;
+  const migrated = [];
+  if(raw.salary) migrated.push({ type: 'Salary', amount: raw.salary, note: '' });
+  if(raw.rent) migrated.push({ type: 'Rent', amount: raw.rent, note: '' });
+  if(raw.utilities) migrated.push({ type: 'Utilities (Electricity/Water)', amount: raw.utilities, note: '' });
+  if(raw.transport) migrated.push({ type: 'Transport', amount: raw.transport, note: '' });
+  if(raw.other) migrated.push({ type: 'Other', amount: raw.other, note: '' });
+  if(migrated.length === 0) return defaultExpenses();
+  allMonthsData[currentMonthKey].expenses = migrated;
+  return migrated;
+}
+function totalMonthlyExpenses(exp){ return Array.isArray(exp) ? exp.reduce((s, e) => s + (parseFloat(e.amount) || 0), 0) : 0; }
 function currentPurchases(){
   if(!allMonthsData[currentMonthKey]) allMonthsData[currentMonthKey]={entries:[],expenses:defaultExpenses(),closed:false,purchases:[]};
   if(!allMonthsData[currentMonthKey].purchases) allMonthsData[currentMonthKey].purchases=[];
   return allMonthsData[currentMonthKey].purchases;
 }
-function totalMonthlyExpenses(exp){return (exp.salary||0)+(exp.rent||0)+(exp.utilities||0)+(exp.transport||0)+(exp.other||0);}
 function grossProfit(row){const c=parseFloat(row.cost)||0,s=parseFloat(row.sales)||0,e=parseFloat(row.expenses)||0;return s-c-e;}
 function fmt(n){if(n===undefined||n===null||isNaN(n))return '0';return Number(n).toLocaleString('en-UG',{maximumFractionDigits:0});}
 function fmtSigned(n){if(n===undefined||n===null||isNaN(n))return '—';const a=Math.abs(n).toLocaleString('en-UG',{maximumFractionDigits:0});return (n>=0?'+':'−')+a;}
 function monthLabel(key){return new Date(key+'-01').toLocaleString('en',{month:'long',year:'numeric'});}
 function shortMonth(key){return new Date(key+'-01').toLocaleString('en',{month:'short',year:'numeric'});}
 
-function hasPerm(perm) {
+/* ✅ FIXED: robust permission check with safe defaults */
+function hasPerm(perm){
   if(!currentUser) return false;
   if(currentUser.role === 'admin' || currentUser.role === 'superadmin') return true;
-  return !!currentUser.permissions?.[perm];
+  // If permissions object missing entirely, fall back to role defaults
+  const perms = currentUser.permissions || DEFAULT_PERMISSIONS[currentUser.role] || DEFAULT_PERMISSIONS.cashier;
+  return !!perms[perm];
 }
 
-function showToast(msg, type){
-  const t = document.getElementById('toast');
-  t.className = 'toast' + (type ? ' ' + type : '');
-  document.getElementById('toastMsg').textContent = msg;
-  t.classList.add('show');
-  clearTimeout(t._timer);
-  t._timer = setTimeout(()=>t.classList.remove('show'), 2600);
-}
-
+function showToast(msg, type){ const t = document.getElementById('toast'); t.className = 'toast' + (type ? ' ' + type : ''); document.getElementById('toastMsg').textContent = msg; t.classList.add('show'); clearTimeout(t._timer); t._timer = setTimeout(()=>t.classList.remove('show'), 2600); }
 function showSaveStatus(status, msg, target){
   const prefix = target === 'admin' ? 'adminSave' : 'save';
-  const el = document.getElementById(prefix + 'Indicator');
-  const txt = document.getElementById(prefix + 'Status');
+  const el = document.getElementById(prefix + 'Indicator'), txt = document.getElementById(prefix + 'Status');
   if(!el||!txt) return;
   el.classList.remove('saving','saved','error');
-  if(status==='saving'){
-    el.classList.add('saving'); el.querySelector('i').className='fas fa-spinner fa-spin'; txt.textContent='Saving...';
-  } else if(status==='saved'){
-    el.classList.add('saved'); el.querySelector('i').className='fas fa-cloud-check';
-    const t = new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit',second:'2-digit'});
-    txt.textContent = msg || `Saved ${t}`;
-  } else {
-    el.classList.add('error'); el.querySelector('i').className='fas fa-exclamation-triangle'; txt.textContent = msg || 'Save failed';
-  }
+  if(status==='saving'){ el.classList.add('saving'); el.querySelector('i').className='fas fa-spinner fa-spin'; txt.textContent='Saving...'; }
+  else if(status==='saved'){ el.classList.add('saved'); el.querySelector('i').className='fas fa-cloud-check'; const t = new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit',second:'2-digit'}); txt.textContent = msg || `Saved ${t}`; }
+  else { el.classList.add('error'); el.querySelector('i').className='fas fa-exclamation-triangle'; txt.textContent = msg || 'Save failed'; }
 }
 
 /* ============================================================
@@ -907,27 +856,13 @@ async function autoSeed() {
   if(!firebaseReady) return;
   try {
     const adminDoc = await db.collection('config').doc('admin').get();
-    if(!adminDoc.exists) {
-      await db.collection('config').doc('admin').set({ password: 'admin', createdAt: new Date().toISOString() });
-      console.log('✅ Admin config created');
-    }
+    if(!adminDoc.exists) await db.collection('config').doc('admin').set({ password: 'admin', createdAt: new Date().toISOString() });
     const userDoc = await db.collection('users').doc('wamombl1').get();
-    if(userDoc.exists) { console.log('ℹ️ wamombl1 exists'); return; }
-    await db.collection('locations').doc('wamombl1').set({
-      name: 'Wamo Mbale 1', code: 'wamombl1', createdAt: new Date().toISOString(), status: 'active'
-    });
-    await db.collection('users').doc('wamombl1').set({
-      username: 'wamombl1', fullName: 'Ahmed', password: 'wamo123@',
-      locationId: 'wamombl1', role: 'manager',
-      permissions: DEFAULT_PERMISSIONS.manager, status: 'active',
-      createdAt: new Date().toISOString()
-    });
-    const now = new Date();
-    const curKey = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0');
-    await db.collection('locations').doc('wamombl1').collection('months').doc(curKey).set({
-      entries: [], expenses: defaultExpenses(), closed: false, purchases: []
-    });
-    console.log('✅ Auto-seeded wamombl1');
+    if(userDoc.exists) return;
+    await db.collection('locations').doc('wamombl1').set({ name: 'Wamo Mbale 1', code: 'wamombl1', createdAt: new Date().toISOString(), status: 'active' });
+    await db.collection('users').doc('wamombl1').set({ username:'wamombl1', fullName:'Ahmed', password:'wamo123@', locationId:'wamombl1', role:'manager', permissions: DEFAULT_PERMISSIONS.manager, status:'active', createdAt: new Date().toISOString() });
+    const now = new Date(); const curKey = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0');
+    await db.collection('locations').doc('wamombl1').collection('months').doc(curKey).set({ entries: [], expenses: defaultExpenses(), closed: false, purchases: [] });
   } catch(e) { console.error('Auto-seed failed', e); }
 }
 
@@ -948,63 +883,32 @@ async function loadLocationData(locationId) {
     const lSnap = await db.collection('locations').doc(locationId).collection('auditLog').orderBy('time','desc').limit(500).get();
     auditLog = [];
     lSnap.forEach(doc => auditLog.push(doc.data()));
-    const now = new Date();
-    const curKey = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0');
-    if(!allMonthsData[curKey]) {
-      allMonthsData[curKey] = { entries: [], expenses: defaultExpenses(), closed: false, purchases: [] };
-      await db.collection('locations').doc(locationId).collection('months').doc(curKey).set(allMonthsData[curKey]);
-    }
+    const now = new Date(); const curKey = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0');
+    if(!allMonthsData[curKey]) { allMonthsData[curKey] = { entries: [], expenses: defaultExpenses(), closed: false, purchases: [] }; await db.collection('locations').doc(locationId).collection('months').doc(curKey).set(allMonthsData[curKey]); }
     const monthsSorted = Object.keys(allMonthsData).sort();
-    if(!currentMonthKey || !allMonthsData[currentMonthKey]) {
-      currentMonthKey = monthsSorted.length ? monthsSorted[monthsSorted.length-1] : curKey;
-    }
+    if(!currentMonthKey || !allMonthsData[currentMonthKey]) currentMonthKey = monthsSorted.length ? monthsSorted[monthsSorted.length-1] : curKey;
     showSaveStatus('saved','Loaded');
-  } catch(e) {
-    console.error('Load failed', e);
-    showSaveStatus('error','Load failed');
-  }
+  } catch(e) { console.error(e); showSaveStatus('error','Load failed'); }
 }
-
 async function saveMonthToFirestore(monthKey) {
   if(!firebaseReady || !currentLocationId) return;
-  try {
-    const data = allMonthsData[monthKey];
-    if(!data) return;
-    await db.collection('locations').doc(currentLocationId).collection('months').doc(monthKey).set(data);
-  } catch(e) { console.error('Save failed', e); }
+  try { const data = allMonthsData[monthKey]; if(!data) return; await db.collection('locations').doc(currentLocationId).collection('months').doc(monthKey).set(data); } catch(e) { console.error(e); }
 }
-
 async function saveClosureToFirestore(closure) {
   if(!firebaseReady || !currentLocationId) return;
-  try {
-    await db.collection('locations').doc(currentLocationId).collection('weeklyClosures').doc(closure.date).set(closure);
-  } catch(e) {}
+  try { await db.collection('locations').doc(currentLocationId).collection('weeklyClosures').doc(closure.date).set(closure); } catch(e) {}
 }
-
 async function saveLogEntry(entry) {
   if(!firebaseReady || !currentLocationId) return;
-  try {
-    await db.collection('locations').doc(currentLocationId).collection('auditLog').add(entry);
-  } catch(e) {}
+  try { await db.collection('locations').doc(currentLocationId).collection('auditLog').add(entry); } catch(e) {}
 }
-
 function scheduleSave(monthKey) {
   showSaveStatus('saving');
   if(saveTimeout) clearTimeout(saveTimeout);
-  saveTimeout = setTimeout(async () => {
-    await saveMonthToFirestore(monthKey || currentMonthKey);
-    showSaveStatus('saved');
-  }, 800);
+  saveTimeout = setTimeout(async () => { await saveMonthToFirestore(monthKey || currentMonthKey); showSaveStatus('saved'); }, 800);
 }
-
 function addLog(action, details){
-  const entry = {
-    time: new Date().toISOString(),
-    action, details,
-    month: currentMonthKey,
-    user: currentUser?.username || 'unknown',
-    locationId: currentLocationId
-  };
+  const entry = { time: new Date().toISOString(), action, details, month: currentMonthKey, user: currentUser?.username || 'unknown', locationId: currentLocationId };
   auditLog.unshift(entry);
   if(auditLog.length > 500) auditLog.length = 500;
   saveLogEntry(entry);
@@ -1012,33 +916,51 @@ function addLog(action, details){
 }
 
 /* ============================================================
-   LANDING PAGE & LOGIN MODAL
+   CONTACT FORM
+   ============================================================ */
+function openContactModal(){ document.getElementById('contactModal').classList.add('active'); document.getElementById('contactError').style.display='none'; document.getElementById('contactSuccess').style.display='none'; }
+function closeContactModal(){ document.getElementById('contactModal').classList.remove('active'); }
+document.getElementById('contactModal').addEventListener('click', function(e){ if(e.target === this) closeContactModal(); });
+async function sendContactForm(){
+  const name = document.getElementById('contactName').value.trim();
+  const email = document.getElementById('contactEmail').value.trim();
+  const subject = document.getElementById('contactSubject').value.trim() || 'Website contact';
+  const message = document.getElementById('contactMessage').value.trim();
+  const errBox = document.getElementById('contactError'), errTxt = document.getElementById('contactErrorText');
+  const sucBox = document.getElementById('contactSuccess'), sucTxt = document.getElementById('contactSuccessText');
+  const btn = document.getElementById('contactSendBtn');
+  errBox.style.display = 'none'; sucBox.style.display = 'none';
+  if(!name || !email || !message){ errTxt.textContent = 'Please fill name, email and message'; errBox.style.display = 'flex'; return; }
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ errTxt.textContent = 'Please enter a valid email'; errBox.style.display = 'flex'; return; }
+  btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+  try {
+    await db.collection('contactMessages').add({ name, email, subject, message, createdAt: new Date().toISOString(), source: 'landing-page' });
+    const mailtoBody = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`);
+    const mailtoSubject = encodeURIComponent(`[Bright Mesh] ${subject}`);
+    sucTxt.innerHTML = `Thank you! Your message has been saved. We'll get back to you soon.<br><br><a href="mailto:brightmesh.app@gmail.com?subject=${mailtoSubject}&body=${mailtoBody}" style="color:#1d7a4b;font-weight:700;">Click here to also send via email app</a>`;
+    sucBox.style.display = 'flex';
+    document.getElementById('contactName').value = ''; document.getElementById('contactEmail').value = ''; document.getElementById('contactSubject').value = ''; document.getElementById('contactMessage').value = '';
+  } catch(e) { errTxt.textContent = 'Could not send: ' + e.message; errBox.style.display = 'flex'; }
+  finally { btn.disabled = false; btn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Message'; }
+}
+
+/* ============================================================
+   LOGIN / LOGOUT
    ============================================================ */
 document.getElementById('year').textContent = new Date().getFullYear();
-
-function openLoginModal(){ document.getElementById('loginModal').classList.add('active'); setTimeout(()=>document.getElementById('loginUsername').focus(), 100); }
-function closeLoginModal(){ document.getElementById('loginModal').classList.remove('active'); document.getElementById('loginError').classList.remove('show'); }
-
-document.getElementById('loginModal').addEventListener('click', function(e){ if(e.target === this) closeLoginModal(); });
 document.getElementById('loginUsername').addEventListener('keypress', e=>{ if(e.key==='Enter') document.getElementById('loginPassword').focus(); });
 document.getElementById('loginPassword').addEventListener('keypress', e=>{ if(e.key==='Enter') doLogin(); });
 
-/* ============================================================
-   LOGIN LOGIC
-   ============================================================ */
 async function doLogin(){
   const u = document.getElementById('loginUsername').value.trim().toLowerCase();
   const p = document.getElementById('loginPassword').value;
-  const errBox = document.getElementById('loginError');
-  const errTxt = document.getElementById('loginErrorText');
-  const btn = document.getElementById('loginBtn');
-  const loading = document.getElementById('loginLoading');
+  const errBox = document.getElementById('loginError'), errTxt = document.getElementById('loginErrorText');
+  const btn = document.getElementById('loginBtn'), loading = document.getElementById('loginLoading');
   errBox.classList.remove('show');
   if(!u || !p){ errTxt.textContent = 'Please enter username and password'; errBox.classList.add('show'); return; }
-  if(!firebaseReady){ errTxt.textContent = 'Firebase not ready. Check your config.'; errBox.classList.add('show'); return; }
+  if(!firebaseReady){ errTxt.textContent = 'Firebase not ready.'; errBox.classList.add('show'); return; }
   btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing in...';
-  loading.classList.add('show');
-
+  loading.style.display = 'block';
   try {
     if(u === 'admin') {
       const adminDoc = await db.collection('config').doc('admin').get();
@@ -1047,7 +969,6 @@ async function doLogin(){
       if(p !== adminPass) throw new Error('Invalid admin password');
       currentUser = { username: 'admin', fullName: 'Administrator', role: 'admin', permissions: { view:true, editDaily:true, editPurchases:true, editExpenses:true, closeMonth:true, viewAudit:true, viewLog:true, manageUsers:true } };
       currentLocationId = null;
-      closeLoginModal();
       await showAdminDashboard();
       return;
     }
@@ -1058,29 +979,16 @@ async function doLogin(){
     if(userData.password !== p) throw new Error('Invalid password');
     const locDoc = await db.collection('locations').doc(userData.locationId).get();
     const locData = locDoc.exists ? locDoc.data() : { name: userData.locationId };
-    currentUser = {
-      username: u,
-      fullName: userData.fullName || u,
-      locationId: userData.locationId,
-      locationName: locData.name || userData.locationId,
-      role: userData.role || 'cashier',
-      permissions: userData.permissions || DEFAULT_PERMISSIONS[userData.role] || DEFAULT_PERMISSIONS.cashier
-    };
+    /* ✅ FIXED: Ensure permissions object always exists */
+    const userRole = userData.role || 'cashier';
+    const userPerms = userData.permissions || DEFAULT_PERMISSIONS[userRole] || DEFAULT_PERMISSIONS.cashier;
+    currentUser = { username: u, fullName: userData.fullName || u, locationId: userData.locationId, locationName: locData.name || userData.locationId, role: userRole, permissions: userPerms };
     currentLocationId = userData.locationId;
-    closeLoginModal();
     await showUserDashboard();
-  } catch(e) {
-    errTxt.textContent = e.message || 'Login failed';
-    errBox.classList.add('show');
-  } finally {
-    btn.disabled = false; btn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Sign in';
-    loading.classList.remove('show');
-  }
+  } catch(e) { errTxt.textContent = e.message || 'Login failed'; errBox.classList.add('show'); }
+  finally { btn.disabled = false; btn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Sign in'; loading.style.display = 'none'; }
 }
 
-/* ============================================================
-   SHOW USER DASHBOARD
-   ============================================================ */
 async function showUserDashboard(){
   document.getElementById('landingPage').style.display = 'none';
   document.getElementById('adminApp').style.display = 'none';
@@ -1090,11 +998,19 @@ async function showUserDashboard(){
   roleEl.textContent = currentUser.role;
   roleEl.className = 'role ' + currentUser.role;
   document.getElementById('locationTitle').textContent = '· ' + currentUser.locationName;
+  document.getElementById('teamLocationName').textContent = currentUser.locationName;
 
-  // Show/hide Team Management tab based on permission
-  const teamBtn = document.querySelector('.tab-btn[data-tab="team"]');
-  if(hasPerm('manageUsers')) teamBtn.classList.remove('hidden');
-  else teamBtn.classList.add('hidden');
+  // ✅ FIXED: Use hasPerm() instead of raw permissions check so it always respects role defaults
+  const teamBtn = document.getElementById('teamTabBtn');
+  if(teamBtn) {
+    if(hasPerm('manageUsers')) {
+      teamBtn.classList.remove('hidden');
+      teamBtn.style.display = 'inline-flex';
+    } else {
+      teamBtn.classList.add('hidden');
+      teamBtn.style.display = 'none';
+    }
+  }
 
   await loadLocationData(currentLocationId);
   applyPermissions();
@@ -1105,31 +1021,22 @@ async function showUserDashboard(){
   renderPurchases();
   renderLog();
   if(hasPerm('manageUsers')) renderTeam();
-  switchTab(activeTab, true);
+  switchTab('daily');
   addLog('Login', `${currentUser.username} signed in`);
   showToast('Welcome, ' + (currentUser.fullName || currentUser.username), 'success');
 }
 
-/* ============================================================
-   SHOW ADMIN DASHBOARD
-   ============================================================ */
 async function showAdminDashboard(){
   document.getElementById('landingPage').style.display = 'none';
   document.getElementById('app').style.display = 'none';
   document.getElementById('adminApp').style.display = 'block';
   showSaveStatus('saving','Loading...','admin');
   await loadAdminData();
-  renderAdminOverview();
-  renderAdminLocations();
-  renderAdminAccounts();
-  renderAdminActivity();
+  renderAdminOverview(); renderAdminLocations(); renderAdminAccounts(); renderAdminActivity();
   showSaveStatus('saved','Ready','admin');
-  switchAdminTab(activeAdminTab, true);
+  switchAdminTab(activeAdminTab);
 }
 
-/* ============================================================
-   PERMISSIONS
-   ============================================================ */
 function applyPermissions(){
   document.querySelectorAll('.editor-only').forEach(el => {
     const canEdit = hasPerm('editDaily') || hasPerm('editPurchases') || hasPerm('editExpenses') || hasPerm('closeMonth');
@@ -1139,17 +1046,15 @@ function applyPermissions(){
 
 function doLogout(){
   if(!confirm('Sign out?')) return;
-  currentUser = null;
-  currentLocationId = null;
-  allMonthsData = {};
-  weeklyClosures = [];
-  auditLog = [];
+  currentUser = null; currentLocationId = null;
+  allMonthsData = {}; weeklyClosures = []; auditLog = [];
   document.getElementById('landingPage').style.display = 'block';
   document.getElementById('app').style.display = 'none';
   document.getElementById('adminApp').style.display = 'none';
   document.getElementById('loginUsername').value = '';
   document.getElementById('loginPassword').value = '';
   document.getElementById('loginError').classList.remove('show');
+  document.getElementById('signin-section').scrollIntoView({behavior:'smooth'});
 }
 
 /* ============================================================
@@ -1159,15 +1064,12 @@ async function loadAdminData(){
   if(!firebaseReady) return;
   try {
     const locSnap = await db.collection('locations').get();
-    allLocationsCache = {};
-    locSnap.forEach(d => allLocationsCache[d.id] = d.data());
+    allLocationsCache = {}; locSnap.forEach(d => allLocationsCache[d.id] = d.data());
     const usSnap = await db.collection('users').get();
-    allUsersCache = {};
-    usSnap.forEach(d => allUsersCache[d.id] = d.data());
-  } catch(e) { console.error('Admin load failed', e); }
+    allUsersCache = {}; usSnap.forEach(d => allUsersCache[d.id] = d.data());
+  } catch(e) { console.error(e); }
 }
-
-function switchAdminTab(tab, skip){
+function switchAdminTab(tab){
   activeAdminTab = tab;
   document.querySelectorAll('#adminApp .tab-btn').forEach(b => b.classList.toggle('active', b.dataset.atab === tab));
   document.querySelectorAll('#adminApp .tab-panel').forEach(p => p.classList.remove('active'));
@@ -1177,14 +1079,10 @@ function switchAdminTab(tab, skip){
   if(tab === 'accounts') renderAdminAccounts();
   if(tab === 'activity') renderAdminActivity();
 }
-
 async function renderAdminOverview(){
-  // Compute stats
   const numLocations = Object.keys(allLocationsCache).length;
   const numUsers = Object.keys(allUsersCache).length;
   const numActive = Object.values(allUsersCache).filter(u => u.status !== 'suspended').length;
-
-  // Aggregate performance
   let totalSalesAll = 0, totalNetAll = 0, totalEntries = 0;
   const perfRows = [];
   for(const [locId, locData] of Object.entries(allLocationsCache)) {
@@ -1196,173 +1094,121 @@ async function renderAdminOverview(){
       const s = entries.reduce((sum, r) => sum + (parseFloat(r.sales) || 0), 0);
       const c = entries.reduce((sum, r) => sum + (parseFloat(r.cost) || 0), 0);
       const e = entries.reduce((sum, r) => sum + (parseFloat(r.expenses) || 0), 0);
-      const me = totalMonthlyExpenses(m.expenses || {});
+      const me = totalMonthlyExpenses(m.expenses || []);
       const gross = s - c - e;
-      const net = gross - me;
-      locSales += s; locNet += net; locEntries += entries.length;
+      locSales += s; locNet += (gross - me); locEntries += entries.length;
     });
     totalSalesAll += locSales; totalNetAll += locNet; totalEntries += locEntries;
     const locUserCount = Object.values(allUsersCache).filter(u => u.locationId === locId).length;
-    perfRows.push({
-      locId,
-      name: locData.name || locId,
-      users: locUserCount,
-      entries: locEntries,
-      sales: locSales,
-      net: locNet,
-      status: locData.status || 'active'
-    });
+    perfRows.push({ locId, name: locData.name || locId, users: locUserCount, entries: locEntries, sales: locSales, net: locNet, status: locData.status || 'active' });
   }
-
   document.getElementById('adminStats').innerHTML = `
-    <div class="admin-stat">
-      <div class="icon blue"><i class="fas fa-location-dot"></i></div>
-      <div class="meta"><div class="num">${numLocations}</div><div class="lbl">Locations</div></div>
-    </div>
-    <div class="admin-stat">
-      <div class="icon green"><i class="fas fa-users"></i></div>
-      <div class="meta"><div class="num">${numActive} / ${numUsers}</div><div class="lbl">Active Users</div></div>
-    </div>
-    <div class="admin-stat">
-      <div class="icon amber"><i class="fas fa-coins"></i></div>
-      <div class="meta"><div class="num">${fmt(totalSalesAll)}</div><div class="lbl">Total Sales (UGX)</div></div>
-    </div>
-    <div class="admin-stat">
-      <div class="icon purple"><i class="fas fa-chart-line"></i></div>
-      <div class="meta"><div class="num">${fmt(totalNetAll)}</div><div class="lbl">Total Net (UGX)</div></div>
-    </div>
+    <div class="admin-stat"><div class="icon blue"><i class="fas fa-location-dot"></i></div><div class="meta"><div class="num">${numLocations}</div><div class="lbl">Locations</div></div></div>
+    <div class="admin-stat"><div class="icon green"><i class="fas fa-users"></i></div><div class="meta"><div class="num">${numActive} / ${numUsers}</div><div class="lbl">Active Users</div></div></div>
+    <div class="admin-stat"><div class="icon amber"><i class="fas fa-coins"></i></div><div class="meta"><div class="num">${fmt(totalSalesAll)}</div><div class="lbl">Total Sales (UGX)</div></div></div>
+    <div class="admin-stat"><div class="icon purple"><i class="fas fa-chart-line"></i></div><div class="meta"><div class="num">${fmt(totalNetAll)}</div><div class="lbl">Total Net (UGX)</div></div></div>
   `;
-
   document.getElementById('adminPerfBody').innerHTML = perfRows.length ? perfRows.map(r => `
-    <tr>
-      <td><strong>${r.name}</strong><div style="font-size:0.72rem;color:#6a7f94;">${r.locId}</div></td>
-      <td>${r.users}</td>
-      <td>${r.entries}</td>
-      <td>${fmt(r.sales)}</td>
-      <td style="color:${r.net >= 0 ? '#1d7a4b' : '#b33a3a'};font-weight:600;">${fmt(r.net)}</td>
-      <td><span class="badge-pill ${r.status === 'active' ? 'green' : 'red'}">${r.status}</span></td>
-    </tr>
+    <tr><td><strong>${r.name}</strong><div style="font-size:0.72rem;color:#6a7f94;">${r.locId}</div></td><td>${r.users}</td><td>${r.entries}</td><td>${fmt(r.sales)}</td><td style="color:${r.net >= 0 ? '#1d7a4b' : '#b33a3a'};font-weight:600;">${fmt(r.net)}</td><td><span class="badge-pill ${r.status === 'active' ? 'green' : 'red'}">${r.status}</span></td></tr>
   `).join('') : '<tr><td colspan="6" style="text-align:center;padding:2rem;color:#7b8fa0;">No locations yet</td></tr>';
 }
-
 function renderAdminLocations(){
   const grid = document.getElementById('adminLocationsGrid');
   const entries = Object.entries(allLocationsCache);
-  if(!entries.length) {
-    grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:2rem;color:#7b8fa0;">No locations yet. Create one above.</div>';
-    return;
-  }
+  if(!entries.length) { grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:2rem;color:#7b8fa0;">No locations yet.</div>'; return; }
   grid.innerHTML = entries.map(([id, l]) => {
     const userCount = Object.values(allUsersCache).filter(u => u.locationId === id).length;
     const activeUsers = Object.values(allUsersCache).filter(u => u.locationId === id && u.status !== 'suspended').length;
     return `<div class="location-card">
-      <div class="head">
-        <div>
-          <div class="name">${l.name || id}</div>
-          <div class="code"><i class="fas fa-tag"></i> ${id}</div>
-        </div>
-        <div class="status-dot ${l.status === 'suspended' ? 'suspended' : ''}" title="${l.status || 'active'}"></div>
-      </div>
-      <div class="metrics">
-        <div class="metric"><div class="v">${activeUsers}/${userCount}</div><div class="l">Users</div></div>
-        <div class="metric"><div class="v">${l.createdAt ? new Date(l.createdAt).toLocaleDateString('en-GB',{month:'short',year:'2-digit'}) : '—'}</div><div class="l">Created</div></div>
-        <div class="metric"><div class="v">${l.status === 'suspended' ? 'Off' : 'On'}</div><div class="l">Status</div></div>
-      </div>
-      <div class="actions">
-        <button class="btn" onclick="viewLocationDetail('${id}')"><i class="fas fa-eye"></i> View</button>
-        <button class="btn" onclick="toggleLocationStatus('${id}')"><i class="fas fa-power-off"></i> ${l.status === 'suspended' ? 'Activate' : 'Suspend'}</button>
-        <button class="btn btn-danger" onclick="deleteLocationConfirm('${id}')"><i class="fas fa-trash"></i> Delete</button>
-      </div>
+      <div class="head"><div><div class="name">${l.name || id}</div><div class="code"><i class="fas fa-tag"></i> ${id}</div></div><div class="status-dot ${l.status === 'suspended' ? 'suspended' : ''}"></div></div>
+      <div class="metrics"><div class="metric"><div class="v">${activeUsers}/${userCount}</div><div class="l">Users</div></div><div class="metric"><div class="v">${l.createdAt ? new Date(l.createdAt).toLocaleDateString('en-GB',{month:'short',year:'2-digit'}) : '—'}</div><div class="l">Created</div></div><div class="metric"><div class="v">${l.status === 'suspended' ? 'Off' : 'On'}</div><div class="l">Status</div></div></div>
+      <div class="actions"><button class="btn" onclick="viewLocationDetail('${id}')"><i class="fas fa-eye"></i> View</button><button class="btn" onclick="toggleLocationStatus('${id}')"><i class="fas fa-power-off"></i> ${l.status === 'suspended' ? 'Activate' : 'Suspend'}</button><button class="btn btn-danger" onclick="deleteLocationConfirm('${id}')"><i class="fas fa-trash"></i> Delete</button></div>
     </div>`;
   }).join('');
 }
-
 function renderAdminAccounts(){
   const search = (document.getElementById('adminSearch')?.value || '').toLowerCase().trim();
   const locFilter = document.getElementById('adminLocFilter')?.value || '';
-  // Populate location filter dropdown
   const sel = document.getElementById('adminLocFilter');
-  if(sel && sel.options.length <= 1) {
-    sel.innerHTML = '<option value="">All locations</option>' + Object.entries(allLocationsCache).map(([id,l]) => `<option value="${id}">${l.name || id}</option>`).join('');
-  }
+  if(sel && sel.options.length <= 1) sel.innerHTML = '<option value="">All locations</option>' + Object.entries(allLocationsCache).map(([id,l]) => `<option value="${id}">${l.name || id}</option>`).join('');
   const entries = Object.entries(allUsersCache).filter(([username, u]) => {
     if(locFilter && u.locationId !== locFilter) return false;
-    if(search) {
-      const hay = (username + ' ' + (u.fullName || '') + ' ' + (allLocationsCache[u.locationId]?.name || '')).toLowerCase();
-      if(!hay.includes(search)) return false;
-    }
+    if(search) { const hay = (username + ' ' + (u.fullName || '') + ' ' + (allLocationsCache[u.locationId]?.name || '')).toLowerCase(); if(!hay.includes(search)) return false; }
     return true;
   });
-
   const list = document.getElementById('adminAccountsList');
-  if(!entries.length) {
-    list.innerHTML = '<div style="text-align:center;padding:2rem;color:#7b8fa0;">No accounts match your filter</div>';
-    return;
-  }
+  if(!entries.length) { list.innerHTML = '<div style="text-align:center;padding:2rem;color:#7b8fa0;">No accounts match</div>'; return; }
   list.innerHTML = entries.map(([username, u]) => {
     const locName = allLocationsCache[u.locationId]?.name || u.locationId || '—';
-    const status = u.status || 'active';
-    const role = u.role || 'cashier';
+    const status = u.status || 'active'; const role = u.role || 'cashier';
     const roleBadge = role === 'manager' ? 'green' : role === 'accountant' ? 'amber' : 'blue';
     const statusBadge = status === 'suspended' ? 'red' : 'green';
     return `<div class="user-row">
-      <div class="uinfo">
-        <div class="uname">
-          <i class="fas fa-user-circle" style="color:#6a7f94;"></i>
-          <strong>${username}</strong>
-          <span class="badge-pill ${roleBadge}">${role}</span>
-          <span class="badge-pill ${statusBadge}">${status}</span>
-        </div>
-        <div class="umeta">${u.fullName || '—'} · ${locName} · Created ${u.createdAt ? new Date(u.createdAt).toLocaleDateString() : '—'}</div>
-      </div>
-      <div class="actions">
-        <button class="btn" onclick="viewUserPerf('${username}')"><i class="fas fa-chart-line"></i> Perf</button>
-        <button class="btn" onclick="openUserEdit('${username}')"><i class="fas fa-edit"></i> Edit</button>
-        <button class="btn" onclick="toggleUserStatus('${username}')"><i class="fas fa-power-off"></i> ${status === 'suspended' ? 'Activate' : 'Suspend'}</button>
-        <button class="btn btn-danger" onclick="deleteUserConfirm('${username}')"><i class="fas fa-trash"></i></button>
-      </div>
+      <div class="uinfo"><div class="uname"><i class="fas fa-user-circle" style="color:#6a7f94;"></i> <strong>${username}</strong> <span class="badge-pill ${roleBadge}">${role}</span> <span class="badge-pill ${statusBadge}">${status}</span></div><div class="umeta">${u.fullName || '—'} · ${locName}${u.createdBy ? ' · Created by ' + u.createdBy : ''}</div></div>
+      <div class="actions"><button class="btn" onclick="openUserEdit('${username}')"><i class="fas fa-edit"></i> Edit</button><button class="btn" onclick="toggleUserStatus('${username}')"><i class="fas fa-power-off"></i> ${status === 'suspended' ? 'Activate' : 'Suspend'}</button><button class="btn btn-danger" onclick="deleteUserConfirm('${username}')"><i class="fas fa-trash"></i></button></div>
     </div>`;
   }).join('');
 }
-
 async function renderAdminActivity(){
   showSaveStatus('saving','Loading...','admin');
   try {
     const all = [];
     for(const locId of Object.keys(allLocationsCache)) {
       const snap = await db.collection('locations').doc(locId).collection('auditLog').orderBy('time','desc').limit(50).get();
-      snap.forEach(d => {
-        const entry = d.data();
-        entry._locName = allLocationsCache[locId]?.name || locId;
-        all.push(entry);
-      });
+      snap.forEach(d => { const entry = d.data(); entry._locName = allLocationsCache[locId]?.name || locId; entry._locId = locId; all.push(entry); });
     }
     all.sort((a,b) => new Date(b.time) - new Date(a.time));
     const recent = all.slice(0, 200);
     const tbody = document.getElementById('adminActivityBody');
-    if(!recent.length) {
-      tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:2rem;color:#7b8fa0;">No activity yet</td></tr>';
-      showSaveStatus('saved','Ready','admin');
-      return;
-    }
+    if(!recent.length) { tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:2rem;color:#7b8fa0;">No activity yet</td></tr>'; showSaveStatus('saved','Ready','admin'); return; }
     tbody.innerHTML = recent.map(l => {
       const d = new Date(l.time);
-      const badge = l.action.toLowerCase().includes('delete') || l.action.toLowerCase().includes('remove')
-        ? 'red' : l.action.toLowerCase().includes('add') ? 'green' : 'blue';
-      return `<tr>
-        <td style="font-size:0.78rem;color:#6a7f94;">${d.toLocaleString()}</td>
-        <td><strong>${l.user || '—'}</strong></td>
-        <td>${l._locName}</td>
-        <td><span class="badge-pill ${badge}">${l.action}</span></td>
-        <td style="font-size:0.82rem;">${l.details}</td>
-      </tr>`;
+      const badge = l.action.toLowerCase().includes('delete') || l.action.toLowerCase().includes('remove') ? 'red' : l.action.toLowerCase().includes('add') ? 'green' : 'blue';
+      return `<tr><td style="font-size:0.78rem;color:#6a7f94;">${d.toLocaleString()}</td><td><strong>${l.user || '—'}</strong></td><td>${l._locName}</td><td><span class="badge-pill ${badge}">${l.action}</span></td><td style="font-size:0.82rem;">${l.details}</td></tr>`;
     }).join('');
     showSaveStatus('saved','Ready','admin');
-  } catch(e) { console.error(e); showSaveStatus('error','Failed','admin'); }
+  } catch(e) { showSaveStatus('error','Failed','admin'); }
+}
+
+/* ✅ NEW: Clear all activity logs */
+async function clearAllActivityLogs(){
+  const confirmed = confirm('Are you sure you want to permanently delete ALL activity logs across ALL locations?\n\nThis action cannot be undone.');
+  if(!confirmed) return;
+  const confirmed2 = confirm('FINAL WARNING: This will erase the entire audit trail for every location. Continue?');
+  if(!confirmed2) return;
+  showSaveStatus('saving','Clearing...','admin');
+  try {
+    let totalDeleted = 0;
+    for(const locId of Object.keys(allLocationsCache)) {
+      const snap = await db.collection('locations').doc(locId).collection('auditLog').get();
+      if(snap.empty) continue;
+      // Delete in batches of 500 (Firestore limit)
+      let batch = db.batch();
+      let count = 0;
+      const docs = snap.docs;
+      for(let i = 0; i < docs.length; i++) {
+        batch.delete(docs[i].ref);
+        count++;
+        if(count === 450 || i === docs.length - 1) {
+          await batch.commit();
+          totalDeleted += count;
+          batch = db.batch();
+          count = 0;
+        }
+      }
+    }
+    document.getElementById('adminActivityBody').innerHTML = '<tr><td colspan="5" style="text-align:center;padding:2rem;color:#7b8fa0;">No activity yet</td></tr>';
+    showSaveStatus('saved','Cleared','admin');
+    showToast(`Cleared ${totalDeleted} log entries`, 'success');
+  } catch(e) {
+    console.error('Clear logs failed', e);
+    showSaveStatus('error','Failed','admin');
+    showToast('Failed to clear logs: ' + e.message, 'error');
+  }
 }
 
 /* ============================================================
-   ADMIN: Location actions
+   ADMIN ACTIONS
    ============================================================ */
 async function adminCreateLocation(){
   const name = document.getElementById('admLocName').value.trim();
@@ -1379,113 +1225,60 @@ async function adminCreateLocation(){
     if(locEx.exists) { showToast('Location code already exists', 'error'); return; }
     const userEx = await db.collection('users').doc(mgr).get();
     if(userEx.exists) { showToast('Manager username already exists', 'error'); return; }
-    await db.collection('locations').doc(code).set({
-      name, code, status: 'active', createdAt: new Date().toISOString()
-    });
-    await db.collection('users').doc(mgr).set({
-      username: mgr, fullName: mgrName || mgr, password: mgrPass,
-      locationId: code, role: 'manager',
-      permissions: DEFAULT_PERMISSIONS.manager, status: 'active',
-      createdAt: new Date().toISOString()
-    });
-    const now = new Date();
-    const curKey = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0');
-    await db.collection('locations').doc(code).collection('months').doc(curKey).set({
-      entries: [], expenses: defaultExpenses(), closed: false, purchases: []
-    });
-    document.getElementById('admLocName').value = '';
-    document.getElementById('admLocCode').value = '';
-    document.getElementById('admLocManager').value = '';
-    document.getElementById('admLocManagerName').value = '';
-    document.getElementById('admLocManagerPass').value = '';
+    await db.collection('locations').doc(code).set({ name, code, status: 'active', createdAt: new Date().toISOString() });
+    await db.collection('users').doc(mgr).set({ username: mgr, fullName: mgrName || mgr, password: mgrPass, locationId: code, role: 'manager', permissions: DEFAULT_PERMISSIONS.manager, status: 'active', createdAt: new Date().toISOString(), createdBy: 'admin' });
+    const now = new Date(); const curKey = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0');
+    await db.collection('locations').doc(code).collection('months').doc(curKey).set({ entries: [], expenses: defaultExpenses(), closed: false, purchases: [] });
+    document.getElementById('admLocName').value = ''; document.getElementById('admLocCode').value = '';
+    document.getElementById('admLocManager').value = ''; document.getElementById('admLocManagerName').value = ''; document.getElementById('admLocManagerPass').value = '';
     showToast('Location + manager created', 'success');
-    await loadAdminData();
-    renderAdminLocations();
-    renderAdminAccounts();
-    renderAdminOverview();
+    await loadAdminData(); renderAdminLocations(); renderAdminAccounts(); renderAdminOverview();
   } catch(e) { showToast('Error: ' + e.message, 'error'); }
 }
-
 async function toggleLocationStatus(id){
-  const l = allLocationsCache[id];
-  if(!l) return;
+  const l = allLocationsCache[id]; if(!l) return;
   const newStatus = l.status === 'suspended' ? 'active' : 'suspended';
   if(!confirm(`Set ${l.name || id} to "${newStatus}"?`)) return;
-  try {
-    await db.collection('locations').doc(id).update({ status: newStatus });
-    showToast('Location ' + newStatus, 'success');
-    await loadAdminData();
-    renderAdminLocations();
-  } catch(e) { showToast('Error: ' + e.message, 'error'); }
+  await db.collection('locations').doc(id).update({ status: newStatus });
+  showToast('Location ' + newStatus, 'success');
+  await loadAdminData(); renderAdminLocations();
 }
-
 async function deleteLocationConfirm(id){
-  if(!confirm(`Delete location "${id}"? This will NOT delete its data or users — they become orphaned.`)) return;
-  try {
-    await db.collection('locations').doc(id).delete();
-    showToast('Location deleted', 'success');
-    await loadAdminData();
-    renderAdminLocations();
-    renderAdminAccounts();
-  } catch(e) { showToast('Error: ' + e.message, 'error'); }
+  if(!confirm(`Delete location "${id}"?`)) return;
+  await db.collection('locations').doc(id).delete();
+  showToast('Location deleted', 'success');
+  await loadAdminData(); renderAdminLocations(); renderAdminAccounts();
 }
-
 async function viewLocationDetail(id){
-  const l = allLocationsCache[id];
-  if(!l) return;
+  const l = allLocationsCache[id]; if(!l) return;
   document.getElementById('locModalName').textContent = l.name || id;
   document.getElementById('locModalCode').textContent = 'Code: ' + id + ' · Status: ' + (l.status || 'active');
   const users = Object.entries(allUsersCache).filter(([_, u]) => u.locationId === id);
-  // Get performance
   const monthsSnap = await db.collection('locations').doc(id).collection('months').get();
   let sales = 0, cost = 0, exp = 0, entries = 0, months = 0;
-  monthsSnap.forEach(d => {
-    const m = d.data();
-    months++;
-    const es = m.entries || [];
-    sales += es.reduce((s,r) => s + (parseFloat(r.sales)||0), 0);
-    cost += es.reduce((s,r) => s + (parseFloat(r.cost)||0), 0);
-    exp += es.reduce((s,r) => s + (parseFloat(r.expenses)||0), 0);
-    entries += es.length;
-  });
+  monthsSnap.forEach(d => { const m = d.data(); months++; const es = m.entries || []; sales += es.reduce((s,r) => s + (parseFloat(r.sales)||0), 0); cost += es.reduce((s,r) => s + (parseFloat(r.cost)||0), 0); exp += es.reduce((s,r) => s + (parseFloat(r.expenses)||0), 0); entries += es.length; });
   const gross = sales - cost - exp;
-  const monthlyExpTotal = users.length * 1150000; // rough
-  const net = gross - monthlyExpTotal;
   document.getElementById('locModalBody').innerHTML = `
     <div class="admin-stats" style="margin-bottom:1rem;">
       <div class="admin-stat"><div class="icon blue"><i class="fas fa-users"></i></div><div class="meta"><div class="num">${users.length}</div><div class="lbl">Users</div></div></div>
       <div class="admin-stat"><div class="icon amber"><i class="fas fa-calendar"></i></div><div class="meta"><div class="num">${months}</div><div class="lbl">Months</div></div></div>
       <div class="admin-stat"><div class="icon green"><i class="fas fa-coins"></i></div><div class="meta"><div class="num">${fmt(sales)}</div><div class="lbl">Sales</div></div></div>
-      <div class="admin-stat"><div class="icon purple"><i class="fas fa-chart-line"></i></div><div class="meta"><div class="num">${fmt(net)}</div><div class="lbl">Net</div></div></div>
+      <div class="admin-stat"><div class="icon purple"><i class="fas fa-chart-line"></i></div><div class="meta"><div class="num">${fmt(gross)}</div><div class="lbl">Gross</div></div></div>
     </div>
     <div class="section-title" style="margin-top:1rem;"><i class="fas fa-users"></i> Users at this location</div>
     <div>${users.length ? users.map(([u, d]) => `
-      <div class="user-row">
-        <div class="uinfo">
-          <div class="uname"><i class="fas fa-user-circle" style="color:#6a7f94;"></i> <strong>${u}</strong> <span class="badge-pill ${d.role === 'manager' ? 'green' : d.role === 'accountant' ? 'amber' : 'blue'}">${d.role || 'cashier'}</span></div>
-          <div class="umeta">${d.fullName || '—'}</div>
-        </div>
-        <div class="actions">
-          <button class="btn" onclick="closeLocModal();openUserEdit('${u}')"><i class="fas fa-edit"></i> Edit</button>
-        </div>
-      </div>
+      <div class="user-row"><div class="uinfo"><div class="uname"><i class="fas fa-user-circle" style="color:#6a7f94;"></i> <strong>${u}</strong> <span class="badge-pill ${d.role === 'manager' ? 'green' : d.role === 'accountant' ? 'amber' : 'blue'}">${d.role || 'cashier'}</span>${d.createdBy ? `<span class="badge-pill blue" style="margin-left:0.3rem;">by ${d.createdBy}</span>` : ''}</div><div class="umeta">${d.fullName || '—'} · ${d.status || 'active'}</div></div><div class="actions"><button class="btn" onclick="closeLocModal();openUserEdit('${u}')"><i class="fas fa-edit"></i> Edit</button></div></div>
     `).join('') : '<div style="text-align:center;padding:1.5rem;color:#7b8fa0;">No users</div>'}</div>
   `;
   document.getElementById('locModal').classList.add('active');
 }
 function closeLocModal(){ document.getElementById('locModal').classList.remove('active'); }
 document.getElementById('locModal').addEventListener('click', e => { if(e.target === this) closeLocModal(); });
-
-/* ============================================================
-   ADMIN: User actions
-   ============================================================ */
 function openUserEdit(username){
-  const u = allUsersCache[username];
-  if(!u) return;
+  const u = allUsersCache[username]; if(!u) return;
   document.getElementById('editUserKey').value = username;
   document.getElementById('editUserName').textContent = username;
   document.getElementById('editFullName').value = u.fullName || '';
-  // Populate location dropdown
   const sel = document.getElementById('editLocation');
   sel.innerHTML = Object.entries(allLocationsCache).map(([id, l]) => `<option value="${id}" ${u.locationId === id ? 'selected' : ''}>${l.name || id}</option>`).join('');
   document.getElementById('editRole').value = u.role || 'cashier';
@@ -1494,7 +1287,6 @@ function openUserEdit(username){
   document.getElementById('userModal').classList.add('active');
 }
 function closeUserModal(){ document.getElementById('userModal').classList.remove('active'); }
-
 async function saveUserEdit(){
   const username = document.getElementById('editUserKey').value;
   const fullName = document.getElementById('editFullName').value.trim();
@@ -1504,113 +1296,84 @@ async function saveUserEdit(){
   const newPass = document.getElementById('editNewPass').value;
   try {
     const updates = { fullName, locationId, role, status, permissions: DEFAULT_PERMISSIONS[role] };
-    if(newPass) {
-      if(newPass.length < 6) { showToast('Password too short', 'error'); return; }
-      updates.password = newPass;
-    }
+    if(newPass) { if(newPass.length < 6) { showToast('Password too short', 'error'); return; } updates.password = newPass; }
     await db.collection('users').doc(username).update(updates);
     showToast('User updated', 'success');
     closeUserModal();
-    await loadAdminData();
-    renderAdminAccounts();
+    await loadAdminData(); renderAdminAccounts(); renderAdminOverview();
   } catch(e) { showToast('Error: ' + e.message, 'error'); }
 }
-
 async function toggleUserStatus(username){
-  const u = allUsersCache[username];
-  if(!u) return;
+  const u = allUsersCache[username]; if(!u) return;
   const newStatus = u.status === 'suspended' ? 'active' : 'suspended';
   if(!confirm(`${newStatus === 'suspended' ? 'Suspend' : 'Activate'} user "${username}"?`)) return;
-  try {
-    await db.collection('users').doc(username).update({ status: newStatus });
-    showToast('User ' + newStatus, 'success');
-    await loadAdminData();
-    renderAdminAccounts();
-  } catch(e) { showToast('Error: ' + e.message, 'error'); }
+  await db.collection('users').doc(username).update({ status: newStatus });
+  showToast('User ' + newStatus, 'success');
+  await loadAdminData(); renderAdminAccounts();
 }
-
 async function deleteUserConfirm(username){
-  const u = allUsersCache[username];
   const un = username || document.getElementById('editUserKey').value;
-  if(!confirm(`Delete user "${un}"? This cannot be undone.`)) return;
-  try {
-    await db.collection('users').doc(un).delete();
-    showToast('User deleted', 'success');
-    if(document.getElementById('userModal').classList.contains('active')) closeUserModal();
-    await loadAdminData();
-    renderAdminAccounts();
-    renderAdminOverview();
-  } catch(e) { showToast('Error: ' + e.message, 'error'); }
-}
-
-async function viewUserPerf(username){
-  const u = allUsersCache[username];
-  if(!u) return;
-  // Show as a modal
-  document.getElementById('editUserKey').value = username;
-  document.getElementById('editUserName').textContent = username + ' · Performance';
-  document.getElementById('editFullName').value = u.fullName || '';
-  const sel = document.getElementById('editLocation');
-  sel.innerHTML = Object.entries(allLocationsCache).map(([id, l]) => `<option value="${id}" ${u.locationId === id ? 'selected' : ''}>${l.name || id}</option>`).join('');
-  document.getElementById('editRole').value = u.role || 'cashier';
-  document.getElementById('editStatus').value = u.status || 'active';
-  document.getElementById('editNewPass').value = '';
-  // Fetch performance - add a performance box
-  const perfBoxId = 'acctPerfBox';
-  const existing = document.getElementById(perfBoxId);
-  if(existing) existing.remove();
-  const perfDiv = document.createElement('div');
-  perfDiv.id = perfBoxId;
-  perfDiv.className = 'acct-perf';
-  try {
-    const logSnap = await db.collection('locations').doc(u.locationId).collection('auditLog').where('user','==',username).limit(500).get();
-    const logCount = logSnap.size;
-    perfDiv.innerHTML = `
-      <div style="font-weight:700;color:#0b2b44;margin-bottom:0.5rem;"><i class="fas fa-chart-line"></i> Activity Summary</div>
-      <div class="row"><span class="l">Total logged actions</span><span class="v">${logCount}</span></div>
-      <div class="row"><span class="l">Location</span><span class="v">${allLocationsCache[u.locationId]?.name || u.locationId}</span></div>
-      <div class="row"><span class="l">Role</span><span class="v">${u.role || 'cashier'}</span></div>
-      <div class="row"><span class="l">Status</span><span class="v ${u.status === 'suspended' ? 'red' : 'green'}">${u.status || 'active'}</span></div>
-      <div class="row"><span class="l">Created</span><span class="v">${u.createdAt ? new Date(u.createdAt).toLocaleDateString() : '—'}</span></div>
-    `;
-  } catch(e) {
-    perfDiv.innerHTML = '<div style="text-align:center;color:#7b8fa0;">Could not load performance data</div>';
-  }
-  document.querySelector('#userModal .modal-body').insertBefore(perfDiv, document.querySelector('#userModal .modal-body').firstChild);
-  document.getElementById('userModal').classList.add('active');
+  if(!confirm(`Delete user "${un}"?`)) return;
+  await db.collection('users').doc(un).delete();
+  showToast('User deleted', 'success');
+  if(document.getElementById('userModal').classList.contains('active')) closeUserModal();
+  await loadAdminData(); renderAdminAccounts(); renderAdminOverview();
 }
 
 /* ============================================================
-   TEAM MANAGEMENT (Location managers)
+   PASSWORD CHANGE
    ============================================================ */
-function renderTeam(){
-  renderTeamPermissionGrid(DEFAULT_PERMISSIONS.manager);
-  renderTeamMembers();
+function openChangePassword(){ document.getElementById('pwdCurrent').value=''; document.getElementById('pwdNew').value=''; document.getElementById('pwdNew2').value=''; document.getElementById('pwdModal').classList.add('active'); }
+function closeChangePassword(){ document.getElementById('pwdModal').classList.remove('active'); }
+async function saveUserPassword(){
+  const cur = document.getElementById('pwdCurrent').value, n1 = document.getElementById('pwdNew').value, n2 = document.getElementById('pwdNew2').value;
+  if(!cur || !n1 || !n2){ showToast('Fill all fields', 'error'); return; }
+  if(n1.length < 6){ showToast('Password must be at least 6 chars', 'error'); return; }
+  if(n1 !== n2){ showToast('New passwords do not match', 'error'); return; }
+  try {
+    const uDoc = await db.collection('users').doc(currentUser.username).get();
+    if(!uDoc.exists){ showToast('User not found', 'error'); return; }
+    if(uDoc.data().password !== cur){ showToast('Current password incorrect', 'error'); return; }
+    await db.collection('users').doc(currentUser.username).update({ password: n1 });
+    closeChangePassword();
+    showToast('Password updated', 'success');
+    addLog('Change Password', `${currentUser.username} changed password`);
+  } catch(e) { showToast('Error: ' + e.message, 'error'); }
 }
+function openAdminChangePassword(){ document.getElementById('admPwdCurrent').value=''; document.getElementById('admPwdNew').value=''; document.getElementById('admPwdNew2').value=''; document.getElementById('adminPwdModal').classList.add('active'); }
+function closeAdminChangePassword(){ document.getElementById('adminPwdModal').classList.remove('active'); }
+async function saveAdminPassword(){
+  const cur = document.getElementById('admPwdCurrent').value, n1 = document.getElementById('admPwdNew').value, n2 = document.getElementById('admPwdNew2').value;
+  if(!cur || !n1 || !n2){ showToast('Fill all fields', 'error'); return; }
+  if(n1.length < 6){ showToast('Password must be at least 6 chars', 'error'); return; }
+  if(n1 !== n2){ showToast('Passwords do not match', 'error'); return; }
+  try {
+    const adminDoc = await db.collection('config').doc('admin').get();
+    const curPass = adminDoc.exists && adminDoc.data().password ? adminDoc.data().password : 'admin';
+    if(cur !== curPass){ showToast('Current admin password incorrect', 'error'); return; }
+    await db.collection('config').doc('admin').set({ password: n1, updatedAt: new Date().toISOString() });
+    closeAdminChangePassword();
+    showToast('Admin password updated', 'success');
+  } catch(e) { showToast('Error: ' + e.message, 'error'); }
+}
+
+/* ============================================================
+   TEAM MANAGEMENT
+   ============================================================ */
+function renderTeam(){ renderTeamPermissionGrid(DEFAULT_PERMISSIONS.manager); renderTeamMembers(); }
 function renderTeamPermissionGrid(selected){
   const perms = [
-    {key:'view', label:'View data'},
-    {key:'editDaily', label:'Edit daily'},
-    {key:'editPurchases', label:'Edit purchases'},
-    {key:'editExpenses', label:'Edit expenses'},
-    {key:'closeMonth', label:'Close month'},
-    {key:'viewAudit', label:'View audit'},
-    {key:'viewLog', label:'View log'},
-    {key:'manageUsers', label:'Manage users'},
+    {key:'view', label:'View data'},{key:'editDaily', label:'Edit daily'},{key:'editPurchases', label:'Edit purchases'},{key:'editExpenses', label:'Edit expenses'},{key:'closeMonth', label:'Close month'},{key:'viewAudit', label:'View audit'},{key:'viewLog', label:'View log'},{key:'manageUsers', label:'Manage users'},
   ];
   const el = document.getElementById('teamPermissionGrid');
-  if(el) el.innerHTML = perms.map(p => `
-    <label class="perm-item">
-      <input type="checkbox" data-perm="${p.key}" ${selected[p.key]?'checked':''}> ${p.label}
-    </label>
-  `).join('');
+  if(el) el.innerHTML = perms.map(p => `<label class="perm-item"><input type="checkbox" data-perm="${p.key}" ${selected[p.key]?'checked':''}> ${p.label}</label>`).join('');
 }
-function onTeamRoleChange(){
-  const role = document.getElementById('teamUserRole').value;
-  renderTeamPermissionGrid(DEFAULT_PERMISSIONS[role] || {});
-}
+function onTeamRoleChange(){ const role = document.getElementById('teamUserRole').value; renderTeamPermissionGrid(DEFAULT_PERMISSIONS[role] || {}); }
+
+/* ✅ FIXED: More verbose errors, explicit permission check with fallback */
 async function createTeamUser(){
-  if(!hasPerm('manageUsers')){ showToast('No permission', 'error'); return; }
+  if(!currentUser){ showToast('Not logged in', 'error'); return; }
+  if(!hasPerm('manageUsers')){ showToast('You do not have permission to create users', 'error'); return; }
   const username = document.getElementById('teamUserName').value.trim().toLowerCase();
   const fullName = document.getElementById('teamUserFullName').value.trim();
   const password = document.getElementById('teamUserPass').value;
@@ -1626,16 +1389,18 @@ async function createTeamUser(){
     await db.collection('users').doc(username).set({
       username, fullName, password,
       locationId: currentLocationId,
-      role, permissions, status: 'active', createdAt: new Date().toISOString(),
+      role, permissions, status: 'active',
+      createdAt: new Date().toISOString(),
       createdBy: currentUser.username
     });
     addLog('Create User', `${username} (${role}) created by ${currentUser.username}`);
-    document.getElementById('teamUserName').value = '';
-    document.getElementById('teamUserFullName').value = '';
-    document.getElementById('teamUserPass').value = '';
+    document.getElementById('teamUserName').value = ''; document.getElementById('teamUserFullName').value = ''; document.getElementById('teamUserPass').value = '';
     showToast('User created: ' + username, 'success');
     await renderTeamMembers();
-  } catch(e) { showToast('Error: ' + e.message, 'error'); }
+  } catch(e) {
+    console.error('Create user failed', e);
+    showToast('Error creating user: ' + (e.message || 'Unknown error'), 'error');
+  }
 }
 async function renderTeamMembers(){
   const list = document.getElementById('teamMembersList');
@@ -1647,27 +1412,18 @@ async function renderTeamMembers(){
     if(!users.length) { list.innerHTML = '<div style="text-align:center;padding:1.5rem;color:#7b8fa0;">No team members yet</div>'; return; }
     list.innerHTML = users.map(u => `
       <div class="user-row">
-        <div class="uinfo">
-          <div class="uname">
-            <i class="fas fa-user-circle" style="color:#6a7f94;"></i>
-            <strong>${u.username}</strong>
-            <span class="badge-pill ${u.role === 'manager' ? 'green' : u.role === 'accountant' ? 'amber' : 'blue'}">${u.role || 'cashier'}</span>
-            <span class="badge-pill ${u.status === 'suspended' ? 'red' : 'green'}">${u.status || 'active'}</span>
-          </div>
-          <div class="umeta">${u.fullName || '—'}</div>
-        </div>
-        <div class="actions">
-          ${u.username !== currentUser.username && hasPerm('manageUsers') ? `
-            <button class="btn" onclick="teamToggleStatus('${u.username}')"><i class="fas fa-power-off"></i> ${u.status === 'suspended' ? 'Activate' : 'Suspend'}</button>
-            <button class="btn btn-danger" onclick="teamDeleteUser('${u.username}')"><i class="fas fa-trash"></i></button>
-          ` : '<span style="font-size:0.72rem;color:#6a7f94;">You</span>'}
-        </div>
+        <div class="uinfo"><div class="uname"><i class="fas fa-user-circle" style="color:#6a7f94;"></i> <strong>${u.username}</strong> <span class="badge-pill ${u.role === 'manager' ? 'green' : u.role === 'accountant' ? 'amber' : 'blue'}">${u.role || 'cashier'}</span> <span class="badge-pill ${u.status === 'suspended' ? 'red' : 'green'}">${u.status || 'active'}</span></div><div class="umeta">${u.fullName || '—'}${u.createdBy ? ' · created by ' + u.createdBy : ''}</div></div>
+        <div class="actions">${u.username !== currentUser.username && hasPerm('manageUsers') ? `
+          <button class="btn" onclick="editTeamUser('${u.username}')"><i class="fas fa-edit"></i> Edit</button>
+          <button class="btn" onclick="teamToggleStatus('${u.username}')"><i class="fas fa-power-off"></i> ${u.status === 'suspended' ? 'Activate' : 'Suspend'}</button>
+          <button class="btn btn-danger" onclick="teamDeleteUser('${u.username}')"><i class="fas fa-trash"></i></button>
+        ` : '<span style="font-size:0.72rem;color:#6a7f94;">You</span>'}</div>
       </div>
     `).join('');
   } catch(e) { console.error(e); }
 }
 async function teamToggleStatus(username){
-  if(!hasPerm('manageUsers')) return;
+  if(!hasPerm('manageUsers')){ showToast('No permission', 'error'); return; }
   const doc = await db.collection('users').doc(username).get();
   if(!doc.exists) return;
   const u = doc.data();
@@ -1679,70 +1435,38 @@ async function teamToggleStatus(username){
   renderTeamMembers();
 }
 async function teamDeleteUser(username){
-  if(!hasPerm('manageUsers')) return;
+  if(!hasPerm('manageUsers')){ showToast('No permission', 'error'); return; }
   if(!confirm(`Delete user "${username}"?`)) return;
   await db.collection('users').doc(username).delete();
   addLog('Delete User', `${username} removed by ${currentUser.username}`);
   showToast('User deleted', 'success');
   renderTeamMembers();
 }
-
-/* ============================================================
-   CHANGE PASSWORD
-   ============================================================ */
-function openChangePassword(){
-  document.getElementById('pwdCurrent').value = '';
-  document.getElementById('pwdNew').value = '';
-  document.getElementById('pwdNew2').value = '';
-  document.getElementById('pwdModal').classList.add('active');
-}
-function closeChangePassword(){ document.getElementById('pwdModal').classList.remove('active'); }
-async function saveUserPassword(){
-  const cur = document.getElementById('pwdCurrent').value;
-  const n1 = document.getElementById('pwdNew').value;
-  const n2 = document.getElementById('pwdNew2').value;
-  if(!cur || !n1 || !n2){ showToast('Fill all password fields', 'error'); return; }
-  if(n1.length < 6){ showToast('Password must be at least 6 chars', 'error'); return; }
-  if(n1 !== n2){ showToast('New passwords do not match', 'error'); return; }
-  try {
-    const uDoc = await db.collection('users').doc(currentUser.username).get();
-    if(!uDoc.exists){ showToast('User not found', 'error'); return; }
-    if(uDoc.data().password !== cur){ showToast('Current password incorrect', 'error'); return; }
-    await db.collection('users').doc(currentUser.username).update({ password: n1 });
-    closeChangePassword();
-    showToast('Password updated', 'success');
-    addLog('Change Password', `${currentUser.username} changed password`);
-  } catch(e) { showToast('Error: ' + e.message, 'error'); }
-}
-
-function openAdminChangePassword(){
-  document.getElementById('admPwdCurrent').value = '';
-  document.getElementById('admPwdNew').value = '';
-  document.getElementById('admPwdNew2').value = '';
-  document.getElementById('adminPwdModal').classList.add('active');
-}
-function closeAdminChangePassword(){ document.getElementById('adminPwdModal').classList.remove('active'); }
-async function saveAdminPassword(){
-  const cur = document.getElementById('admPwdCurrent').value;
-  const n1 = document.getElementById('admPwdNew').value;
-  const n2 = document.getElementById('admPwdNew2').value;
-  if(!cur || !n1 || !n2){ showToast('Fill all password fields', 'error'); return; }
-  if(n1.length < 6){ showToast('Password must be at least 6 chars', 'error'); return; }
-  if(n1 !== n2){ showToast('Passwords do not match', 'error'); return; }
-  try {
-    const adminDoc = await db.collection('config').doc('admin').get();
-    const curPass = adminDoc.exists && adminDoc.data().password ? adminDoc.data().password : 'admin';
-    if(cur !== curPass){ showToast('Current admin password incorrect', 'error'); return; }
-    await db.collection('config').doc('admin').set({ password: n1, updatedAt: new Date().toISOString() });
-    closeAdminChangePassword();
-    showToast('Admin password updated', 'success');
-  } catch(e) { showToast('Error: ' + e.message, 'error'); }
+async function editTeamUser(username){
+  if(!hasPerm('manageUsers')){ showToast('No permission', 'error'); return; }
+  const doc = await db.collection('users').doc(username).get();
+  if(!doc.exists) return;
+  const u = doc.data();
+  const newFullName = prompt('Full name:', u.fullName || '');
+  if(newFullName === null) return;
+  const newRole = prompt('Role (manager / accountant / cashier):', u.role || 'cashier');
+  if(newRole === null) return;
+  const validRoles = ['manager','accountant','cashier'];
+  if(!validRoles.includes(newRole.toLowerCase())){ showToast('Invalid role', 'error'); return; }
+  const newPassword = prompt('New password (leave blank to keep):', '');
+  if(newPassword === null) return;
+  const updates = { fullName: newFullName, role: newRole.toLowerCase(), permissions: DEFAULT_PERMISSIONS[newRole.toLowerCase()] };
+  if(newPassword) { if(newPassword.length < 6){ showToast('Password too short', 'error'); return; } updates.password = newPassword; }
+  await db.collection('users').doc(username).update(updates);
+  addLog('Edit User', `${username} updated by ${currentUser.username}`);
+  showToast('User updated', 'success');
+  renderTeamMembers();
 }
 
 /* ============================================================
    USER TABS & RENDER
    ============================================================ */
-function switchTab(tab, skipSave){
+function switchTab(tab){
   activeTab = tab;
   document.querySelectorAll('#app .tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
   document.querySelectorAll('#app .tab-panel').forEach(p => p.classList.remove('active'));
@@ -1753,61 +1477,36 @@ function switchTab(tab, skipSave){
   if(tab === 'log') renderLog();
   if(tab === 'team') renderTeam();
 }
-
 function renderMonthSelect(){
-  const sel = document.getElementById('monthSelect');
-  if(!sel) return;
+  const sel = document.getElementById('monthSelect'); if(!sel) return;
   const months = Object.keys(allMonthsData).sort();
   if(!months.length){ sel.innerHTML = '<option>No data yet</option>'; return; }
-  sel.innerHTML = months.map(m=>{
-    const closed = allMonthsData[m].closed ? ' ✓' : '';
-    return `<option value="${m}" ${m===currentMonthKey?'selected':''}>${monthLabel(m)}${closed}</option>`;
-  }).join('');
+  sel.innerHTML = months.map(m => { const closed = allMonthsData[m].closed ? ' ✓' : ''; return `<option value="${m}" ${m===currentMonthKey?'selected':''}>${monthLabel(m)}${closed}</option>`; }).join('');
 }
 function renderPurchaseMonthSelect(){
-  const sel = document.getElementById('purchaseMonthSelect');
-  if(!sel) return;
+  const sel = document.getElementById('purchaseMonthSelect'); if(!sel) return;
   const months = Object.keys(allMonthsData).sort();
   if(!months.length){ sel.innerHTML = '<option>No data yet</option>'; return; }
-  sel.innerHTML = months.map(m=>{
-    const closed = allMonthsData[m].closed ? ' ✓' : '';
-    return `<option value="${m}" ${m===currentMonthKey?'selected':''}>${monthLabel(m)}${closed}</option>`;
-  }).join('');
+  sel.innerHTML = months.map(m => { const closed = allMonthsData[m].closed ? ' ✓' : ''; return `<option value="${m}" ${m===currentMonthKey?'selected':''}>${monthLabel(m)}${closed}</option>`; }).join('');
 }
-
 function renderAll(){
-  const data = allMonthsData[currentMonthKey];
-  if(!data) return;
+  const data = allMonthsData[currentMonthKey]; if(!data) return;
   const isClosed = data.closed || false;
-  if(isClosed){
-    renderClosedDetail();
-    document.getElementById('closedDetail').style.display='block';
-    document.getElementById('closedStatus').innerHTML='<i class="fas fa-lock"></i> Closed';
-    document.getElementById('closedStatus').style.color='#b33a3a';
-  } else {
-    document.getElementById('closedDetail').style.display='none';
-    document.getElementById('closedStatus').innerHTML='<i class="fas fa-lock-open"></i> Open';
-    document.getElementById('closedStatus').style.color='#1d7a4b';
-  }
+  if(isClosed){ renderClosedDetail(); document.getElementById('closedDetail').style.display='block'; document.getElementById('closedStatus').innerHTML='<i class="fas fa-lock"></i> Closed'; document.getElementById('closedStatus').style.color='#b33a3a'; }
+  else { document.getElementById('closedDetail').style.display='none'; document.getElementById('closedStatus').innerHTML='<i class="fas fa-lock-open"></i> Open'; document.getElementById('closedStatus').style.color='#1d7a4b'; }
   const canEdit = hasPerm('editDaily') && !isClosed;
-  document.querySelectorAll('#tableBody input, #expenseGrid input').forEach(inp=>{
-    if(!canEdit){ inp.setAttribute('readonly',true); inp.style.background='#f2f6fa'; }
-    else { inp.removeAttribute('readonly'); inp.style.background='white'; }
-  });
-  renderTable(); renderExpenses(); renderSummary(); renderTotals(); renderClosedList();
+  document.querySelectorAll('#tableBody input').forEach(inp=>{ if(!canEdit){ inp.setAttribute('readonly',true); inp.style.background='#f2f6fa'; } else { inp.removeAttribute('readonly'); inp.style.background='white'; } });
+  renderTable(); renderExpenseRows(); renderSummary(); renderTotals(); renderClosedList();
 }
-
 function renderTable(){
-  const tbody = document.getElementById('tableBody');
-  if(!tbody) return;
+  const tbody = document.getElementById('tableBody'); if(!tbody) return;
   const entries = currentEntries();
   const isClosed = allMonthsData[currentMonthKey]?.closed;
   const canEdit = hasPerm('editDaily') && !isClosed;
   if(!entries.length){ tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:2rem;color:#7b8fa0;">No data for this month.</td></tr>`; return; }
   tbody.innerHTML = entries.map((row,idx)=>{
     const gp = grossProfit(row);
-    const ro = !canEdit ? 'readonly' : '';
-    const bg = !canEdit ? 'background:#f2f6fa;' : '';
+    const ro = !canEdit ? 'readonly' : ''; const bg = !canEdit ? 'background:#f2f6fa;' : '';
     return `<tr>
       <td><input type="text" value="${row.day||''}" ${ro} onchange="updateField(${idx},'day',this.value)" style="${bg}"></td>
       <td><input type="date" value="${row.date||''}" ${ro} onchange="updateField(${idx},'date',this.value)" style="${bg}"></td>
@@ -1819,62 +1518,64 @@ function renderTable(){
     </tr>`;
   }).join('');
 }
-
-function renderExpenses(){
-  const exp = currentExpenses();
+function renderExpenseRows(){
+  const expenses = currentExpenses();
   const isClosed = allMonthsData[currentMonthKey]?.closed;
   const canEdit = hasPerm('editExpenses') && !isClosed;
-  const ro = !canEdit ? 'readonly' : '';
-  const bg = !canEdit ? 'background:#f2f6fa;' : '';
-  const fields = [
-    {key:'salary',label:'Salary (UGX)',icon:'fa-user-tie'},
-    {key:'rent',label:'Rent (UGX)',icon:'fa-building'},
-    {key:'utilities',label:'Utilities (UGX)',icon:'fa-bolt'},
-    {key:'transport',label:'Transport (UGX)',icon:'fa-truck'},
-    {key:'other',label:'Other (UGX)',icon:'fa-ellipsis-h'},
-  ];
-  const el = document.getElementById('expenseGrid');
-  if(!el) return;
-  el.innerHTML = fields.map(f=>`
-    <div class="expense-item">
-      <label><i class="fas ${f.icon}"></i> ${f.label}</label>
-      <input type="number" step="0.01" value="${exp[f.key]||0}" ${ro} onchange="updateExpense('${f.key}',this.value)" style="${bg}">
-    </div>
-  `).join('') + `
-    <div class="expense-item" style="display:flex;align-items:flex-end;">
-      <div style="font-size:0.8rem;color:#6a7f94;padding-bottom:0.6rem;">
-        <i class="fas fa-calculator"></i> Total monthly expenses: <strong style="color:#0b2b44;">UGX ${fmt(totalMonthlyExpenses(exp))}</strong>
-      </div>
-    </div>
-  `;
+  const ro = !canEdit ? 'readonly' : ''; const dis = !canEdit ? 'disabled' : ''; const bg = !canEdit ? 'background:#f2f6fa;' : '';
+  const tbody = document.getElementById('expenseBody'); if(!tbody) return;
+  if(!expenses.length) { tbody.innerHTML = `<tr><td colspan="4" style="text-align:center;padding:2rem;color:#7b8fa0;">No expenses recorded. ${canEdit ? 'Click "Add expense" to start.' : ''}</td></tr>`; document.getElementById('expenseTotal').textContent = 'UGX 0'; return; }
+  tbody.innerHTML = expenses.map((e, idx) => `
+    <tr>
+      <td><select ${dis} onchange="updateExpenseField(${idx}, 'type', this.value)" style="${bg}">${EXPENSE_TYPES.map(t => `<option value="${t}" ${e.type === t ? 'selected' : ''}>${t}</option>`).join('')}</select></td>
+      <td><input type="number" step="0.01" value="${e.amount ?? 0}" ${ro} onchange="updateExpenseField(${idx}, 'amount', this.value)" style="font-weight:600;color:#0b4b2b;${bg}"></td>
+      <td><input type="text" value="${e.note || ''}" ${ro} onchange="updateExpenseField(${idx}, 'note', this.value)" placeholder="e.g. January electricity" style="${bg}"></td>
+      <td>${canEdit ? `<button class="remove-btn" onclick="removeExpenseRow(${idx})"><i class="fas fa-trash-alt"></i></button>` : ''}</td>
+    </tr>
+  `).join('');
+  document.getElementById('expenseTotal').textContent = 'UGX ' + fmt(totalMonthlyExpenses(expenses));
 }
-
+function addExpenseRow(){
+  if(!hasPerm('editExpenses')) { showToast('No permission', 'error'); return; }
+  if(allMonthsData[currentMonthKey]?.closed){ showToast('Month is closed'); return; }
+  const expenses = currentExpenses();
+  expenses.push({ type: 'Other', amount: 0, note: '' });
+  allMonthsData[currentMonthKey].expenses = expenses;
+  addLog('Add Expense Row', `New expense row added`);
+  renderExpenseRows(); renderSummary(); renderTotals(); scheduleSave();
+}
+function removeExpenseRow(idx){
+  if(!hasPerm('editExpenses')) { showToast('No permission', 'error'); return; }
+  if(allMonthsData[currentMonthKey]?.closed){ showToast('Month is closed'); return; }
+  const expenses = currentExpenses(); const removed = expenses[idx];
+  expenses.splice(idx, 1); allMonthsData[currentMonthKey].expenses = expenses;
+  addLog('Delete Expense', `${removed?.type || '—'} — UGX ${fmt(removed?.amount)}`);
+  renderExpenseRows(); renderSummary(); renderTotals(); scheduleSave();
+}
+function updateExpenseField(idx, field, value){
+  if(!hasPerm('editExpenses')) { showToast('No permission', 'error'); return; }
+  if(allMonthsData[currentMonthKey]?.closed) return;
+  const expenses = currentExpenses(); if(!expenses[idx]) return;
+  if(field === 'amount') expenses[idx][field] = value === '' ? 0 : parseFloat(value); else expenses[idx][field] = value;
+  allMonthsData[currentMonthKey].expenses = expenses;
+  if(field === 'amount') addLog('Edit Expense', `${expenses[idx].type} → UGX ${fmt(expenses[idx].amount)}`);
+  renderExpenseRows(); renderSummary(); renderTotals(); scheduleSave();
+}
 function updateField(idx,field,value){
   if(!hasPerm('editDaily')) { showToast('No permission', 'error'); return; }
   if(allMonthsData[currentMonthKey]?.closed) return;
   const entries = currentEntries();
-  if(field==='cost'||field==='sales'||field==='expenses') entries[idx][field] = value===''?0:parseFloat(value);
-  else entries[idx][field] = value;
+  if(field==='cost'||field==='sales'||field==='expenses') entries[idx][field] = value===''?0:parseFloat(value); else entries[idx][field] = value;
   if(field==='cost') addLog('Edit Cost', `${entries[idx].day||''} ${entries[idx].date||''} → UGX ${fmt(entries[idx].cost)}`);
   if(field==='sales') addLog('Edit Sales', `${entries[idx].day||''} ${entries[idx].date||''} → UGX ${fmt(entries[idx].sales)}`);
   if(field==='expenses') addLog('Edit Expense', `${entries[idx].day||''} ${entries[idx].date||''} → UGX ${fmt(entries[idx].expenses)}`);
   renderTable(); renderSummary(); renderTotals(); scheduleSave();
 }
-function updateExpense(key,value){
-  if(!hasPerm('editExpenses')) { showToast('No permission', 'error'); return; }
-  if(allMonthsData[currentMonthKey]?.closed) return;
-  allMonthsData[currentMonthKey].expenses[key] = value===''?0:parseFloat(value);
-  addLog('Edit Monthly Expense', `${key} → UGX ${fmt(allMonthsData[currentMonthKey].expenses[key])}`);
-  renderExpenses(); renderSummary(); renderTotals(); scheduleSave();
-}
 function addRow(){
   if(!hasPerm('editDaily')) { showToast('No permission', 'error'); return; }
   if(allMonthsData[currentMonthKey]?.closed){ showToast('Month is closed'); return; }
-  const entries = currentEntries();
-  const last = entries[entries.length-1];
-  let newDate = '';
-  if(last && last.date){ const d = new Date(last.date); d.setDate(d.getDate()+1); newDate = d.toISOString().split('T')[0]; }
-  else newDate = currentMonthKey + '-01';
+  const entries = currentEntries(); const last = entries[entries.length-1];
+  let newDate = ''; if(last && last.date){ const d = new Date(last.date); d.setDate(d.getDate()+1); newDate = d.toISOString().split('T')[0]; } else newDate = currentMonthKey + '-01';
   entries.push({day:'',date:newDate,cost:0,sales:0,expenses:0});
   addLog('Add Row', `Daily entry for ${newDate}`);
   renderTable(); renderSummary(); renderTotals(); scheduleSave();
@@ -1882,8 +1583,7 @@ function addRow(){
 function removeRow(idx){
   if(!hasPerm('editDaily')) { showToast('No permission', 'error'); return; }
   if(allMonthsData[currentMonthKey]?.closed){ showToast('Month is closed'); return; }
-  const row = currentEntries()[idx];
-  currentEntries().splice(idx,1);
+  const row = currentEntries()[idx]; currentEntries().splice(idx,1);
   addLog('Delete Row', `Removed ${row?.date||'—'}`);
   renderTable(); renderSummary(); renderTotals(); scheduleSave();
 }
@@ -1897,102 +1597,56 @@ async function closeMonth(){
   renderMonthSelect(); renderPurchaseMonthSelect(); renderAll();
   showToast('Month closed', 'success');
 }
-
 function renderClosedDetail(){
-  const data = allMonthsData[currentMonthKey];
-  if(!data) return;
-  const entries = data.entries;
-  const exp = data.expenses;
+  const data = allMonthsData[currentMonthKey]; if(!data) return;
+  const entries = data.entries; const exp = currentExpenses();
   const totalSales = entries.reduce((s,r)=>s+(parseFloat(r.sales)||0),0);
   const totalCost = entries.reduce((s,r)=>s+(parseFloat(r.cost)||0),0);
   const totalExp = entries.reduce((s,r)=>s+(parseFloat(r.expenses)||0),0);
-  const gross = totalSales-totalCost-totalExp;
-  const monthlyExp = totalMonthlyExpenses(exp);
-  const net = gross-monthlyExp;
-  const el = document.getElementById('closedDetail');
-  if(!el) return;
-  el.innerHTML = `
-    <h3><i class="fas fa-lock"></i> ${monthLabel(currentMonthKey)} — Closed <span class="closed-badge">FINAL</span></h3>
-    <p><strong>Entries:</strong> ${entries.length} days · <strong>Sales:</strong> UGX ${fmt(totalSales)} · <strong>Cost:</strong> UGX ${fmt(totalCost)} · <strong>Daily Exp:</strong> UGX ${fmt(totalExp)}</p>
-    <p><strong>Gross:</strong> UGX ${fmt(gross)} · <strong>Monthly Expenses:</strong> UGX ${fmt(monthlyExp)}</p>
-    <p style="font-size:1.1rem;margin-top:0.5rem;"><strong>Net Profit:</strong> <span style="color:${net>=0?'#1d7a4b':'#b33a3a'};">UGX ${fmt(net)}</span></p>
-  `;
+  const gross = totalSales-totalCost-totalExp; const monthlyExp = totalMonthlyExpenses(exp); const net = gross-monthlyExp;
+  const el = document.getElementById('closedDetail'); if(!el) return;
+  el.innerHTML = `<h3><i class="fas fa-lock"></i> ${monthLabel(currentMonthKey)} — Closed <span class="closed-badge">FINAL</span></h3><p><strong>Entries:</strong> ${entries.length} days · <strong>Sales:</strong> UGX ${fmt(totalSales)} · <strong>Cost:</strong> UGX ${fmt(totalCost)} · <strong>Daily Exp:</strong> UGX ${fmt(totalExp)}</p><p><strong>Gross:</strong> UGX ${fmt(gross)} · <strong>Monthly Expenses:</strong> UGX ${fmt(monthlyExp)}</p><p style="font-size:1.1rem;margin-top:0.5rem;"><strong>Net Profit:</strong> <span style="color:${net>=0?'#1d7a4b':'#b33a3a'};">UGX ${fmt(net)}</span></p>`;
 }
 function renderClosedList(){
   const closed = Object.keys(allMonthsData).filter(m=>allMonthsData[m].closed);
-  const el = document.getElementById('closedList');
-  if(!el) return;
+  const el = document.getElementById('closedList'); if(!el) return;
   el.innerHTML = closed.map(m=>`<span onclick="selectMonth('${m}')">${shortMonth(m)}</span>`).join('') || '<span style="color:#7b8fa0;">None yet</span>';
 }
-function selectMonth(m){
-  currentMonthKey = m;
-  document.getElementById('monthSelect').value = m;
-  document.getElementById('purchaseMonthSelect').value = m;
-  renderAll(); renderPurchases();
-}
-function onMonthChange(){
-  currentMonthKey = document.getElementById('monthSelect').value;
-  document.getElementById('purchaseMonthSelect').value = currentMonthKey;
-  renderAll(); renderPurchases();
-}
-function onPurchaseMonthChange(){
-  currentMonthKey = document.getElementById('purchaseMonthSelect').value;
-  document.getElementById('monthSelect').value = currentMonthKey;
-  renderAll(); renderPurchases();
-}
-
+function selectMonth(m){ currentMonthKey = m; document.getElementById('monthSelect').value = m; document.getElementById('purchaseMonthSelect').value = m; renderAll(); renderPurchases(); }
+function onMonthChange(){ currentMonthKey = document.getElementById('monthSelect').value; document.getElementById('purchaseMonthSelect').value = currentMonthKey; renderAll(); renderPurchases(); }
+function onPurchaseMonthChange(){ currentMonthKey = document.getElementById('purchaseMonthSelect').value; document.getElementById('monthSelect').value = currentMonthKey; renderAll(); renderPurchases(); }
 function renderSummary(){
-  const entries = currentEntries();
-  const exp = currentExpenses();
+  const entries = currentEntries(); const exp = currentExpenses();
   const totalSales = entries.reduce((s,r)=>s+(parseFloat(r.sales)||0),0);
   const totalCost = entries.reduce((s,r)=>s+(parseFloat(r.cost)||0),0);
   const totalDailyExp = entries.reduce((s,r)=>s+(parseFloat(r.expenses)||0),0);
-  const gross = totalSales-totalCost-totalDailyExp;
-  const monthlyExp = totalMonthlyExpenses(exp);
-  const net = gross-monthlyExp;
+  const gross = totalSales-totalCost-totalDailyExp; const monthlyExp = totalMonthlyExpenses(exp); const net = gross-monthlyExp;
   const margin = totalSales ? (gross/totalSales*100) : 0;
   const cards = [
     {label:'Total sales',value:fmt(totalSales),sub:'UGX',cls:''},
     {label:'Total cost',value:fmt(totalCost),sub:'UGX',cls:''},
     {label:'Gross profit',value:fmt(gross),sub:`margin ${margin.toFixed(1)}%`,cls:gross>=0?'positive':'negative'},
-    {label:'Monthly expenses',value:fmt(monthlyExp),sub:'salary, rent, etc.',cls:''},
+    {label:'Monthly expenses',value:fmt(monthlyExp),sub:'from expense rows',cls:''},
     {label:'Net profit',value:fmt(net),sub:'after all expenses',cls:net>=0?'positive':'negative'},
   ];
-  const el = document.getElementById('summaryGrid');
-  if(!el) return;
-  el.innerHTML = cards.map(c=>`
-    <div class="sum-card"><div class="sum-label">${c.label}</div><div class="sum-value ${c.cls}">${c.value}</div><div class="sum-sub">${c.sub}</div></div>
-  `).join('');
+  const el = document.getElementById('summaryGrid'); if(!el) return;
+  el.innerHTML = cards.map(c=>`<div class="sum-card"><div class="sum-label">${c.label}</div><div class="sum-value ${c.cls}">${c.value}</div><div class="sum-sub">${c.sub}</div></div>`).join('');
 }
 function renderTotals(){
-  const entries = currentEntries();
-  const exp = currentExpenses();
+  const entries = currentEntries(); const exp = currentExpenses();
   const totalSales = entries.reduce((s,r)=>s+(parseFloat(r.sales)||0),0);
   const totalCost = entries.reduce((s,r)=>s+(parseFloat(r.cost)||0),0);
   const totalDailyExp = entries.reduce((s,r)=>s+(parseFloat(r.expenses)||0),0);
-  const gross = totalSales-totalCost-totalDailyExp;
-  const monthlyExp = totalMonthlyExpenses(exp);
-  const net = gross-monthlyExp;
-  const rows = [
-    ['Total sales',fmt(totalSales)],['Total cost',fmt(totalCost)],['Daily expenses',fmt(totalDailyExp)],
-    ['Gross profit',fmt(gross)],['Salary',fmt(exp.salary||0)],['Rent',fmt(exp.rent||0)],
-    ['Utilities',fmt(exp.utilities||0)],['Transport',fmt(exp.transport||0)],['Other',fmt(exp.other||0)],
-    ['Total monthly expenses',fmt(monthlyExp)],['Net profit',fmt(net)],
-    ['Gross margin',totalSales?(gross/totalSales*100).toFixed(1)+'%':'—'],
-    ['Net margin',totalSales?(net/totalSales*100).toFixed(1)+'%':'—'],
-    ['Entry count',entries.length],
-  ];
-  const el = document.getElementById('totalsBody');
-  if(!el) return;
+  const gross = totalSales-totalCost-totalDailyExp; const monthlyExp = totalMonthlyExpenses(exp); const net = gross-monthlyExp;
+  const rows = [['Total sales',fmt(totalSales)],['Total cost',fmt(totalCost)],['Daily expenses',fmt(totalDailyExp)],['Gross profit',fmt(gross)],['Total monthly expenses',fmt(monthlyExp)],['Net profit',fmt(net)],['Gross margin',totalSales?(gross/totalSales*100).toFixed(1)+'%':'—'],['Net margin',totalSales?(net/totalSales*100).toFixed(1)+'%':'—'],['Entry count',entries.length]];
+  const el = document.getElementById('totalsBody'); if(!el) return;
   el.innerHTML = rows.map(([k,v])=>`<tr><td style="font-weight:500;">${k}</td><td style="font-weight:600;">${v}</td></tr>`).join('');
 }
-
 function renderPurchases(){
   const purchases = currentPurchases();
   const isClosed = allMonthsData[currentMonthKey]?.closed;
   const canEdit = hasPerm('editPurchases') && !isClosed;
-  const monthLbl = document.getElementById('purchaseMonthLabel');
-  if(monthLbl) monthLbl.textContent = monthLabel(currentMonthKey);
+  const monthLbl = document.getElementById('purchaseMonthLabel'); if(monthLbl) monthLbl.textContent = monthLabel(currentMonthKey);
   const total = purchases.reduce((s,p)=>s+(parseFloat(p.total)||0),0);
   const totalDailyCost = currentEntries().reduce((s,r)=>s+(parseFloat(r.cost)||0),0);
   const diff = total - totalDailyCost;
@@ -2007,14 +1661,11 @@ function renderPurchases(){
     <div class="sum-card"><div class="sum-label"><i class="fas fa-users"></i> Suppliers</div><div class="sum-value">${suppliers.length}</div><div class="sum-sub">Active this month</div></div>
     <div class="sum-card"><div class="sum-label"><i class="fas fa-money-bill"></i> Cash vs Credit</div><div class="sum-value" style="font-size:1.1rem;">${fmt(cashPurchases)} / ${fmt(creditPurchases)}</div><div class="sum-sub">Cash / Credit</div></div>
   `;
-  const tbody = document.getElementById('purchasesBody');
-  if(!tbody) return;
-  if(!purchases.length){
-    tbody.innerHTML = `<tr><td colspan="9" style="text-align:center;padding:2rem;color:#7b8fa0;">No purchases recorded.</td></tr>`;
-  } else {
+  const tbody = document.getElementById('purchasesBody'); if(!tbody) return;
+  if(!purchases.length){ tbody.innerHTML = `<tr><td colspan="9" style="text-align:center;padding:2rem;color:#7b8fa0;">No purchases recorded.</td></tr>`; }
+  else {
     tbody.innerHTML = purchases.map((p,idx)=>{
-      const ro = !canEdit ? 'readonly' : '';
-      const bg = !canEdit ? 'background:#f2f6fa;' : '';
+      const ro = !canEdit ? 'readonly' : ''; const bg = !canEdit ? 'background:#f2f6fa;' : '';
       return `<tr>
         <td><input type="date" value="${p.date||''}" ${ro} onchange="updatePurchase(${idx},'date',this.value)" style="${bg}"></td>
         <td><input type="text" value="${p.supplier||''}" ${ro} onchange="updatePurchase(${idx},'supplier',this.value)" style="${bg}"></td>
@@ -2022,48 +1673,28 @@ function renderPurchases(){
         <td><input type="number" step="0.01" value="${p.qty??''}" ${ro} onchange="updatePurchase(${idx},'qty',this.value)" style="${bg}"></td>
         <td><input type="number" step="0.01" value="${p.unit??''}" ${ro} onchange="updatePurchase(${idx},'unit',this.value)" style="${bg}"></td>
         <td><input type="number" step="0.01" value="${p.total??''}" ${ro} onchange="updatePurchase(${idx},'total',this.value)" style="font-weight:600;color:#0b4b2b;${bg}"></td>
-        <td><select ${ro} onchange="updatePurchase(${idx},'payment',this.value)" style="${bg}">
-          <option value="Cash" ${p.payment==='Cash'?'selected':''}>Cash</option>
-          <option value="Credit" ${p.payment==='Credit'?'selected':''}>Credit</option>
-          <option value="Mobile Money" ${p.payment==='Mobile Money'?'selected':''}>Mobile Money</option>
-          <option value="Bank" ${p.payment==='Bank'?'selected':''}>Bank</option>
-        </select></td>
+        <td><select ${ro} onchange="updatePurchase(${idx},'payment',this.value)" style="${bg}"><option value="Cash" ${p.payment==='Cash'?'selected':''}>Cash</option><option value="Credit" ${p.payment==='Credit'?'selected':''}>Credit</option><option value="Mobile Money" ${p.payment==='Mobile Money'?'selected':''}>Mobile Money</option><option value="Bank" ${p.payment==='Bank'?'selected':''}>Bank</option></select></td>
         <td><input type="text" value="${p.reference||''}" ${ro} onchange="updatePurchase(${idx},'reference',this.value)" style="${bg}"></td>
         <td>${canEdit?`<button class="remove-btn" onclick="removePurchase(${idx})"><i class="fas fa-trash-alt"></i></button>`:''}</td>
       </tr>`;
     }).join('');
   }
-  const supMap = {};
-  purchases.forEach(p=>{ const s = p.supplier||'(Unnamed)'; if(!supMap[s]) supMap[s]={total:0,count:0}; supMap[s].total += parseFloat(p.total)||0; supMap[s].count++; });
+  const supMap = {}; purchases.forEach(p=>{ const s = p.supplier||'(Unnamed)'; if(!supMap[s]) supMap[s]={total:0,count:0}; supMap[s].total += parseFloat(p.total)||0; supMap[s].count++; });
   const supArr = Object.entries(supMap).sort((a,b)=>b[1].total-a[1].total);
   const supBody = document.getElementById('supplierBody');
-  if(supBody) supBody.innerHTML = supArr.length ? supArr.map(([name,s])=>{
-    const pct = total ? (s.total/total*100) : 0;
-    const avg = s.count ? s.total/s.count : 0;
-    return `<tr><td><strong>${name}</strong></td><td>${fmt(s.total)}</td><td>${pct.toFixed(1)}%</td><td>${s.count}</td><td>${fmt(avg)}</td></tr>`;
-  }).join('') : `<tr><td colspan="5" style="text-align:center;padding:1.5rem;color:#7b8fa0;">No supplier data</td></tr>`;
-  const catMap = {};
-  purchases.forEach(p=>{ const c = p.category||'(Uncategorised)'; if(!catMap[c]) catMap[c]={total:0,count:0}; catMap[c].total += parseFloat(p.total)||0; catMap[c].count++; });
+  if(supBody) supBody.innerHTML = supArr.length ? supArr.map(([name,s])=>{ const pct = total ? (s.total/total*100) : 0; const avg = s.count ? s.total/s.count : 0; return `<tr><td><strong>${name}</strong></td><td>${fmt(s.total)}</td><td>${pct.toFixed(1)}%</td><td>${s.count}</td><td>${fmt(avg)}</td></tr>`; }).join('') : `<tr><td colspan="5" style="text-align:center;padding:1.5rem;color:#7b8fa0;">No supplier data</td></tr>`;
+  const catMap = {}; purchases.forEach(p=>{ const c = p.category||'(Uncategorised)'; if(!catMap[c]) catMap[c]={total:0,count:0}; catMap[c].total += parseFloat(p.total)||0; catMap[c].count++; });
   const catArr = Object.entries(catMap).sort((a,b)=>b[1].total-a[1].total);
   const catBody = document.getElementById('categoryBody');
-  if(catBody) catBody.innerHTML = catArr.length ? catArr.map(([name,c])=>{
-    const pct = total ? (c.total/total*100) : 0;
-    return `<tr><td><strong>${name}</strong></td><td>${fmt(c.total)}</td><td>${pct.toFixed(1)}%</td><td>${c.count}</td></tr>`;
-  }).join('') : `<tr><td colspan="4" style="text-align:center;padding:1.5rem;color:#7b8fa0;">No category data</td></tr>`;
+  if(catBody) catBody.innerHTML = catArr.length ? catArr.map(([name,c])=>{ const pct = total ? (c.total/total*100) : 0; return `<tr><td><strong>${name}</strong></td><td>${fmt(c.total)}</td><td>${pct.toFixed(1)}%</td><td>${c.count}</td></tr>`; }).join('') : `<tr><td colspan="4" style="text-align:center;padding:1.5rem;color:#7b8fa0;">No category data</td></tr>`;
 }
 function updatePurchase(idx,field,value){
   if(!hasPerm('editPurchases')) { showToast('No permission', 'error'); return; }
   if(allMonthsData[currentMonthKey]?.closed) return;
   const purchases = currentPurchases();
-  if(field==='qty'||field==='unit'||field==='total'){
-    purchases[idx][field] = value===''?0:parseFloat(value);
-    if((field==='qty'||field==='unit') && (purchases[idx].total===0 || purchases[idx].total===undefined)){
-      purchases[idx].total = (purchases[idx].qty||0)*(purchases[idx].unit||0);
-    }
-  } else purchases[idx][field] = value;
-  if(field==='total' && purchases[idx].supplier){
-    addLog('Edit Purchase', `${purchases[idx].supplier} on ${purchases[idx].date} → UGX ${fmt(purchases[idx].total)}`);
-  }
+  if(field==='qty'||field==='unit'||field==='total'){ purchases[idx][field] = value===''?0:parseFloat(value); if((field==='qty'||field==='unit') && (purchases[idx].total===0 || purchases[idx].total===undefined)) purchases[idx].total = (purchases[idx].qty||0)*(purchases[idx].unit||0); }
+  else purchases[idx][field] = value;
+  if(field==='total' && purchases[idx].supplier) addLog('Edit Purchase', `${purchases[idx].supplier} on ${purchases[idx].date} → UGX ${fmt(purchases[idx].total)}`);
   renderPurchases(); scheduleSave();
 }
 function addPurchaseRow(){
@@ -2080,38 +1711,26 @@ function addPurchaseRow(){
 function removePurchase(idx){
   if(!hasPerm('editPurchases')) { showToast('No permission', 'error'); return; }
   if(allMonthsData[currentMonthKey]?.closed){ showToast('Month is closed'); return; }
-  const p = currentPurchases()[idx];
-  currentPurchases().splice(idx,1);
+  const p = currentPurchases()[idx]; currentPurchases().splice(idx,1);
   addLog('Delete Purchase', `${p?.supplier||'—'} on ${p?.date||'—'}`);
   renderPurchases(); scheduleSave();
 }
-
 function computeAuditFlags(){
   const sorted = [...weeklyClosures].sort((a,b)=>new Date(a.date)-new Date(b.date));
   return sorted.map((row,i)=>{
     if(i===0) return {...row,stockDelta:null,creditDelta:null,cashDelta:null,flag:'green',flagNote:'First record (baseline)'};
     const prev = sorted[i-1];
     const sd = row.stock - prev.stock, cd = row.credit - prev.credit, cad = row.cash - prev.cash;
-    const sp = prev.stock ? (sd/prev.stock)*100 : 0;
-    const cp = prev.credit ? (cd/prev.credit)*100 : 0;
-    const cap = prev.cash ? (cad/prev.cash)*100 : 0;
+    const sp = prev.stock ? (sd/prev.stock)*100 : 0; const cp = prev.credit ? (cd/prev.credit)*100 : 0; const cap = prev.cash ? (cad/prev.cash)*100 : 0;
     let flag='green', note='Normal range';
-    if(sp<-12){flag='red';note=`Stock dropped ${Math.abs(sp).toFixed(1)}%`;}
-    else if(cp<-20){flag='red';note=`Credit dropped ${Math.abs(cp).toFixed(1)}%`;}
-    else if(cap<-25){flag='red';note=`Cash dropped ${Math.abs(cap).toFixed(1)}%`;}
-    else if(cp>30){flag='red';note=`Credit jumped ${cp.toFixed(1)}%`;}
-    else if(sp<-6){flag='amber';note=`Stock dropped ${Math.abs(sp).toFixed(1)}%`;}
-    else if(cp<-10){flag='amber';note=`Credit dropped ${Math.abs(cp).toFixed(1)}%`;}
-    else if(cap<-15){flag='amber';note=`Cash dropped ${Math.abs(cap).toFixed(1)}%`;}
-    else if(cp>18){flag='amber';note=`Credit increased ${cp.toFixed(1)}%`;}
+    if(sp<-12){flag='red';note=`Stock dropped ${Math.abs(sp).toFixed(1)}%`;} else if(cp<-20){flag='red';note=`Credit dropped ${Math.abs(cp).toFixed(1)}%`;} else if(cap<-25){flag='red';note=`Cash dropped ${Math.abs(cap).toFixed(1)}%`;} else if(cp>30){flag='red';note=`Credit jumped ${cp.toFixed(1)}%`;}
+    else if(sp<-6){flag='amber';note=`Stock dropped ${Math.abs(sp).toFixed(1)}%`;} else if(cp<-10){flag='amber';note=`Credit dropped ${Math.abs(cp).toFixed(1)}%`;} else if(cap<-15){flag='amber';note=`Cash dropped ${Math.abs(cap).toFixed(1)}%`;} else if(cp>18){flag='amber';note=`Credit increased ${cp.toFixed(1)}%`;}
     return {...row,stockDelta:sd,creditDelta:cd,cashDelta:cad,stockPct:sp,creditPct:cp,cashPct:cap,flag,flagNote:note};
   });
 }
 function renderAudit(){
   const audit = computeAuditFlags().reverse();
-  const redCount = audit.filter(a=>a.flag==='red').length;
-  const amberCount = audit.filter(a=>a.flag==='amber').length;
-  const greenCount = audit.filter(a=>a.flag==='green').length;
+  const redCount = audit.filter(a=>a.flag==='red').length, amberCount = audit.filter(a=>a.flag==='amber').length, greenCount = audit.filter(a=>a.flag==='green').length;
   const latest = weeklyClosures.length ? [...weeklyClosures].sort((a,b)=>new Date(b.date)-new Date(a.date))[0] : null;
   const sumEl = document.getElementById('auditSummary');
   if(sumEl) sumEl.innerHTML = `
@@ -2120,8 +1739,7 @@ function renderAudit(){
     <div class="audit-card green"><div class="label"><i class="fas fa-check-circle"></i> Normal</div><div class="value">${greenCount}</div><div class="detail">In range</div></div>
     <div class="audit-card ${latest && latest.cash<500000?'amber':'green'}"><div class="label"><i class="fas fa-money-bill-wave"></i> Latest cash</div><div class="value">${latest?fmt(latest.cash):'—'}</div><div class="detail">${latest?new Date(latest.date).toLocaleDateString():'No data'}</div></div>
   `;
-  const tbody = document.getElementById('auditBody');
-  if(!tbody) return;
+  const tbody = document.getElementById('auditBody'); if(!tbody) return;
   if(!audit.length){ tbody.innerHTML = `<tr><td colspan="9" style="text-align:center;padding:2rem;color:#7b8fa0;">No weekly closure records.</td></tr>`; return; }
   tbody.innerHTML = audit.map((row,i)=>{
     const rowClass = row.flag==='red'?'red-flag-row':row.flag==='amber'?'amber-flag-row':'';
@@ -2129,15 +1747,7 @@ function renderAudit(){
     const sd = row.stockDelta!==null?`<span style="color:${row.stockDelta<0?'#b33a3a':'#1d7a4b'};font-weight:600;">${fmtSigned(row.stockDelta)}</span>`:'—';
     const cd = row.creditDelta!==null?`<span style="color:${row.creditDelta<0?'#b33a3a':'#1d7a4b'};font-weight:600;">${fmtSigned(row.creditDelta)}</span>`:'—';
     const cad = row.cashDelta!==null?`<span style="color:${row.cashDelta<0?'#b33a3a':'#1d7a4b'};font-weight:600;">${fmtSigned(row.cashDelta)}</span>`:'—';
-    return `<tr class="${rowClass}">
-      <td style="font-weight:600;color:#6a7f94;">${audit.length-i}</td>
-      <td>${new Date(row.date).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'})}</td>
-      <td style="font-weight:600;">${fmt(row.stock)}</td>
-      <td style="font-weight:600;">${fmt(row.credit)}</td>
-      <td style="font-weight:600;">${fmt(row.cash)}</td>
-      <td>${sd}</td><td>${cd}</td><td>${cad}</td>
-      <td>${badge} <span style="font-size:0.72rem;color:#5f7385;display:block;margin-top:0.2rem;">${row.flagNote}</span></td>
-    </tr>`;
+    return `<tr class="${rowClass}"><td style="font-weight:600;color:#6a7f94;">${audit.length-i}</td><td>${new Date(row.date).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'})}</td><td style="font-weight:600;">${fmt(row.stock)}</td><td style="font-weight:600;">${fmt(row.credit)}</td><td style="font-weight:600;">${fmt(row.cash)}</td><td>${sd}</td><td>${cd}</td><td>${cad}</td><td>${badge} <span style="font-size:0.72rem;color:#5f7385;display:block;margin-top:0.2rem;">${row.flagNote}</span></td></tr>`;
   }).join('');
 }
 async function addClosureEntry(){
@@ -2149,52 +1759,34 @@ async function addClosureEntry(){
   if(!date){ showToast('Please enter a date', 'error'); return; }
   if(stock===0&&credit===0&&cash===0){ showToast('Enter at least one value', 'error'); return; }
   const closure = {date,stock,credit,cash};
-  weeklyClosures.push(closure);
-  weeklyClosures.sort((a,b)=>new Date(a.date)-new Date(b.date));
+  weeklyClosures.push(closure); weeklyClosures.sort((a,b)=>new Date(a.date)-new Date(b.date));
   await saveClosureToFirestore(closure);
   addLog('Add Closure', `${date} — stock ${fmt(stock)}, credit ${fmt(credit)}, cash ${fmt(cash)}`);
-  document.getElementById('newClosureDate').value='';
-  document.getElementById('newClosureStock').value='';
-  document.getElementById('newClosureCredit').value='';
-  document.getElementById('newClosureCash').value='';
+  document.getElementById('newClosureDate').value=''; document.getElementById('newClosureStock').value=''; document.getElementById('newClosureCredit').value=''; document.getElementById('newClosureCash').value='';
   renderAudit(); showToast('Closure entry added', 'success');
 }
-
 function renderLog(){
-  const tbody = document.getElementById('logBody');
-  if(!tbody) return;
+  const tbody = document.getElementById('logBody'); if(!tbody) return;
   if(!auditLog.length){ tbody.innerHTML = `<tr><td colspan="4" style="text-align:center;padding:2rem;color:#7b8fa0;">No changes logged yet.</td></tr>`; return; }
   tbody.innerHTML = auditLog.slice(0,200).map(l=>{
     const d = new Date(l.time);
-    const badge = l.action.toLowerCase().includes('delete')||l.action.toLowerCase().includes('remove')
-      ? 'red' : l.action.toLowerCase().includes('add') ? 'green' : 'blue';
-    return `<tr>
-      <td style="font-size:0.78rem;color:#6a7f94;">${d.toLocaleString()}</td>
-      <td><strong>${l.user || '—'}</strong></td>
-      <td><span class="badge-pill ${badge}">${l.action}</span></td>
-      <td style="font-size:0.82rem;">${l.details} <span style="color:#6a7f94;">· ${monthLabel(l.month)}</span></td>
-    </tr>`;
+    const badge = l.action.toLowerCase().includes('delete')||l.action.toLowerCase().includes('remove') ? 'red' : l.action.toLowerCase().includes('add') ? 'green' : 'blue';
+    return `<tr><td style="font-size:0.78rem;color:#6a7f94;">${d.toLocaleString()}</td><td><strong>${l.user || '—'}</strong></td><td><span class="badge-pill ${badge}">${l.action}</span></td><td style="font-size:0.82rem;">${l.details} <span style="color:#6a7f94;">· ${monthLabel(l.month)}</span></td></tr>`;
   }).join('');
 }
-
 function openAuditReport(){
-  const monthKey = currentMonthKey;
-  const data = allMonthsData[monthKey];
+  const monthKey = currentMonthKey; const data = allMonthsData[monthKey];
   if(!data){ showToast('No data', 'error'); return; }
   const monthName = monthLabel(monthKey);
   document.getElementById('auditReportMonth').textContent = monthName;
   document.getElementById('auditReportDate').textContent = `Location: ${currentUser?.locationName || currentLocationId}`;
   const body = document.getElementById('auditReportBody');
   const issues = { red:[], amber:[], green:[] };
-  const entries = data.entries||[];
-  const purchases = data.purchases||[];
-  const exp = data.expenses||defaultExpenses();
+  const entries = data.entries||[]; const purchases = data.purchases||[]; const exp = currentExpenses();
   const totalSales = entries.reduce((s,r)=>s+(parseFloat(r.sales)||0),0);
   const totalCost = entries.reduce((s,r)=>s+(parseFloat(r.cost)||0),0);
   const totalDailyExp = entries.reduce((s,r)=>s+(parseFloat(r.expenses)||0),0);
-  const gross = totalSales-totalCost-totalDailyExp;
-  const monthlyExp = totalMonthlyExpenses(exp);
-  const net = gross-monthlyExp;
+  const gross = totalSales-totalCost-totalDailyExp; const monthlyExp = totalMonthlyExpenses(exp); const net = gross-monthlyExp;
   const totalPurchasesAmt = purchases.reduce((s,p)=>s+(parseFloat(p.total)||0),0);
   const closuresInMonth = weeklyClosures.filter(w=>w.date.startsWith(monthKey)).sort((a,b)=>new Date(a.date)-new Date(b.date));
   let reconHtml = '';
@@ -2203,21 +1795,10 @@ function openAuditReport(){
     const closingStock = closuresInMonth[closuresInMonth.length-1].stock;
     const expectedClosing = openingStock + totalPurchasesAmt - totalCost;
     const stockGap = closingStock - expectedClosing;
-    if(Math.abs(stockGap) > 500000){
-      issues.red.push({ title:'Stock Flow Mismatch', desc:`Gap <strong>UGX ${fmtSigned(stockGap)}</strong>.` });
-    } else if(Math.abs(stockGap) > 200000){
-      issues.amber.push({ title:'Stock Flow Variance', desc:`Gap <strong>UGX ${fmtSigned(stockGap)}</strong>.` });
-    } else {
-      issues.green.push({ title:'Stock Flow', desc:`Within <strong>UGX ${fmt(Math.abs(stockGap))}</strong>.` });
-    }
-    reconHtml += `<div class="report-section"><div class="report-section-header"><i class="fas fa-boxes-stacked"></i> Stock Flow</div><div class="report-section-body"><div class="recon-box">
-      <div class="row"><span class="lbl">Opening Stock</span><span>${fmt(openingStock)}</span></div>
-      <div class="row"><span class="lbl">+ Purchases</span><span>${fmt(totalPurchasesAmt)}</span></div>
-      <div class="row"><span class="lbl">− Recorded Cost</span><span>−${fmt(totalCost)}</span></div>
-      <div class="row"><span class="lbl">= Expected Closing</span><span>${fmt(expectedClosing)}</span></div>
-      <div class="row"><span class="lbl">Actual Closing</span><span>${fmt(closingStock)}</span></div>
-      <div class="row"><span class="lbl">Unaccounted</span><span style="color:${Math.abs(stockGap)>500000?'#b33a3a':'#1d7a4b'};">${fmtSigned(stockGap)}</span></div>
-    </div></div></div>`;
+    if(Math.abs(stockGap) > 500000) issues.red.push({ title:'Stock Flow Mismatch', desc:`Gap <strong>UGX ${fmtSigned(stockGap)}</strong>.` });
+    else if(Math.abs(stockGap) > 200000) issues.amber.push({ title:'Stock Flow Variance', desc:`Gap <strong>UGX ${fmtSigned(stockGap)}</strong>.` });
+    else issues.green.push({ title:'Stock Flow', desc:`Within <strong>UGX ${fmt(Math.abs(stockGap))}</strong>.` });
+    reconHtml += `<div class="report-section"><div class="report-section-header"><i class="fas fa-boxes-stacked"></i> Stock Flow</div><div class="report-section-body"><div class="recon-box"><div class="row"><span class="lbl">Opening Stock</span><span>${fmt(openingStock)}</span></div><div class="row"><span class="lbl">+ Purchases</span><span>${fmt(totalPurchasesAmt)}</span></div><div class="row"><span class="lbl">− Recorded Cost</span><span>−${fmt(totalCost)}</span></div><div class="row"><span class="lbl">= Expected Closing</span><span>${fmt(expectedClosing)}</span></div><div class="row"><span class="lbl">Actual Closing</span><span>${fmt(closingStock)}</span></div><div class="row"><span class="lbl">Unaccounted</span><span style="color:${Math.abs(stockGap)>500000?'#b33a3a':'#1d7a4b'};">${fmtSigned(stockGap)}</span></div></div></div></div>`;
   }
   const marginPct = totalSales ? (gross/totalSales*100) : 0;
   if(marginPct < 15) issues.red.push({ title:'Low Gross Margin', desc:`<strong>${marginPct.toFixed(1)}%</strong>.` });
@@ -2226,28 +1807,11 @@ function openAuditReport(){
   if(net < 0) issues.red.push({ title:'Negative Net Profit', desc:`<strong>UGX ${fmt(net)}</strong>.` });
   else if(net < 500000) issues.amber.push({ title:'Low Net Profit', desc:`<strong>UGX ${fmt(net)}</strong>.` });
   else issues.green.push({ title:'Net Profit', desc:`<strong>UGX ${fmt(net)}</strong>.` });
-
   let verdictClass, verdictIcon, verdictTitle, verdictSub;
-  if(issues.red.length > 0){
-    verdictClass='bad'; verdictIcon='fa-circle-exclamation';
-    verdictTitle='Action Required';
-    verdictSub=`${issues.red.length} red flag(s).`;
-  } else if(issues.amber.length > 0){
-    verdictClass='warn'; verdictIcon='fa-triangle-exclamation';
-    verdictTitle='Review Recommended';
-    verdictSub=`${issues.amber.length} warning(s).`;
-  } else {
-    verdictClass='good'; verdictIcon='fa-circle-check';
-    verdictTitle='Clean Audit';
-    verdictSub='No red flags.';
-  }
-  const scoreGrid = `<div class="score-grid">
-    <div class="score-item"><div class="num ${issues.red.length>0?'red':'green'}">${issues.red.length}</div><div class="lbl">Red</div></div>
-    <div class="score-item"><div class="num ${issues.amber.length>0?'amber':'green'}">${issues.amber.length}</div><div class="lbl">Warnings</div></div>
-    <div class="score-item"><div class="num green">${issues.green.length}</div><div class="lbl">Passed</div></div>
-    <div class="score-item"><div class="num">${fmt(totalSales)}</div><div class="lbl">Sales</div></div>
-    <div class="score-item"><div class="num ${net>=0?'green':'red'}">${fmt(net)}</div><div class="lbl">Net</div></div>
-  </div>`;
+  if(issues.red.length > 0){ verdictClass='bad'; verdictIcon='fa-circle-exclamation'; verdictTitle='Action Required'; verdictSub=`${issues.red.length} red flag(s).`; }
+  else if(issues.amber.length > 0){ verdictClass='warn'; verdictIcon='fa-triangle-exclamation'; verdictTitle='Review Recommended'; verdictSub=`${issues.amber.length} warning(s).`; }
+  else { verdictClass='good'; verdictIcon='fa-circle-check'; verdictTitle='Clean Audit'; verdictSub='No red flags.'; }
+  const scoreGrid = `<div class="score-grid"><div class="score-item"><div class="num ${issues.red.length>0?'red':'green'}">${issues.red.length}</div><div class="lbl">Red</div></div><div class="score-item"><div class="num ${issues.amber.length>0?'amber':'green'}">${issues.amber.length}</div><div class="lbl">Warnings</div></div><div class="score-item"><div class="num green">${issues.green.length}</div><div class="lbl">Passed</div></div><div class="score-item"><div class="num">${fmt(totalSales)}</div><div class="lbl">Sales</div></div><div class="score-item"><div class="num ${net>=0?'green':'red'}">${fmt(net)}</div><div class="lbl">Net</div></div></div>`;
   const verdictBanner = `<div class="verdict-banner ${verdictClass}"><i class="fas ${verdictIcon} verdict-icon"></i><div class="verdict-text"><div class="title">${verdictTitle}</div><div class="sub">${verdictSub}</div></div></div>`;
   let issuesHtml = '';
   if(issues.red.length) issuesHtml += `<div class="report-section"><div class="report-section-header" style="background:#fdeeee;color:#b33a3a;"><i class="fas fa-flag" style="color:#b33a3a;"></i> Red Flags (${issues.red.length})</div><div class="report-section-body">${issues.red.map(i=>`<div class="report-item"><div class="icon red"><i class="fas fa-exclamation"></i></div><div class="content"><div class="title">${i.title}</div><div class="desc">${i.desc}</div></div></div>`).join('')}</div></div>`;
@@ -2261,36 +1825,27 @@ document.getElementById('auditModal').addEventListener('click', function(e){ if(
 document.getElementById('pwdModal').addEventListener('click', function(e){ if(e.target===this) closeChangePassword(); });
 document.getElementById('adminPwdModal').addEventListener('click', function(e){ if(e.target===this) closeAdminChangePassword(); });
 document.getElementById('userModal').addEventListener('click', function(e){ if(e.target===this) closeUserModal(); });
-
 function downloadExcel(){
   const wb = XLSX.utils.book_new();
-  const entries = currentEntries();
-  const exp = currentExpenses();
-  const purchases = currentPurchases();
+  const entries = currentEntries(); const exp = currentExpenses(); const purchases = currentPurchases();
   if(entries.length){
     const dailyRows = entries.map((r,i)=>({'#':i+1,'Day':r.day||'','Date':r.date||'','Total Cost':parseFloat(r.cost)||0,'Total Sales':parseFloat(r.sales)||0,'Expenses':parseFloat(r.expenses)||0,'Gross Profit':grossProfit(r)}));
-    const ts = entries.reduce((s,r)=>s+(parseFloat(r.sales)||0),0);
-    const tc = entries.reduce((s,r)=>s+(parseFloat(r.cost)||0),0);
-    const te = entries.reduce((s,r)=>s+(parseFloat(r.expenses)||0),0);
+    const ts = entries.reduce((s,r)=>s+(parseFloat(r.sales)||0),0); const tc = entries.reduce((s,r)=>s+(parseFloat(r.cost)||0),0); const te = entries.reduce((s,r)=>s+(parseFloat(r.expenses)||0),0);
     dailyRows.push({'#':'','Day':'TOTAL','Date':'','Total Cost':tc,'Total Sales':ts,'Expenses':te,'Gross Profit':ts-tc-te});
     XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(dailyRows), 'Daily Data');
-    const me = totalMonthlyExpenses(exp);
-    const summaryRows = [['Metric','Value (UGX)'],['Total sales',ts],['Total cost',tc],['Daily expenses',te],['Gross profit',ts-tc-te],['Salary',exp.salary||0],['Rent',exp.rent||0],['Utilities',exp.utilities||0],['Transport',exp.transport||0],['Other',exp.other||0],['Total monthly expenses',me],['Net profit',ts-tc-te-me]];
-    XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(summaryRows), 'Summary');
+  }
+  if(Array.isArray(exp) && exp.length){
+    const expRows = exp.map(e => ({'Expense Type': e.type, 'Amount (UGX)': e.amount, 'Note': e.note || ''}));
+    expRows.push({ 'Expense Type': 'TOTAL', 'Amount (UGX)': totalMonthlyExpenses(exp), 'Note': '' });
+    XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(expRows), 'Expenses');
   }
   if(purchases.length){
     const pRows = purchases.map(p=>({'Date':p.date||'','Supplier':p.supplier||'','Category':p.category||'','Quantity':parseFloat(p.qty)||0,'Unit Cost':parseFloat(p.unit)||0,'Total':parseFloat(p.total)||0,'Payment':p.payment||'','Reference':p.reference||''}));
     XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(pRows), 'Purchases');
   }
-  const audit = computeAuditFlags();
-  if(audit.length){
-    const auditRows = audit.map(r=>({'Date':r.date,'Total Stock':r.stock,'Total Credit':r.credit,'Cash at Hand':r.cash,'Stock Δ':r.stockDelta,'Credit Δ':r.creditDelta,'Cash Δ':r.cashDelta,'Flag':r.flag.toUpperCase(),'Note':r.flagNote}));
-    XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(auditRows), 'Closure Audit');
-  }
   XLSX.writeFile(wb, `BrightMesh_${currentLocationId || 'admin'}_${currentMonthKey}.xlsx`);
   showToast('Excel downloaded', 'success');
 }
-
 function downloadPDF(){
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF({orientation:'landscape',unit:'mm',format:'a4'});
@@ -2298,18 +1853,14 @@ function downloadPDF(){
   doc.text(`Bright Mesh · ${monthLabel(currentMonthKey)}`, 14, 18);
   doc.setFontSize(10); doc.setTextColor(90,110,130);
   doc.text(`Location: ${currentUser?.locationName || currentLocationId}`, 14, 26);
-  const entries = currentEntries();
-  const exp = currentExpenses();
+  const entries = currentEntries(); const exp = currentExpenses();
   if(entries.length){
-    const ts = entries.reduce((s,r)=>s+(parseFloat(r.sales)||0),0);
-    const tc = entries.reduce((s,r)=>s+(parseFloat(r.cost)||0),0);
-    const te = entries.reduce((s,r)=>s+(parseFloat(r.expenses)||0),0);
-    const me = totalMonthlyExpenses(exp);
-    doc.autoTable({
-      startY:32, head:[['Metric','Value (UGX)']],
-      body:[['Total sales',fmt(ts)],['Total cost',fmt(tc)],['Gross profit',fmt(ts-tc-te)],['Monthly expenses',fmt(me)],['Net profit',fmt(ts-tc-te-me)]],
-      theme:'striped', headStyles:{fillColor:[29,122,75],textColor:255,fontSize:9}, bodyStyles:{fontSize:8.5}, margin:{left:14,right:14}
-    });
+    const ts = entries.reduce((s,r)=>s+(parseFloat(r.sales)||0),0); const tc = entries.reduce((s,r)=>s+(parseFloat(r.cost)||0),0); const te = entries.reduce((s,r)=>s+(parseFloat(r.expenses)||0),0); const me = totalMonthlyExpenses(exp);
+    doc.autoTable({startY:32, head:[['Metric','Value (UGX)']], body:[['Total sales',fmt(ts)],['Total cost',fmt(tc)],['Gross profit',fmt(ts-tc-te)],['Monthly expenses',fmt(me)],['Net profit',fmt(ts-tc-te-me)]], theme:'striped', headStyles:{fillColor:[29,122,75],textColor:255,fontSize:9}, bodyStyles:{fontSize:8.5}, margin:{left:14,right:14}});
+  }
+  if(Array.isArray(exp) && exp.length){
+    const expBody = exp.map(e => [e.type, fmt(e.amount), e.note || '']);
+    doc.autoTable({startY:doc.lastAutoTable ? doc.lastAutoTable.finalY + 8 : 32, head:[['Expense Type','Amount (UGX)','Note']], body: expBody, theme:'grid', headStyles:{fillColor:[31,73,112],textColor:255,fontSize:8}, bodyStyles:{fontSize:7.5}, margin:{left:14,right:14}});
   }
   doc.save(`BrightMesh_${currentLocationId || 'admin'}_${currentMonthKey}.pdf`);
   showToast('PDF downloaded', 'success');
@@ -2319,13 +1870,8 @@ function downloadPDF(){
    BOOTSTRAP
    ============================================================ */
 renderTeamPermissionGrid(DEFAULT_PERMISSIONS.manager);
-
 window.addEventListener('DOMContentLoaded', async () => {
-  if(firebaseReady) {
-    console.log('🚀 Running auto-seed...');
-    await autoSeed();
-    console.log('✅ Ready');
-  }
+  if(firebaseReady) { await autoSeed(); }
 });
 </script>
 </body>
