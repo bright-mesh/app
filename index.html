@@ -204,7 +204,6 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
 .feature-icon{width:52px;height:52px;border-radius:14px;background:rgba(74,222,128,0.15);color:#4ade80;display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin-bottom:1.2rem;}
 .feature-card h3{font-size:1.15rem;font-weight:700;margin-bottom:0.6rem;}
 .feature-card p{color:rgba(255,255,255,0.65);font-size:0.9rem;line-height:1.6;}
-/* FAQ */
 .landing-faq{position:relative;z-index:2;padding:5rem 3rem;background:rgba(0,0,0,0.1);}
 .landing-faq-inner{max-width:900px;margin:0 auto;}
 .faq-header{text-align:center;margin-bottom:3rem;}
@@ -218,6 +217,42 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
 .faq-answer{max-height:0;overflow:hidden;transition:max-height 0.3s ease;color:rgba(255,255,255,0.75);font-size:0.92rem;line-height:1.65;}
 .faq-answer-inner{padding:0 1.5rem 1.3rem;}
 .faq-answer strong{color:#4ade80;}
+
+/* Contact form (inline on landing) */
+.landing-contact{position:relative;z-index:2;padding:5rem 3rem;background:rgba(0,0,0,0.15);}
+.landing-contact-inner{max-width:640px;margin:0 auto;}
+.contact-header{text-align:center;margin-bottom:2.5rem;}
+.contact-header h2{font-size:2.5rem;font-weight:800;margin-bottom:0.8rem;}
+.contact-header p{color:rgba(255,255,255,0.7);font-size:1.05rem;}
+.contact-form{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);border-radius:20px;padding:2rem;backdrop-filter:blur(10px);}
+.contact-form .field{margin-bottom:1rem;}
+.contact-form label{display:block;font-size:0.72rem;font-weight:600;color:rgba(255,255,255,0.75);margin-bottom:0.35rem;text-transform:uppercase;letter-spacing:0.3px;}
+.contact-form input,.contact-form textarea{width:100%;padding:0.75rem 1rem;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.08);color:white;font-size:0.9rem;border-radius:12px;font-family:inherit;transition:0.15s;}
+.contact-form input::placeholder,.contact-form textarea::placeholder{color:rgba(255,255,255,0.4);}
+.contact-form input:focus,.contact-form textarea:focus{outline:none;border-color:#4ade80;background:rgba(255,255,255,0.12);box-shadow:0 0 0 3px rgba(74,222,128,0.15);}
+.contact-form textarea{min-height:120px;resize:vertical;}
+.contact-form .send-btn{width:100%;background:#1d7a4b;color:white;border:none;padding:0.9rem;border-radius:12px;font-weight:700;font-size:0.95rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:0.5rem;transition:0.2s;font-family:inherit;margin-top:0.5rem;}
+.contact-form .send-btn:hover:not(:disabled){background:#16633c;transform:translateY(-1px);box-shadow:0 10px 30px rgba(29,122,75,0.4);}
+.contact-form .send-btn:disabled{opacity:0.6;cursor:not-allowed;}
+.contact-form .msg{padding:0.7rem 1rem;border-radius:10px;font-size:0.85rem;margin-bottom:1rem;display:none;align-items:center;gap:0.5rem;}
+.contact-form .msg.err{background:rgba(239,68,68,0.15);color:#fca5a5;border:1px solid rgba(239,68,68,0.3);}
+.contact-form .msg.suc{background:rgba(74,222,128,0.15);color:#86efac;border:1px solid rgba(74,222,128,0.3);}
+.contact-form .msg.show{display:flex;}
+
+/* Human verification box */
+.captcha-box{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);border-radius:12px;padding:1rem;display:flex;align-items:center;gap:1rem;cursor:pointer;user-select:none;transition:0.15s;margin-bottom:1rem;}
+.captcha-box:hover{background:rgba(255,255,255,0.08);}
+.captcha-box.verified{background:rgba(74,222,128,0.1);border-color:rgba(74,222,128,0.4);cursor:default;}
+.captcha-check{width:26px;height:26px;border-radius:6px;border:2px solid rgba(255,255,255,0.4);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:0.15s;background:rgba(255,255,255,0.05);}
+.captcha-box.verified .captcha-check{background:#4ade80;border-color:#4ade80;}
+.captcha-check i{color:white;font-size:0.85rem;opacity:0;transition:0.2s;}
+.captcha-box.verified .captcha-check i{opacity:1;}
+.captcha-text{font-size:0.85rem;color:rgba(255,255,255,0.75);}
+.captcha-text strong{display:block;color:white;font-weight:600;font-size:0.9rem;margin-bottom:0.15rem;}
+.captcha-spinner{display:none;}
+.captcha-box.loading .captcha-spinner{display:block;}
+.captcha-box.loading .captcha-check{border-color:#fbbf24;}
+
 .landing-cta{position:relative;z-index:2;padding:5rem 3rem;text-align:center;}
 .landing-cta h2{font-size:2.2rem;font-weight:800;margin-bottom:1rem;}
 .landing-cta p{color:rgba(255,255,255,0.7);font-size:1.05rem;margin-bottom:2rem;}
@@ -282,24 +317,19 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
 .permission-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:0.5rem;margin-top:0.6rem;}
 .perm-item{display:flex;align-items:center;gap:0.5rem;font-size:0.78rem;color:#1f3c54;padding:0.4rem 0.6rem;background:#f8fafd;border-radius:8px;cursor:pointer;user-select:none;}
 .perm-item input[type="checkbox"]{width:auto;min-width:auto;cursor:pointer;}
-.contact-modal{position:fixed;inset:0;background:rgba(10,25,40,0.75);backdrop-filter:blur(6px);z-index:1000;display:none;align-items:center;justify-content:center;padding:2rem 1rem;overflow-y:auto;}
-.contact-modal.active{display:flex;}
-.contact-card{background:white;max-width:520px;width:100%;padding:2.2rem;border-radius:24px;box-shadow:0 30px 80px rgba(0,10,20,0.5);animation:slideUp 0.25s ease;position:relative;max-height:90vh;overflow-y:auto;}
-.contact-card h3{font-size:1.4rem;color:#0b2b44;margin-bottom:0.3rem;display:flex;align-items:center;gap:0.5rem;}
-.contact-card h3 i{color:#1d7a4b;}
-.contact-card .sub{color:#5f7385;font-size:0.88rem;margin-bottom:1.5rem;}
-.contact-card .field{margin-bottom:1rem;}
-.contact-card label{display:block;font-size:0.72rem;font-weight:600;color:#1f3c54;margin-bottom:0.35rem;text-transform:uppercase;letter-spacing:0.3px;}
-.contact-card input,.contact-card textarea{width:100%;padding:0.7rem 0.9rem;border:1px solid #d2dfeb;border-radius:10px;font-size:0.9rem;font-family:inherit;background:white;}
-.contact-card textarea{min-height:120px;resize:vertical;}
-.contact-card input:focus,.contact-card textarea:focus{outline:none;border-color:#1d7a4b;box-shadow:0 0 0 3px rgba(29,122,75,0.12);}
-.contact-card .send-btn{width:100%;background:#1d7a4b;color:white;border:none;padding:0.9rem;border-radius:12px;font-weight:700;font-size:0.95rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:0.5rem;transition:0.2s;font-family:inherit;margin-top:0.5rem;}
-.contact-card .send-btn:hover:not(:disabled){background:#16633c;}
-.contact-card .send-btn:disabled{opacity:0.6;cursor:not-allowed;}
-.contact-card .contact-info{margin-top:1.4rem;padding-top:1.2rem;border-top:1px solid #eef3f8;font-size:0.8rem;color:#6a7f94;text-align:center;}
-.contact-card .contact-info i{color:#1d7a4b;margin-right:0.4rem;}
-.contact-close{position:absolute;top:1rem;right:1rem;background:#f0f4f9;border:none;width:36px;height:36px;border-radius:50%;cursor:pointer;color:#5f7385;display:flex;align-items:center;justify-content:center;transition:0.15s;}
-.contact-close:hover{background:#e3ebf3;color:#1e2a3a;}
+
+/* Date range picker */
+.date-range-bar{display:flex;flex-wrap:wrap;gap:0.6rem;align-items:center;background:#f8fafd;padding:1rem 1.2rem;border-radius:14px;border:1px solid #e3ebf3;margin-bottom:1.2rem;}
+.date-range-bar .quick-btn{background:white;border:1px solid #d2dfeb;color:#1f4970;font-weight:600;font-size:0.75rem;padding:0.4rem 0.9rem;border-radius:20px;cursor:pointer;transition:0.15s;font-family:inherit;}
+.date-range-bar .quick-btn:hover{background:#1d7a4b;color:white;border-color:#1d7a4b;}
+.date-range-bar .quick-btn.active{background:#1d7a4b;color:white;border-color:#1d7a4b;}
+.date-range-bar .field{display:flex;align-items:center;gap:0.5rem;}
+.date-range-bar .field label{font-size:0.72rem;font-weight:600;color:#5f7385;text-transform:uppercase;}
+.date-range-bar input[type="date"]{width:auto;padding:0.4rem 0.7rem;font-size:0.8rem;}
+
+/* Supplier dropdown wrapper */
+.supplier-select-wrap{position:relative;}
+
 @media (max-width:900px){
   .landing-hero{grid-template-columns:1fr;padding:2rem 1.5rem 4rem;gap:2rem;}
   .hero-content h1{font-size:2.3rem;}
@@ -309,6 +339,8 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
   .features-header h2{font-size:1.8rem;}
   .landing-faq{padding:3rem 1.5rem;}
   .faq-header h2{font-size:1.8rem;}
+  .landing-contact{padding:3rem 1.5rem;}
+  .contact-header h2{font-size:1.8rem;}
   .landing-cta{padding:3rem 1.5rem;}
   .landing-cta h2{font-size:1.6rem;}
 }
@@ -324,8 +356,8 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
     <div class="landing-nav-links">
       <a onclick="document.getElementById('features').scrollIntoView({behavior:'smooth'})">Features</a>
       <a onclick="document.getElementById('faq').scrollIntoView({behavior:'smooth'})">FAQ</a>
+      <a onclick="document.getElementById('contact-section').scrollIntoView({behavior:'smooth'})">Contact</a>
       <a onclick="document.getElementById('signin-section').scrollIntoView({behavior:'smooth'})">Sign in</a>
-      <a onclick="openContactModal()">Contact us</a>
     </div>
     <button class="nav-btn" onclick="document.getElementById('signin-section').scrollIntoView({behavior:'smooth'})"><i class="fas fa-sign-in-alt"></i> Sign in</button>
   </nav>
@@ -373,7 +405,6 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
     </div>
   </section>
 
-  <!-- FAQ -->
   <section class="landing-faq" id="faq">
     <div class="landing-faq-inner">
       <div class="faq-header">
@@ -428,8 +459,36 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
 
       <div class="faq-item" onclick="toggleFaq(this)">
         <div class="faq-question">Is Bright Mesh free?<i class="fas fa-chevron-down icon"></i></div>
-        <div class="faq-answer"><div class="faq-answer-inner">Yes — Bright Mesh is free to use. There are no subscription fees, no per-location charges, and no limits on the number of entries you can record. Reach out via the <strong>Contact us</strong> form to get started.</div></div>
+        <div class="faq-answer"><div class="faq-answer-inner">Yes — Bright Mesh is free to use. There are no subscription fees, no per-location charges, and no limits on the number of entries you can record. Reach out using the contact form below to get started.</div></div>
       </div>
+    </div>
+  </section>
+
+  <!-- CONTACT FORM (Inline, FormSubmit powered) -->
+  <section class="landing-contact" id="contact-section">
+    <div class="landing-contact-inner">
+      <div class="contact-header">
+        <h2>Contact us</h2>
+        <p>Have a question, need a demo, or want to get started? Send us a message.</p>
+      </div>
+      <form class="contact-form" id="contactForm" onsubmit="return submitContactForm(event)">
+        <div class="msg" id="contactFormMsg"><i class="fas fa-info-circle"></i> <span id="contactFormMsgText"></span></div>
+        <div class="field"><label>Your Name</label><input type="text" id="cfName" placeholder="e.g. Ahmed Ssekandi" required></div>
+        <div class="field"><label>Email Address</label><input type="email" id="cfEmail" placeholder="you@example.com" required></div>
+        <div class="field"><label>Subject</label><input type="text" id="cfSubject" placeholder="e.g. Request a demo" required></div>
+        <div class="field"><label>Message</label><textarea id="cfMessage" placeholder="Tell us how we can help..." required></textarea></div>
+
+        <!-- Human verification (captcha-like) -->
+        <div class="captcha-box" id="captchaBox" onclick="verifyCaptcha()">
+          <div class="captcha-check"><i class="fas fa-check"></i></div>
+          <div class="captcha-text">
+            <strong id="captchaLabel">I'm not a robot</strong>
+            <span id="captchaSub">Click to verify before sending</span>
+          </div>
+        </div>
+
+        <button class="send-btn" id="cfSendBtn" type="submit"><i class="fas fa-paper-plane"></i> Send Message</button>
+      </form>
     </div>
   </section>
 
@@ -448,25 +507,8 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
   </section>
 
   <footer class="landing-footer">
-    <p>© <span id="year"></span> Bright Mesh · Multi-location audit platform · Powered by Firebase · <a onclick="openContactModal()" style="color:#4ade80;cursor:pointer;text-decoration:none;">Contact us</a></p>
+    <p>© <span id="year"></span> Bright Mesh · Multi-location audit platform · Powered by Firebase</p>
   </footer>
-</div>
-
-<!-- CONTACT MODAL -->
-<div class="contact-modal" id="contactModal">
-  <div class="contact-card">
-    <button class="contact-close" onclick="closeContactModal()"><i class="fas fa-times"></i></button>
-    <h3><i class="fas fa-envelope"></i> Contact Bright Mesh</h3>
-    <div class="sub">Have a question, need a demo, or want to get started? Send us a message.</div>
-    <div class="err" id="contactError" style="background:#fce8e8;color:#b33a3a;padding:0.7rem 1rem;border-radius:10px;font-size:0.82rem;margin-bottom:1rem;display:none;align-items:center;gap:0.5rem;"><i class="fas fa-exclamation-circle"></i> <span id="contactErrorText"></span></div>
-    <div class="err" id="contactSuccess" style="background:#e3f0eb;color:#1d6b4f;padding:0.7rem 1rem;border-radius:10px;font-size:0.82rem;margin-bottom:1rem;display:none;align-items:center;gap:0.5rem;"><i class="fas fa-check-circle"></i> <span id="contactSuccessText"></span></div>
-    <div class="field"><label>Your Name</label><input type="text" id="contactName" placeholder="e.g. Ahmed Ssekandi"></div>
-    <div class="field"><label>Email Address</label><input type="email" id="contactEmail" placeholder="you@example.com"></div>
-    <div class="field"><label>Subject</label><input type="text" id="contactSubject" placeholder="e.g. Request a demo"></div>
-    <div class="field"><label>Message</label><textarea id="contactMessage" placeholder="Tell us how we can help..."></textarea></div>
-    <button class="send-btn" id="contactSendBtn" onclick="sendContactForm()"><i class="fas fa-paper-plane"></i> Send Message</button>
-    <div class="contact-info"><i class="fas fa-envelope"></i> Or email us directly at <strong>brightmesh.app@gmail.com</strong></div>
-  </div>
 </div>
 
 <!-- USER APP -->
@@ -499,6 +541,7 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
     <button class="tab-btn" data-tab="purchases" onclick="switchTab('purchases')"><i class="fas fa-truck"></i> Daily Purchases</button>
     <button class="tab-btn" data-tab="audit" onclick="switchTab('audit')"><i class="fas fa-shield-halved"></i> Closure Audit</button>
     <button class="tab-btn" data-tab="log" onclick="switchTab('log')"><i class="fas fa-history"></i> Audit Log</button>
+    <button class="tab-btn" data-tab="suppliers" onclick="switchTab('suppliers')"><i class="fas fa-address-book"></i> Suppliers</button>
     <button class="tab-btn hidden" data-tab="team" id="teamTabBtn" onclick="switchTab('team')"><i class="fas fa-users-gear"></i> Team Management</button>
   </div>
 
@@ -563,6 +606,7 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
       </tr></thead><tbody id="purchasesBody"></tbody></table></div>
       <div style="padding:0.8rem 1.2rem;border-top:1px solid #eef3f8;display:flex;justify-content:space-between;align-items:center;">
         <button class="add-row-btn editor-only" onclick="addPurchaseRow()"><i class="fas fa-plus-circle"></i> Add purchase</button>
+        <span style="font-size:0.75rem;color:#7b8fa0;"><i class="fas fa-info-circle"></i> Suppliers list managed in <strong>Suppliers</strong> tab</span>
       </div>
     </div>
     <div class="section-title"><i class="fas fa-chart-pie"></i> Supplier breakdown</div>
@@ -608,14 +652,44 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
     </div>
   </div>
 
+  <!-- LOG -->
   <div class="tab-panel" id="tab-log">
-    <div style="background:white;padding:1.2rem 1.5rem;border-radius:16px;border:1px solid #e3ebf3;margin-bottom:1.5rem;">
-      <div style="font-weight:700;color:#0b2b44;font-size:1rem;"><i class="fas fa-history" style="color:#1f4970;"></i> Audit Log</div>
-      <div style="font-size:0.8rem;color:#5f7385;margin-top:0.2rem;">Every change is recorded with timestamp, user and location.</div>
+    <div style="background:white;padding:1.2rem 1.5rem;border-radius:16px;border:1px solid #e3ebf3;margin-bottom:1.5rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">
+      <div>
+        <div style="font-weight:700;color:#0b2b44;font-size:1rem;"><i class="fas fa-history" style="color:#1f4970;"></i> Audit Log</div>
+        <div style="font-size:0.8rem;color:#5f7385;margin-top:0.2rem;">Every change is recorded with timestamp, user and location.</div>
+      </div>
+      <button class="btn btn-danger" id="clearLogBtn" style="margin-left:auto;" onclick="clearLocationAuditLog()"><i class="fas fa-trash"></i> Clear Audit Log</button>
     </div>
     <div class="table-card"><div class="table-scroll"><table id="logTable"><thead><tr><th style="width:180px;">Time</th><th style="width:150px;">User</th><th style="width:150px;">Action</th><th>Details</th></tr></thead><tbody id="logBody"></tbody></table></div></div>
   </div>
 
+  <!-- SUPPLIERS -->
+  <div class="tab-panel" id="tab-suppliers">
+    <div style="background:white;padding:1.2rem 1.5rem;border-radius:16px;border:1px solid #e3ebf3;margin-bottom:1.5rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">
+      <i class="fas fa-address-book" style="font-size:1.8rem;color:#1d7a4b;"></i>
+      <div>
+        <div style="font-weight:700;color:#0b2b44;font-size:1rem;">Supplier Directory</div>
+        <div style="font-size:0.8rem;color:#5f7385;">Add, edit or remove suppliers. These appear as dropdowns when recording daily purchases.</div>
+      </div>
+    </div>
+    <div class="admin-grid">
+      <div class="admin-card editor-only">
+        <h3><i class="fas fa-plus-circle"></i> Add Supplier</h3>
+        <div class="form-row"><label>Supplier Name</label><input type="text" id="supName" placeholder="e.g. Mukwano Distributors"></div>
+        <div class="form-row"><label>Contact Person (optional)</label><input type="text" id="supContact" placeholder="e.g. Mr. Ssebugwawo"></div>
+        <div class="form-row"><label>Phone (optional)</label><input type="text" id="supPhone" placeholder="e.g. +256 700 000 000"></div>
+        <div class="form-row"><label>Category (optional)</label><input type="text" id="supCategory" placeholder="e.g. Cooking Oil"></div>
+        <button class="btn btn-primary" onclick="addSupplier()" style="width:100%;justify-content:center;"><i class="fas fa-save"></i> Add Supplier</button>
+      </div>
+      <div class="admin-card">
+        <h3><i class="fas fa-list"></i> Registered Suppliers</h3>
+        <div id="suppliersList" style="max-height:520px;overflow-y:auto;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TEAM -->
   <div class="tab-panel" id="tab-team">
     <div style="background:white;padding:1.2rem 1.5rem;border-radius:16px;border:1px solid #e3ebf3;margin-bottom:1.5rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">
       <i class="fas fa-users-gear" style="font-size:1.8rem;color:#1d7a4b;"></i>
@@ -735,15 +809,31 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
   </div>
 </div>
 
+<!-- MODALS -->
 <div class="modal-overlay" id="auditModal">
   <div class="modal">
     <div class="modal-header">
       <div><h2><i class="fas fa-magnifying-glass-chart"></i> Audit Report — <span id="auditReportMonth"></span></h2><div class="sub" id="auditReportDate"></div></div>
       <button class="modal-close" onclick="closeAuditReport()"><i class="fas fa-times"></i></button>
     </div>
-    <div class="modal-body" id="auditReportBody"></div>
+    <div class="modal-body" id="auditReportBody">
+      <!-- Date range selector -->
+      <div class="date-range-bar" id="auditDateBar">
+        <div class="field"><label>From</label><input type="date" id="auditFrom"></div>
+        <div class="field"><label>To</label><input type="date" id="auditTo"></div>
+        <button class="quick-btn" onclick="setAuditRange('today')">Today</button>
+        <button class="quick-btn" onclick="setAuditRange('yesterday')">Yesterday</button>
+        <button class="quick-btn" onclick="setAuditRange('this_week')">This Week</button>
+        <button class="quick-btn" onclick="setAuditRange('last_week')">Last Week</button>
+        <button class="quick-btn" onclick="setAuditRange('this_month')">This Month</button>
+        <button class="quick-btn" onclick="setAuditRange('last_month')">Last Month</button>
+        <button class="btn btn-primary" style="margin-left:auto;padding:0.45rem 1rem;font-size:0.78rem;" onclick="runAuditWithRange()"><i class="fas fa-play"></i> Run</button>
+      </div>
+      <div id="auditReportContent"></div>
+    </div>
   </div>
 </div>
+
 <div class="modal-overlay" id="pwdModal">
   <div class="modal narrow">
     <div class="modal-header"><div><h2><i class="fas fa-key"></i> Change Password</h2></div><button class="modal-close" onclick="closeChangePassword()"><i class="fas fa-times"></i></button></div>
@@ -755,6 +845,7 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
     </div>
   </div>
 </div>
+
 <div class="modal-overlay" id="adminPwdModal">
   <div class="modal narrow">
     <div class="modal-header"><div><h2><i class="fas fa-key"></i> Change Admin Password</h2></div><button class="modal-close" onclick="closeAdminChangePassword()"><i class="fas fa-times"></i></button></div>
@@ -766,6 +857,7 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
     </div>
   </div>
 </div>
+
 <div class="modal-overlay" id="userModal">
   <div class="modal narrow">
     <div class="modal-header"><div><h2><i class="fas fa-user-edit"></i> Edit User — <span id="editUserName"></span></h2></div><button class="modal-close" onclick="closeUserModal()"><i class="fas fa-times"></i></button></div>
@@ -785,6 +877,7 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
     </div>
   </div>
 </div>
+
 <div class="modal-overlay" id="locModal">
   <div class="modal">
     <div class="modal-header"><div><h2><i class="fas fa-location-dot"></i> <span id="locModalName"></span></h2><div class="sub" id="locModalCode"></div></div><button class="modal-close" onclick="closeLocModal()"><i class="fas fa-times"></i></button></div>
@@ -795,9 +888,7 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
 <div class="toast" id="toast"><i class="fas fa-check-circle"></i> <span id="toastMsg">Done</span></div>
 
 <script>
-/* ============================================================
-   FIREBASE
-   ============================================================ */
+/* FIREBASE */
 const firebaseConfig = {
   apiKey: "AIzaSyBquSyKnnQp4NMtCaooAD7k1tp3KPVdahU",
   authDomain: "bright-mesh.firebaseapp.com",
@@ -810,7 +901,6 @@ const firebaseConfig = {
 let db = null, firebaseReady = false;
 try { firebase.initializeApp(firebaseConfig); db = firebase.firestore(); firebaseReady = true; } catch(e) { console.error(e); }
 
-/* CONSTANTS */
 const EXPENSE_TYPES = ['Salary','Rent','Utilities (Electricity/Water)','Transport','Fuel','Packaging Materials','Cleaning Supplies','Security Services','Wifi / Internet','Telephone / Airtime','Waste Disposal','Licenses & Permits','Insurance','Marketing & Advertising','Repairs & Maintenance','Bank Charges','Loan Repayment','Taxes','Staff Welfare','Loss / Theft','Other'];
 
 const DEFAULT_PERMISSIONS = {
@@ -821,11 +911,11 @@ const DEFAULT_PERMISSIONS = {
 
 const SESSION_KEY = 'brightmesh_session_v1';
 
-/* STATE */
 let allMonthsData = {}, currentMonthKey = '', weeklyClosures = [], auditLog = [];
 let saveTimeout = null, activeTab = 'daily', activeAdminTab = 'overview';
 let currentUser = null, currentLocationId = null;
 let allUsersCache = {}, allLocationsCache = {};
+let suppliersCache = [];
 
 /* HELPERS */
 function defaultExpenses(){ return [{ type: 'Salary', amount: 600000, note: '' }, { type: 'Rent', amount: 550000, note: '' }]; }
@@ -855,21 +945,18 @@ function fmt(n){if(n===undefined||n===null||isNaN(n))return '0';return Number(n)
 function fmtSigned(n){if(n===undefined||n===null||isNaN(n))return '—';const a=Math.abs(n).toLocaleString('en-UG',{maximumFractionDigits:0});return (n>=0?'+':'−')+a;}
 function monthLabel(key){return new Date(key+'-01').toLocaleString('en',{month:'long',year:'numeric'});}
 function shortMonth(key){return new Date(key+'-01').toLocaleString('en',{month:'short',year:'numeric'});}
+function dateStr(d){ return d.toISOString().split('T')[0]; }
 
-/* ✅ FIXED: merge role defaults OVER saved permissions. Missing keys fall back to role defaults. */
 function hasPerm(perm){
   if(!currentUser) return false;
   if(currentUser.role === 'admin' || currentUser.role === 'superadmin') return true;
   const roleDefaults = DEFAULT_PERMISSIONS[currentUser.role] || DEFAULT_PERMISSIONS.cashier;
   const saved = currentUser.permissions || {};
-  // Role defaults first, then saved values override (so if saved says false, it stays false)
   const merged = { ...roleDefaults, ...saved };
-  // manageUsers special case: managers always have it unless saved explicitly says false
   if(perm === 'manageUsers' && currentUser.role === 'manager' && saved.manageUsers !== false) return true;
   return !!merged[perm];
 }
 
-/* ✅ SESSION PERSISTENCE */
 function saveSession(){
   if(!currentUser) { sessionStorage.removeItem(SESSION_KEY); return; }
   try {
@@ -880,18 +967,9 @@ function saveSession(){
     }));
   } catch(e) {}
 }
-function loadSession(){
-  try {
-    const raw = sessionStorage.getItem(SESSION_KEY);
-    if(!raw) return null;
-    return JSON.parse(raw);
-  } catch(e) { return null; }
-}
-function clearSession(){
-  try { sessionStorage.removeItem(SESSION_KEY); } catch(e) {}
-}
+function loadSession(){ try { const raw = sessionStorage.getItem(SESSION_KEY); return raw ? JSON.parse(raw) : null; } catch(e) { return null; } }
+function clearSession(){ try { sessionStorage.removeItem(SESSION_KEY); } catch(e) {} }
 
-/* ✅ Restore session on page load */
 async function restoreSession(){
   const s = loadSession();
   if(!s || !firebaseReady) return false;
@@ -913,13 +991,8 @@ async function restoreSession(){
     currentUser = { username: s.username, fullName: u.fullName || s.username, locationId: u.locationId, locationName: locData.name || u.locationId, role: userRole, permissions: userPerms };
     currentLocationId = u.locationId;
     await showUserDashboard();
-    console.log('[Session] Restored for', s.username);
     return true;
-  } catch(e) {
-    console.error('[Session] Restore failed', e);
-    clearSession();
-    return false;
-  }
+  } catch(e) { clearSession(); return false; }
 }
 
 function showToast(msg, type){ const t = document.getElementById('toast'); t.className = 'toast' + (type ? ' ' + type : ''); document.getElementById('toastMsg').textContent = msg; t.classList.add('show'); clearTimeout(t._timer); t._timer = setTimeout(()=>t.classList.remove('show'), 2600); }
@@ -933,17 +1006,13 @@ function showSaveStatus(status, msg, target){
   else { el.classList.add('error'); el.querySelector('i').className='fas fa-exclamation-triangle'; txt.textContent = msg || 'Save failed'; }
 }
 
-/* ✅ Tab visibility */
 function updateTabVisibility(){
   const teamBtn = document.getElementById('teamTabBtn');
   if(!teamBtn) return;
   const show = !!currentUser && hasPerm('manageUsers');
-  if(show) {
-    teamBtn.classList.remove('hidden');
-    console.log('[TabVisibility] Team tab SHOWN. role:', currentUser.role);
-  } else {
+  if(show) teamBtn.classList.remove('hidden');
+  else {
     teamBtn.classList.add('hidden');
-    console.log('[TabVisibility] Team tab HIDDEN. role:', currentUser?.role);
     if(activeTab === 'team') {
       activeTab = 'daily';
       document.querySelectorAll('#app .tab-panel').forEach(p => p.classList.remove('active'));
@@ -965,6 +1034,11 @@ async function autoSeed() {
     await db.collection('users').doc('wamombl1').set({ username:'wamombl1', fullName:'Ahmed', password:'wamo123@', locationId:'wamombl1', role:'manager', permissions: DEFAULT_PERMISSIONS.manager, status:'active', createdAt: new Date().toISOString() });
     const now = new Date(); const curKey = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0');
     await db.collection('locations').doc('wamombl1').collection('months').doc(curKey).set({ entries: [], expenses: defaultExpenses(), closed: false, purchases: [] });
+    // Seed sample suppliers
+    const seedSuppliers = ['Mukwano Distributors','Bidco Uganda','Kakira Sugar','Fresh Foods Ltd'];
+    for(const s of seedSuppliers) {
+      await db.collection('locations').doc('wamombl1').collection('suppliers').doc(s).set({ name: s, createdAt: new Date().toISOString() });
+    }
   } catch(e) { console.error('Auto-seed failed', e); }
 }
 
@@ -983,6 +1057,12 @@ async function loadLocationData(locationId) {
     const lSnap = await db.collection('locations').doc(locationId).collection('auditLog').orderBy('time','desc').limit(500).get();
     auditLog = [];
     lSnap.forEach(doc => auditLog.push(doc.data()));
+    // Load suppliers
+    const sSnap = await db.collection('locations').doc(locationId).collection('suppliers').get();
+    suppliersCache = [];
+    sSnap.forEach(doc => suppliersCache.push({ id: doc.id, ...doc.data() }));
+    suppliersCache.sort((a,b) => (a.name || '').localeCompare(b.name || ''));
+    // Ensure current month
     const now = new Date(); const curKey = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0');
     if(!allMonthsData[curKey]) { allMonthsData[curKey] = { entries: [], expenses: defaultExpenses(), closed: false, purchases: [] }; await db.collection('locations').doc(locationId).collection('months').doc(curKey).set(allMonthsData[curKey]); }
     const monthsSorted = Object.keys(allMonthsData).sort();
@@ -1015,7 +1095,6 @@ function addLog(action, details){
   if(activeTab === 'log') renderLog();
 }
 
-/* FAQ toggle */
 function toggleFaq(el){
   const isOpen = el.classList.contains('open');
   document.querySelectorAll('.faq-item.open').forEach(i => { i.classList.remove('open'); i.querySelector('.faq-answer').style.maxHeight = null; });
@@ -1026,31 +1105,89 @@ function toggleFaq(el){
   }
 }
 
-/* CONTACT */
-function openContactModal(){ document.getElementById('contactModal').classList.add('active'); document.getElementById('contactError').style.display='none'; document.getElementById('contactSuccess').style.display='none'; }
-function closeContactModal(){ document.getElementById('contactModal').classList.remove('active'); }
-document.getElementById('contactModal').addEventListener('click', function(e){ if(e.target === this) closeContactModal(); });
-async function sendContactForm(){
-  const name = document.getElementById('contactName').value.trim();
-  const email = document.getElementById('contactEmail').value.trim();
-  const subject = document.getElementById('contactSubject').value.trim() || 'Website contact';
-  const message = document.getElementById('contactMessage').value.trim();
-  const errBox = document.getElementById('contactError'), errTxt = document.getElementById('contactErrorText');
-  const sucBox = document.getElementById('contactSuccess'), sucTxt = document.getElementById('contactSuccessText');
-  const btn = document.getElementById('contactSendBtn');
-  errBox.style.display = 'none'; sucBox.style.display = 'none';
-  if(!name || !email || !message){ errTxt.textContent = 'Please fill name, email and message'; errBox.style.display = 'flex'; return; }
-  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ errTxt.textContent = 'Please enter a valid email'; errBox.style.display = 'flex'; return; }
-  btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+/* ✅ CONTACT FORM (FormSubmit + CAPTCHA) */
+let captchaVerified = false;
+function verifyCaptcha(){
+  if(captchaVerified) return;
+  const box = document.getElementById('captchaBox');
+  box.classList.add('loading');
+  document.getElementById('captchaLabel').textContent = 'Verifying...';
+  document.getElementById('captchaSub').textContent = 'Please wait';
+  setTimeout(() => {
+    box.classList.remove('loading');
+    box.classList.add('verified');
+    document.getElementById('captchaLabel').textContent = 'Verified — you can send';
+    document.getElementById('captchaSub').textContent = 'Human verification complete';
+    captchaVerified = true;
+  }, 900);
+}
+function showContactMsg(msg, isError){
+  const box = document.getElementById('contactFormMsg');
+  const txt = document.getElementById('contactFormMsgText');
+  box.classList.remove('err','suc');
+  box.classList.add(isError ? 'err' : 'suc', 'show');
+  box.querySelector('i').className = isError ? 'fas fa-exclamation-circle' : 'fas fa-check-circle';
+  txt.textContent = msg;
+}
+async function submitContactForm(e){
+  e.preventDefault();
+  const name = document.getElementById('cfName').value.trim();
+  const email = document.getElementById('cfEmail').value.trim();
+  const subject = document.getElementById('cfSubject').value.trim();
+  const message = document.getElementById('cfMessage').value.trim();
+  const btn = document.getElementById('cfSendBtn');
+
+  if(!captchaVerified){ showContactMsg('Please complete the human verification first.', true); return false; }
+  if(!name || !email || !subject || !message){ showContactMsg('Please fill all fields.', true); return false; }
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ showContactMsg('Please enter a valid email address.', true); return false; }
+
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
   try {
-    await db.collection('contactMessages').add({ name, email, subject, message, createdAt: new Date().toISOString(), source: 'landing-page' });
-    const mailtoBody = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`);
-    const mailtoSubject = encodeURIComponent(`[Bright Mesh] ${subject}`);
-    sucTxt.innerHTML = `Thank you! Your message has been saved.<br><br><a href="mailto:brightmesh.app@gmail.com?subject=${mailtoSubject}&body=${mailtoBody}" style="color:#1d7a4b;font-weight:700;">Click here to also send via email app</a>`;
-    sucBox.style.display = 'flex';
-    document.getElementById('contactName').value = ''; document.getElementById('contactEmail').value = ''; document.getElementById('contactSubject').value = ''; document.getElementById('contactMessage').value = '';
-  } catch(e) { errTxt.textContent = 'Could not send: ' + e.message; errBox.style.display = 'flex'; }
-  finally { btn.disabled = false; btn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Message'; }
+    // Save to Firestore (so we have a copy)
+    try {
+      await db.collection('contactMessages').add({
+        name, email, subject, message,
+        createdAt: new Date().toISOString(),
+        source: 'landing-inline'
+      });
+    } catch(fsErr) { console.warn('Firestore save failed (continuing to FormSubmit):', fsErr); }
+
+    // Submit to FormSubmit (replace the endpoint with your own FormSubmit alias)
+    const formData = new FormData();
+    formData.append('name', name);
+    formData.append('email', email);
+    formData.append('subject', subject);
+    formData.append('message', message);
+    formData.append('_subject', 'Bright Mesh contact: ' + subject);
+    formData.append('_captcha', 'false');
+    formData.append('_template', 'table');
+
+    const res = await fetch('https://formsubmit.co/ajax/brightmesh.app@gmail.com', {
+      method: 'POST',
+      headers: { 'Accept': 'application/json' },
+      body: formData
+    });
+    if(!res.ok) throw new Error('FormSubmit returned ' + res.status);
+
+    showContactMsg('Thank you! Your message has been sent successfully.', false);
+    document.getElementById('cfName').value = '';
+    document.getElementById('cfEmail').value = '';
+    document.getElementById('cfSubject').value = '';
+    document.getElementById('cfMessage').value = '';
+    captchaVerified = false;
+    const box = document.getElementById('captchaBox');
+    box.classList.remove('verified');
+    document.getElementById('captchaLabel').textContent = "I'm not a robot";
+    document.getElementById('captchaSub').textContent = 'Click to verify before sending';
+  } catch(err) {
+    console.error(err);
+    showContactMsg('Could not send right now. Please try again in a moment.', true);
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Message';
+  }
+  return false;
 }
 
 /* LOGIN */
@@ -1109,7 +1246,6 @@ async function showUserDashboard(){
   document.getElementById('teamLocationName').textContent = currentUser.locationName;
 
   updateTabVisibility();
-
   await loadLocationData(currentLocationId);
   applyPermissions();
   renderMonthSelect();
@@ -1118,13 +1254,12 @@ async function showUserDashboard(){
   renderAudit();
   renderPurchases();
   renderLog();
+  renderSuppliersList();
   if(hasPerm('manageUsers')) renderTeam();
   switchTab('daily');
-
   updateTabVisibility();
   setTimeout(updateTabVisibility, 100);
   setTimeout(updateTabVisibility, 500);
-
   addLog('Login', `${currentUser.username} signed in`);
   showToast('Welcome, ' + (currentUser.fullName || currentUser.username), 'success');
 }
@@ -1151,7 +1286,7 @@ function doLogout(){
   if(!confirm('Sign out?')) return;
   clearSession();
   currentUser = null; currentLocationId = null;
-  allMonthsData = {}; weeklyClosures = []; auditLog = [];
+  allMonthsData = {}; weeklyClosures = []; auditLog = []; suppliersCache = [];
   document.getElementById('landingPage').style.display = 'block';
   document.getElementById('app').style.display = 'none';
   document.getElementById('adminApp').style.display = 'none';
@@ -1307,6 +1442,44 @@ async function clearAllActivityLogs(){
   }
 }
 
+/* ✅ NEW: Clear audit log for current location (manager) */
+async function clearLocationAuditLog(){
+  if(!hasPerm('manageUsers')){ showToast('Only managers can clear the log', 'error'); return; }
+  if(!currentLocationId){ showToast('No location selected', 'error'); return; }
+  const confirmed = confirm('Clear the audit log for your location?\n\nThis permanently deletes all log entries for ' + (currentUser?.locationName || currentLocationId) + '.\n\nThis action cannot be undone.');
+  if(!confirmed) return;
+  const confirmed2 = confirm('FINAL WARNING: The entire audit trail for this location will be erased. Continue?');
+  if(!confirmed2) return;
+  showSaveStatus('saving','Clearing...');
+  try {
+    let totalDeleted = 0;
+    const snap = await db.collection('locations').doc(currentLocationId).collection('auditLog').get();
+    if(!snap.empty) {
+      let batch = db.batch();
+      let count = 0;
+      const docs = snap.docs;
+      for(let i = 0; i < docs.length; i++) {
+        batch.delete(docs[i].ref);
+        count++;
+        if(count === 450 || i === docs.length - 1) {
+          await batch.commit();
+          totalDeleted += count;
+          batch = db.batch();
+          count = 0;
+        }
+      }
+    }
+    auditLog = [];
+    renderLog();
+    showSaveStatus('saved','Cleared');
+    showToast(`Cleared ${totalDeleted} log entries`, 'success');
+  } catch(e) {
+    console.error('Clear location logs failed', e);
+    showSaveStatus('error','Failed');
+    showToast('Failed to clear log: ' + e.message, 'error');
+  }
+}
+
 async function adminCreateLocation(){
   const name = document.getElementById('admLocName').value.trim();
   const code = document.getElementById('admLocCode').value.trim().toLowerCase();
@@ -1452,6 +1625,91 @@ async function saveAdminPassword(){
   } catch(e) { showToast('Error: ' + e.message, 'error'); }
 }
 
+/* ✅ SUPPLIERS */
+function renderSuppliersList(){
+  const list = document.getElementById('suppliersList');
+  if(!list) return;
+  if(!suppliersCache.length) { list.innerHTML = '<div style="text-align:center;padding:1.5rem;color:#7b8fa0;">No suppliers yet</div>'; return; }
+  list.innerHTML = suppliersCache.map(s => `
+    <div class="user-row">
+      <div class="uinfo">
+        <div class="uname"><i class="fas fa-truck" style="color:#1d7a4b;"></i> <strong>${s.name}</strong></div>
+        <div class="umeta">${s.contact ? s.contact + ' · ' : ''}${s.phone ? s.phone + ' · ' : ''}${s.category ? s.category : ''}</div>
+      </div>
+      <div class="actions editor-only">
+        <button class="btn" onclick="editSupplier('${s.id}')"><i class="fas fa-edit"></i> Edit</button>
+        <button class="btn btn-danger" onclick="deleteSupplier('${s.id}')"><i class="fas fa-trash"></i></button>
+      </div>
+    </div>
+  `).join('');
+}
+async function addSupplier(){
+  if(!hasPerm('editPurchases')){ showToast('No permission', 'error'); return; }
+  const name = document.getElementById('supName').value.trim();
+  const contact = document.getElementById('supContact').value.trim();
+  const phone = document.getElementById('supPhone').value.trim();
+  const category = document.getElementById('supCategory').value.trim();
+  if(!name){ showToast('Supplier name required', 'error'); return; }
+  try {
+    const docId = name.replace(/[\/\\#?\[\]]/g,'_');
+    const ex = await db.collection('locations').doc(currentLocationId).collection('suppliers').doc(docId).get();
+    if(ex.exists){ showToast('Supplier already exists', 'error'); return; }
+    await db.collection('locations').doc(currentLocationId).collection('suppliers').doc(docId).set({
+      name, contact, phone, category, createdAt: new Date().toISOString(), createdBy: currentUser.username
+    });
+    addLog('Add Supplier', `${name}`);
+    document.getElementById('supName').value = '';
+    document.getElementById('supContact').value = '';
+    document.getElementById('supPhone').value = '';
+    document.getElementById('supCategory').value = '';
+    showToast('Supplier added', 'success');
+    const sSnap = await db.collection('locations').doc(currentLocationId).collection('suppliers').get();
+    suppliersCache = [];
+    sSnap.forEach(doc => suppliersCache.push({ id: doc.id, ...doc.data() }));
+    suppliersCache.sort((a,b) => (a.name || '').localeCompare(b.name || ''));
+    renderSuppliersList();
+    renderPurchases();
+  } catch(e) { showToast('Error: ' + e.message, 'error'); }
+}
+async function editSupplier(id){
+  if(!hasPerm('editPurchases')){ showToast('No permission', 'error'); return; }
+  const s = suppliersCache.find(x => x.id === id); if(!s) return;
+  const newName = prompt('Supplier name:', s.name || '');
+  if(newName === null) return;
+  const newContact = prompt('Contact person (optional):', s.contact || '');
+  if(newContact === null) return;
+  const newPhone = prompt('Phone (optional):', s.phone || '');
+  if(newPhone === null) return;
+  const newCategory = prompt('Category (optional):', s.category || '');
+  if(newCategory === null) return;
+  try {
+    await db.collection('locations').doc(currentLocationId).collection('suppliers').doc(id).update({
+      name: newName, contact: newContact, phone: newPhone, category: newCategory
+    });
+    addLog('Edit Supplier', `${newName}`);
+    showToast('Supplier updated', 'success');
+    const sSnap = await db.collection('locations').doc(currentLocationId).collection('suppliers').get();
+    suppliersCache = [];
+    sSnap.forEach(doc => suppliersCache.push({ id: doc.id, ...doc.data() }));
+    suppliersCache.sort((a,b) => (a.name || '').localeCompare(b.name || ''));
+    renderSuppliersList();
+    renderPurchases();
+  } catch(e) { showToast('Error: ' + e.message, 'error'); }
+}
+async function deleteSupplier(id){
+  if(!hasPerm('editPurchases')){ showToast('No permission', 'error'); return; }
+  const s = suppliersCache.find(x => x.id === id); if(!s) return;
+  if(!confirm(`Delete supplier "${s.name}"?`)) return;
+  try {
+    await db.collection('locations').doc(currentLocationId).collection('suppliers').doc(id).delete();
+    addLog('Delete Supplier', `${s.name}`);
+    showToast('Supplier deleted', 'success');
+    suppliersCache = suppliersCache.filter(x => x.id !== id);
+    renderSuppliersList();
+    renderPurchases();
+  } catch(e) { showToast('Error: ' + e.message, 'error'); }
+}
+
 /* TEAM */
 function renderTeam(){ renderTeamPermissionGrid(DEFAULT_PERMISSIONS.manager); renderTeamMembers(); }
 function renderTeamPermissionGrid(selected){
@@ -1483,10 +1741,7 @@ async function createTeamUser(){
     document.getElementById('teamUserName').value = ''; document.getElementById('teamUserFullName').value = ''; document.getElementById('teamUserPass').value = '';
     showToast('User created: ' + username, 'success');
     await renderTeamMembers();
-  } catch(e) {
-    console.error('Create user failed', e);
-    showToast('Error creating user: ' + (e.message || 'Unknown error'), 'error');
-  }
+  } catch(e) { showToast('Error creating user: ' + (e.message || 'Unknown error'), 'error'); }
 }
 async function renderTeamMembers(){
   const list = document.getElementById('teamMembersList');
@@ -1558,10 +1813,12 @@ function switchTab(tab){
   if(tab === 'audit') renderAudit();
   if(tab === 'purchases') renderPurchases();
   if(tab === 'log') renderLog();
+  if(tab === 'suppliers') renderSuppliersList();
   if(tab === 'team') renderTeam();
   updateTabVisibility();
 }
 
+/* RENDER TABLES */
 function renderMonthSelect(){
   const sel = document.getElementById('monthSelect'); if(!sel) return;
   const months = Object.keys(allMonthsData).sort();
@@ -1727,6 +1984,8 @@ function renderTotals(){
   const el = document.getElementById('totalsBody'); if(!el) return;
   el.innerHTML = rows.map(([k,v])=>`<tr><td style="font-weight:500;">${k}</td><td style="font-weight:600;">${v}</td></tr>`).join('');
 }
+
+/* ✅ PURCHASES with supplier dropdown */
 function renderPurchases(){
   const purchases = currentPurchases();
   const isClosed = allMonthsData[currentMonthKey]?.closed;
@@ -1749,11 +2008,14 @@ function renderPurchases(){
   const tbody = document.getElementById('purchasesBody'); if(!tbody) return;
   if(!purchases.length){ tbody.innerHTML = `<tr><td colspan="9" style="text-align:center;padding:2rem;color:#7b8fa0;">No purchases recorded.</td></tr>`; }
   else {
+    const supplierOptions = suppliersCache.map(s => `<option value="${s.name}"></option>`).join('');
     tbody.innerHTML = purchases.map((p,idx)=>{
       const ro = !canEdit ? 'readonly' : ''; const bg = !canEdit ? 'background:#f2f6fa;' : '';
       return `<tr>
         <td><input type="date" value="${p.date||''}" ${ro} onchange="updatePurchase(${idx},'date',this.value)" style="${bg}"></td>
-        <td><input type="text" value="${p.supplier||''}" ${ro} onchange="updatePurchase(${idx},'supplier',this.value)" style="${bg}"></td>
+        <td>
+          <input type="text" list="supplierList" value="${p.supplier||''}" ${ro} onchange="updatePurchase(${idx},'supplier',this.value)" placeholder="Type or pick supplier" style="${bg}">
+        </td>
         <td><input type="text" value="${p.category||''}" ${ro} onchange="updatePurchase(${idx},'category',this.value)" style="${bg}"></td>
         <td><input type="number" step="0.01" value="${p.qty??''}" ${ro} onchange="updatePurchase(${idx},'qty',this.value)" style="${bg}"></td>
         <td><input type="number" step="0.01" value="${p.unit??''}" ${ro} onchange="updatePurchase(${idx},'unit',this.value)" style="${bg}"></td>
@@ -1762,7 +2024,7 @@ function renderPurchases(){
         <td><input type="text" value="${p.reference||''}" ${ro} onchange="updatePurchase(${idx},'reference',this.value)" style="${bg}"></td>
         <td>${canEdit?`<button class="remove-btn" onclick="removePurchase(${idx})"><i class="fas fa-trash-alt"></i></button>`:''}</td>
       </tr>`;
-    }).join('');
+    }).join('') + `<datalist id="supplierList">${supplierOptions}</datalist>`;
   }
   const supMap = {}; purchases.forEach(p=>{ const s = p.supplier||'(Unnamed)'; if(!supMap[s]) supMap[s]={total:0,count:0}; supMap[s].total += parseFloat(p.total)||0; supMap[s].count++; });
   const supArr = Object.entries(supMap).sort((a,b)=>b[1].total-a[1].total);
@@ -1800,6 +2062,8 @@ function removePurchase(idx){
   addLog('Delete Purchase', `${p?.supplier||'—'} on ${p?.date||'—'}`);
   renderPurchases(); scheduleSave();
 }
+
+/* AUDIT */
 function computeAuditFlags(){
   const sorted = [...weeklyClosures].sort((a,b)=>new Date(a.date)-new Date(b.date));
   return sorted.map((row,i)=>{
@@ -1859,57 +2123,148 @@ function renderLog(){
     return `<tr><td style="font-size:0.78rem;color:#6a7f94;">${d.toLocaleString()}</td><td><strong>${l.user || '—'}</strong></td><td><span class="badge-pill ${badge}">${l.action}</span></td><td style="font-size:0.82rem;">${l.details} <span style="color:#6a7f94;">· ${monthLabel(l.month)}</span></td></tr>`;
   }).join('');
 }
+
+/* ✅ AUDIT REPORT with date range */
 function openAuditReport(){
-  const monthKey = currentMonthKey; const data = allMonthsData[monthKey];
-  if(!data){ showToast('No data', 'error'); return; }
-  const monthName = monthLabel(monthKey);
-  document.getElementById('auditReportMonth').textContent = monthName;
+  if(!currentUser){ return; }
+  const now = new Date();
+  // Default to current month
+  const from = new Date(now.getFullYear(), now.getMonth(), 1);
+  const to = now;
+  document.getElementById('auditFrom').value = dateStr(from);
+  document.getElementById('auditTo').value = dateStr(to);
+  document.getElementById('auditReportMonth').textContent = monthLabel(currentMonthKey);
   document.getElementById('auditReportDate').textContent = `Location: ${currentUser?.locationName || currentLocationId}`;
-  const body = document.getElementById('auditReportBody');
+  runAuditWithRange();
+  document.getElementById('auditModal').classList.add('active');
+}
+function closeAuditReport(){ document.getElementById('auditModal').classList.remove('active'); }
+
+function setAuditRange(which){
+  const now = new Date();
+  let from = new Date(), to = new Date();
+  if(which === 'today') { from = new Date(now); to = new Date(now); }
+  else if(which === 'yesterday') { from = new Date(now); from.setDate(from.getDate()-1); to = new Date(from); }
+  else if(which === 'this_week') {
+    const day = now.getDay(); // 0 Sun
+    const diff = (day === 0 ? 6 : day - 1); // Monday start
+    from = new Date(now); from.setDate(now.getDate() - diff);
+    to = new Date(now);
+  }
+  else if(which === 'last_week') {
+    const day = now.getDay();
+    const diff = (day === 0 ? 6 : day - 1);
+    from = new Date(now); from.setDate(now.getDate() - diff - 7);
+    to = new Date(from); to.setDate(from.getDate() + 6);
+  }
+  else if(which === 'this_month') {
+    from = new Date(now.getFullYear(), now.getMonth(), 1);
+    to = new Date(now);
+  }
+  else if(which === 'last_month') {
+    from = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+    to = new Date(now.getFullYear(), now.getMonth(), 0);
+  }
+  document.getElementById('auditFrom').value = dateStr(from);
+  document.getElementById('auditTo').value = dateStr(to);
+  runAuditWithRange();
+}
+function runAuditWithRange(){
+  const fromStr = document.getElementById('auditFrom').value;
+  const toStr = document.getElementById('auditTo').value;
+  if(!fromStr || !toStr){ showToast('Pick both dates', 'error'); return; }
+  if(new Date(fromStr) > new Date(toStr)){ showToast('From date must be before To date', 'error'); return; }
+  const container = document.getElementById('auditReportContent');
   const issues = { red:[], amber:[], green:[] };
-  const entries = data.entries||[]; const purchases = data.purchases||[]; const exp = currentExpenses();
-  const totalSales = entries.reduce((s,r)=>s+(parseFloat(r.sales)||0),0);
-  const totalCost = entries.reduce((s,r)=>s+(parseFloat(r.cost)||0),0);
-  const totalDailyExp = entries.reduce((s,r)=>s+(parseFloat(r.expenses)||0),0);
-  const gross = totalSales-totalCost-totalDailyExp; const monthlyExp = totalMonthlyExpenses(exp); const net = gross-monthlyExp;
-  const totalPurchasesAmt = purchases.reduce((s,p)=>s+(parseFloat(p.total)||0),0);
-  const closuresInMonth = weeklyClosures.filter(w=>w.date.startsWith(monthKey)).sort((a,b)=>new Date(a.date)-new Date(b.date));
+
+  // Aggregate data across months in range
+  const fromDate = new Date(fromStr);
+  const toDate = new Date(toStr);
+  const allEntries = [];
+  const allPurchases = [];
+  const allExpenses = [];
+  const allClosures = [];
+  Object.keys(allMonthsData).forEach(mKey => {
+    const m = allMonthsData[mKey];
+    (m.entries || []).forEach(e => {
+      if(e.date && new Date(e.date) >= fromDate && new Date(e.date) <= toDate) allEntries.push(e);
+    });
+    (m.purchases || []).forEach(p => {
+      if(p.date && new Date(p.date) >= fromDate && new Date(p.date) <= toDate) allPurchases.push(p);
+    });
+    (Array.isArray(m.expenses) ? m.expenses : []).forEach(e => {
+      allExpenses.push(e);
+    });
+  });
+  weeklyClosures.forEach(w => {
+    if(w.date && new Date(w.date) >= fromDate && new Date(w.date) <= toDate) allClosures.push(w);
+  });
+  allClosures.sort((a,b)=>new Date(a.date)-new Date(b.date));
+
+  const totalSales = allEntries.reduce((s,r)=>s+(parseFloat(r.sales)||0),0);
+  const totalCost = allEntries.reduce((s,r)=>s+(parseFloat(r.cost)||0),0);
+  const totalDailyExp = allEntries.reduce((s,r)=>s+(parseFloat(r.expenses)||0),0);
+  const gross = totalSales - totalCost - totalDailyExp;
+  // Approximate monthly expenses for the range: prorate by months covered
+  const monthSpan = Math.max(1, Math.round((toDate - fromDate) / (1000*60*60*24*30)));
+  const monthlyExp = totalMonthlyExpenses(currentExpenses()) * monthSpan;
+  const net = gross - monthlyExp;
+  const totalPurchasesAmt = allPurchases.reduce((s,p)=>s+(parseFloat(p.total)||0),0);
+
+  // Stock flow
   let reconHtml = '';
-  if(closuresInMonth.length > 0){
-    const openingStock = closuresInMonth.length > 1 ? closuresInMonth[0].stock : (data.openingStock || closuresInMonth[0].stock);
-    const closingStock = closuresInMonth[closuresInMonth.length-1].stock;
+  if(allClosures.length > 0){
+    const openingStock = allClosures.length > 1 ? allClosures[0].stock : allClosures[0].stock;
+    const closingStock = allClosures[allClosures.length-1].stock;
     const expectedClosing = openingStock + totalPurchasesAmt - totalCost;
     const stockGap = closingStock - expectedClosing;
-    if(Math.abs(stockGap) > 500000) issues.red.push({ title:'Stock Flow Mismatch', desc:`Gap <strong>UGX ${fmtSigned(stockGap)}</strong>.` });
+    if(Math.abs(stockGap) > 500000) issues.red.push({ title:'Stock Flow Mismatch', desc:`Expected closing <strong>UGX ${fmt(expectedClosing)}</strong>, actual <strong>UGX ${fmt(closingStock)}</strong>. Gap <strong>UGX ${fmtSigned(stockGap)}</strong>.` });
     else if(Math.abs(stockGap) > 200000) issues.amber.push({ title:'Stock Flow Variance', desc:`Gap <strong>UGX ${fmtSigned(stockGap)}</strong>.` });
     else issues.green.push({ title:'Stock Flow', desc:`Within <strong>UGX ${fmt(Math.abs(stockGap))}</strong>.` });
-    reconHtml += `<div class="report-section"><div class="report-section-header"><i class="fas fa-boxes-stacked"></i> Stock Flow</div><div class="report-section-body"><div class="recon-box"><div class="row"><span class="lbl">Opening Stock</span><span>${fmt(openingStock)}</span></div><div class="row"><span class="lbl">+ Purchases</span><span>${fmt(totalPurchasesAmt)}</span></div><div class="row"><span class="lbl">− Recorded Cost</span><span>−${fmt(totalCost)}</span></div><div class="row"><span class="lbl">= Expected Closing</span><span>${fmt(expectedClosing)}</span></div><div class="row"><span class="lbl">Actual Closing</span><span>${fmt(closingStock)}</span></div><div class="row"><span class="lbl">Unaccounted</span><span style="color:${Math.abs(stockGap)>500000?'#b33a3a':'#1d7a4b'};">${fmtSigned(stockGap)}</span></div></div></div></div>`;
+    reconHtml += `<div class="report-section"><div class="report-section-header"><i class="fas fa-boxes-stacked"></i> Stock Flow (${allClosures.length} closures)</div><div class="report-section-body"><div class="recon-box"><div class="row"><span class="lbl">Opening Stock</span><span>${fmt(openingStock)}</span></div><div class="row"><span class="lbl">+ Purchases</span><span>${fmt(totalPurchasesAmt)}</span></div><div class="row"><span class="lbl">− Recorded Cost</span><span>−${fmt(totalCost)}</span></div><div class="row"><span class="lbl">= Expected Closing</span><span>${fmt(expectedClosing)}</span></div><div class="row"><span class="lbl">Actual Closing</span><span>${fmt(closingStock)}</span></div><div class="row"><span class="lbl">Unaccounted</span><span style="color:${Math.abs(stockGap)>500000?'#b33a3a':'#1d7a4b'};">${fmtSigned(stockGap)}</span></div></div></div></div>`;
   }
+
   const marginPct = totalSales ? (gross/totalSales*100) : 0;
   if(marginPct < 15) issues.red.push({ title:'Low Gross Margin', desc:`<strong>${marginPct.toFixed(1)}%</strong>.` });
   else if(marginPct < 20) issues.amber.push({ title:'Moderate Gross Margin', desc:`<strong>${marginPct.toFixed(1)}%</strong>.` });
-  else issues.green.push({ title:'Gross Margin', desc:`<strong>${marginPct.toFixed(1)}%</strong>.` });
-  if(net < 0) issues.red.push({ title:'Negative Net Profit', desc:`<strong>UGX ${fmt(net)}</strong>.` });
-  else if(net < 500000) issues.amber.push({ title:'Low Net Profit', desc:`<strong>UGX ${fmt(net)}</strong>.` });
-  else issues.green.push({ title:'Net Profit', desc:`<strong>UGX ${fmt(net)}</strong>.` });
+  else if(totalSales > 0) issues.green.push({ title:'Gross Margin', desc:`<strong>${marginPct.toFixed(1)}%</strong>.` });
+  if(totalSales > 0){
+    if(net < 0) issues.red.push({ title:'Negative Net Profit', desc:`<strong>UGX ${fmt(net)}</strong>.` });
+    else if(net < 500000) issues.amber.push({ title:'Low Net Profit', desc:`<strong>UGX ${fmt(net)}</strong>.` });
+    else issues.green.push({ title:'Net Profit', desc:`<strong>UGX ${fmt(net)}</strong>.` });
+  }
+
   let verdictClass, verdictIcon, verdictTitle, verdictSub;
-  if(issues.red.length > 0){ verdictClass='bad'; verdictIcon='fa-circle-exclamation'; verdictTitle='Action Required'; verdictSub=`${issues.red.length} red flag(s).`; }
+  if(allEntries.length === 0){
+    verdictClass='warn'; verdictIcon='fa-info-circle'; verdictTitle='No data in this range'; verdictSub='No entries recorded between the selected dates.';
+  } else if(issues.red.length > 0){ verdictClass='bad'; verdictIcon='fa-circle-exclamation'; verdictTitle='Action Required'; verdictSub=`${issues.red.length} red flag(s).`; }
   else if(issues.amber.length > 0){ verdictClass='warn'; verdictIcon='fa-triangle-exclamation'; verdictTitle='Review Recommended'; verdictSub=`${issues.amber.length} warning(s).`; }
   else { verdictClass='good'; verdictIcon='fa-circle-check'; verdictTitle='Clean Audit'; verdictSub='No red flags.'; }
+
   const scoreGrid = `<div class="score-grid"><div class="score-item"><div class="num ${issues.red.length>0?'red':'green'}">${issues.red.length}</div><div class="lbl">Red</div></div><div class="score-item"><div class="num ${issues.amber.length>0?'amber':'green'}">${issues.amber.length}</div><div class="lbl">Warnings</div></div><div class="score-item"><div class="num green">${issues.green.length}</div><div class="lbl">Passed</div></div><div class="score-item"><div class="num">${fmt(totalSales)}</div><div class="lbl">Sales</div></div><div class="score-item"><div class="num ${net>=0?'green':'red'}">${fmt(net)}</div><div class="lbl">Net</div></div></div>`;
   const verdictBanner = `<div class="verdict-banner ${verdictClass}"><i class="fas ${verdictIcon} verdict-icon"></i><div class="verdict-text"><div class="title">${verdictTitle}</div><div class="sub">${verdictSub}</div></div></div>`;
+
   let issuesHtml = '';
   if(issues.red.length) issuesHtml += `<div class="report-section"><div class="report-section-header" style="background:#fdeeee;color:#b33a3a;"><i class="fas fa-flag" style="color:#b33a3a;"></i> Red Flags (${issues.red.length})</div><div class="report-section-body">${issues.red.map(i=>`<div class="report-item"><div class="icon red"><i class="fas fa-exclamation"></i></div><div class="content"><div class="title">${i.title}</div><div class="desc">${i.desc}</div></div></div>`).join('')}</div></div>`;
   if(issues.amber.length) issuesHtml += `<div class="report-section"><div class="report-section-header" style="background:#fff8ec;color:#b06d00;"><i class="fas fa-triangle-exclamation" style="color:#b06d00;"></i> Warnings (${issues.amber.length})</div><div class="report-section-body">${issues.amber.map(i=>`<div class="report-item"><div class="icon amber"><i class="fas fa-exclamation-triangle"></i></div><div class="content"><div class="title">${i.title}</div><div class="desc">${i.desc}</div></div></div>`).join('')}</div></div>`;
   if(issues.green.length) issuesHtml += `<div class="report-section"><div class="report-section-header" style="background:#e9f5ef;color:#1d6b4f;"><i class="fas fa-check-circle" style="color:#1d6b4f;"></i> Passed (${issues.green.length})</div><div class="report-section-body">${issues.green.map(i=>`<div class="report-item"><div class="icon green"><i class="fas fa-check"></i></div><div class="content"><div class="title">${i.title}</div><div class="desc">${i.desc}</div></div></div>`).join('')}</div></div>`;
-  body.innerHTML = verdictBanner + scoreGrid + reconHtml + issuesHtml;
-  document.getElementById('auditModal').classList.add('active');
+
+  const rangeInfo = `<div class="report-section"><div class="report-section-header"><i class="fas fa-calendar"></i> Range: ${fromStr} → ${toStr}</div><div class="report-section-body"><div class="recon-box">
+    <div class="row"><span class="lbl">Entries</span><span>${allEntries.length}</span></div>
+    <div class="row"><span class="lbl">Purchases</span><span>${allPurchases.length}</span></div>
+    <div class="row"><span class="lbl">Closures</span><span>${allClosures.length}</span></div>
+    <div class="row"><span class="lbl">Total Sales</span><span>${fmt(totalSales)}</span></div>
+    <div class="row"><span class="lbl">Total Cost</span><span>${fmt(totalCost)}</span></div>
+    <div class="row"><span class="lbl">Gross Profit</span><span>${fmt(gross)}</span></div>
+  </div></div></div>`;
+
+  container.innerHTML = verdictBanner + scoreGrid + rangeInfo + reconHtml + issuesHtml;
 }
-function closeAuditReport(){ document.getElementById('auditModal').classList.remove('active'); }
 document.getElementById('auditModal').addEventListener('click', function(e){ if(e.target===this) closeAuditReport(); });
 document.getElementById('pwdModal').addEventListener('click', function(e){ if(e.target===this) closeChangePassword(); });
 document.getElementById('adminPwdModal').addEventListener('click', function(e){ if(e.target===this) closeAdminChangePassword(); });
 document.getElementById('userModal').addEventListener('click', function(e){ if(e.target===this) closeUserModal(); });
+
 function downloadExcel(){
   const wb = XLSX.utils.book_new();
   const entries = currentEntries(); const exp = currentExpenses(); const purchases = currentPurchases();
@@ -1955,11 +2310,8 @@ renderTeamPermissionGrid(DEFAULT_PERMISSIONS.manager);
 window.addEventListener('DOMContentLoaded', async () => {
   if(firebaseReady) {
     await autoSeed();
-    // ✅ Try to restore an existing session (e.g. after page refresh)
     const restored = await restoreSession();
-    if(!restored) {
-      console.log('[Session] No active session — showing landing page');
-    }
+    if(!restored) console.log('[Session] No active session — showing landing page');
   }
 });
 </script>
