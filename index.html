@@ -217,8 +217,6 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
 .faq-answer{max-height:0;overflow:hidden;transition:max-height 0.3s ease;color:rgba(255,255,255,0.75);font-size:0.92rem;line-height:1.65;}
 .faq-answer-inner{padding:0 1.5rem 1.3rem;}
 .faq-answer strong{color:#4ade80;}
-
-/* Contact form (inline on landing) */
 .landing-contact{position:relative;z-index:2;padding:5rem 3rem;background:rgba(0,0,0,0.15);}
 .landing-contact-inner{max-width:640px;margin:0 auto;}
 .contact-header{text-align:center;margin-bottom:2.5rem;}
@@ -238,8 +236,6 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
 .contact-form .msg.err{background:rgba(239,68,68,0.15);color:#fca5a5;border:1px solid rgba(239,68,68,0.3);}
 .contact-form .msg.suc{background:rgba(74,222,128,0.15);color:#86efac;border:1px solid rgba(74,222,128,0.3);}
 .contact-form .msg.show{display:flex;}
-
-/* Human verification box */
 .captcha-box{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);border-radius:12px;padding:1rem;display:flex;align-items:center;gap:1rem;cursor:pointer;user-select:none;transition:0.15s;margin-bottom:1rem;}
 .captcha-box:hover{background:rgba(255,255,255,0.08);}
 .captcha-box.verified{background:rgba(74,222,128,0.1);border-color:rgba(74,222,128,0.4);cursor:default;}
@@ -252,7 +248,6 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
 .captcha-spinner{display:none;}
 .captcha-box.loading .captcha-spinner{display:block;}
 .captcha-box.loading .captcha-check{border-color:#fbbf24;}
-
 .landing-cta{position:relative;z-index:2;padding:5rem 3rem;text-align:center;}
 .landing-cta h2{font-size:2.2rem;font-weight:800;margin-bottom:1rem;}
 .landing-cta p{color:rgba(255,255,255,0.7);font-size:1.05rem;margin-bottom:2rem;}
@@ -317,19 +312,15 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
 .permission-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:0.5rem;margin-top:0.6rem;}
 .perm-item{display:flex;align-items:center;gap:0.5rem;font-size:0.78rem;color:#1f3c54;padding:0.4rem 0.6rem;background:#f8fafd;border-radius:8px;cursor:pointer;user-select:none;}
 .perm-item input[type="checkbox"]{width:auto;min-width:auto;cursor:pointer;}
-
-/* Date range picker */
 .date-range-bar{display:flex;flex-wrap:wrap;gap:0.6rem;align-items:center;background:#f8fafd;padding:1rem 1.2rem;border-radius:14px;border:1px solid #e3ebf3;margin-bottom:1.2rem;}
 .date-range-bar .quick-btn{background:white;border:1px solid #d2dfeb;color:#1f4970;font-weight:600;font-size:0.75rem;padding:0.4rem 0.9rem;border-radius:20px;cursor:pointer;transition:0.15s;font-family:inherit;}
 .date-range-bar .quick-btn:hover{background:#1d7a4b;color:white;border-color:#1d7a4b;}
-.date-range-bar .quick-btn.active{background:#1d7a4b;color:white;border-color:#1d7a4b;}
 .date-range-bar .field{display:flex;align-items:center;gap:0.5rem;}
 .date-range-bar .field label{font-size:0.72rem;font-weight:600;color:#5f7385;text-transform:uppercase;}
 .date-range-bar input[type="date"]{width:auto;padding:0.4rem 0.7rem;font-size:0.8rem;}
-
-/* Supplier dropdown wrapper */
-.supplier-select-wrap{position:relative;}
-
+.empty-state{text-align:center;padding:2rem;color:#7b8fa0;line-height:1.6;}
+.empty-state i{font-size:1.8rem;display:block;margin-bottom:0.6rem;color:#c9d6e3;}
+.empty-state strong{color:#5f7385;}
 @media (max-width:900px){
   .landing-hero{grid-template-columns:1fr;padding:2rem 1.5rem 4rem;gap:2rem;}
   .hero-content h1{font-size:2.3rem;}
@@ -424,47 +415,46 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
 
       <div class="faq-item" onclick="toggleFaq(this)">
         <div class="faq-question">Who can create new users?<i class="fas fa-chevron-down icon"></i></div>
-        <div class="faq-answer"><div class="faq-answer-inner">There are three ways users get created:<br><br><strong>1.</strong> The Admin creates locations and their first manager.<br><strong>2.</strong> Location managers can create additional users (Accountants, Cashiers) for their own location using the <strong>Team Management</strong> tab.<br><strong>3.</strong> The Admin can view and edit every user, at every location.</div></div>
+        <div class="faq-answer"><div class="faq-answer-inner">Three ways users get created:<br><br><strong>1.</strong> The Admin creates locations and their first manager.<br><strong>2.</strong> Location managers can create additional users (Accountants, Cashiers) for their own location using the <strong>Team Management</strong> tab.<br><strong>3.</strong> The Admin can view and edit every user at every location.</div></div>
       </div>
 
       <div class="faq-item" onclick="toggleFaq(this)">
         <div class="faq-question">What's the difference between Manager, Accountant and Cashier?<i class="fas fa-chevron-down icon"></i></div>
-        <div class="faq-answer"><div class="faq-answer-inner"><strong>Manager</strong> — full control of the location, including creating users and closing months.<br><br><strong>Accountant</strong> — can edit daily entries, purchases and expenses, but cannot close a month or manage users.<br><br><strong>Cashier</strong> — view-only access. Cannot edit any data or see the audit log.</div></div>
+        <div class="faq-answer"><div class="faq-answer-inner"><strong>Manager</strong> — full control, including creating users and closing months.<br><br><strong>Accountant</strong> — can edit daily entries, purchases and expenses, but cannot close a month or manage users.<br><br><strong>Cashier</strong> — view-only access. Cannot edit data or see the audit log.</div></div>
       </div>
 
       <div class="faq-item" onclick="toggleFaq(this)">
         <div class="faq-question">What are "red flags" and how do they work?<i class="fas fa-chevron-down icon"></i></div>
-        <div class="faq-answer"><div class="faq-answer-inner">Red flags are automatic warnings the system raises when it detects suspicious patterns — like stock dropping more than 12% between closures, cash dropping more than 25%, duplicate purchases within 3 days, or exact round-number purchase amounts (a sign of fabricated invoices). The audit report sorts them into Red (critical), Amber (monitor), and Green (passed).</div></div>
+        <div class="faq-answer"><div class="faq-answer-inner">Red flags are automatic warnings raised when the system detects suspicious patterns — stock dropping more than 12% between closures, cash dropping more than 25%, duplicate purchases within 3 days, or exact round-number purchase amounts. The audit report sorts them into Red (critical), Amber (monitor), and Green (passed).</div></div>
       </div>
 
       <div class="faq-item" onclick="toggleFaq(this)">
         <div class="faq-question">Is my data safe?<i class="fas fa-chevron-down icon"></i></div>
-        <div class="faq-answer"><div class="faq-answer-inner">Yes. All data is stored securely in Google Firebase (Firestore) — the same infrastructure trusted by thousands of businesses worldwide. Every entry is backed up in real time. Your login credentials and location data are never shared with other businesses on the platform.</div></div>
+        <div class="faq-answer"><div class="faq-answer-inner">Yes. All data is stored securely in Google Firebase (Firestore). Every entry is backed up in real time. Your login credentials and location data are never shared with other businesses on the platform.</div></div>
       </div>
 
       <div class="faq-item" onclick="toggleFaq(this)">
         <div class="faq-question">Can I export my data?<i class="fas fa-chevron-down icon"></i></div>
-        <div class="faq-answer"><div class="faq-answer-inner">Absolutely. From your dashboard, click <strong>Excel</strong> to download a multi-sheet spreadsheet with daily data, expenses, purchases and audit closures — or <strong>PDF</strong> for a formatted report you can send to an accountant or auditor.</div></div>
+        <div class="faq-answer"><div class="faq-answer-inner">Yes. From your dashboard, click <strong>Excel</strong> to download a multi-sheet spreadsheet with daily data, expenses, purchases and audit closures — or <strong>PDF</strong> for a formatted report.</div></div>
       </div>
 
       <div class="faq-item" onclick="toggleFaq(this)">
         <div class="faq-question">Will I be logged out if I refresh the page?<i class="fas fa-chevron-down icon"></i></div>
-        <div class="faq-answer"><div class="faq-answer-inner">No. Your session is remembered for the duration of your browser tab. You can safely refresh the page or navigate away and return without re-entering your password. If you close the browser tab, you will need to sign in again for security.</div></div>
+        <div class="faq-answer"><div class="faq-answer-inner">No. Your session is remembered for the duration of your browser tab. You can safely refresh the page without re-entering your password. Closing the tab ends the session for security.</div></div>
       </div>
 
       <div class="faq-item" onclick="toggleFaq(this)">
         <div class="faq-question">Can I change my password?<i class="fas fa-chevron-down icon"></i></div>
-        <div class="faq-answer"><div class="faq-answer-inner">Yes. Once logged in, click <strong>Change Password</strong> in the top toolbar. You'll be asked for your current password and your new one. Choose something at least 6 characters long.</div></div>
+        <div class="faq-answer"><div class="faq-answer-inner">Yes. Once logged in, click <strong>Change Password</strong> in the top toolbar. Your new password must be at least 6 characters long.</div></div>
       </div>
 
       <div class="faq-item" onclick="toggleFaq(this)">
         <div class="faq-question">Is Bright Mesh free?<i class="fas fa-chevron-down icon"></i></div>
-        <div class="faq-answer"><div class="faq-answer-inner">Yes — Bright Mesh is free to use. There are no subscription fees, no per-location charges, and no limits on the number of entries you can record. Reach out using the contact form below to get started.</div></div>
+        <div class="faq-answer"><div class="faq-answer-inner">Yes — Bright Mesh is free to use. No subscription fees, no per-location charges, no limits on entries. Reach out using the contact form below to get started.</div></div>
       </div>
     </div>
   </section>
 
-  <!-- CONTACT FORM (Inline, FormSubmit powered) -->
   <section class="landing-contact" id="contact-section">
     <div class="landing-contact-inner">
       <div class="contact-header">
@@ -477,8 +467,6 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
         <div class="field"><label>Email Address</label><input type="email" id="cfEmail" placeholder="you@example.com" required></div>
         <div class="field"><label>Subject</label><input type="text" id="cfSubject" placeholder="e.g. Request a demo" required></div>
         <div class="field"><label>Message</label><textarea id="cfMessage" placeholder="Tell us how we can help..." required></textarea></div>
-
-        <!-- Human verification (captcha-like) -->
         <div class="captcha-box" id="captchaBox" onclick="verifyCaptcha()">
           <div class="captcha-check"><i class="fas fa-check"></i></div>
           <div class="captcha-text">
@@ -486,7 +474,6 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
             <span id="captchaSub">Click to verify before sending</span>
           </div>
         </div>
-
         <button class="send-btn" id="cfSendBtn" type="submit"><i class="fas fa-paper-plane"></i> Send Message</button>
       </form>
     </div>
@@ -545,6 +532,7 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
     <button class="tab-btn hidden" data-tab="team" id="teamTabBtn" onclick="switchTab('team')"><i class="fas fa-users-gear"></i> Team Management</button>
   </div>
 
+  <!-- DAILY -->
   <div class="tab-panel active" id="tab-daily">
     <div class="month-bar">
       <label><i class="fas fa-calendar-alt"></i> Active month:</label>
@@ -590,6 +578,7 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
     <div class="table-card"><div class="table-scroll"><table id="totalsTable"><thead><tr><th>Metric</th><th>Value (UGX)</th></tr></thead><tbody id="totalsBody"></tbody></table></div></div>
   </div>
 
+  <!-- PURCHASES -->
   <div class="tab-panel" id="tab-purchases">
     <div class="month-bar">
       <label><i class="fas fa-calendar-alt"></i> Active month:</label>
@@ -606,7 +595,7 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
       </tr></thead><tbody id="purchasesBody"></tbody></table></div>
       <div style="padding:0.8rem 1.2rem;border-top:1px solid #eef3f8;display:flex;justify-content:space-between;align-items:center;">
         <button class="add-row-btn editor-only" onclick="addPurchaseRow()"><i class="fas fa-plus-circle"></i> Add purchase</button>
-        <span style="font-size:0.75rem;color:#7b8fa0;"><i class="fas fa-info-circle"></i> Suppliers list managed in <strong>Suppliers</strong> tab</span>
+        <span style="font-size:0.75rem;color:#7b8fa0;"><i class="fas fa-info-circle"></i> Supplier list managed in <strong>Suppliers</strong> tab</span>
       </div>
     </div>
     <div class="section-title"><i class="fas fa-chart-pie"></i> Supplier breakdown</div>
@@ -615,6 +604,7 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
     <div class="table-card"><div class="table-scroll"><table id="categoryTable"><thead><tr><th>Category</th><th>Purchases (UGX)</th><th>% of Total</th><th># Orders</th></tr></thead><tbody id="categoryBody"></tbody></table></div></div>
   </div>
 
+  <!-- AUDIT -->
   <div class="tab-panel" id="tab-audit">
     <div style="background:white;padding:1.2rem 1.5rem;border-radius:16px;border:1px solid #e3ebf3;margin-bottom:1.5rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">
       <i class="fas fa-shield-halved" style="font-size:1.8rem;color:#1d7a4b;"></i>
@@ -659,7 +649,7 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
         <div style="font-weight:700;color:#0b2b44;font-size:1rem;"><i class="fas fa-history" style="color:#1f4970;"></i> Audit Log</div>
         <div style="font-size:0.8rem;color:#5f7385;margin-top:0.2rem;">Every change is recorded with timestamp, user and location.</div>
       </div>
-      <button class="btn btn-danger" id="clearLogBtn" style="margin-left:auto;" onclick="clearLocationAuditLog()"><i class="fas fa-trash"></i> Clear Audit Log</button>
+      <button class="btn btn-danger manager-only" style="margin-left:auto;" onclick="clearLocationAuditLog()"><i class="fas fa-trash"></i> Clear Audit Log</button>
     </div>
     <div class="table-card"><div class="table-scroll"><table id="logTable"><thead><tr><th style="width:180px;">Time</th><th style="width:150px;">User</th><th style="width:150px;">Action</th><th>Details</th></tr></thead><tbody id="logBody"></tbody></table></div></div>
   </div>
@@ -809,15 +799,14 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
   </div>
 </div>
 
-<!-- MODALS -->
+<!-- AUDIT MODAL -->
 <div class="modal-overlay" id="auditModal">
   <div class="modal">
     <div class="modal-header">
       <div><h2><i class="fas fa-magnifying-glass-chart"></i> Audit Report — <span id="auditReportMonth"></span></h2><div class="sub" id="auditReportDate"></div></div>
       <button class="modal-close" onclick="closeAuditReport()"><i class="fas fa-times"></i></button>
     </div>
-    <div class="modal-body" id="auditReportBody">
-      <!-- Date range selector -->
+    <div class="modal-body">
       <div class="date-range-bar" id="auditDateBar">
         <div class="field"><label>From</label><input type="date" id="auditFrom"></div>
         <div class="field"><label>To</label><input type="date" id="auditTo"></div>
@@ -834,6 +823,7 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
   </div>
 </div>
 
+<!-- PASSWORD MODALS -->
 <div class="modal-overlay" id="pwdModal">
   <div class="modal narrow">
     <div class="modal-header"><div><h2><i class="fas fa-key"></i> Change Password</h2></div><button class="modal-close" onclick="closeChangePassword()"><i class="fas fa-times"></i></button></div>
@@ -845,7 +835,6 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
     </div>
   </div>
 </div>
-
 <div class="modal-overlay" id="adminPwdModal">
   <div class="modal narrow">
     <div class="modal-header"><div><h2><i class="fas fa-key"></i> Change Admin Password</h2></div><button class="modal-close" onclick="closeAdminChangePassword()"><i class="fas fa-times"></i></button></div>
@@ -858,6 +847,7 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
   </div>
 </div>
 
+<!-- USER EDIT MODAL -->
 <div class="modal-overlay" id="userModal">
   <div class="modal narrow">
     <div class="modal-header"><div><h2><i class="fas fa-user-edit"></i> Edit User — <span id="editUserName"></span></h2></div><button class="modal-close" onclick="closeUserModal()"><i class="fas fa-times"></i></button></div>
@@ -878,6 +868,7 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
   </div>
 </div>
 
+<!-- LOCATION DETAIL MODAL -->
 <div class="modal-overlay" id="locModal">
   <div class="modal">
     <div class="modal-header"><div><h2><i class="fas fa-location-dot"></i> <span id="locModalName"></span></h2><div class="sub" id="locModalCode"></div></div><button class="modal-close" onclick="closeLocModal()"><i class="fas fa-times"></i></button></div>
@@ -888,7 +879,9 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
 <div class="toast" id="toast"><i class="fas fa-check-circle"></i> <span id="toastMsg">Done</span></div>
 
 <script>
-/* FIREBASE */
+/* ============================================================
+   FIREBASE
+   ============================================================ */
 const firebaseConfig = {
   apiKey: "AIzaSyBquSyKnnQp4NMtCaooAD7k1tp3KPVdahU",
   authDomain: "bright-mesh.firebaseapp.com",
@@ -899,8 +892,11 @@ const firebaseConfig = {
   measurementId: "G-V73LRY2Z0F"
 };
 let db = null, firebaseReady = false;
-try { firebase.initializeApp(firebaseConfig); db = firebase.firestore(); firebaseReady = true; } catch(e) { console.error(e); }
+try { firebase.initializeApp(firebaseConfig); db = firebase.firestore(); firebaseReady = true; } catch(e) { console.error('Firebase init failed', e); }
 
+/* ============================================================
+   CONSTANTS
+   ============================================================ */
 const EXPENSE_TYPES = ['Salary','Rent','Utilities (Electricity/Water)','Transport','Fuel','Packaging Materials','Cleaning Supplies','Security Services','Wifi / Internet','Telephone / Airtime','Waste Disposal','Licenses & Permits','Insurance','Marketing & Advertising','Repairs & Maintenance','Bank Charges','Loan Repayment','Taxes','Staff Welfare','Loss / Theft','Other'];
 
 const DEFAULT_PERMISSIONS = {
@@ -909,37 +905,48 @@ const DEFAULT_PERMISSIONS = {
   cashier:    { view:true, editDaily:false, editPurchases:false, editExpenses:false, closeMonth:false, viewAudit:false, viewLog:false, manageUsers:false }
 };
 
-const SESSION_KEY = 'brightmesh_session_v1';
+const SESSION_KEY = 'brightmesh_session_v2';
 
+/* ============================================================
+   STATE
+   ============================================================ */
 let allMonthsData = {}, currentMonthKey = '', weeklyClosures = [], auditLog = [];
 let saveTimeout = null, activeTab = 'daily', activeAdminTab = 'overview';
 let currentUser = null, currentLocationId = null;
 let allUsersCache = {}, allLocationsCache = {};
 let suppliersCache = [];
+let captchaVerified = false;
 
-/* HELPERS */
-function defaultExpenses(){ return [{ type: 'Salary', amount: 600000, note: '' }, { type: 'Rent', amount: 550000, note: '' }]; }
+/* ============================================================
+   HELPERS
+   ============================================================ */
+function defaultExpenses(){ return []; }  // ✅ New months start with NO expenses
+
 function currentEntries(){ return allMonthsData[currentMonthKey]?.entries || []; }
+
 function currentExpenses(){
   const raw = allMonthsData[currentMonthKey]?.expenses;
-  if(!raw) return defaultExpenses();
+  if(!raw) return [];
   if(Array.isArray(raw)) return raw;
+  // Migrate legacy object format once
   const migrated = [];
   if(raw.salary) migrated.push({ type: 'Salary', amount: raw.salary, note: '' });
   if(raw.rent) migrated.push({ type: 'Rent', amount: raw.rent, note: '' });
   if(raw.utilities) migrated.push({ type: 'Utilities (Electricity/Water)', amount: raw.utilities, note: '' });
   if(raw.transport) migrated.push({ type: 'Transport', amount: raw.transport, note: '' });
   if(raw.other) migrated.push({ type: 'Other', amount: raw.other, note: '' });
-  if(migrated.length === 0) return defaultExpenses();
   allMonthsData[currentMonthKey].expenses = migrated;
   return migrated;
 }
+
 function totalMonthlyExpenses(exp){ return Array.isArray(exp) ? exp.reduce((s, e) => s + (parseFloat(e.amount) || 0), 0) : 0; }
+
 function currentPurchases(){
-  if(!allMonthsData[currentMonthKey]) allMonthsData[currentMonthKey]={entries:[],expenses:defaultExpenses(),closed:false,purchases:[]};
+  if(!allMonthsData[currentMonthKey]) allMonthsData[currentMonthKey]={entries:[],expenses:[],closed:false,purchases:[]};
   if(!allMonthsData[currentMonthKey].purchases) allMonthsData[currentMonthKey].purchases=[];
   return allMonthsData[currentMonthKey].purchases;
 }
+
 function grossProfit(row){const c=parseFloat(row.cost)||0,s=parseFloat(row.sales)||0,e=parseFloat(row.expenses)||0;return s-c-e;}
 function fmt(n){if(n===undefined||n===null||isNaN(n))return '0';return Number(n).toLocaleString('en-UG',{maximumFractionDigits:0});}
 function fmtSigned(n){if(n===undefined||n===null||isNaN(n))return '—';const a=Math.abs(n).toLocaleString('en-UG',{maximumFractionDigits:0});return (n>=0?'+':'−')+a;}
@@ -996,6 +1003,7 @@ async function restoreSession(){
 }
 
 function showToast(msg, type){ const t = document.getElementById('toast'); t.className = 'toast' + (type ? ' ' + type : ''); document.getElementById('toastMsg').textContent = msg; t.classList.add('show'); clearTimeout(t._timer); t._timer = setTimeout(()=>t.classList.remove('show'), 2600); }
+
 function showSaveStatus(status, msg, target){
   const prefix = target === 'admin' ? 'adminSave' : 'save';
   const el = document.getElementById(prefix + 'Indicator'), txt = document.getElementById(prefix + 'Status');
@@ -1022,7 +1030,9 @@ function updateTabVisibility(){
   }
 }
 
-/* AUTO-SEED */
+/* ============================================================
+   AUTO-SEED
+   ============================================================ */
 async function autoSeed() {
   if(!firebaseReady) return;
   try {
@@ -1033,7 +1043,7 @@ async function autoSeed() {
     await db.collection('locations').doc('wamombl1').set({ name: 'Wamo Mbale 1', code: 'wamombl1', createdAt: new Date().toISOString(), status: 'active' });
     await db.collection('users').doc('wamombl1').set({ username:'wamombl1', fullName:'Ahmed', password:'wamo123@', locationId:'wamombl1', role:'manager', permissions: DEFAULT_PERMISSIONS.manager, status:'active', createdAt: new Date().toISOString() });
     const now = new Date(); const curKey = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0');
-    await db.collection('locations').doc('wamombl1').collection('months').doc(curKey).set({ entries: [], expenses: defaultExpenses(), closed: false, purchases: [] });
+    await db.collection('locations').doc('wamombl1').collection('months').doc(curKey).set({ entries: [], expenses: [], closed: false, purchases: [] });
     // Seed sample suppliers
     const seedSuppliers = ['Mukwano Distributors','Bidco Uganda','Kakira Sugar','Fresh Foods Ltd'];
     for(const s of seedSuppliers) {
@@ -1042,7 +1052,9 @@ async function autoSeed() {
   } catch(e) { console.error('Auto-seed failed', e); }
 }
 
-/* DATA */
+/* ============================================================
+   DATA
+   ============================================================ */
 async function loadLocationData(locationId) {
   if(!firebaseReady) { showSaveStatus('error','No Firebase'); return; }
   showSaveStatus('saving','Loading...');
@@ -1062,14 +1074,18 @@ async function loadLocationData(locationId) {
     suppliersCache = [];
     sSnap.forEach(doc => suppliersCache.push({ id: doc.id, ...doc.data() }));
     suppliersCache.sort((a,b) => (a.name || '').localeCompare(b.name || ''));
-    // Ensure current month
+    // Ensure current month exists in memory with EMPTY expenses
     const now = new Date(); const curKey = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0');
-    if(!allMonthsData[curKey]) { allMonthsData[curKey] = { entries: [], expenses: defaultExpenses(), closed: false, purchases: [] }; await db.collection('locations').doc(locationId).collection('months').doc(curKey).set(allMonthsData[curKey]); }
+    if(!allMonthsData[curKey]) {
+      allMonthsData[curKey] = { entries: [], expenses: [], closed: false, purchases: [] };
+      await db.collection('locations').doc(locationId).collection('months').doc(curKey).set(allMonthsData[curKey]);
+    }
     const monthsSorted = Object.keys(allMonthsData).sort();
     if(!currentMonthKey || !allMonthsData[currentMonthKey]) currentMonthKey = monthsSorted.length ? monthsSorted[monthsSorted.length-1] : curKey;
     showSaveStatus('saved','Loaded');
   } catch(e) { console.error(e); showSaveStatus('error','Load failed'); }
 }
+
 async function saveMonthToFirestore(monthKey) {
   if(!firebaseReady || !currentLocationId) return;
   try { const data = allMonthsData[monthKey]; if(!data) return; await db.collection('locations').doc(currentLocationId).collection('months').doc(monthKey).set(data); } catch(e) { console.error(e); }
@@ -1095,6 +1111,9 @@ function addLog(action, details){
   if(activeTab === 'log') renderLog();
 }
 
+/* ============================================================
+   FAQ
+   ============================================================ */
 function toggleFaq(el){
   const isOpen = el.classList.contains('open');
   document.querySelectorAll('.faq-item.open').forEach(i => { i.classList.remove('open'); i.querySelector('.faq-answer').style.maxHeight = null; });
@@ -1105,8 +1124,9 @@ function toggleFaq(el){
   }
 }
 
-/* ✅ CONTACT FORM (FormSubmit + CAPTCHA) */
-let captchaVerified = false;
+/* ============================================================
+   CONTACT FORM
+   ============================================================ */
 function verifyCaptcha(){
   if(captchaVerified) return;
   const box = document.getElementById('captchaBox');
@@ -1144,7 +1164,7 @@ async function submitContactForm(e){
   btn.disabled = true;
   btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
   try {
-    // Save to Firestore (so we have a copy)
+    // Save to Firestore (so we have a backup)
     try {
       await db.collection('contactMessages').add({
         name, email, subject, message,
@@ -1153,7 +1173,7 @@ async function submitContactForm(e){
       });
     } catch(fsErr) { console.warn('Firestore save failed (continuing to FormSubmit):', fsErr); }
 
-    // Submit to FormSubmit (replace the endpoint with your own FormSubmit alias)
+    // Submit via FormSubmit
     const formData = new FormData();
     formData.append('name', name);
     formData.append('email', email);
@@ -1190,7 +1210,9 @@ async function submitContactForm(e){
   return false;
 }
 
-/* LOGIN */
+/* ============================================================
+   LOGIN / LOGOUT
+   ============================================================ */
 document.getElementById('year').textContent = new Date().getFullYear();
 document.getElementById('loginUsername').addEventListener('keypress', e=>{ if(e.key==='Enter') document.getElementById('loginPassword').focus(); });
 document.getElementById('loginPassword').addEventListener('keypress', e=>{ if(e.key==='Enter') doLogin(); });
@@ -1280,6 +1302,9 @@ function applyPermissions(){
     const canEdit = hasPerm('editDaily') || hasPerm('editPurchases') || hasPerm('editExpenses') || hasPerm('closeMonth');
     el.style.display = canEdit ? '' : 'none';
   });
+  document.querySelectorAll('.manager-only').forEach(el => {
+    el.style.display = hasPerm('manageUsers') ? '' : 'none';
+  });
 }
 
 function doLogout(){
@@ -1296,7 +1321,9 @@ function doLogout(){
   document.getElementById('signin-section').scrollIntoView({behavior:'smooth'});
 }
 
-/* ADMIN */
+/* ============================================================
+   ADMIN
+   ============================================================ */
 async function loadAdminData(){
   if(!firebaseReady) return;
   try {
@@ -1442,7 +1469,6 @@ async function clearAllActivityLogs(){
   }
 }
 
-/* ✅ NEW: Clear audit log for current location (manager) */
 async function clearLocationAuditLog(){
   if(!hasPerm('manageUsers')){ showToast('Only managers can clear the log', 'error'); return; }
   if(!currentLocationId){ showToast('No location selected', 'error'); return; }
@@ -1498,7 +1524,7 @@ async function adminCreateLocation(){
     await db.collection('locations').doc(code).set({ name, code, status: 'active', createdAt: new Date().toISOString() });
     await db.collection('users').doc(mgr).set({ username: mgr, fullName: mgrName || mgr, password: mgrPass, locationId: code, role: 'manager', permissions: DEFAULT_PERMISSIONS.manager, status: 'active', createdAt: new Date().toISOString(), createdBy: 'admin' });
     const now = new Date(); const curKey = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0');
-    await db.collection('locations').doc(code).collection('months').doc(curKey).set({ entries: [], expenses: defaultExpenses(), closed: false, purchases: [] });
+    await db.collection('locations').doc(code).collection('months').doc(curKey).set({ entries: [], expenses: [], closed: false, purchases: [] });
     document.getElementById('admLocName').value = ''; document.getElementById('admLocCode').value = '';
     document.getElementById('admLocManager').value = ''; document.getElementById('admLocManagerName').value = ''; document.getElementById('admLocManagerPass').value = '';
     showToast('Location + manager created', 'success');
@@ -1590,7 +1616,9 @@ async function deleteUserConfirm(username){
   await loadAdminData(); renderAdminAccounts(); renderAdminOverview();
 }
 
-/* PASSWORD */
+/* ============================================================
+   PASSWORD
+   ============================================================ */
 function openChangePassword(){ document.getElementById('pwdCurrent').value=''; document.getElementById('pwdNew').value=''; document.getElementById('pwdNew2').value=''; document.getElementById('pwdModal').classList.add('active'); }
 function closeChangePassword(){ document.getElementById('pwdModal').classList.remove('active'); }
 async function saveUserPassword(){
@@ -1625,11 +1653,13 @@ async function saveAdminPassword(){
   } catch(e) { showToast('Error: ' + e.message, 'error'); }
 }
 
-/* ✅ SUPPLIERS */
+/* ============================================================
+   SUPPLIERS
+   ============================================================ */
 function renderSuppliersList(){
   const list = document.getElementById('suppliersList');
   if(!list) return;
-  if(!suppliersCache.length) { list.innerHTML = '<div style="text-align:center;padding:1.5rem;color:#7b8fa0;">No suppliers yet</div>'; return; }
+  if(!suppliersCache.length) { list.innerHTML = '<div style="text-align:center;padding:1.5rem;color:#7b8fa0;">No suppliers yet. Add your first supplier on the left.</div>'; return; }
   list.innerHTML = suppliersCache.map(s => `
     <div class="user-row">
       <div class="uinfo">
@@ -1642,6 +1672,7 @@ function renderSuppliersList(){
       </div>
     </div>
   `).join('');
+  applyPermissions();
 }
 async function addSupplier(){
   if(!hasPerm('editPurchases')){ showToast('No permission', 'error'); return; }
@@ -1710,7 +1741,9 @@ async function deleteSupplier(id){
   } catch(e) { showToast('Error: ' + e.message, 'error'); }
 }
 
-/* TEAM */
+/* ============================================================
+   TEAM
+   ============================================================ */
 function renderTeam(){ renderTeamPermissionGrid(DEFAULT_PERMISSIONS.manager); renderTeamMembers(); }
 function renderTeamPermissionGrid(selected){
   const perms = [
@@ -1804,6 +1837,9 @@ async function editTeamUser(username){
   renderTeamMembers();
 }
 
+/* ============================================================
+   TABS
+   ============================================================ */
 function switchTab(tab){
   activeTab = tab;
   document.querySelectorAll('#app .tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
@@ -1818,7 +1854,9 @@ function switchTab(tab){
   updateTabVisibility();
 }
 
-/* RENDER TABLES */
+/* ============================================================
+   RENDER — DAILY
+   ============================================================ */
 function renderMonthSelect(){
   const sel = document.getElementById('monthSelect'); if(!sel) return;
   const months = Object.keys(allMonthsData).sort();
@@ -1845,7 +1883,7 @@ function renderTable(){
   const entries = currentEntries();
   const isClosed = allMonthsData[currentMonthKey]?.closed;
   const canEdit = hasPerm('editDaily') && !isClosed;
-  if(!entries.length){ tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:2rem;color:#7b8fa0;">No data for this month.</td></tr>`; return; }
+  if(!entries.length){ tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:2rem;color:#7b8fa0;">No daily entries yet for ${monthLabel(currentMonthKey)}. Click <strong>Add row</strong> to start recording.</td></tr>`; return; }
   tbody.innerHTML = entries.map((row,idx)=>{
     const gp = grossProfit(row);
     const ro = !canEdit ? 'readonly' : ''; const bg = !canEdit ? 'background:#f2f6fa;' : '';
@@ -1866,12 +1904,20 @@ function renderExpenseRows(){
   const canEdit = hasPerm('editExpenses') && !isClosed;
   const ro = !canEdit ? 'readonly' : ''; const dis = !canEdit ? 'disabled' : ''; const bg = !canEdit ? 'background:#f2f6fa;' : '';
   const tbody = document.getElementById('expenseBody'); if(!tbody) return;
-  if(!expenses.length) { tbody.innerHTML = `<tr><td colspan="4" style="text-align:center;padding:2rem;color:#7b8fa0;">No expenses recorded. ${canEdit ? 'Click "Add expense" to start.' : ''}</td></tr>`; document.getElementById('expenseTotal').textContent = 'UGX 0'; return; }
+  if(!expenses.length) {
+    tbody.innerHTML = `<tr><td colspan="4" class="empty-state">
+      <i class="fas fa-receipt"></i>
+      <strong>No expenses recorded yet for ${monthLabel(currentMonthKey)}.</strong><br>
+      ${canEdit ? 'Click <strong>Add expense</strong> above to record salary, rent, utilities, or other monthly costs.' : 'No expenses have been recorded for this month.'}
+    </td></tr>`;
+    document.getElementById('expenseTotal').textContent = 'UGX 0';
+    return;
+  }
   tbody.innerHTML = expenses.map((e, idx) => `
     <tr>
       <td><select ${dis} onchange="updateExpenseField(${idx}, 'type', this.value)" style="${bg}">${EXPENSE_TYPES.map(t => `<option value="${t}" ${e.type === t ? 'selected' : ''}>${t}</option>`).join('')}</select></td>
       <td><input type="number" step="0.01" value="${e.amount ?? 0}" ${ro} onchange="updateExpenseField(${idx}, 'amount', this.value)" style="font-weight:600;color:#0b4b2b;${bg}"></td>
-      <td><input type="text" value="${e.note || ''}" ${ro} onchange="updateExpenseField(${idx}, 'note', this.value)" placeholder="e.g. January electricity" style="${bg}"></td>
+      <td><input type="text" value="${e.note || ''}" ${ro} onchange="updateExpenseField(${idx}, 'note', this.value)" placeholder="Optional note" style="${bg}"></td>
       <td>${canEdit ? `<button class="remove-btn" onclick="removeExpenseRow(${idx})"><i class="fas fa-trash-alt"></i></button>` : ''}</td>
     </tr>
   `).join('');
@@ -1881,7 +1927,7 @@ function addExpenseRow(){
   if(!hasPerm('editExpenses')) { showToast('No permission', 'error'); return; }
   if(allMonthsData[currentMonthKey]?.closed){ showToast('Month is closed'); return; }
   const expenses = currentExpenses();
-  expenses.push({ type: 'Other', amount: 0, note: '' });
+  expenses.push({ type: 'Salary', amount: 0, note: '' });
   allMonthsData[currentMonthKey].expenses = expenses;
   addLog('Add Expense Row', `New expense row added`);
   renderExpenseRows(); renderSummary(); renderTotals(); scheduleSave();
@@ -1967,9 +2013,9 @@ function renderSummary(){
   const cards = [
     {label:'Total sales',value:fmt(totalSales),sub:'UGX',cls:''},
     {label:'Total cost',value:fmt(totalCost),sub:'UGX',cls:''},
-    {label:'Gross profit',value:fmt(gross),sub:`margin ${margin.toFixed(1)}%`,cls:gross>=0?'positive':'negative'},
+    {label:'Gross profit',value:fmt(gross),sub:`margin ${margin.toFixed(1)}%`,cls:gross>0?'positive':(gross<0?'negative':'')},
     {label:'Monthly expenses',value:fmt(monthlyExp),sub:'from expense rows',cls:''},
-    {label:'Net profit',value:fmt(net),sub:'after all expenses',cls:net>=0?'positive':'negative'},
+    {label:'Net profit',value:fmt(net),sub:'after all expenses',cls:net>0?'positive':(net<0?'negative':'')},
   ];
   const el = document.getElementById('summaryGrid'); if(!el) return;
   el.innerHTML = cards.map(c=>`<div class="sum-card"><div class="sum-label">${c.label}</div><div class="sum-value ${c.cls}">${c.value}</div><div class="sum-sub">${c.sub}</div></div>`).join('');
@@ -1985,7 +2031,9 @@ function renderTotals(){
   el.innerHTML = rows.map(([k,v])=>`<tr><td style="font-weight:500;">${k}</td><td style="font-weight:600;">${v}</td></tr>`).join('');
 }
 
-/* ✅ PURCHASES with supplier dropdown */
+/* ============================================================
+   RENDER — PURCHASES
+   ============================================================ */
 function renderPurchases(){
   const purchases = currentPurchases();
   const isClosed = allMonthsData[currentMonthKey]?.closed;
@@ -2006,16 +2054,14 @@ function renderPurchases(){
     <div class="sum-card"><div class="sum-label"><i class="fas fa-money-bill"></i> Cash vs Credit</div><div class="sum-value" style="font-size:1.1rem;">${fmt(cashPurchases)} / ${fmt(creditPurchases)}</div><div class="sum-sub">Cash / Credit</div></div>
   `;
   const tbody = document.getElementById('purchasesBody'); if(!tbody) return;
-  if(!purchases.length){ tbody.innerHTML = `<tr><td colspan="9" style="text-align:center;padding:2rem;color:#7b8fa0;">No purchases recorded.</td></tr>`; }
+  if(!purchases.length){ tbody.innerHTML = `<tr><td colspan="9" style="text-align:center;padding:2rem;color:#7b8fa0;">No purchases recorded yet for ${monthLabel(currentMonthKey)}. Click <strong>Add purchase</strong> to start.</td></tr>`; }
   else {
     const supplierOptions = suppliersCache.map(s => `<option value="${s.name}"></option>`).join('');
     tbody.innerHTML = purchases.map((p,idx)=>{
       const ro = !canEdit ? 'readonly' : ''; const bg = !canEdit ? 'background:#f2f6fa;' : '';
       return `<tr>
         <td><input type="date" value="${p.date||''}" ${ro} onchange="updatePurchase(${idx},'date',this.value)" style="${bg}"></td>
-        <td>
-          <input type="text" list="supplierList" value="${p.supplier||''}" ${ro} onchange="updatePurchase(${idx},'supplier',this.value)" placeholder="Type or pick supplier" style="${bg}">
-        </td>
+        <td><input type="text" list="supplierList" value="${p.supplier||''}" ${ro} onchange="updatePurchase(${idx},'supplier',this.value)" placeholder="Type or pick supplier" style="${bg}"></td>
         <td><input type="text" value="${p.category||''}" ${ro} onchange="updatePurchase(${idx},'category',this.value)" style="${bg}"></td>
         <td><input type="number" step="0.01" value="${p.qty??''}" ${ro} onchange="updatePurchase(${idx},'qty',this.value)" style="${bg}"></td>
         <td><input type="number" step="0.01" value="${p.unit??''}" ${ro} onchange="updatePurchase(${idx},'unit',this.value)" style="${bg}"></td>
@@ -2063,7 +2109,9 @@ function removePurchase(idx){
   renderPurchases(); scheduleSave();
 }
 
-/* AUDIT */
+/* ============================================================
+   RENDER — AUDIT
+   ============================================================ */
 function computeAuditFlags(){
   const sorted = [...weeklyClosures].sort((a,b)=>new Date(a.date)-new Date(b.date));
   return sorted.map((row,i)=>{
@@ -2089,7 +2137,7 @@ function renderAudit(){
     <div class="audit-card ${latest && latest.cash<500000?'amber':'green'}"><div class="label"><i class="fas fa-money-bill-wave"></i> Latest cash</div><div class="value">${latest?fmt(latest.cash):'—'}</div><div class="detail">${latest?new Date(latest.date).toLocaleDateString():'No data'}</div></div>
   `;
   const tbody = document.getElementById('auditBody'); if(!tbody) return;
-  if(!audit.length){ tbody.innerHTML = `<tr><td colspan="9" style="text-align:center;padding:2rem;color:#7b8fa0;">No weekly closure records.</td></tr>`; return; }
+  if(!audit.length){ tbody.innerHTML = `<tr><td colspan="9" style="text-align:center;padding:2rem;color:#7b8fa0;">No weekly closure records yet. Add your first closure entry below.</td></tr>`; return; }
   tbody.innerHTML = audit.map((row,i)=>{
     const rowClass = row.flag==='red'?'red-flag-row':row.flag==='amber'?'amber-flag-row':'';
     const badge = row.flag==='red'?`<span class="flag-badge red"><i class="fas fa-flag"></i> RED</span>`:row.flag==='amber'?`<span class="flag-badge amber"><i class="fas fa-exclamation-triangle"></i> AMBER</span>`:`<span class="flag-badge green"><i class="fas fa-check"></i> OK</span>`;
@@ -2124,11 +2172,12 @@ function renderLog(){
   }).join('');
 }
 
-/* ✅ AUDIT REPORT with date range */
+/* ============================================================
+   AUDIT REPORT MODAL
+   ============================================================ */
 function openAuditReport(){
   if(!currentUser){ return; }
   const now = new Date();
-  // Default to current month
   const from = new Date(now.getFullYear(), now.getMonth(), 1);
   const to = now;
   document.getElementById('auditFrom').value = dateStr(from);
@@ -2139,32 +2188,15 @@ function openAuditReport(){
   document.getElementById('auditModal').classList.add('active');
 }
 function closeAuditReport(){ document.getElementById('auditModal').classList.remove('active'); }
-
 function setAuditRange(which){
   const now = new Date();
   let from = new Date(), to = new Date();
   if(which === 'today') { from = new Date(now); to = new Date(now); }
   else if(which === 'yesterday') { from = new Date(now); from.setDate(from.getDate()-1); to = new Date(from); }
-  else if(which === 'this_week') {
-    const day = now.getDay(); // 0 Sun
-    const diff = (day === 0 ? 6 : day - 1); // Monday start
-    from = new Date(now); from.setDate(now.getDate() - diff);
-    to = new Date(now);
-  }
-  else if(which === 'last_week') {
-    const day = now.getDay();
-    const diff = (day === 0 ? 6 : day - 1);
-    from = new Date(now); from.setDate(now.getDate() - diff - 7);
-    to = new Date(from); to.setDate(from.getDate() + 6);
-  }
-  else if(which === 'this_month') {
-    from = new Date(now.getFullYear(), now.getMonth(), 1);
-    to = new Date(now);
-  }
-  else if(which === 'last_month') {
-    from = new Date(now.getFullYear(), now.getMonth() - 1, 1);
-    to = new Date(now.getFullYear(), now.getMonth(), 0);
-  }
+  else if(which === 'this_week') { const day = now.getDay(); const diff = (day === 0 ? 6 : day - 1); from = new Date(now); from.setDate(now.getDate() - diff); to = new Date(now); }
+  else if(which === 'last_week') { const day = now.getDay(); const diff = (day === 0 ? 6 : day - 1); from = new Date(now); from.setDate(now.getDate() - diff - 7); to = new Date(from); to.setDate(from.getDate() + 6); }
+  else if(which === 'this_month') { from = new Date(now.getFullYear(), now.getMonth(), 1); to = new Date(now); }
+  else if(which === 'last_month') { from = new Date(now.getFullYear(), now.getMonth() - 1, 1); to = new Date(now.getFullYear(), now.getMonth(), 0); }
   document.getElementById('auditFrom').value = dateStr(from);
   document.getElementById('auditTo').value = dateStr(to);
   runAuditWithRange();
@@ -2176,79 +2208,54 @@ function runAuditWithRange(){
   if(new Date(fromStr) > new Date(toStr)){ showToast('From date must be before To date', 'error'); return; }
   const container = document.getElementById('auditReportContent');
   const issues = { red:[], amber:[], green:[] };
-
-  // Aggregate data across months in range
-  const fromDate = new Date(fromStr);
-  const toDate = new Date(toStr);
-  const allEntries = [];
-  const allPurchases = [];
-  const allExpenses = [];
-  const allClosures = [];
+  const fromDate = new Date(fromStr); const toDate = new Date(toStr);
+  const allEntries = []; const allPurchases = []; const allClosures = [];
   Object.keys(allMonthsData).forEach(mKey => {
     const m = allMonthsData[mKey];
-    (m.entries || []).forEach(e => {
-      if(e.date && new Date(e.date) >= fromDate && new Date(e.date) <= toDate) allEntries.push(e);
-    });
-    (m.purchases || []).forEach(p => {
-      if(p.date && new Date(p.date) >= fromDate && new Date(p.date) <= toDate) allPurchases.push(p);
-    });
-    (Array.isArray(m.expenses) ? m.expenses : []).forEach(e => {
-      allExpenses.push(e);
-    });
+    (m.entries || []).forEach(e => { if(e.date && new Date(e.date) >= fromDate && new Date(e.date) <= toDate) allEntries.push(e); });
+    (m.purchases || []).forEach(p => { if(p.date && new Date(p.date) >= fromDate && new Date(p.date) <= toDate) allPurchases.push(p); });
   });
-  weeklyClosures.forEach(w => {
-    if(w.date && new Date(w.date) >= fromDate && new Date(w.date) <= toDate) allClosures.push(w);
-  });
+  weeklyClosures.forEach(w => { if(w.date && new Date(w.date) >= fromDate && new Date(w.date) <= toDate) allClosures.push(w); });
   allClosures.sort((a,b)=>new Date(a.date)-new Date(b.date));
-
   const totalSales = allEntries.reduce((s,r)=>s+(parseFloat(r.sales)||0),0);
   const totalCost = allEntries.reduce((s,r)=>s+(parseFloat(r.cost)||0),0);
   const totalDailyExp = allEntries.reduce((s,r)=>s+(parseFloat(r.expenses)||0),0);
   const gross = totalSales - totalCost - totalDailyExp;
-  // Approximate monthly expenses for the range: prorate by months covered
   const monthSpan = Math.max(1, Math.round((toDate - fromDate) / (1000*60*60*24*30)));
   const monthlyExp = totalMonthlyExpenses(currentExpenses()) * monthSpan;
   const net = gross - monthlyExp;
   const totalPurchasesAmt = allPurchases.reduce((s,p)=>s+(parseFloat(p.total)||0),0);
-
-  // Stock flow
   let reconHtml = '';
   if(allClosures.length > 0){
-    const openingStock = allClosures.length > 1 ? allClosures[0].stock : allClosures[0].stock;
+    const openingStock = allClosures[0].stock;
     const closingStock = allClosures[allClosures.length-1].stock;
     const expectedClosing = openingStock + totalPurchasesAmt - totalCost;
     const stockGap = closingStock - expectedClosing;
-    if(Math.abs(stockGap) > 500000) issues.red.push({ title:'Stock Flow Mismatch', desc:`Expected closing <strong>UGX ${fmt(expectedClosing)}</strong>, actual <strong>UGX ${fmt(closingStock)}</strong>. Gap <strong>UGX ${fmtSigned(stockGap)}</strong>.` });
+    if(Math.abs(stockGap) > 500000) issues.red.push({ title:'Stock Flow Mismatch', desc:`Gap <strong>UGX ${fmtSigned(stockGap)}</strong>.` });
     else if(Math.abs(stockGap) > 200000) issues.amber.push({ title:'Stock Flow Variance', desc:`Gap <strong>UGX ${fmtSigned(stockGap)}</strong>.` });
     else issues.green.push({ title:'Stock Flow', desc:`Within <strong>UGX ${fmt(Math.abs(stockGap))}</strong>.` });
     reconHtml += `<div class="report-section"><div class="report-section-header"><i class="fas fa-boxes-stacked"></i> Stock Flow (${allClosures.length} closures)</div><div class="report-section-body"><div class="recon-box"><div class="row"><span class="lbl">Opening Stock</span><span>${fmt(openingStock)}</span></div><div class="row"><span class="lbl">+ Purchases</span><span>${fmt(totalPurchasesAmt)}</span></div><div class="row"><span class="lbl">− Recorded Cost</span><span>−${fmt(totalCost)}</span></div><div class="row"><span class="lbl">= Expected Closing</span><span>${fmt(expectedClosing)}</span></div><div class="row"><span class="lbl">Actual Closing</span><span>${fmt(closingStock)}</span></div><div class="row"><span class="lbl">Unaccounted</span><span style="color:${Math.abs(stockGap)>500000?'#b33a3a':'#1d7a4b'};">${fmtSigned(stockGap)}</span></div></div></div></div>`;
   }
-
   const marginPct = totalSales ? (gross/totalSales*100) : 0;
-  if(marginPct < 15) issues.red.push({ title:'Low Gross Margin', desc:`<strong>${marginPct.toFixed(1)}%</strong>.` });
-  else if(marginPct < 20) issues.amber.push({ title:'Moderate Gross Margin', desc:`<strong>${marginPct.toFixed(1)}%</strong>.` });
-  else if(totalSales > 0) issues.green.push({ title:'Gross Margin', desc:`<strong>${marginPct.toFixed(1)}%</strong>.` });
   if(totalSales > 0){
+    if(marginPct < 15) issues.red.push({ title:'Low Gross Margin', desc:`<strong>${marginPct.toFixed(1)}%</strong>.` });
+    else if(marginPct < 20) issues.amber.push({ title:'Moderate Gross Margin', desc:`<strong>${marginPct.toFixed(1)}%</strong>.` });
+    else issues.green.push({ title:'Gross Margin', desc:`<strong>${marginPct.toFixed(1)}%</strong>.` });
     if(net < 0) issues.red.push({ title:'Negative Net Profit', desc:`<strong>UGX ${fmt(net)}</strong>.` });
     else if(net < 500000) issues.amber.push({ title:'Low Net Profit', desc:`<strong>UGX ${fmt(net)}</strong>.` });
     else issues.green.push({ title:'Net Profit', desc:`<strong>UGX ${fmt(net)}</strong>.` });
   }
-
   let verdictClass, verdictIcon, verdictTitle, verdictSub;
-  if(allEntries.length === 0){
-    verdictClass='warn'; verdictIcon='fa-info-circle'; verdictTitle='No data in this range'; verdictSub='No entries recorded between the selected dates.';
-  } else if(issues.red.length > 0){ verdictClass='bad'; verdictIcon='fa-circle-exclamation'; verdictTitle='Action Required'; verdictSub=`${issues.red.length} red flag(s).`; }
+  if(allEntries.length === 0){ verdictClass='warn'; verdictIcon='fa-info-circle'; verdictTitle='No data in this range'; verdictSub='No entries recorded between the selected dates.'; }
+  else if(issues.red.length > 0){ verdictClass='bad'; verdictIcon='fa-circle-exclamation'; verdictTitle='Action Required'; verdictSub=`${issues.red.length} red flag(s).`; }
   else if(issues.amber.length > 0){ verdictClass='warn'; verdictIcon='fa-triangle-exclamation'; verdictTitle='Review Recommended'; verdictSub=`${issues.amber.length} warning(s).`; }
   else { verdictClass='good'; verdictIcon='fa-circle-check'; verdictTitle='Clean Audit'; verdictSub='No red flags.'; }
-
-  const scoreGrid = `<div class="score-grid"><div class="score-item"><div class="num ${issues.red.length>0?'red':'green'}">${issues.red.length}</div><div class="lbl">Red</div></div><div class="score-item"><div class="num ${issues.amber.length>0?'amber':'green'}">${issues.amber.length}</div><div class="lbl">Warnings</div></div><div class="score-item"><div class="num green">${issues.green.length}</div><div class="lbl">Passed</div></div><div class="score-item"><div class="num">${fmt(totalSales)}</div><div class="lbl">Sales</div></div><div class="score-item"><div class="num ${net>=0?'green':'red'}">${fmt(net)}</div><div class="lbl">Net</div></div></div>`;
+  const scoreGrid = `<div class="score-grid"><div class="score-item"><div class="num ${issues.red.length>0?'red':'green'}">${issues.red.length}</div><div class="lbl">Red</div></div><div class="score-item"><div class="num ${issues.amber.length>0?'amber':'green'}">${issues.amber.length}</div><div class="lbl">Warnings</div></div><div class="score-item"><div class="num green">${issues.green.length}</div><div class="lbl">Passed</div></div><div class="score-item"><div class="num">${fmt(totalSales)}</div><div class="lbl">Sales</div></div><div class="score-item"><div class="num ${net>0?'green':(net<0?'red':'')}">${fmt(net)}</div><div class="lbl">Net</div></div></div>`;
   const verdictBanner = `<div class="verdict-banner ${verdictClass}"><i class="fas ${verdictIcon} verdict-icon"></i><div class="verdict-text"><div class="title">${verdictTitle}</div><div class="sub">${verdictSub}</div></div></div>`;
-
   let issuesHtml = '';
   if(issues.red.length) issuesHtml += `<div class="report-section"><div class="report-section-header" style="background:#fdeeee;color:#b33a3a;"><i class="fas fa-flag" style="color:#b33a3a;"></i> Red Flags (${issues.red.length})</div><div class="report-section-body">${issues.red.map(i=>`<div class="report-item"><div class="icon red"><i class="fas fa-exclamation"></i></div><div class="content"><div class="title">${i.title}</div><div class="desc">${i.desc}</div></div></div>`).join('')}</div></div>`;
   if(issues.amber.length) issuesHtml += `<div class="report-section"><div class="report-section-header" style="background:#fff8ec;color:#b06d00;"><i class="fas fa-triangle-exclamation" style="color:#b06d00;"></i> Warnings (${issues.amber.length})</div><div class="report-section-body">${issues.amber.map(i=>`<div class="report-item"><div class="icon amber"><i class="fas fa-exclamation-triangle"></i></div><div class="content"><div class="title">${i.title}</div><div class="desc">${i.desc}</div></div></div>`).join('')}</div></div>`;
   if(issues.green.length) issuesHtml += `<div class="report-section"><div class="report-section-header" style="background:#e9f5ef;color:#1d6b4f;"><i class="fas fa-check-circle" style="color:#1d6b4f;"></i> Passed (${issues.green.length})</div><div class="report-section-body">${issues.green.map(i=>`<div class="report-item"><div class="icon green"><i class="fas fa-check"></i></div><div class="content"><div class="title">${i.title}</div><div class="desc">${i.desc}</div></div></div>`).join('')}</div></div>`;
-
   const rangeInfo = `<div class="report-section"><div class="report-section-header"><i class="fas fa-calendar"></i> Range: ${fromStr} → ${toStr}</div><div class="report-section-body"><div class="recon-box">
     <div class="row"><span class="lbl">Entries</span><span>${allEntries.length}</span></div>
     <div class="row"><span class="lbl">Purchases</span><span>${allPurchases.length}</span></div>
@@ -2257,7 +2264,6 @@ function runAuditWithRange(){
     <div class="row"><span class="lbl">Total Cost</span><span>${fmt(totalCost)}</span></div>
     <div class="row"><span class="lbl">Gross Profit</span><span>${fmt(gross)}</span></div>
   </div></div></div>`;
-
   container.innerHTML = verdictBanner + scoreGrid + rangeInfo + reconHtml + issuesHtml;
 }
 document.getElementById('auditModal').addEventListener('click', function(e){ if(e.target===this) closeAuditReport(); });
@@ -2265,6 +2271,9 @@ document.getElementById('pwdModal').addEventListener('click', function(e){ if(e.
 document.getElementById('adminPwdModal').addEventListener('click', function(e){ if(e.target===this) closeAdminChangePassword(); });
 document.getElementById('userModal').addEventListener('click', function(e){ if(e.target===this) closeUserModal(); });
 
+/* ============================================================
+   EXPORTS
+   ============================================================ */
 function downloadExcel(){
   const wb = XLSX.utils.book_new();
   const entries = currentEntries(); const exp = currentExpenses(); const purchases = currentPurchases();
@@ -2306,6 +2315,9 @@ function downloadPDF(){
   showToast('PDF downloaded', 'success');
 }
 
+/* ============================================================
+   BOOTSTRAP
+   ============================================================ */
 renderTeamPermissionGrid(DEFAULT_PERMISSIONS.manager);
 window.addEventListener('DOMContentLoaded', async () => {
   if(firebaseReady) {
