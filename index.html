@@ -245,9 +245,6 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
 .captcha-box.verified .captcha-check i{opacity:1;}
 .captcha-text{font-size:0.85rem;color:rgba(255,255,255,0.75);}
 .captcha-text strong{display:block;color:white;font-weight:600;font-size:0.9rem;margin-bottom:0.15rem;}
-.captcha-spinner{display:none;}
-.captcha-box.loading .captcha-spinner{display:block;}
-.captcha-box.loading .captcha-check{border-color:#fbbf24;}
 .landing-cta{position:relative;z-index:2;padding:5rem 3rem;text-align:center;}
 .landing-cta h2{font-size:2.2rem;font-weight:800;margin-bottom:1rem;}
 .landing-cta p{color:rgba(255,255,255,0.7);font-size:1.05rem;margin-bottom:2rem;}
@@ -321,6 +318,104 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
 .empty-state{text-align:center;padding:2rem;color:#7b8fa0;line-height:1.6;}
 .empty-state i{font-size:1.8rem;display:block;margin-bottom:0.6rem;color:#c9d6e3;}
 .empty-state strong{color:#5f7385;}
+.history-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem;margin-bottom:1.5rem;}
+.history-card{background:white;border-radius:16px;border:1px solid #e3ebf3;box-shadow:0 4px 14px rgba(0,20,30,0.04);overflow:hidden;transition:0.15s;}
+.history-card:hover{box-shadow:0 8px 24px rgba(0,20,30,0.08);}
+.history-card .head{background:#f4f9fe;padding:0.9rem 1.1rem;border-bottom:1px solid #e3ebf3;display:flex;justify-content:space-between;align-items:center;}
+.history-card .head .title{font-weight:700;color:#0b2b44;font-size:1rem;}
+.history-card .head .badge{font-size:0.65rem;padding:0.2rem 0.6rem;border-radius:20px;background:#e3f0eb;color:#1d6b4f;font-weight:700;text-transform:uppercase;letter-spacing:0.3px;}
+.history-card .head .badge.reopened{background:#fff4e5;color:#b06d00;}
+.history-card .body{padding:1rem 1.1rem;}
+.history-card .row{display:flex;justify-content:space-between;padding:0.3rem 0;font-size:0.82rem;color:#2a4a6a;border-bottom:1px dashed #eef3f8;}
+.history-card .row:last-child{border-bottom:none;font-weight:700;color:#0b2b44;padding-top:0.5rem;}
+.history-card .actions{display:flex;gap:0.4rem;padding:0 1.1rem 1.1rem;flex-wrap:wrap;}
+.history-card .actions .btn{padding:0.4rem 0.9rem;font-size:0.72rem;}
+.closure-wrap{display:grid;grid-template-columns:1.15fr 1fr;gap:1.5rem;margin-bottom:1.5rem;}
+@media (max-width:900px){.closure-wrap{grid-template-columns:1fr;}}
+.closure-panel{background:white;border-radius:24px;border:1px solid #e3ebf3;box-shadow:0 8px 24px rgba(0,20,30,0.06);overflow:hidden;}
+.closure-panel .panel-head{background:linear-gradient(135deg,#0b2b44,#1f4970);color:white;padding:1.1rem 1.4rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.6rem;}
+.closure-panel .panel-head .ttl{font-size:1.05rem;font-weight:700;display:flex;align-items:center;gap:0.5rem;}
+.closure-panel .panel-head .ttl i{color:#4ade80;}
+.closure-panel .panel-head .shift-status{font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;padding:0.3rem 0.8rem;border-radius:20px;background:rgba(255,255,255,0.15);}
+.closure-panel .panel-head .shift-status.open{background:#4ade80;color:#062a1a;}
+.closure-panel .panel-head .shift-status.closed{background:#f87171;color:#3b0d0d;}
+.closure-panel .panel-body{padding:1.4rem 1.5rem;}
+.closure-field{margin-bottom:1.1rem;}
+.closure-field label{display:block;font-size:0.72rem;font-weight:700;color:#5f7385;margin-bottom:0.4rem;text-transform:uppercase;letter-spacing:0.4px;display:flex;align-items:center;gap:0.4rem;}
+.closure-field label i{color:#1d7a4b;}
+.closure-field input{padding:0.75rem 0.9rem;font-size:0.95rem;font-weight:600;border:1px solid #d2dfeb;border-radius:12px;background:white;}
+.closure-field input:focus{outline:none;border-color:#1d7a4b;box-shadow:0 0 0 3px rgba(29,122,75,0.12);}
+.closure-field input[readonly]{background:#f2f6fa;color:#1f4970;}
+.closure-field .hint{font-size:0.7rem;color:#7b8fa0;margin-top:0.3rem;}
+.closure-row-2{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+@media (max-width:500px){.closure-row-2{grid-template-columns:1fr;}}
+.closure-payments{background:#f4f9fe;border-radius:14px;padding:1rem 1.1rem;margin-bottom:1.1rem;border:1px dashed #c9d9e8;}
+.closure-payments h4{font-size:0.78rem;text-transform:uppercase;letter-spacing:0.4px;color:#1f4970;margin-bottom:0.8rem;display:flex;align-items:center;gap:0.4rem;}
+.closure-payments h4 i{color:#1d7a4b;}
+.closure-payments .pay-row{display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;}
+.closure-actions{display:flex;flex-wrap:wrap;gap:0.6rem;margin-top:1.2rem;}
+.closure-actions .btn{flex:1;justify-content:center;min-width:140px;}
+.result-box{background:linear-gradient(135deg,#f4f9fe,#eaf3fa);border-radius:16px;padding:1.2rem 1.3rem;border:1px solid #d2e4f0;margin-top:1.2rem;}
+.result-box h4{font-size:0.78rem;text-transform:uppercase;letter-spacing:0.4px;color:#1f4970;margin-bottom:0.8rem;display:flex;align-items:center;gap:0.4rem;}
+.result-box h4 i{color:#1d7a4b;}
+.result-row{display:flex;justify-content:space-between;padding:0.55rem 0;border-bottom:1px dashed #d2e4f0;font-size:0.88rem;color:#2a4a6a;}
+.result-row:last-child{border-bottom:none;font-weight:700;color:#0b2b44;font-size:1rem;padding-top:0.7rem;margin-top:0.3rem;border-top:2px solid #c9d9e8;}
+.result-row .lbl{color:#5f7385;font-weight:600;}
+.result-row .v{font-weight:700;color:#0b2b44;}
+.result-diff{padding:1rem;border-radius:12px;text-align:center;margin-top:0.9rem;font-weight:800;font-size:1.05rem;letter-spacing:0.3px;}
+.result-diff.balanced{background:#e3f0eb;color:#1d6b4f;border:1px solid #b8dfca;}
+.result-diff.extra{background:#e0f2ff;color:#0b5d99;border:1px solid #9ccfee;}
+.result-diff.loss{background:#fdeeee;color:#b33a3a;border:1px solid #f0b8b8;}
+.result-diff .meta{display:block;font-size:0.72rem;font-weight:600;opacity:0.8;margin-top:0.15rem;letter-spacing:0.3px;text-transform:uppercase;}
+.shift-meta{background:#f8fafd;border:1px solid #e3ebf3;border-radius:12px;padding:0.9rem 1rem;font-size:0.82rem;color:#2a4a6a;margin-bottom:1.1rem;}
+.shift-meta .row{display:flex;justify-content:space-between;padding:0.2rem 0;}
+.shift-meta .row strong{color:#0b2b44;}
+.shift-meta .banner{padding:0.6rem 0.8rem;border-radius:8px;font-size:0.78rem;font-weight:700;text-transform:uppercase;letter-spacing:0.4px;text-align:center;margin-bottom:0.6rem;}
+.shift-meta .banner.closed{background:#fce8e8;color:#b33a3a;}
+.shift-meta .banner.open{background:#e3f0eb;color:#1d6b4f;}
+.shift-tbl-wrap{overflow-x:auto;}
+.shift-tbl{width:100%;border-collapse:collapse;font-size:0.83rem;min-width:1000px;}
+.shift-tbl th{background:#edf3fa;color:#1e3a5f;padding:0.75rem 0.8rem;text-align:left;font-size:0.68rem;text-transform:uppercase;letter-spacing:0.3px;font-weight:700;border-bottom:2px solid #d2dfeb;}
+.shift-tbl td{padding:0.65rem 0.8rem;border-bottom:1px solid #eef3f8;}
+.shift-tbl tr:hover td{background:#fafdff;}
+.shift-tbl .diff-pos{color:#1d7a4b;font-weight:700;}
+.shift-tbl .diff-neg{color:#b33a3a;font-weight:700;}
+.shift-tbl .diff-zero{color:#5f7385;font-weight:700;}
+.cashier-name{display:inline-flex;align-items:center;gap:0.4rem;font-weight:700;color:#0b2b44;}
+.cashier-name i{color:#1d7a4b;}
+.period-badge{display:inline-flex;align-items:center;gap:0.35rem;padding:0.28rem 0.7rem;border-radius:20px;font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:0.4px;white-space:nowrap;}
+.period-badge i{font-size:0.72rem;}
+.period-badge.morning{background:#fff4e5;color:#b06d00;border:1px solid #f0d8a8;}
+.period-badge.afternoon{background:#e0f2ff;color:#0b5d99;border:1px solid #9ccfee;}
+.period-badge.evening{background:#efe7fd;color:#5b21b6;border:1px solid #c9b3f0;}
+.period-badge.unknown{background:#f0f4f9;color:#5f7385;border:1px solid #d2dfeb;}
+.period-badge.offclock{box-shadow:0 0 0 2px #fdeeee;position:relative;}
+.period-badge .off-tag{margin-left:0.3rem;font-size:0.6rem;padding:0.05rem 0.3rem;background:#fdeeee;color:#b33a3a;border-radius:6px;font-weight:800;}
+.start-shift-box{background:linear-gradient(135deg,#f4f9fe,#eaf3fa);border-radius:20px;border:1px solid #d2e4f0;padding:2rem;text-align:center;}
+.start-shift-box .icon{font-size:2.5rem;color:#1d7a4b;margin-bottom:0.8rem;}
+.start-shift-box h3{font-size:1.2rem;font-weight:700;color:#0b2b44;margin-bottom:0.5rem;}
+.start-shift-box p{font-size:0.88rem;color:#5f7385;line-height:1.6;margin-bottom:1.3rem;max-width:440px;margin-left:auto;margin-right:auto;}
+.period-selector{display:flex;gap:0.6rem;justify-content:center;flex-wrap:wrap;margin:1.2rem 0;}
+.period-opt{background:white;border:2px solid #d2dfeb;border-radius:14px;padding:0.9rem 1.4rem;cursor:pointer;transition:0.15s;font-weight:600;color:#5f7385;font-size:0.85rem;display:flex;flex-direction:column;align-items:center;gap:0.3rem;min-width:110px;font-family:inherit;position:relative;}
+.period-opt:hover{border-color:#1d7a4b;color:#1d7a4b;}
+.period-opt.selected{background:#1d7a4b;border-color:#1d7a4b;color:white;}
+.period-opt i{font-size:1.2rem;}
+.period-opt.clock-match::after{content:'CLOCK NOW';position:absolute;top:-9px;right:8px;background:#1d7a4b;color:white;font-size:0.55rem;padding:0.1rem 0.4rem;border-radius:8px;letter-spacing:0.5px;font-weight:800;}
+.period-opt.selected.clock-match::after{background:#fbbf24;color:#1f1300;}
+.cashier-summary-tbl{width:100%;border-collapse:collapse;font-size:0.85rem;min-width:600px;}
+.cashier-summary-tbl th{background:#edf3fa;color:#1e3a5f;padding:0.9rem 1rem;text-align:left;font-size:0.7rem;text-transform:uppercase;letter-spacing:0.3px;font-weight:700;border-bottom:2px solid #d2dfeb;}
+.cashier-summary-tbl td{padding:0.85rem 1rem;border-bottom:1px solid #eef3f8;}
+.cashier-summary-tbl tr:hover td{background:#fafdff;}
+/* Closure expense line-items */
+.closure-expense-row{display:grid;grid-template-columns:1.2fr 2fr 1fr auto;gap:0.5rem;align-items:center;margin-bottom:0.5rem;}
+.closure-expense-row select,.closure-expense-row input{padding:0.5rem;border-radius:8px;border:1px solid #d2dfeb;font-size:0.8rem;font-family:inherit;}
+.closure-expense-row input.amt{text-align:right;font-weight:600;color:#b33a3a;}
+.closure-expense-empty{text-align:center;padding:0.9rem;color:#7b8fa0;font-size:0.82rem;background:#fff;border-radius:10px;border:1px dashed #e0c9a0;}
+.shift-summary-modal .modal-body{background:#f6f9fd;}
+.shift-summary-tbl{width:100%;border-collapse:collapse;font-size:0.85rem;min-width:500px;}
+.shift-summary-tbl th{background:#edf3fa;color:#1e3a5f;padding:0.7rem 0.9rem;text-align:left;font-size:0.68rem;text-transform:uppercase;letter-spacing:0.3px;font-weight:700;border-bottom:2px solid #d2dfeb;}
+.shift-summary-tbl td{padding:0.6rem 0.9rem;border-bottom:1px solid #eef3f8;}
+.shift-summary-tbl tr:last-child td{border-bottom:none;}
 @media (max-width:900px){
   .landing-hero{grid-template-columns:1fr;padding:2rem 1.5rem 4rem;gap:2rem;}
   .hero-content h1{font-size:2.3rem;}
@@ -372,7 +467,7 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
         <div class="hero-mock-header"><span></span><span></span><span></span></div>
         <div class="mock-row"><span class="label">Daily Sales</span><span class="value">UGX 1,186,800</span></div>
         <div class="mock-row"><span class="label">Gross Profit</span><span class="value">UGX 251,459</span></div>
-        <div class="mock-row"><span class="label">Stock Flow</span><span class="value warn">−UGX 420,000</span></div>
+        <div class="mock-row"><span class="label">Shift Difference</span><span class="value warn">−UGX 8,000</span></div>
         <div class="mock-row"><span class="label">Audit Status</span><span class="mock-badge warn">2 Warnings</span></div>
         <div class="mock-row"><span class="label">Cash at Hand</span><span class="value">UGX 815,453</span></div>
       </div>
@@ -386,10 +481,10 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
         <p>Built for grocery owners who want transparency across every branch — without spreadsheets and guesswork.</p>
       </div>
       <div class="features-grid">
-        <div class="feature-card"><div class="feature-icon"><i class="fas fa-shield-halved"></i></div><h3>15+ Audit Checks</h3><p>Stock flow, cash flow, duplicate purchases, round-number detection, Benford's Law, and more — all automatic.</p></div>
-        <div class="feature-card"><div class="feature-icon"><i class="fas fa-location-dot"></i></div><h3>Multi-Location</h3><p>Manage unlimited branches from one dashboard. Each location has its own data, users, and audit history.</p></div>
-        <div class="feature-card"><div class="feature-icon"><i class="fas fa-user-shield"></i></div><h3>Role-Based Access</h3><p>Managers get full control, accountants can edit with limits, cashiers see read-only views. Customize per user.</p></div>
-        <div class="feature-card"><div class="feature-icon"><i class="fas fa-truck-fast"></i></div><h3>Purchase Tracking</h3><p>Record each purchase with supplier, category, quantity, payment mode — and auto-flag anomalies.</p></div>
+        <div class="feature-card"><div class="feature-icon"><i class="fas fa-cash-register"></i></div><h3>Shift-based Daily Closure</h3><p>Cashiers start their shift, record sales, MOMO, itemised expenses and counted cash. Extra or loss is computed instantly.</p></div>
+        <div class="feature-card"><div class="feature-icon"><i class="fas fa-clock"></i></div><h3>Morning / Afternoon / Evening</h3><p>Every shift is tagged with its period so you can track performance across the day.</p></div>
+        <div class="feature-card"><div class="feature-icon"><i class="fas fa-user-shield"></i></div><h3>Role-Based Menus</h3><p>Cashiers only see what they need. Managers get full oversight. No clutter, no mistakes.</p></div>
+        <div class="feature-card"><div class="feature-icon"><i class="fas fa-shield-halved"></i></div><h3>15+ Audit Checks</h3><p>Stock flow, cash flow, duplicate purchases, round-number detection, Benford's Law, and more.</p></div>
         <div class="feature-card"><div class="feature-icon"><i class="fas fa-file-export"></i></div><h3>Excel &amp; PDF Export</h3><p>Download detailed reports with one click. Perfect for accountants, auditors, and tax season.</p></div>
         <div class="feature-card"><div class="feature-icon"><i class="fas fa-cloud"></i></div><h3>Cloud Sync</h3><p>Powered by Firebase. Every entry is synced in real-time across all devices — safe and backed up.</p></div>
       </div>
@@ -398,69 +493,41 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
 
   <section class="landing-faq" id="faq">
     <div class="landing-faq-inner">
-      <div class="faq-header">
-        <h2>Frequently Asked Questions</h2>
-        <p>Everything you need to know about Bright Mesh.</p>
-      </div>
-
+      <div class="faq-header"><h2>Frequently Asked Questions</h2><p>Everything you need to know about Bright Mesh.</p></div>
       <div class="faq-item" onclick="toggleFaq(this)">
         <div class="faq-question">What is Bright Mesh?<i class="fas fa-chevron-down icon"></i></div>
-        <div class="faq-answer"><div class="faq-answer-inner">Bright Mesh is a multi-location audit platform for grocery and retail businesses. It lets you track daily sales, purchases, cash flow, expenses and stock — and automatically flags leakages, anomalies and red flags so you can act before money disappears.</div></div>
+        <div class="faq-answer"><div class="faq-answer-inner">Bright Mesh is a multi-location audit platform for grocery and retail businesses. It tracks daily sales, purchases, cash flow, expenses and stock — and automatically flags leakages, anomalies and red flags.</div></div>
       </div>
-
       <div class="faq-item" onclick="toggleFaq(this)">
-        <div class="faq-question">How do I get started?<i class="fas fa-chevron-down icon"></i></div>
-        <div class="faq-answer"><div class="faq-answer-inner">Contact your administrator to create a location and user account for you. Once you have a username and password, click <strong>Sign in</strong> at the top of the page, enter your details, and you'll land directly on your dashboard.</div></div>
+        <div class="faq-question">How does the daily closure work?<i class="fas fa-chevron-down icon"></i></div>
+        <div class="faq-answer"><div class="faq-answer-inner">Each cashier opens a shift at the start of their working period (Morning, Afternoon or Evening). During and at the end of the shift, they record sales, mobile money received, expenses paid and the physical cash counted. The system then computes any <strong>Extra</strong> or <strong>Loss</strong> automatically and locks the shift when it's ended.</div></div>
       </div>
-
       <div class="faq-item" onclick="toggleFaq(this)">
-        <div class="faq-question">Who can create new users?<i class="fas fa-chevron-down icon"></i></div>
-        <div class="faq-answer"><div class="faq-answer-inner">Three ways users get created:<br><br><strong>1.</strong> The Admin creates locations and their first manager.<br><strong>2.</strong> Location managers can create additional users (Accountants, Cashiers) for their own location using the <strong>Team Management</strong> tab.<br><strong>3.</strong> The Admin can view and edit every user at every location.</div></div>
+        <div class="faq-question">What can each role do?<i class="fas fa-chevron-down icon"></i></div>
+        <div class="faq-answer"><div class="faq-answer-inner"><strong>Manager</strong> — full control: users, months, shifts, closures, reports.<br><br><strong>Accountant</strong> — can edit daily entries, purchases, expenses; cannot close months or manage users.<br><br><strong>Cashier</strong> — can start and end their own shift, record purchases, and view their own shift history.</div></div>
       </div>
-
       <div class="faq-item" onclick="toggleFaq(this)">
-        <div class="faq-question">What's the difference between Manager, Accountant and Cashier?<i class="fas fa-chevron-down icon"></i></div>
-        <div class="faq-answer"><div class="faq-answer-inner"><strong>Manager</strong> — full control, including creating users and closing months.<br><br><strong>Accountant</strong> — can edit daily entries, purchases and expenses, but cannot close a month or manage users.<br><br><strong>Cashier</strong> — view-only access. Cannot edit data or see the audit log.</div></div>
+        <div class="faq-question">What does the audit engine check?<i class="fas fa-chevron-down icon"></i></div>
+        <div class="faq-answer"><div class="faq-answer-inner">The audit engine runs 15+ checks: stock flow mismatches, credit movement, cash shortages, low margins, negative net profit, shift differences, purchase variances and more. Each finding is rated <strong>Red</strong> (action required), <strong>Amber</strong> (review), or <strong>Green</strong> (passed).</div></div>
       </div>
-
       <div class="faq-item" onclick="toggleFaq(this)">
-        <div class="faq-question">What are "red flags" and how do they work?<i class="fas fa-chevron-down icon"></i></div>
-        <div class="faq-answer"><div class="faq-answer-inner">Red flags are automatic warnings raised when the system detects suspicious patterns — stock dropping more than 12% between closures, cash dropping more than 25%, duplicate purchases within 3 days, or exact round-number purchase amounts. The audit report sorts them into Red (critical), Amber (monitor), and Green (passed).</div></div>
+        <div class="faq-question">What happens when a month ends?<i class="fas fa-chevron-down icon"></i></div>
+        <div class="faq-answer"><div class="faq-answer-inner">At the start of a new month, Bright Mesh automatically closes the previous month and files it under <strong>Month History</strong>. Managers can also close all shifts for a month to see each cashier's total sales and total extra/loss.</div></div>
       </div>
-
       <div class="faq-item" onclick="toggleFaq(this)">
         <div class="faq-question">Is my data safe?<i class="fas fa-chevron-down icon"></i></div>
-        <div class="faq-answer"><div class="faq-answer-inner">Yes. All data is stored securely in Google Firebase (Firestore). Every entry is backed up in real time. Your login credentials and location data are never shared with other businesses on the platform.</div></div>
+        <div class="faq-answer"><div class="faq-answer-inner">Yes. All data is stored in Google Firebase (Firestore). Every entry is backed up in real time. Your credentials and data are never shared with other businesses.</div></div>
       </div>
-
-      <div class="faq-item" onclick="toggleFaq(this)">
-        <div class="faq-question">Can I export my data?<i class="fas fa-chevron-down icon"></i></div>
-        <div class="faq-answer"><div class="faq-answer-inner">Yes. From your dashboard, click <strong>Excel</strong> to download a multi-sheet spreadsheet with daily data, expenses, purchases and audit closures — or <strong>PDF</strong> for a formatted report.</div></div>
-      </div>
-
-      <div class="faq-item" onclick="toggleFaq(this)">
-        <div class="faq-question">Will I be logged out if I refresh the page?<i class="fas fa-chevron-down icon"></i></div>
-        <div class="faq-answer"><div class="faq-answer-inner">No. Your session is remembered for the duration of your browser tab. You can safely refresh the page without re-entering your password. Closing the tab ends the session for security.</div></div>
-      </div>
-
-      <div class="faq-item" onclick="toggleFaq(this)">
-        <div class="faq-question">Can I change my password?<i class="fas fa-chevron-down icon"></i></div>
-        <div class="faq-answer"><div class="faq-answer-inner">Yes. Once logged in, click <strong>Change Password</strong> in the top toolbar. Your new password must be at least 6 characters long.</div></div>
-      </div>
-
       <div class="faq-item" onclick="toggleFaq(this)">
         <div class="faq-question">Is Bright Mesh free?<i class="fas fa-chevron-down icon"></i></div>
-        <div class="faq-answer"><div class="faq-answer-inner">Yes — Bright Mesh is free to use. No subscription fees, no per-location charges, no limits on entries. Reach out using the contact form below to get started.</div></div>
+        <div class="faq-answer"><div class="faq-answer-inner">Yes — Bright Mesh is free to use. No subscription fees, no per-location charges, no limits on entries.</div></div>
       </div>
     </div>
   </section>
 
   <section class="landing-contact" id="contact-section">
     <div class="landing-contact-inner">
-      <div class="contact-header">
-        <h2>Contact us</h2>
-        <p>Have a question, need a demo, or want to get started? Send us a message.</p>
-      </div>
+      <div class="contact-header"><h2>Contact us</h2><p>Have a question, need a demo, or want to get started? Send us a message.</p></div>
       <form class="contact-form" id="contactForm" onsubmit="return submitContactForm(event)">
         <div class="msg" id="contactFormMsg"><i class="fas fa-info-circle"></i> <span id="contactFormMsgText"></span></div>
         <div class="field"><label>Your Name</label><input type="text" id="cfName" placeholder="e.g. Ahmed Ssekandi" required></div>
@@ -469,10 +536,7 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
         <div class="field"><label>Message</label><textarea id="cfMessage" placeholder="Tell us how we can help..." required></textarea></div>
         <div class="captcha-box" id="captchaBox" onclick="verifyCaptcha()">
           <div class="captcha-check"><i class="fas fa-check"></i></div>
-          <div class="captcha-text">
-            <strong id="captchaLabel">I'm not a robot</strong>
-            <span id="captchaSub">Click to verify before sending</span>
-          </div>
+          <div class="captcha-text"><strong id="captchaLabel">I'm not a robot</strong><span id="captchaSub">Click to verify before sending</span></div>
         </div>
         <button class="send-btn" id="cfSendBtn" type="submit"><i class="fas fa-paper-plane"></i> Send Message</button>
       </form>
@@ -504,7 +568,7 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
     <div>
       <h1><i class="fas fa-cubes"></i> Bright Mesh <span id="locationTitle" style="font-size:1rem;color:#5f7385;font-weight:500;margin-left:0.5rem;"></span></h1>
       <div class="sub">
-        <span><i class="fas fa-pen"></i> Daily entries, purchases &amp; expenses</span>
+        <span><i class="fas fa-cash-register"></i> Daily closure per shift</span>
         <span><i class="fas fa-shield-halved"></i> Reconciliation &amp; red-flag audit</span>
         <span><i class="fas fa-cloud"></i> Synced to Firestore</span>
       </div>
@@ -524,16 +588,124 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
   </div>
 
   <div class="tab-nav" id="userTabNav">
-    <button class="tab-btn active" data-tab="daily" onclick="switchTab('daily')"><i class="fas fa-calendar-day"></i> Daily Performance</button>
-    <button class="tab-btn" data-tab="purchases" onclick="switchTab('purchases')"><i class="fas fa-truck"></i> Daily Purchases</button>
-    <button class="tab-btn" data-tab="audit" onclick="switchTab('audit')"><i class="fas fa-shield-halved"></i> Closure Audit</button>
-    <button class="tab-btn" data-tab="log" onclick="switchTab('log')"><i class="fas fa-history"></i> Audit Log</button>
-    <button class="tab-btn" data-tab="suppliers" onclick="switchTab('suppliers')"><i class="fas fa-address-book"></i> Suppliers</button>
-    <button class="tab-btn hidden" data-tab="team" id="teamTabBtn" onclick="switchTab('team')"><i class="fas fa-users-gear"></i> Team Management</button>
+    <button class="tab-btn" data-tab="closure" data-perm="editShifts" onclick="switchTab('closure')"><i class="fas fa-cash-register"></i> Daily Closure</button>
+    <button class="tab-btn" data-tab="purchases" data-perm="viewPurchases" onclick="switchTab('purchases')"><i class="fas fa-truck"></i> Daily Purchases</button>
+    <button class="tab-btn" data-tab="daily" data-perm="viewDaily" onclick="switchTab('daily')"><i class="fas fa-calendar-day"></i> Daily Performance</button>
+    <button class="tab-btn" data-tab="audit" data-perm="viewAudit" onclick="switchTab('audit')"><i class="fas fa-shield-halved"></i> Closure Audit</button>
+    <button class="tab-btn" data-tab="shifts" data-perm="viewShifts" onclick="switchTab('shifts')"><i class="fas fa-clock"></i> Shifts History</button>
+    <button class="tab-btn" data-tab="history" data-perm="viewHistory" onclick="switchTab('history')"><i class="fas fa-clock-rotate-left"></i> Month History</button>
+    <button class="tab-btn" data-tab="log" data-perm="viewLog" onclick="switchTab('log')"><i class="fas fa-history"></i> Audit Log</button>
+    <button class="tab-btn" data-tab="suppliers" data-perm="viewSuppliers" onclick="switchTab('suppliers')"><i class="fas fa-address-book"></i> Suppliers</button>
+    <button class="tab-btn hidden" data-tab="team" data-perm="manageUsers" id="teamTabBtn" onclick="switchTab('team')"><i class="fas fa-users-gear"></i> Team Management</button>
   </div>
 
-  <!-- DAILY -->
-  <div class="tab-panel active" id="tab-daily">
+  <!-- DAILY CLOSURE -->
+  <div class="tab-panel" id="tab-closure">
+    <div id="closureStartBox" style="display:none;">
+      <div class="start-shift-box">
+        <div class="icon"><i class="fas fa-cash-register"></i></div>
+        <h3>Start a New Shift</h3>
+        <p>Pick the period that matches <strong>now</strong>. The badge marked <em>CLOCK NOW</em> is the period the system detects from your current time. You'll then record sales, mobile money, expenses (one by one) and counted cash.</p>
+        <div class="period-selector" id="periodSelector">
+          <button type="button" class="period-opt" data-period="morning" onclick="selectShiftPeriod('morning')">
+            <i class="fas fa-sun"></i>
+            <span>Morning</span>
+            <small style="font-weight:500;font-size:0.7rem;opacity:0.75;">00:00 – 12:00</small>
+          </button>
+          <button type="button" class="period-opt" data-period="afternoon" onclick="selectShiftPeriod('afternoon')">
+            <i class="fas fa-cloud-sun"></i>
+            <span>Afternoon</span>
+            <small style="font-weight:500;font-size:0.7rem;opacity:0.75;">12:00 – 17:00</small>
+          </button>
+          <button type="button" class="period-opt" data-period="evening" onclick="selectShiftPeriod('evening')">
+            <i class="fas fa-moon"></i>
+            <span>Evening</span>
+            <small style="font-weight:500;font-size:0.7rem;opacity:0.75;">17:00 – 24:00</small>
+          </button>
+        </div>
+        <button class="btn btn-primary" id="startShiftBtn" onclick="startNewShift()" disabled><i class="fas fa-play"></i> Start Shift</button>
+        <div id="todaysOtherShifts"></div>
+      </div>
+    </div>
+
+    <div id="closureActiveArea" style="display:none;">
+      <div class="closure-wrap">
+        <div class="closure-panel">
+          <div class="panel-head">
+            <div class="ttl"><i class="fas fa-cash-register"></i> <span id="closureShiftLabel">Shift</span></div>
+            <div class="shift-status" id="closureShiftStatus">Open</div>
+          </div>
+          <div class="panel-body">
+            <div class="shift-meta" id="closureShiftMeta"></div>
+
+            <div class="closure-payments">
+              <h4><i class="fas fa-mobile-screen"></i> Mobile Money Payments Received</h4>
+              <div class="pay-row">
+                <div class="closure-field" style="margin:0;">
+                  <label><i class="fas fa-sim-card"></i> MTN MOMO</label>
+                  <input type="number" step="0.01" id="clMtn" placeholder="0" oninput="recalcClosure()">
+                </div>
+                <div class="closure-field" style="margin:0;">
+                  <label><i class="fas fa-sim-card"></i> Airtel Money</label>
+                  <input type="number" step="0.01" id="clAirtel" placeholder="0" oninput="recalcClosure()">
+                </div>
+              </div>
+            </div>
+
+            <div class="closure-field">
+              <label><i class="fas fa-tag"></i> Closing Sales (System Total)</label>
+              <input type="number" step="0.01" id="clClosingSales" placeholder="0" oninput="recalcClosure()">
+              <div class="hint">Enter the sales figure from your POS/system.</div>
+            </div>
+
+            <div class="closure-payments" style="background:#fff8ec;border-color:#f0d8a8;">
+              <h4 style="color:#b06d00;"><i class="fas fa-receipt" style="color:#d48a00;"></i> Expenses Paid from Till (one by one)</h4>
+              <div id="clExpenseList"></div>
+              <button type="button" class="add-row-btn" style="margin-top:0.6rem;" onclick="addClosureExpense()"><i class="fas fa-plus-circle"></i> Add expense</button>
+              <div style="margin-top:0.6rem;font-size:0.82rem;color:#5f7385;display:flex;justify-content:space-between;">
+                <span>Total expenses:</span><strong id="clExpensesTotal" style="color:#b33a3a;">UGX 0</strong>
+              </div>
+            </div>
+
+            <div class="closure-row-2">
+              <div class="closure-field">
+                <label><i class="fas fa-money-bill-wave"></i> Cash Counted (Physical)</label>
+                <input type="number" step="0.01" id="clCounted" placeholder="0" oninput="recalcClosure()">
+                <div class="hint">Count the notes and coins in the till.</div>
+              </div>
+              <div class="closure-field">
+                <label><i class="fas fa-wallet"></i> Opening Float</label>
+                <input type="number" step="0.01" id="clOpeningFloat" placeholder="0" oninput="recalcClosure()">
+              </div>
+            </div>
+
+            <div class="closure-field">
+              <label><i class="fas fa-pencil"></i> Note (optional)</label>
+              <input type="text" id="clNote" placeholder="e.g. Power outage for 1 hour" onchange="saveClosureDraft()">
+            </div>
+            <div class="closure-actions" id="closureActions"></div>
+          </div>
+        </div>
+        <div class="closure-panel">
+          <div class="panel-head">
+            <div class="ttl"><i class="fas fa-calculator"></i> Live Reconciliation</div>
+          </div>
+          <div class="panel-body">
+            <div class="result-box" id="closureResults"></div>
+            <div style="margin-top:1.2rem;background:#f4f9fe;border-radius:14px;padding:1rem 1.1rem;border:1px dashed #c9d9e8;font-size:0.8rem;color:#2a4a6a;line-height:1.6;">
+              <strong style="display:block;color:#0b2b44;margin-bottom:0.4rem;"><i class="fas fa-info-circle" style="color:#1d7a4b;"></i> How it's computed</strong>
+              <div style="display:flex;justify-content:space-between;padding:0.15rem 0;"><span>Cash Expected</span><strong style="color:#0b2b44;">Opening Float + (Sales − MOMO − Airtel) − Expenses</strong></div>
+              <div style="display:flex;justify-content:space-between;padding:0.15rem 0;"><span>Difference</span><strong style="color:#0b2b44;">Cash Counted − Cash Expected</strong></div>
+              <div style="margin-top:0.5rem;font-size:0.75rem;color:#7b8fa0;">Positive = <strong style="color:#1d7a4b;">Extra</strong>. Negative = <strong style="color:#b33a3a;">Loss</strong>. Expenses are summed from the itemised list above.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DAILY PERFORMANCE -->
+  <div class="tab-panel" id="tab-daily">
     <div class="month-bar">
       <label><i class="fas fa-calendar-alt"></i> Active month:</label>
       <select id="monthSelect" onchange="onMonthChange()"></select>
@@ -571,7 +743,6 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
       </tr></thead><tbody id="tableBody"></tbody></table></div>
       <div style="padding:0.8rem 1.2rem;border-top:1px solid #eef3f8;display:flex;justify-content:space-between;align-items:center;">
         <button class="add-row-btn editor-only" onclick="addRow()"><i class="fas fa-plus-circle"></i> Add row</button>
-        <span style="font-size:0.75rem;color:#7b8fa0;"><i class="fas fa-info-circle"></i> Auto-synced</span>
       </div>
     </div>
     <div class="section-title"><i class="fas fa-chart-bar"></i> Computed totals</div>
@@ -595,7 +766,7 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
       </tr></thead><tbody id="purchasesBody"></tbody></table></div>
       <div style="padding:0.8rem 1.2rem;border-top:1px solid #eef3f8;display:flex;justify-content:space-between;align-items:center;">
         <button class="add-row-btn editor-only" onclick="addPurchaseRow()"><i class="fas fa-plus-circle"></i> Add purchase</button>
-        <span style="font-size:0.75rem;color:#7b8fa0;"><i class="fas fa-info-circle"></i> Supplier list managed in <strong>Suppliers</strong> tab</span>
+        <span style="font-size:0.75rem;color:#7b8fa0;"><i class="fas fa-info-circle"></i> Auto-synced</span>
       </div>
     </div>
     <div class="section-title"><i class="fas fa-chart-pie"></i> Supplier breakdown</div>
@@ -604,7 +775,7 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
     <div class="table-card"><div class="table-scroll"><table id="categoryTable"><thead><tr><th>Category</th><th>Purchases (UGX)</th><th>% of Total</th><th># Orders</th></tr></thead><tbody id="categoryBody"></tbody></table></div></div>
   </div>
 
-  <!-- AUDIT -->
+  <!-- CLOSURE AUDIT -->
   <div class="tab-panel" id="tab-audit">
     <div style="background:white;padding:1.2rem 1.5rem;border-radius:16px;border:1px solid #e3ebf3;margin-bottom:1.5rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">
       <i class="fas fa-shield-halved" style="font-size:1.8rem;color:#1d7a4b;"></i>
@@ -636,10 +807,67 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
         <div><label style="font-size:0.75rem;font-weight:600;color:#5f7385;text-transform:uppercase;">Date</label><input type="date" id="newClosureDate" style="margin-top:0.3rem;"></div>
         <div><label style="font-size:0.75rem;font-weight:600;color:#5f7385;text-transform:uppercase;">Total Stock (UGX)</label><input type="number" id="newClosureStock" placeholder="0" style="margin-top:0.3rem;"></div>
         <div><label style="font-size:0.75rem;font-weight:600;color:#5f7385;text-transform:uppercase;">Total Credit (UGX)</label><input type="number" id="newClosureCredit" placeholder="0" style="margin-top:0.3rem;"></div>
-        <div><label style="font-size:0.75rem;font-weight:600;color:#5f7385;text-transform:uppercase;">Cash at Hand (UGX)</label><input type="number" id="newClosureCash" placeholder="0" style="margin-top:0.3rem;"></div>
+        <div><label style="font-size:0.75rem;font-weight:600;color:#5f7385;text-transform:uppercase;">Cash at Hand (UGX)</label><input type="number" id="newClosureCash" placeholder="0" style="margin-top:0.3rem;"><div style="font-size:0.68rem;color:#7b8fa0;margin-top:0.25rem;">Auto-filled from shift closures if blank</div></div>
         <div style="display:flex;align-items:flex-end;"><button class="btn btn-primary" onclick="addClosureEntry()" style="width:100%;justify-content:center;"><i class="fas fa-plus"></i> Add entry</button></div>
       </div>
     </div>
+  </div>
+
+  <!-- SHIFTS HISTORY -->
+  <div class="tab-panel" id="tab-shifts">
+    <div style="background:white;padding:1.2rem 1.5rem;border-radius:16px;border:1px solid #e3ebf3;margin-bottom:1.5rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">
+      <i class="fas fa-clock" style="font-size:1.8rem;color:#1d7a4b;"></i>
+      <div>
+        <div style="font-weight:700;color:#0b2b44;font-size:1rem;">Shift History &amp; Differences</div>
+        <div style="font-size:0.8rem;color:#5f7385;">Every shift with its auto-tagged period (Morning / Afternoon / Evening) and extra or loss.</div>
+      </div>
+      <div style="margin-left:auto;display:flex;gap:0.5rem;flex-wrap:wrap;">
+        <select id="shiftMonthFilter" onchange="renderShifts()" style="padding:0.5rem 0.8rem;border-radius:10px;border:1px solid #d2dfeb;font-family:inherit;font-size:0.82rem;">
+          <option value="">All months</option>
+        </select>
+        <button class="btn manager-only" onclick="closeAllShiftsForMonth()"><i class="fas fa-lock"></i> Close all shifts for month</button>
+      </div>
+    </div>
+    <div class="summary-grid" id="shiftSummaryGrid"></div>
+    <div class="section-title"><i class="fas fa-list"></i> All shift closures</div>
+    <div class="table-card">
+      <div class="shift-tbl-wrap">
+        <table class="shift-tbl" id="shiftTable">
+          <thead><tr>
+            <th>Date</th><th>Period</th><th>Cashier</th><th>Sales</th><th>MOMO</th><th>Airtel</th><th>Expenses</th><th>Expected</th><th>Counted</th><th>Difference</th><th>Status</th><th></th>
+          </tr></thead>
+          <tbody id="shiftBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Manager: cashier summary for closed month -->
+    <div id="cashierSummaryWrap" style="display:none;margin-top:2rem;">
+      <div class="section-title"><i class="fas fa-user-tie"></i> Cashier summary — <span id="cashierSummaryMonth"></span></div>
+      <div class="table-card">
+        <div class="table-scroll">
+          <table class="cashier-summary-tbl" id="cashierSummaryTable">
+            <thead><tr>
+              <th>Cashier</th><th>Shifts</th><th>Total Sales (UGX)</th><th>Total Extra (UGX)</th><th>Total Loss (UGX)</th><th>Net Difference (UGX)</th>
+            </tr></thead>
+            <tbody id="cashierSummaryBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MONTH HISTORY -->
+  <div class="tab-panel" id="tab-history">
+    <div style="background:white;padding:1.2rem 1.5rem;border-radius:16px;border:1px solid #e3ebf3;margin-bottom:1.5rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">
+      <i class="fas fa-clock-rotate-left" style="font-size:1.8rem;color:#1d7a4b;"></i>
+      <div>
+        <div style="font-weight:700;color:#0b2b44;font-size:1rem;">Month History</div>
+        <div style="font-size:0.8rem;color:#5f7385;">Past months are closed automatically. Managers can re-open a month to fix wrong entries.</div>
+      </div>
+      <button class="btn" style="margin-left:auto;" onclick="refreshHistory()"><i class="fas fa-rotate"></i> Refresh</button>
+    </div>
+    <div class="history-grid" id="historyGrid"></div>
   </div>
 
   <!-- LOG -->
@@ -685,7 +913,7 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
       <i class="fas fa-users-gear" style="font-size:1.8rem;color:#1d7a4b;"></i>
       <div>
         <div style="font-weight:700;color:#0b2b44;font-size:1rem;">Team Management</div>
-        <div style="font-size:0.8rem;color:#5f7385;">Create and manage users for <strong id="teamLocationName"></strong>. Admin can see and edit all users.</div>
+        <div style="font-size:0.8rem;color:#5f7385;">Create and manage users for <strong id="teamLocationName"></strong>.</div>
       </div>
     </div>
     <div class="admin-grid">
@@ -698,7 +926,7 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
           <select id="teamUserRole" onchange="onTeamRoleChange()">
             <option value="manager">Manager — full control</option>
             <option value="accountant">Accountant — limited editing</option>
-            <option value="cashier">Cashier — view only</option>
+            <option value="cashier">Cashier — closure &amp; purchases only</option>
           </select>
         </div>
         <label style="font-size:0.72rem;font-weight:600;color:#5f7385;text-transform:uppercase;">Custom Permissions</label>
@@ -766,7 +994,7 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
       </div>
       <div class="admin-card">
         <h3><i class="fas fa-info-circle"></i> About Locations</h3>
-        <p style="font-size:0.85rem;color:#5f7385;line-height:1.6;">Each location operates independently with its own data, users, and audit history. The manager you create can then add more users for their location with custom roles.<br><br>You retain full oversight — view every location's data, edit users, reset passwords, and suspend accounts at any time.</p>
+        <p style="font-size:0.85rem;color:#5f7385;line-height:1.6;">Each location operates independently with its own data, users, and audit history. The manager you create can then add more users for their location with custom roles.</p>
       </div>
     </div>
     <div class="section-title"><i class="fas fa-location-dot"></i> All Locations</div>
@@ -799,7 +1027,7 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
   </div>
 </div>
 
-<!-- AUDIT MODAL -->
+<!-- MODALS -->
 <div class="modal-overlay" id="auditModal">
   <div class="modal">
     <div class="modal-header">
@@ -823,7 +1051,16 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
   </div>
 </div>
 
-<!-- PASSWORD MODALS -->
+<div class="modal-overlay" id="shiftSummaryModal">
+  <div class="modal narrow shift-summary-modal">
+    <div class="modal-header">
+      <div><h2><i class="fas fa-clock"></i> Shift Details</h2><div class="sub" id="shiftSummarySub">—</div></div>
+      <button class="modal-close" onclick="closeShiftSummary()"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body" id="shiftSummaryBody"></div>
+  </div>
+</div>
+
 <div class="modal-overlay" id="pwdModal">
   <div class="modal narrow">
     <div class="modal-header"><div><h2><i class="fas fa-key"></i> Change Password</h2></div><button class="modal-close" onclick="closeChangePassword()"><i class="fas fa-times"></i></button></div>
@@ -846,8 +1083,6 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
     </div>
   </div>
 </div>
-
-<!-- USER EDIT MODAL -->
 <div class="modal-overlay" id="userModal">
   <div class="modal narrow">
     <div class="modal-header"><div><h2><i class="fas fa-user-edit"></i> Edit User — <span id="editUserName"></span></h2></div><button class="modal-close" onclick="closeUserModal()"><i class="fas fa-times"></i></button></div>
@@ -867,8 +1102,6 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
     </div>
   </div>
 </div>
-
-<!-- LOCATION DETAIL MODAL -->
 <div class="modal-overlay" id="locModal">
   <div class="modal">
     <div class="modal-header"><div><h2><i class="fas fa-location-dot"></i> <span id="locModalName"></span></h2><div class="sub" id="locModalCode"></div></div><button class="modal-close" onclick="closeLocModal()"><i class="fas fa-times"></i></button></div>
@@ -879,9 +1112,7 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
 <div class="toast" id="toast"><i class="fas fa-check-circle"></i> <span id="toastMsg">Done</span></div>
 
 <script>
-/* ============================================================
-   FIREBASE
-   ============================================================ */
+/* FIREBASE */
 const firebaseConfig = {
   apiKey: "AIzaSyBquSyKnnQp4NMtCaooAD7k1tp3KPVdahU",
   authDomain: "bright-mesh.firebaseapp.com",
@@ -894,41 +1125,91 @@ const firebaseConfig = {
 let db = null, firebaseReady = false;
 try { firebase.initializeApp(firebaseConfig); db = firebase.firestore(); firebaseReady = true; } catch(e) { console.error('Firebase init failed', e); }
 
-/* ============================================================
-   CONSTANTS
-   ============================================================ */
+/* CONSTANTS */
 const EXPENSE_TYPES = ['Salary','Rent','Utilities (Electricity/Water)','Transport','Fuel','Packaging Materials','Cleaning Supplies','Security Services','Wifi / Internet','Telephone / Airtime','Waste Disposal','Licenses & Permits','Insurance','Marketing & Advertising','Repairs & Maintenance','Bank Charges','Loan Repayment','Taxes','Staff Welfare','Loss / Theft','Other'];
+const CLOSURE_EXPENSE_TYPES = ['Transport','Fuel','Packaging','Cleaning','Airtime','Waste','Repairs','Staff Welfare','Security','Electricity','Water','Other'];
 
-const DEFAULT_PERMISSIONS = {
-  manager:    { view:true, editDaily:true, editPurchases:true, editExpenses:true, closeMonth:true, viewAudit:true, viewLog:true, manageUsers:true },
-  accountant: { view:true, editDaily:true, editPurchases:true, editExpenses:true, closeMonth:false, viewAudit:true, viewLog:true, manageUsers:false },
-  cashier:    { view:true, editDaily:false, editPurchases:false, editExpenses:false, closeMonth:false, viewAudit:false, viewLog:false, manageUsers:false }
+const PERIOD_DEFS = {
+  morning:   { label: 'Morning',   icon: 'fa-sun',       start: 0,  end: 12 },
+  afternoon: { label: 'Afternoon', icon: 'fa-cloud-sun', start: 12, end: 17 },
+  evening:   { label: 'Evening',   icon: 'fa-moon',      start: 17, end: 24 }
 };
 
-const SESSION_KEY = 'brightmesh_session_v2';
+const DEFAULT_PERMISSIONS = {
+  manager:    { view:true, editDaily:true, editPurchases:true, editExpenses:true, closeMonth:true, viewAudit:true, viewLog:true, manageUsers:true, editShifts:true, viewDaily:true, viewPurchases:true, viewShifts:true, viewHistory:true, viewSuppliers:true },
+  accountant: { view:true, editDaily:true, editPurchases:true, editExpenses:true, closeMonth:false, viewAudit:true, viewLog:true, manageUsers:false, editShifts:true, viewDaily:true, viewPurchases:true, viewShifts:true, viewHistory:true, viewSuppliers:true },
+  cashier:    { view:true, editDaily:false, editPurchases:true, editExpenses:false, closeMonth:false, viewAudit:false, viewLog:false, manageUsers:false, editShifts:true, viewDaily:false, viewPurchases:true, viewShifts:true, viewHistory:false, viewSuppliers:false }
+};
 
-/* ============================================================
-   STATE
-   ============================================================ */
+const SESSION_KEY = 'brightmesh_session_v5';
+
+/* STATE */
 let allMonthsData = {}, currentMonthKey = '', weeklyClosures = [], auditLog = [];
-let saveTimeout = null, activeTab = 'daily', activeAdminTab = 'overview';
+let allShifts = [];
+let saveTimeout = null, activeTab = 'closure', activeAdminTab = 'overview';
 let currentUser = null, currentLocationId = null;
 let allUsersCache = {}, allLocationsCache = {};
 let suppliersCache = [];
 let captchaVerified = false;
+let currentShiftId = null, currentShiftData = null;
+let pendingPeriod = null;
 
 /* ============================================================
-   HELPERS
+   PERIOD HELPERS
    ============================================================ */
-function defaultExpenses(){ return []; }  // ✅ New months start with NO expenses
+function periodFromClock(dateObj){
+  const d = dateObj || new Date();
+  const h = d.getHours();
+  if(h < 12) return 'morning';
+  if(h < 17) return 'afternoon';
+  return 'evening';
+}
+function periodFromTimestamp(iso){
+  if(!iso) return periodFromClock();
+  const d = new Date(iso);
+  if(isNaN(d.getTime())) return periodFromClock();
+  return periodFromClock(d);
+}
+function isValidPeriod(p){ return p && PERIOD_DEFS[p]; }
+function periodLabel(p){
+  if(!isValidPeriod(p)) return 'Unknown';
+  return PERIOD_DEFS[p].label;
+}
+function periodIcon(p){
+  if(!isValidPeriod(p)) return 'fa-circle-question';
+  return PERIOD_DEFS[p].icon;
+}
+/**
+ * Renders a coloured period badge.
+ * @param {string} p - 'morning' | 'afternoon' | 'evening' | anything else
+ * @param {string} openedAtIso - optional; if provided and differs from the tagged period, an off-clock tag is added.
+ */
+function periodBadgeHtml(p, openedAtIso){
+  const safe = isValidPeriod(p) ? p : 'unknown';
+  const label = periodLabel(p);
+  const icon = periodIcon(p);
+  let offTag = '';
+  if(openedAtIso && isValidPeriod(p)){
+    const clockP = periodFromTimestamp(openedAtIso);
+    if(clockP !== p){
+      offTag = `<span class="off-tag" title="Tagged ${label}, but started at ${new Date(openedAtIso).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})} which is ${periodLabel(clockP)}">⚠ off-clock</span>`;
+    }
+  }
+  return `<span class="period-badge ${safe}${offTag ? ' offclock' : ''}"><i class="fas ${icon}"></i> ${label}${offTag}</span>`;
+}
+function highlightClockPeriodOption(){
+  const currentClock = periodFromClock();
+  document.querySelectorAll('.period-opt').forEach(el => {
+    el.classList.toggle('clock-match', el.dataset.period === currentClock);
+  });
+}
 
-function currentEntries(){ return allMonthsData[currentMonthKey]?.entries || []; }
-
+/* HELPERS */
+function currentEntries(){ return (allMonthsData[currentMonthKey] && allMonthsData[currentMonthKey].entries) || []; }
 function currentExpenses(){
-  const raw = allMonthsData[currentMonthKey]?.expenses;
+  const raw = allMonthsData[currentMonthKey] && allMonthsData[currentMonthKey].expenses;
   if(!raw) return [];
   if(Array.isArray(raw)) return raw;
-  // Migrate legacy object format once
   const migrated = [];
   if(raw.salary) migrated.push({ type: 'Salary', amount: raw.salary, note: '' });
   if(raw.rent) migrated.push({ type: 'Rent', amount: raw.rent, note: '' });
@@ -938,21 +1219,21 @@ function currentExpenses(){
   allMonthsData[currentMonthKey].expenses = migrated;
   return migrated;
 }
-
 function totalMonthlyExpenses(exp){ return Array.isArray(exp) ? exp.reduce((s, e) => s + (parseFloat(e.amount) || 0), 0) : 0; }
-
 function currentPurchases(){
   if(!allMonthsData[currentMonthKey]) allMonthsData[currentMonthKey]={entries:[],expenses:[],closed:false,purchases:[]};
   if(!allMonthsData[currentMonthKey].purchases) allMonthsData[currentMonthKey].purchases=[];
   return allMonthsData[currentMonthKey].purchases;
 }
-
 function grossProfit(row){const c=parseFloat(row.cost)||0,s=parseFloat(row.sales)||0,e=parseFloat(row.expenses)||0;return s-c-e;}
 function fmt(n){if(n===undefined||n===null||isNaN(n))return '0';return Number(n).toLocaleString('en-UG',{maximumFractionDigits:0});}
 function fmtSigned(n){if(n===undefined||n===null||isNaN(n))return '—';const a=Math.abs(n).toLocaleString('en-UG',{maximumFractionDigits:0});return (n>=0?'+':'−')+a;}
 function monthLabel(key){return new Date(key+'-01').toLocaleString('en',{month:'long',year:'numeric'});}
 function shortMonth(key){return new Date(key+'-01').toLocaleString('en',{month:'short',year:'numeric'});}
 function dateStr(d){ return d.toISOString().split('T')[0]; }
+function todayStr(){ const d = new Date(); return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0'); }
+function currentCalendarMonthKey(){ const n = new Date(); return n.getFullYear() + '-' + String(n.getMonth()+1).padStart(2,'0'); }
+function nowTimeStr(){ const d = new Date(); return d.toTimeString().slice(0,5); }
 
 function hasPerm(perm){
   if(!currentUser) return false;
@@ -965,7 +1246,7 @@ function hasPerm(perm){
 }
 
 function saveSession(){
-  if(!currentUser) { sessionStorage.removeItem(SESSION_KEY); return; }
+  if(!currentUser) { try { sessionStorage.removeItem(SESSION_KEY); } catch(e){} return; }
   try {
     sessionStorage.setItem(SESSION_KEY, JSON.stringify({
       username: currentUser.username,
@@ -1002,8 +1283,7 @@ async function restoreSession(){
   } catch(e) { clearSession(); return false; }
 }
 
-function showToast(msg, type){ const t = document.getElementById('toast'); t.className = 'toast' + (type ? ' ' + type : ''); document.getElementById('toastMsg').textContent = msg; t.classList.add('show'); clearTimeout(t._timer); t._timer = setTimeout(()=>t.classList.remove('show'), 2600); }
-
+function showToast(msg, type){ const t = document.getElementById('toast'); if(!t) return; t.className = 'toast' + (type ? ' ' + type : ''); document.getElementById('toastMsg').textContent = msg; t.classList.add('show'); clearTimeout(t._timer); t._timer = setTimeout(()=>t.classList.remove('show'), 2600); }
 function showSaveStatus(status, msg, target){
   const prefix = target === 'admin' ? 'adminSave' : 'save';
   const el = document.getElementById(prefix + 'Indicator'), txt = document.getElementById(prefix + 'Status');
@@ -1014,25 +1294,24 @@ function showSaveStatus(status, msg, target){
   else { el.classList.add('error'); el.querySelector('i').className='fas fa-exclamation-triangle'; txt.textContent = msg || 'Save failed'; }
 }
 
-function updateTabVisibility(){
-  const teamBtn = document.getElementById('teamTabBtn');
-  if(!teamBtn) return;
-  const show = !!currentUser && hasPerm('manageUsers');
-  if(show) teamBtn.classList.remove('hidden');
-  else {
-    teamBtn.classList.add('hidden');
-    if(activeTab === 'team') {
-      activeTab = 'daily';
-      document.querySelectorAll('#app .tab-panel').forEach(p => p.classList.remove('active'));
-      const daily = document.getElementById('tab-daily');
-      if(daily) daily.classList.add('active');
-    }
+function applyTabPermissions(){
+  document.querySelectorAll('#userTabNav .tab-btn').forEach(btn => {
+    const perm = btn.dataset.perm;
+    if(!perm) return;
+    if(hasPerm(perm)) btn.classList.remove('hidden');
+    else btn.classList.add('hidden');
+  });
+  const activeBtn = document.querySelector('#userTabNav .tab-btn.active');
+  if(!activeBtn || activeBtn.classList.contains('hidden')) {
+    const closureBtn = document.querySelector('#userTabNav .tab-btn[data-tab="closure"]');
+    const purchasesBtn = document.querySelector('#userTabNav .tab-btn[data-tab="purchases"]');
+    if(closureBtn && !closureBtn.classList.contains('hidden')) switchTab('closure');
+    else if(purchasesBtn && !purchasesBtn.classList.contains('hidden')) switchTab('purchases');
+    else switchTab('daily');
   }
 }
 
-/* ============================================================
-   AUTO-SEED
-   ============================================================ */
+/* AUTO-SEED */
 async function autoSeed() {
   if(!firebaseReady) return;
   try {
@@ -1042,9 +1321,8 @@ async function autoSeed() {
     if(userDoc.exists) return;
     await db.collection('locations').doc('wamombl1').set({ name: 'Wamo Mbale 1', code: 'wamombl1', createdAt: new Date().toISOString(), status: 'active' });
     await db.collection('users').doc('wamombl1').set({ username:'wamombl1', fullName:'Ahmed', password:'wamo123@', locationId:'wamombl1', role:'manager', permissions: DEFAULT_PERMISSIONS.manager, status:'active', createdAt: new Date().toISOString() });
-    const now = new Date(); const curKey = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0');
+    const curKey = currentCalendarMonthKey();
     await db.collection('locations').doc('wamombl1').collection('months').doc(curKey).set({ entries: [], expenses: [], closed: false, purchases: [] });
-    // Seed sample suppliers
     const seedSuppliers = ['Mukwano Distributors','Bidco Uganda','Kakira Sugar','Fresh Foods Ltd'];
     for(const s of seedSuppliers) {
       await db.collection('locations').doc('wamombl1').collection('suppliers').doc(s).set({ name: s, createdAt: new Date().toISOString() });
@@ -1052,36 +1330,103 @@ async function autoSeed() {
   } catch(e) { console.error('Auto-seed failed', e); }
 }
 
-/* ============================================================
-   DATA
-   ============================================================ */
+/* AUTO-CLOSE PAST MONTHS + SHIFTS */
+async function autoClosePastMonths(){
+  if(!firebaseReady || !currentLocationId) return;
+  const curKey = currentCalendarMonthKey();
+  let changed = false;
+  for(const mKey of Object.keys(allMonthsData)) {
+    if(mKey >= curKey) continue;
+    const m = allMonthsData[mKey];
+    if(!m || m.closed) continue;
+    try {
+      m.closed = true; m.closedAt = new Date().toISOString(); m.closedBy = 'auto';
+      await db.collection('locations').doc(currentLocationId).collection('months').doc(mKey).set(m);
+      const totalSales = (m.entries||[]).reduce((s,r)=>s+(parseFloat(r.sales)||0),0);
+      const totalCost = (m.entries||[]).reduce((s,r)=>s+(parseFloat(r.cost)||0),0);
+      const totalDailyExp = (m.entries||[]).reduce((s,r)=>s+(parseFloat(r.expenses)||0),0);
+      const gross = totalSales - totalCost - totalDailyExp;
+      const monthlyExp = totalMonthlyExpenses(m.expenses||[]);
+      const monthShifts = allShifts.filter(sh => sh.date && sh.date.slice(0,7) === mKey);
+      const shiftTotalDiff = monthShifts.reduce((s, sh) => s + (parseFloat(sh.difference) || 0), 0);
+      await db.collection('locations').doc(currentLocationId).collection('monthHistory').doc(mKey).set({
+        monthKey: mKey, closedAt: m.closedAt, closedBy: 'auto',
+        totalSales, totalCost, totalDailyExp, gross,
+        monthlyExpenses: monthlyExp, netProfit: gross - monthlyExp,
+        entryCount: (m.entries||[]).length, purchaseCount: (m.purchases||[]).length,
+        closureCount: weeklyClosures.filter(w => w.date.startsWith(mKey)).length,
+        shiftCount: monthShifts.length, shiftTotalDifference: shiftTotalDiff
+      }, { merge: true });
+      changed = true;
+    } catch(e) { console.warn('[AutoClose] Failed for', mKey, e); }
+  }
+  if(changed) {
+    renderMonthSelect(); renderPurchaseMonthSelect(); renderClosedList(); renderAll(); renderHistory();
+    if(currentUser) addLog('Auto Close Months', 'Past months automatically closed');
+  }
+}
+async function autoClosePastShifts(){
+  if(!firebaseReady || !currentLocationId) return;
+  const today = todayStr();
+  let changed = false;
+  for(const sh of allShifts) {
+    if(sh.date < today && sh.status === 'open') {
+      try {
+        sh.status = 'closed'; sh.closedAt = new Date().toISOString(); sh.closedBy = 'auto';
+        await db.collection('locations').doc(currentLocationId).collection('shifts').doc(sh.id).update({ status: 'closed', closedAt: sh.closedAt, closedBy: 'auto' });
+        changed = true;
+      } catch(e) { console.warn('[AutoClose Shift] Failed', sh.id, e); }
+    }
+  }
+  if(changed) { renderShifts(); if(currentUser) addLog('Auto Close Shifts', 'Past day shifts automatically closed'); }
+}
+/* Backfill missing/invalid period on older shifts using openedAt time */
+async function backfillShiftPeriods(){
+  if(!firebaseReady || !currentLocationId) return;
+  let changed = 0;
+  for(const sh of allShifts){
+    if(isValidPeriod(sh.period)) continue;
+    const inferred = periodFromTimestamp(sh.openedAt);
+    sh.period = inferred;
+    try {
+      await db.collection('locations').doc(currentLocationId).collection('shifts').doc(sh.id).update({ period: inferred });
+      changed++;
+    } catch(e) { console.warn('[Backfill Period] Failed', sh.id, e); }
+  }
+  if(changed) console.log(`[Backfill Period] Tagged ${changed} legacy shift(s).`);
+}
+
+/* DATA LOADING */
 async function loadLocationData(locationId) {
   if(!firebaseReady) { showSaveStatus('error','No Firebase'); return; }
   showSaveStatus('saving','Loading...');
   try {
     const snap = await db.collection('locations').doc(locationId).collection('months').get();
-    allMonthsData = {};
-    snap.forEach(doc => { allMonthsData[doc.id] = doc.data(); });
+    allMonthsData = {}; snap.forEach(doc => { allMonthsData[doc.id] = doc.data(); });
     const wSnap = await db.collection('locations').doc(locationId).collection('weeklyClosures').get();
-    weeklyClosures = [];
-    wSnap.forEach(doc => weeklyClosures.push(doc.data()));
+    weeklyClosures = []; wSnap.forEach(doc => weeklyClosures.push(doc.data()));
     weeklyClosures.sort((a,b)=>new Date(a.date)-new Date(b.date));
     const lSnap = await db.collection('locations').doc(locationId).collection('auditLog').orderBy('time','desc').limit(500).get();
-    auditLog = [];
-    lSnap.forEach(doc => auditLog.push(doc.data()));
-    // Load suppliers
+    auditLog = []; lSnap.forEach(doc => auditLog.push(doc.data()));
     const sSnap = await db.collection('locations').doc(locationId).collection('suppliers').get();
-    suppliersCache = [];
-    sSnap.forEach(doc => suppliersCache.push({ id: doc.id, ...doc.data() }));
+    suppliersCache = []; sSnap.forEach(doc => suppliersCache.push({ id: doc.id, ...doc.data() }));
     suppliersCache.sort((a,b) => (a.name || '').localeCompare(b.name || ''));
-    // Ensure current month exists in memory with EMPTY expenses
-    const now = new Date(); const curKey = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0');
+    const shSnap = await db.collection('locations').doc(locationId).collection('shifts').orderBy('date','desc').limit(500).get();
+    allShifts = []; shSnap.forEach(doc => allShifts.push({ id: doc.id, ...doc.data() }));
+    allShifts.sort((a,b) => {
+      if(a.date !== b.date) return (b.date||'').localeCompare(a.date||'');
+      return (b.openedAt||'').localeCompare(a.openedAt||'');
+    });
+    await backfillShiftPeriods();
+    const curKey = currentCalendarMonthKey();
     if(!allMonthsData[curKey]) {
       allMonthsData[curKey] = { entries: [], expenses: [], closed: false, purchases: [] };
       await db.collection('locations').doc(locationId).collection('months').doc(curKey).set(allMonthsData[curKey]);
     }
     const monthsSorted = Object.keys(allMonthsData).sort();
     if(!currentMonthKey || !allMonthsData[currentMonthKey]) currentMonthKey = monthsSorted.length ? monthsSorted[monthsSorted.length-1] : curKey;
+    await autoClosePastMonths();
+    await autoClosePastShifts();
     showSaveStatus('saved','Loaded');
   } catch(e) { console.error(e); showSaveStatus('error','Load failed'); }
 }
@@ -1111,22 +1456,12 @@ function addLog(action, details){
   if(activeTab === 'log') renderLog();
 }
 
-/* ============================================================
-   FAQ
-   ============================================================ */
+/* FAQ + CONTACT */
 function toggleFaq(el){
   const isOpen = el.classList.contains('open');
   document.querySelectorAll('.faq-item.open').forEach(i => { i.classList.remove('open'); i.querySelector('.faq-answer').style.maxHeight = null; });
-  if(!isOpen){
-    el.classList.add('open');
-    const ans = el.querySelector('.faq-answer');
-    ans.style.maxHeight = ans.scrollHeight + 'px';
-  }
+  if(!isOpen){ el.classList.add('open'); const ans = el.querySelector('.faq-answer'); ans.style.maxHeight = ans.scrollHeight + 'px'; }
 }
-
-/* ============================================================
-   CONTACT FORM
-   ============================================================ */
 function verifyCaptcha(){
   if(captchaVerified) return;
   const box = document.getElementById('captchaBox');
@@ -1134,18 +1469,15 @@ function verifyCaptcha(){
   document.getElementById('captchaLabel').textContent = 'Verifying...';
   document.getElementById('captchaSub').textContent = 'Please wait';
   setTimeout(() => {
-    box.classList.remove('loading');
-    box.classList.add('verified');
+    box.classList.remove('loading'); box.classList.add('verified');
     document.getElementById('captchaLabel').textContent = 'Verified — you can send';
     document.getElementById('captchaSub').textContent = 'Human verification complete';
     captchaVerified = true;
   }, 900);
 }
 function showContactMsg(msg, isError){
-  const box = document.getElementById('contactFormMsg');
-  const txt = document.getElementById('contactFormMsgText');
-  box.classList.remove('err','suc');
-  box.classList.add(isError ? 'err' : 'suc', 'show');
+  const box = document.getElementById('contactFormMsg'); const txt = document.getElementById('contactFormMsgText');
+  box.classList.remove('err','suc'); box.classList.add(isError ? 'err' : 'suc', 'show');
   box.querySelector('i').className = isError ? 'fas fa-exclamation-circle' : 'fas fa-check-circle';
   txt.textContent = msg;
 }
@@ -1156,63 +1488,32 @@ async function submitContactForm(e){
   const subject = document.getElementById('cfSubject').value.trim();
   const message = document.getElementById('cfMessage').value.trim();
   const btn = document.getElementById('cfSendBtn');
-
   if(!captchaVerified){ showContactMsg('Please complete the human verification first.', true); return false; }
   if(!name || !email || !subject || !message){ showContactMsg('Please fill all fields.', true); return false; }
   if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ showContactMsg('Please enter a valid email address.', true); return false; }
-
-  btn.disabled = true;
-  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+  btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
   try {
-    // Save to Firestore (so we have a backup)
-    try {
-      await db.collection('contactMessages').add({
-        name, email, subject, message,
-        createdAt: new Date().toISOString(),
-        source: 'landing-inline'
-      });
-    } catch(fsErr) { console.warn('Firestore save failed (continuing to FormSubmit):', fsErr); }
-
-    // Submit via FormSubmit
+    try { await db.collection('contactMessages').add({ name, email, subject, message, createdAt: new Date().toISOString(), source: 'landing-inline' }); } catch(e) {}
     const formData = new FormData();
-    formData.append('name', name);
-    formData.append('email', email);
-    formData.append('subject', subject);
-    formData.append('message', message);
+    formData.append('name', name); formData.append('email', email);
+    formData.append('subject', subject); formData.append('message', message);
     formData.append('_subject', 'Bright Mesh contact: ' + subject);
-    formData.append('_captcha', 'false');
-    formData.append('_template', 'table');
-
-    const res = await fetch('https://formsubmit.co/ajax/brightmesh.app@gmail.com', {
-      method: 'POST',
-      headers: { 'Accept': 'application/json' },
-      body: formData
-    });
+    formData.append('_captcha', 'false'); formData.append('_template', 'table');
+    const res = await fetch('https://formsubmit.co/ajax/brightmesh.app@gmail.com', { method: 'POST', headers: { 'Accept': 'application/json' }, body: formData });
     if(!res.ok) throw new Error('FormSubmit returned ' + res.status);
-
     showContactMsg('Thank you! Your message has been sent successfully.', false);
-    document.getElementById('cfName').value = '';
-    document.getElementById('cfEmail').value = '';
-    document.getElementById('cfSubject').value = '';
-    document.getElementById('cfMessage').value = '';
+    document.getElementById('cfName').value = ''; document.getElementById('cfEmail').value = '';
+    document.getElementById('cfSubject').value = ''; document.getElementById('cfMessage').value = '';
     captchaVerified = false;
-    const box = document.getElementById('captchaBox');
-    box.classList.remove('verified');
+    const box = document.getElementById('captchaBox'); box.classList.remove('verified');
     document.getElementById('captchaLabel').textContent = "I'm not a robot";
     document.getElementById('captchaSub').textContent = 'Click to verify before sending';
-  } catch(err) {
-    console.error(err);
-    showContactMsg('Could not send right now. Please try again in a moment.', true);
-  } finally {
-    btn.disabled = false;
-    btn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Message';
-  }
+  } catch(err) { showContactMsg('Could not send right now. Please try again in a moment.', true); }
+  finally { btn.disabled = false; btn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Message'; }
   return false;
 }
 
-/* ============================================================
-   LOGIN / LOGOUT
-   ============================================================ */
+/* LOGIN */
 document.getElementById('year').textContent = new Date().getFullYear();
 document.getElementById('loginUsername').addEventListener('keypress', e=>{ if(e.key==='Enter') document.getElementById('loginPassword').focus(); });
 document.getElementById('loginPassword').addEventListener('keypress', e=>{ if(e.key==='Enter') doLogin(); });
@@ -1266,10 +1567,9 @@ async function showUserDashboard(){
   roleEl.className = 'role ' + currentUser.role;
   document.getElementById('locationTitle').textContent = '· ' + currentUser.locationName;
   document.getElementById('teamLocationName').textContent = currentUser.locationName;
-
-  updateTabVisibility();
   await loadLocationData(currentLocationId);
   applyPermissions();
+  applyTabPermissions();
   renderMonthSelect();
   renderPurchaseMonthSelect();
   renderAll();
@@ -1277,11 +1577,9 @@ async function showUserDashboard(){
   renderPurchases();
   renderLog();
   renderSuppliersList();
-  if(hasPerm('manageUsers')) renderTeam();
-  switchTab('daily');
-  updateTabVisibility();
-  setTimeout(updateTabVisibility, 100);
-  setTimeout(updateTabVisibility, 500);
+  renderHistory();
+  renderShifts();
+  switchTab('closure');
   addLog('Login', `${currentUser.username} signed in`);
   showToast('Welcome, ' + (currentUser.fullName || currentUser.username), 'success');
 }
@@ -1299,7 +1597,7 @@ async function showAdminDashboard(){
 
 function applyPermissions(){
   document.querySelectorAll('.editor-only').forEach(el => {
-    const canEdit = hasPerm('editDaily') || hasPerm('editPurchases') || hasPerm('editExpenses') || hasPerm('closeMonth');
+    const canEdit = hasPerm('editDaily') || hasPerm('editPurchases') || hasPerm('editExpenses') || hasPerm('closeMonth') || hasPerm('editShifts');
     el.style.display = canEdit ? '' : 'none';
   });
   document.querySelectorAll('.manager-only').forEach(el => {
@@ -1311,7 +1609,8 @@ function doLogout(){
   if(!confirm('Sign out?')) return;
   clearSession();
   currentUser = null; currentLocationId = null;
-  allMonthsData = {}; weeklyClosures = []; auditLog = []; suppliersCache = [];
+  allMonthsData = {}; weeklyClosures = []; auditLog = []; suppliersCache = []; allShifts = [];
+  currentShiftId = null; currentShiftData = null;
   document.getElementById('landingPage').style.display = 'block';
   document.getElementById('app').style.display = 'none';
   document.getElementById('adminApp').style.display = 'none';
@@ -1322,8 +1621,560 @@ function doLogout(){
 }
 
 /* ============================================================
-   ADMIN
+   DAILY CLOSURE / SHIFTS
    ============================================================ */
+
+function findTodaysOpenShiftForMe(){
+  const today = todayStr();
+  return allShifts.find(sh =>
+    sh.date === today &&
+    sh.cashier === currentUser?.username &&
+    sh.status === 'open'
+  );
+}
+function findTodaysShifts(){
+  const today = todayStr();
+  return allShifts.filter(sh => sh.date === today);
+}
+
+function renderClosureView(){
+  const todayOpen = findTodaysOpenShiftForMe();
+  const todayShifts = findTodaysShifts();
+  const startBox = document.getElementById('closureStartBox');
+  const activeArea = document.getElementById('closureActiveArea');
+
+  if(todayOpen) {
+    startBox.style.display = 'none';
+    activeArea.style.display = 'block';
+    currentShiftData = todayOpen;
+    currentShiftId = todayOpen.id;
+    renderClosurePanel();
+  } else {
+    startBox.style.display = 'block';
+    activeArea.style.display = 'none';
+    pendingPeriod = null;
+    document.querySelectorAll('.period-opt').forEach(el => el.classList.remove('selected'));
+    highlightClockPeriodOption();
+    const startBtn = document.getElementById('startShiftBtn');
+    if(startBtn) startBtn.disabled = true;
+    const othersWrap = document.getElementById('todaysOtherShifts');
+    if(todayShifts.length > 0 && !todayOpen) {
+      if(othersWrap) {
+        othersWrap.style.display = 'block';
+        othersWrap.innerHTML = `<div style="margin-top:1rem;background:#f8fafd;border-radius:14px;padding:1rem 1.2rem;border:1px solid #e3ebf3;">
+          <div style="font-weight:700;color:#0b2b44;margin-bottom:0.5rem;"><i class="fas fa-info-circle" style="color:#1d7a4b;"></i> Today's other shifts</div>
+          ${todayShifts.map(sh => `<div style="font-size:0.82rem;color:#5f7385;padding:0.25rem 0;display:flex;align-items:center;gap:0.4rem;flex-wrap:wrap;"><strong style="color:#0b2b44;">${sh.cashierName || sh.cashier}</strong> ${periodBadgeHtml(sh.period, sh.openedAt)} <span style="color:${sh.status === 'closed' ? '#b33a3a' : '#1d7a4b'};font-weight:700;text-transform:uppercase;font-size:0.7rem;">${sh.status}</span></div>`).join('')}
+        </div>`;
+      }
+    } else if(othersWrap) othersWrap.style.display = 'none';
+  }
+}
+
+function selectShiftPeriod(period){
+  pendingPeriod = period;
+  document.querySelectorAll('.period-opt').forEach(el => {
+    el.classList.toggle('selected', el.dataset.period === period);
+  });
+  document.getElementById('startShiftBtn').disabled = false;
+}
+
+async function startNewShift(){
+  if(!pendingPeriod){ showToast('Please pick a period first', 'error'); return; }
+  if(!hasPerm('editShifts')){ showToast('No permission to start a shift', 'error'); return; }
+  const today = todayStr();
+  const nowIso = new Date().toISOString();
+  const clockPeriod = periodFromClock();
+
+  // If the selected period doesn't match the clock, warn the cashier
+  if(pendingPeriod !== clockPeriod){
+    const ok = confirm(
+      `You selected ${periodLabel(pendingPeriod)}, but the current time is ${new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})} ` +
+      `which falls in the ${periodLabel(clockPeriod)} window.\n\n` +
+      `Continue anyway? The shift will be tagged as ${periodLabel(pendingPeriod)} and flagged as "off-clock" for managers.`
+    );
+    if(!ok) return;
+  }
+
+  const newShift = {
+    date: today,
+    period: pendingPeriod,
+    periodSource: 'manual',
+    clockPeriodAtStart: clockPeriod,
+    cashier: currentUser?.username || 'unknown',
+    cashierName: currentUser?.fullName || currentUser?.username || 'unknown',
+    mtn: 0, airtel: 0, closingSales: 0, expenses: 0, openingFloat: 0, counted: 0,
+    sales: 0, cashExpected: 0, difference: 0,
+    expenseItems: [],
+    note: '',
+    status: 'open',
+    openedAt: nowIso,
+    openedAtTime: nowTimeStr()
+  };
+  try {
+    if(firebaseReady && currentLocationId) {
+      const ref = await db.collection('locations').doc(currentLocationId).collection('shifts').add(newShift);
+      newShift.id = ref.id;
+    } else {
+      newShift.id = 'local_' + Date.now();
+    }
+    allShifts.unshift(newShift);
+    currentShiftId = newShift.id;
+    currentShiftData = newShift;
+    addLog('Start Shift', `${newShift.date} ${periodLabel(newShift.period)} — by ${currentUser.username}${newShift.period !== clockPeriod ? ' [OFF-CLOCK: clock=' + periodLabel(clockPeriod) + ']' : ''}`);
+    showToast(`Shift started — tagged ${periodLabel(newShift.period)}`, 'success');
+    renderClosureView();
+    renderShifts();
+  } catch(e) { showToast('Could not start shift: ' + e.message, 'error'); }
+}
+
+function renderClosurePanel(){
+  const sh = currentShiftData;
+  if(!sh) return;
+  const isClosed = sh.status === 'closed';
+  const periodText = periodLabel(sh.period);
+  const clockAtStart = sh.clockPeriodAtStart || periodFromTimestamp(sh.openedAt);
+  const mismatch = isValidPeriod(sh.period) && clockAtStart && sh.period !== clockAtStart;
+  document.getElementById('closureShiftLabel').textContent = `${periodText} Shift — ${new Date(sh.date).toLocaleDateString('en-GB', { weekday: 'short', day: '2-digit', month: 'short', year: 'numeric' })}`;
+  const statusEl = document.getElementById('closureShiftStatus');
+  statusEl.textContent = isClosed ? 'Closed' : 'Open';
+  statusEl.className = 'shift-status ' + (isClosed ? 'closed' : 'open');
+
+  document.getElementById('closureShiftMeta').innerHTML = `
+    <div class="banner ${isClosed ? 'closed' : 'open'}">${isClosed ? 'This shift is CLOSED — locked' : 'Shift is OPEN — you can still edit'}</div>
+    <div class="row"><span>Cashier</span><strong>${sh.cashierName || sh.cashier}</strong></div>
+    <div class="row"><span>Period</span><span>${periodBadgeHtml(sh.period, sh.openedAt)}</span></div>
+    ${mismatch ? `<div class="row" style="background:#fdeeee;padding:0.4rem 0.6rem;border-radius:8px;margin-top:0.3rem;"><span style="color:#b33a3a;"><i class="fas fa-exclamation-triangle"></i> Off-clock tag</span><strong style="color:#b33a3a;">Started at ${new Date(sh.openedAt).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})} (${periodLabel(clockAtStart)})</strong></div>` : ''}
+    <div class="row"><span>Started</span><strong>${sh.openedAt ? new Date(sh.openedAt).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}) : '—'}</strong></div>
+    ${isClosed ? `<div class="row"><span>Ended</span><strong>${sh.closedAt ? new Date(sh.closedAt).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}) : '—'}</strong></div>` : ''}
+  `;
+
+  const setVal = (id, v) => { const el = document.getElementById(id); if(el) el.value = (v === 0 || v) ? v : ''; };
+  setVal('clMtn', sh.mtn); setVal('clAirtel', sh.airtel); setVal('clClosingSales', sh.closingSales);
+  setVal('clCounted', sh.counted); setVal('clOpeningFloat', sh.openingFloat);
+  document.getElementById('clNote').value = sh.note || '';
+
+  if(!Array.isArray(sh.expenseItems)) sh.expenseItems = [];
+
+  const canEdit = !isClosed || hasPerm('manageUsers');
+  ['clMtn','clAirtel','clClosingSales','clCounted','clOpeningFloat','clNote'].forEach(id => {
+    const el = document.getElementById(id);
+    if(el) { el.readOnly = !canEdit; el.style.background = canEdit ? 'white' : '#f2f6fa'; }
+  });
+
+  renderClosureExpenses();
+
+  const actions = document.getElementById('closureActions');
+  if(isClosed) {
+    if(hasPerm('manageUsers')) {
+      actions.innerHTML = `<button class="btn btn-primary" onclick="reopenShift()"><i class="fas fa-lock-open"></i> Re-open Shift</button>`;
+    } else {
+      actions.innerHTML = `<div style="width:100%;text-align:center;padding:0.7rem;background:#e3f0eb;border-radius:12px;color:#1d6b4f;font-weight:600;font-size:0.85rem;"><i class="fas fa-lock"></i> Shift is closed</div>`;
+    }
+  } else {
+    actions.innerHTML = `
+      <button class="btn btn-primary" onclick="saveClosureDraft()"><i class="fas fa-save"></i> Save Draft</button>
+      <button class="btn btn-danger" onclick="endShift()"><i class="fas fa-lock"></i> End Shift</button>
+    `;
+  }
+  recalcClosure();
+}
+
+/* ===== CLOSURE EXPENSE LINE ITEMS ===== */
+function renderClosureExpenses(){
+  const sh = currentShiftData;
+  const wrap = document.getElementById('clExpenseList');
+  if(!sh || !wrap) return;
+  const isClosed = sh.status === 'closed';
+  const canEdit = !isClosed || hasPerm('manageUsers');
+  if(!Array.isArray(sh.expenseItems)) sh.expenseItems = [];
+
+  if(!sh.expenseItems.length){
+    wrap.innerHTML = `<div class="closure-expense-empty">
+      No expenses recorded for this shift yet.${canEdit ? ' Click <strong>Add expense</strong> below.' : ''}
+    </div>`;
+  } else {
+    wrap.innerHTML = sh.expenseItems.map((e, idx) => {
+      const ro = !canEdit ? 'readonly' : '';
+      const dis = !canEdit ? 'disabled' : '';
+      const bg = !canEdit ? 'background:#f2f6fa;' : '';
+      return `<div class="closure-expense-row">
+        <select ${dis} onchange="updateClosureExpense(${idx},'type',this.value)" style="${bg}">
+          ${CLOSURE_EXPENSE_TYPES.map(t => `<option value="${t}" ${e.type === t ? 'selected' : ''}>${t}</option>`).join('')}
+        </select>
+        <input type="text" value="${(e.description||'').replace(/"/g,'&quot;')}" ${ro} placeholder="Description (e.g. boda to market)" onchange="updateClosureExpense(${idx},'description',this.value)" style="${bg}">
+        <input type="number" step="0.01" class="amt" value="${e.amount ?? ''}" ${ro} placeholder="0" data-exp-amt="${idx}" oninput="onClosureAmountInput(${idx}, this.value)" onchange="onClosureAmountChange(${idx}, this.value)" style="${bg}">
+        <button type="button" class="remove-btn" ${canEdit ? '' : 'disabled'} onclick="removeClosureExpense(${idx})"><i class="fas fa-trash-alt"></i></button>
+      </div>`;
+    }).join('');
+  }
+  const total = sh.expenseItems.reduce((s, e) => s + (parseFloat(e.amount) || 0), 0);
+  const totalEl = document.getElementById('clExpensesTotal');
+  if(totalEl) totalEl.textContent = 'UGX ' + fmt(total);
+}
+function onClosureAmountInput(idx, value){
+  if(!currentShiftData) return;
+  if(currentShiftData.status === 'closed' && !hasPerm('manageUsers')) return;
+  if(!currentShiftData.expenseItems[idx]) return;
+  currentShiftData.expenseItems[idx].amount = value === '' ? 0 : (parseFloat(value) || 0);
+  const total = currentShiftData.expenseItems.reduce((s, e) => s + (parseFloat(e.amount) || 0), 0);
+  const totalEl = document.getElementById('clExpensesTotal');
+  if(totalEl) totalEl.textContent = 'UGX ' + fmt(total);
+  recalcClosure();
+}
+function onClosureAmountChange(idx, value){
+  if(!currentShiftData) return;
+  if(currentShiftData.status === 'closed' && !hasPerm('manageUsers')) return;
+  if(!currentShiftData.expenseItems[idx]) return;
+  currentShiftData.expenseItems[idx].amount = value === '' ? 0 : (parseFloat(value) || 0);
+  saveClosureDraft();
+}
+function addClosureExpense(){
+  if(!currentShiftData) return;
+  if(currentShiftData.status === 'closed' && !hasPerm('manageUsers')){ showToast('Shift is closed', 'error'); return; }
+  if(!Array.isArray(currentShiftData.expenseItems)) currentShiftData.expenseItems = [];
+  currentShiftData.expenseItems.push({ type: 'Transport', description: '', amount: 0 });
+  renderClosureExpenses();
+  recalcClosure();
+  saveClosureDraft();
+}
+function removeClosureExpense(idx){
+  if(!currentShiftData) return;
+  if(currentShiftData.status === 'closed' && !hasPerm('manageUsers')){ showToast('Shift is closed', 'error'); return; }
+  const removed = currentShiftData.expenseItems[idx];
+  currentShiftData.expenseItems.splice(idx, 1);
+  if(removed) addLog('Remove Shift Expense', `${removed.type} — UGX ${fmt(removed.amount)}`);
+  renderClosureExpenses();
+  recalcClosure();
+  saveClosureDraft();
+}
+function updateClosureExpense(idx, field, value){
+  if(!currentShiftData) return;
+  if(currentShiftData.status === 'closed' && !hasPerm('manageUsers')) return;
+  if(!currentShiftData.expenseItems[idx]) return;
+  currentShiftData.expenseItems[idx][field] = value;
+  recalcClosure();
+  saveClosureDraft();
+}
+
+function getNum(id){ const el = document.getElementById(id); if(!el) return 0; const v = parseFloat(el.value); return isNaN(v) ? 0 : v; }
+function recalcClosure(){
+  const mtn = getNum('clMtn');
+  const airtel = getNum('clAirtel');
+  const closingSales = getNum('clClosingSales');
+  const counted = getNum('clCounted');
+  const expenses = (currentShiftData && Array.isArray(currentShiftData.expenseItems))
+    ? currentShiftData.expenseItems.reduce((s, e) => s + (parseFloat(e.amount) || 0), 0)
+    : 0;
+  const openingFloat = getNum('clOpeningFloat');
+  const sales = closingSales;
+  const cashExpected = openingFloat + (sales - mtn - airtel) - expenses;
+  const difference = counted - cashExpected;
+  let diffClass = 'balanced', diffLabel = 'Balanced', diffSub = 'Perfect count — nothing extra or missing';
+  if(difference > 0){ diffClass = 'extra'; diffLabel = `Extra UGX ${fmt(difference)}`; diffSub = 'Cash counted more than expected'; }
+  else if(difference < 0){ diffClass = 'loss'; diffLabel = `Loss UGX ${fmt(Math.abs(difference))}`; diffSub = 'Cash counted less than expected'; }
+
+  const box = document.getElementById('closureResults');
+  if(box) {
+    box.innerHTML = `
+      <h4><i class="fas fa-calculator"></i> Live Results</h4>
+      <div class="result-row"><span class="lbl">Sales (system)</span><span class="v">UGX ${fmt(sales)}</span></div>
+      <div class="result-row"><span class="lbl">MTN MOMO</span><span class="v">UGX ${fmt(mtn)}</span></div>
+      <div class="result-row"><span class="lbl">Airtel Money</span><span class="v">UGX ${fmt(airtel)}</span></div>
+      <div class="result-row"><span class="lbl">Mobile Money Total</span><span class="v">UGX ${fmt(mtn + airtel)}</span></div>
+      <div class="result-row"><span class="lbl">Cash portion of sales</span><span class="v">UGX ${fmt(Math.max(0, sales - mtn - airtel))}</span></div>
+      <div class="result-row"><span class="lbl">Opening float</span><span class="v">UGX ${fmt(openingFloat)}</span></div>
+      <div class="result-row"><span class="lbl">Expenses paid (${(currentShiftData?.expenseItems||[]).length} item${(currentShiftData?.expenseItems||[]).length===1?'':'s'})</span><span class="v">−UGX ${fmt(expenses)}</span></div>
+      <div class="result-row"><span class="lbl">Cash Expected</span><span class="v">UGX ${fmt(cashExpected)}</span></div>
+      <div class="result-row"><span class="lbl">Cash Counted</span><span class="v">UGX ${fmt(counted)}</span></div>
+      <div class="result-diff ${diffClass}">${diffLabel}<span class="meta">${diffSub}</span></div>
+    `;
+  }
+  if(currentShiftData && (currentShiftData.status !== 'closed' || hasPerm('manageUsers'))) {
+    currentShiftData.mtn = mtn; currentShiftData.airtel = airtel;
+    currentShiftData.closingSales = closingSales; currentShiftData.counted = counted;
+    currentShiftData.expenses = expenses; currentShiftData.openingFloat = openingFloat;
+    currentShiftData.sales = sales; currentShiftData.cashExpected = cashExpected;
+    currentShiftData.difference = difference;
+    const noteEl = document.getElementById('clNote');
+    if(noteEl) currentShiftData.note = noteEl.value;
+  }
+}
+
+async function saveClosureDraft(){
+  if(!currentShiftData) return;
+  recalcClosure();
+  showSaveStatus('saving');
+  try {
+    if(firebaseReady && currentLocationId && currentShiftId && !currentShiftId.startsWith('local_')) {
+      await db.collection('locations').doc(currentLocationId).collection('shifts').doc(currentShiftId).update({
+        mtn: currentShiftData.mtn, airtel: currentShiftData.airtel,
+        closingSales: currentShiftData.closingSales, counted: currentShiftData.counted,
+        expenses: currentShiftData.expenses, openingFloat: currentShiftData.openingFloat,
+        sales: currentShiftData.sales, cashExpected: currentShiftData.cashExpected,
+        difference: currentShiftData.difference, note: currentShiftData.note,
+        expenseItems: currentShiftData.expenseItems || []
+      });
+    }
+    const idx = allShifts.findIndex(s => s.id === currentShiftId);
+    if(idx >= 0) allShifts[idx] = { ...currentShiftData };
+    addLog('Save Shift Draft', `${currentShiftData.date} ${periodLabel(currentShiftData.period)} — diff UGX ${fmt(currentShiftData.difference)}`);
+    showSaveStatus('saved');
+    showToast('Shift draft saved', 'success');
+    renderShifts();
+  } catch(e) { showSaveStatus('error'); showToast('Save failed: ' + e.message, 'error'); }
+}
+
+async function endShift(){
+  if(!currentShiftData) return;
+  recalcClosure();
+  const d = currentShiftData.difference || 0;
+  let msg = `End your ${periodLabel(currentShiftData.period)} shift now? This will lock the shift.`;
+  if(d > 0) msg += `\n\nExtra cash: UGX ${fmt(d)}`;
+  else if(d < 0) msg += `\n\nCash shortage: UGX ${fmt(-d)}`;
+  else msg += `\n\nPerfect count.`;
+  if(!confirm(msg)) return;
+  showSaveStatus('saving');
+  try {
+    currentShiftData.status = 'closed';
+    currentShiftData.closedAt = new Date().toISOString();
+    currentShiftData.closedAtTime = nowTimeStr();
+    currentShiftData.closedBy = currentUser.username;
+    if(firebaseReady && currentLocationId && currentShiftId && !currentShiftId.startsWith('local_')) {
+      await db.collection('locations').doc(currentLocationId).collection('shifts').doc(currentShiftId).update({
+        mtn: currentShiftData.mtn, airtel: currentShiftData.airtel,
+        closingSales: currentShiftData.closingSales, counted: currentShiftData.counted,
+        expenses: currentShiftData.expenses, openingFloat: currentShiftData.openingFloat,
+        sales: currentShiftData.sales, cashExpected: currentShiftData.cashExpected,
+        difference: currentShiftData.difference, note: currentShiftData.note,
+        expenseItems: currentShiftData.expenseItems || [],
+        status: 'closed', closedAt: currentShiftData.closedAt, closedAtTime: currentShiftData.closedAtTime, closedBy: currentUser.username
+      });
+    }
+    const idx = allShifts.findIndex(s => s.id === currentShiftId);
+    if(idx >= 0) allShifts[idx] = { ...currentShiftData };
+    addLog('End Shift', `${currentShiftData.date} ${periodLabel(currentShiftData.period)} — counted ${fmt(currentShiftData.counted)}, difference ${fmtSigned(currentShiftData.difference)}`);
+    showSaveStatus('saved');
+    showToast('Shift ended successfully', 'success');
+    renderClosureView();
+    renderShifts();
+    syncCashToClosureAudit();
+  } catch(e) { showSaveStatus('error'); showToast('Failed to end shift: ' + e.message, 'error'); }
+}
+
+async function reopenShift(){
+  if(!hasPerm('manageUsers')){ showToast('Only managers can re-open shifts', 'error'); return; }
+  if(!currentShiftData) return;
+  if(!confirm('Re-open this shift for editing?')) return;
+  try {
+    currentShiftData.status = 'open';
+    currentShiftData.reopened = true;
+    currentShiftData.reopenedAt = new Date().toISOString();
+    currentShiftData.reopenedBy = currentUser.username;
+    if(firebaseReady && currentLocationId && currentShiftId && !currentShiftId.startsWith('local_')) {
+      await db.collection('locations').doc(currentLocationId).collection('shifts').doc(currentShiftId).update({
+        status: 'open', reopened: true, reopenedAt: currentShiftData.reopenedAt, reopenedBy: currentUser.username
+      });
+    }
+    const idx = allShifts.findIndex(s => s.id === currentShiftId);
+    if(idx >= 0) allShifts[idx] = { ...currentShiftData };
+    addLog('Re-open Shift', `${currentShiftData.date} ${periodLabel(currentShiftData.period)} re-opened by ${currentUser.username}`);
+    showToast('Shift re-opened', 'success');
+    renderClosurePanel();
+    renderShifts();
+  } catch(e) { showToast('Failed to re-open: ' + e.message, 'error'); }
+}
+
+async function syncCashToClosureAudit(){
+  const today = todayStr();
+  const todaysShifts = allShifts.filter(sh => sh.date === today);
+  if(!todaysShifts.length) return;
+  const totalCounted = todaysShifts.reduce((sum, sh) => sum + (parseFloat(sh.counted) || 0), 0);
+  try {
+    const existing = weeklyClosures.find(w => w.date === today);
+    if(existing) {
+      existing.cash = totalCounted;
+      await db.collection('locations').doc(currentLocationId).collection('weeklyClosures').doc(today).set(existing);
+    }
+    renderAudit();
+  } catch(e) { console.warn('Cash sync failed', e); }
+}
+
+/* SHIFTS HISTORY */
+function renderShifts(){
+  const sel = document.getElementById('shiftMonthFilter');
+  if(sel && sel.options.length <= 1){
+    const months = new Set(allShifts.map(s => s.date ? s.date.slice(0,7) : '').filter(Boolean));
+    Array.from(months).sort().reverse().forEach(m => {
+      const o = document.createElement('option'); o.value = m; o.textContent = monthLabel(m); sel.appendChild(o);
+    });
+  }
+  const monthFilter = sel ? sel.value : '';
+  const filtered = allShifts.filter(s => !monthFilter || (s.date && s.date.slice(0,7) === monthFilter));
+
+  const totalExtra = filtered.filter(s => (parseFloat(s.difference) || 0) > 0).reduce((sum, s) => sum + (parseFloat(s.difference) || 0), 0);
+  const totalLoss = filtered.filter(s => (parseFloat(s.difference) || 0) < 0).reduce((sum, s) => sum + Math.abs(parseFloat(s.difference) || 0), 0);
+  const netDiff = totalExtra - totalLoss;
+  const totalSales = filtered.reduce((sum, s) => sum + (parseFloat(s.sales) || 0), 0);
+  const grid = document.getElementById('shiftSummaryGrid');
+  if(grid) grid.innerHTML = `
+    <div class="sum-card"><div class="sum-label"><i class="fas fa-clock"></i> Shifts</div><div class="sum-value">${filtered.length}</div><div class="sum-sub">${filtered.filter(s => s.status === 'open').length} still open</div></div>
+    <div class="sum-card"><div class="sum-label"><i class="fas fa-coins"></i> Total Sales (shifts)</div><div class="sum-value">${fmt(totalSales)}</div><div class="sum-sub">UGX</div></div>
+    <div class="sum-card flag-green"><div class="sum-label"><i class="fas fa-arrow-up"></i> Extra</div><div class="sum-value positive">${fmt(totalExtra)}</div><div class="sum-sub">Cash counted above expected</div></div>
+    <div class="sum-card flag-red"><div class="sum-label"><i class="fas fa-arrow-down"></i> Loss</div><div class="sum-value negative">${fmt(totalLoss)}</div><div class="sum-sub">Cash missing vs expected</div></div>
+    <div class="sum-card ${netDiff >= 0 ? 'flag-green' : 'flag-red'}"><div class="sum-label"><i class="fas fa-scale-balanced"></i> Net difference</div><div class="sum-value ${netDiff >= 0 ? 'positive' : 'negative'}">${fmtSigned(netDiff)}</div><div class="sum-sub">Across shown shifts</div></div>
+  `;
+
+  const tbody = document.getElementById('shiftBody');
+  if(!tbody) return;
+  if(!filtered.length){ tbody.innerHTML = '<tr><td colspan="12" style="text-align:center;padding:2rem;color:#7b8fa0;">No shift closures recorded yet.</td></tr>'; return; }
+  tbody.innerHTML = filtered.map(s => {
+    const d = parseFloat(s.difference) || 0;
+    const diffClass = d > 0 ? 'diff-pos' : (d < 0 ? 'diff-neg' : 'diff-zero');
+    const diffLabel = d === 0 ? 'Balanced' : (d > 0 ? `+${fmt(d)}` : `−${fmt(-d)}`);
+    const statusBadge = s.status === 'closed' ? '<span class="badge-pill green">Closed</span>' : '<span class="badge-pill amber">Open</span>';
+    const dateTime = new Date(s.date).toLocaleDateString('en-GB', { day: '2-digit', month: 'short' }) + (s.openedAt ? ' · ' + new Date(s.openedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '');
+    return `<tr>
+      <td>${dateTime}</td>
+      <td>${periodBadgeHtml(s.period, s.openedAt)}</td>
+      <td><span class="cashier-name"><i class="fas fa-user-circle"></i> ${s.cashierName || s.cashier || '—'}</span></td>
+      <td>${fmt(s.sales || 0)}</td>
+      <td>${fmt(s.mtn || 0)}</td>
+      <td>${fmt(s.airtel || 0)}</td>
+      <td>${fmt(s.expenses || 0)}</td>
+      <td>${fmt(s.cashExpected || 0)}</td>
+      <td>${fmt(s.counted || 0)}</td>
+      <td class="${diffClass}">${diffLabel}</td>
+      <td>${statusBadge}</td>
+      <td><button class="btn" style="padding:0.35rem 0.7rem;font-size:0.7rem;" onclick="viewShift('${s.id}')"><i class="fas fa-eye"></i></button></td>
+    </tr>`;
+  }).join('');
+
+  const wrap = document.getElementById('cashierSummaryWrap');
+  if(wrap && monthFilter && hasPerm('manageUsers')) {
+    const monthShifts = allShifts.filter(s => s.date && s.date.slice(0,7) === monthFilter && s.status === 'closed');
+    if(monthShifts.length) {
+      wrap.style.display = 'block';
+      document.getElementById('cashierSummaryMonth').textContent = monthLabel(monthFilter);
+      const byCashier = {};
+      monthShifts.forEach(s => {
+        const name = s.cashierName || s.cashier || 'Unknown';
+        if(!byCashier[name]) byCashier[name] = { shifts: 0, sales: 0, extra: 0, loss: 0 };
+        byCashier[name].shifts++;
+        byCashier[name].sales += (parseFloat(s.sales) || 0);
+        const diff = parseFloat(s.difference) || 0;
+        if(diff > 0) byCashier[name].extra += diff;
+        else if(diff < 0) byCashier[name].loss += Math.abs(diff);
+      });
+      const entries = Object.entries(byCashier).sort((a, b) => b[1].sales - a[1].sales);
+      document.getElementById('cashierSummaryBody').innerHTML = entries.map(([name, s]) => {
+        const net = s.extra - s.loss;
+        return `<tr>
+          <td><span class="cashier-name"><i class="fas fa-user-circle"></i> ${name}</span></td>
+          <td>${s.shifts}</td>
+          <td>${fmt(s.sales)}</td>
+          <td class="diff-pos">+${fmt(s.extra)}</td>
+          <td class="diff-neg">−${fmt(s.loss)}</td>
+          <td class="${net > 0 ? 'diff-pos' : (net < 0 ? 'diff-neg' : 'diff-zero')}">${fmtSigned(net)}</td>
+        </tr>`;
+      }).join('');
+    } else { wrap.style.display = 'none'; }
+  } else if(wrap) { wrap.style.display = 'none'; }
+}
+
+function viewShift(id){
+  const sh = allShifts.find(s => s.id === id);
+  if(!sh) return;
+  if(sh.date === todayStr() && sh.cashier === currentUser.username && sh.status === 'open') {
+    currentShiftData = sh; currentShiftId = sh.id;
+    switchTab('closure');
+    showToast('Loaded your open shift', 'success');
+    return;
+  }
+  showShiftSummary(sh);
+}
+
+function showShiftSummary(sh){
+  const exp = parseFloat(sh.expenses) || 0;
+  const items = Array.isArray(sh.expenseItems) ? sh.expenseItems : [];
+  const itemRows = items.length
+    ? items.map(e => `<tr>
+        <td>${e.type || '—'}</td>
+        <td>${e.description || '—'}</td>
+        <td style="text-align:right;font-weight:600;color:#b33a3a;">UGX ${fmt(e.amount)}</td>
+      </tr>`).join('')
+    : `<tr><td colspan="3" style="text-align:center;color:#7b8fa0;padding:1rem;">No itemised expenses</td></tr>`;
+
+  const d = parseFloat(sh.difference) || 0;
+  const diffClass = d > 0 ? 'extra' : (d < 0 ? 'loss' : 'balanced');
+  const diffLabel = d === 0 ? 'Balanced' : (d > 0 ? `Extra UGX ${fmt(d)}` : `Loss UGX ${fmt(-d)}`);
+  const clockAtStart = sh.clockPeriodAtStart || periodFromTimestamp(sh.openedAt);
+  const mismatch = isValidPeriod(sh.period) && clockAtStart && sh.period !== clockAtStart;
+
+  document.getElementById('shiftSummarySub').textContent = `${periodLabel(sh.period)} — ${new Date(sh.date).toLocaleDateString('en-GB', { weekday:'short', day:'2-digit', month:'short', year:'numeric' })}`;
+  document.getElementById('shiftSummaryBody').innerHTML = `
+    <div class="shift-meta">
+      <div class="row"><span>Cashier</span><strong>${sh.cashierName || sh.cashier}</strong></div>
+      <div class="row"><span>Period</span><span>${periodBadgeHtml(sh.period, sh.openedAt)}</span></div>
+      ${mismatch ? `<div class="row" style="background:#fdeeee;padding:0.4rem 0.6rem;border-radius:8px;margin-top:0.3rem;"><span style="color:#b33a3a;"><i class="fas fa-exclamation-triangle"></i> Off-clock tag</span><strong style="color:#b33a3a;">Started at ${new Date(sh.openedAt).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})} (${periodLabel(clockAtStart)})</strong></div>` : ''}
+      <div class="row"><span>Started</span><strong>${sh.openedAt ? new Date(sh.openedAt).toLocaleString() : '—'}</strong></div>
+      <div class="row"><span>Ended</span><strong>${sh.closedAt ? new Date(sh.closedAt).toLocaleString() : '—'}</strong></div>
+      <div class="row"><span>Status</span><strong>${sh.status === 'closed' ? 'Closed' : 'Open'}</strong></div>
+    </div>
+
+    <div class="result-box">
+      <h4><i class="fas fa-calculator"></i> Reconciliation</h4>
+      <div class="result-row"><span class="lbl">Closing sales</span><span class="v">UGX ${fmt(sh.sales || 0)}</span></div>
+      <div class="result-row"><span class="lbl">MTN MOMO</span><span class="v">UGX ${fmt(sh.mtn || 0)}</span></div>
+      <div class="result-row"><span class="lbl">Airtel Money</span><span class="v">UGX ${fmt(sh.airtel || 0)}</span></div>
+      <div class="result-row"><span class="lbl">Opening float</span><span class="v">UGX ${fmt(sh.openingFloat || 0)}</span></div>
+      <div class="result-row"><span class="lbl">Expenses paid</span><span class="v">−UGX ${fmt(exp)}</span></div>
+      <div class="result-row"><span class="lbl">Cash expected</span><span class="v">UGX ${fmt(sh.cashExpected || 0)}</span></div>
+      <div class="result-row"><span class="lbl">Cash counted</span><span class="v">UGX ${fmt(sh.counted || 0)}</span></div>
+      <div class="result-diff ${diffClass}">${diffLabel}<span class="meta">Counted − Expected</span></div>
+    </div>
+
+    <div class="section-title" style="margin-top:1.2rem;"><i class="fas fa-receipt"></i> Expense breakdown (${items.length})</div>
+    <div class="table-card" style="margin:0;">
+      <div class="table-scroll">
+        <table class="shift-summary-tbl">
+          <thead><tr><th>Type</th><th>Description</th><th style="text-align:right;">Amount (UGX)</th></tr></thead>
+          <tbody>${itemRows}</tbody>
+        </table>
+      </div>
+    </div>
+
+    ${sh.note ? `<div style="margin-top:1rem;padding:0.8rem 1rem;background:#f8fafd;border-radius:10px;font-size:0.85rem;color:#2a4a6a;border:1px solid #e3ebf3;"><strong style="color:#0b2b44;">Note:</strong> ${sh.note}</div>` : ''}
+  `;
+  document.getElementById('shiftSummaryModal').classList.add('active');
+}
+function closeShiftSummary(){ document.getElementById('shiftSummaryModal').classList.remove('active'); }
+
+async function closeAllShiftsForMonth(){
+  if(!hasPerm('manageUsers')){ showToast('Only managers can close shifts', 'error'); return; }
+  const sel = document.getElementById('shiftMonthFilter');
+  const monthKey = sel ? sel.value : '';
+  if(!monthKey){ showToast('Select a specific month first', 'error'); return; }
+  const openShifts = allShifts.filter(s => s.date && s.date.slice(0,7) === monthKey && s.status === 'open');
+  if(!openShifts.length){ showToast('No open shifts in that month', 'success'); return; }
+  if(!confirm(`Close all ${openShifts.length} open shift(s) in ${monthLabel(monthKey)}? This locks them permanently.`)) return;
+  showSaveStatus('saving','Closing shifts...');
+  let closed = 0;
+  for(const sh of openShifts){
+    try {
+      await db.collection('locations').doc(currentLocationId).collection('shifts').doc(sh.id).update({
+        status: 'closed', closedAt: new Date().toISOString(), closedBy: currentUser.username
+      });
+      sh.status = 'closed'; sh.closedAt = new Date().toISOString(); sh.closedBy = currentUser.username;
+      closed++;
+    } catch(e) { console.warn('Close shift failed', sh.id, e); }
+  }
+  showSaveStatus('saved','Closed');
+  addLog('Close All Shifts', `${closed} shift(s) closed in ${monthLabel(monthKey)}`);
+  renderShifts();
+  showToast(`Closed ${closed} shift(s)`, 'success');
+}
+
+/* ADMIN */
 async function loadAdminData(){
   if(!firebaseReady) return;
   try {
@@ -1433,79 +2284,48 @@ async function renderAdminActivity(){
     showSaveStatus('saved','Ready','admin');
   } catch(e) { showSaveStatus('error','Failed','admin'); }
 }
-
 async function clearAllActivityLogs(){
-  const confirmed = confirm('Are you sure you want to permanently delete ALL activity logs across ALL locations?\n\nThis action cannot be undone.');
-  if(!confirmed) return;
-  const confirmed2 = confirm('FINAL WARNING: This will erase the entire audit trail for every location. Continue?');
-  if(!confirmed2) return;
+  if(!confirm('Delete ALL activity logs across ALL locations? Cannot be undone.')) return;
+  if(!confirm('FINAL WARNING: The entire audit trail will be erased. Continue?')) return;
   showSaveStatus('saving','Clearing...','admin');
   try {
     let totalDeleted = 0;
     for(const locId of Object.keys(allLocationsCache)) {
       const snap = await db.collection('locations').doc(locId).collection('auditLog').get();
       if(snap.empty) continue;
-      let batch = db.batch();
-      let count = 0;
+      let batch = db.batch(), count = 0;
       const docs = snap.docs;
       for(let i = 0; i < docs.length; i++) {
-        batch.delete(docs[i].ref);
-        count++;
-        if(count === 450 || i === docs.length - 1) {
-          await batch.commit();
-          totalDeleted += count;
-          batch = db.batch();
-          count = 0;
-        }
+        batch.delete(docs[i].ref); count++;
+        if(count === 450 || i === docs.length - 1) { await batch.commit(); totalDeleted += count; batch = db.batch(); count = 0; }
       }
     }
     document.getElementById('adminActivityBody').innerHTML = '<tr><td colspan="5" style="text-align:center;padding:2rem;color:#7b8fa0;">No activity yet</td></tr>';
     showSaveStatus('saved','Cleared','admin');
     showToast(`Cleared ${totalDeleted} log entries`, 'success');
-  } catch(e) {
-    console.error('Clear logs failed', e);
-    showSaveStatus('error','Failed','admin');
-    showToast('Failed to clear logs: ' + e.message, 'error');
-  }
+  } catch(e) { showSaveStatus('error','Failed','admin'); showToast('Failed: ' + e.message, 'error'); }
 }
-
 async function clearLocationAuditLog(){
   if(!hasPerm('manageUsers')){ showToast('Only managers can clear the log', 'error'); return; }
-  if(!currentLocationId){ showToast('No location selected', 'error'); return; }
-  const confirmed = confirm('Clear the audit log for your location?\n\nThis permanently deletes all log entries for ' + (currentUser?.locationName || currentLocationId) + '.\n\nThis action cannot be undone.');
-  if(!confirmed) return;
-  const confirmed2 = confirm('FINAL WARNING: The entire audit trail for this location will be erased. Continue?');
-  if(!confirmed2) return;
+  if(!confirm('Clear the audit log for your location? Cannot be undone.')) return;
+  if(!confirm('FINAL WARNING: The entire audit trail for this location will be erased. Continue?')) return;
   showSaveStatus('saving','Clearing...');
   try {
     let totalDeleted = 0;
     const snap = await db.collection('locations').doc(currentLocationId).collection('auditLog').get();
     if(!snap.empty) {
-      let batch = db.batch();
-      let count = 0;
+      let batch = db.batch(), count = 0;
       const docs = snap.docs;
       for(let i = 0; i < docs.length; i++) {
-        batch.delete(docs[i].ref);
-        count++;
-        if(count === 450 || i === docs.length - 1) {
-          await batch.commit();
-          totalDeleted += count;
-          batch = db.batch();
-          count = 0;
-        }
+        batch.delete(docs[i].ref); count++;
+        if(count === 450 || i === docs.length - 1) { await batch.commit(); totalDeleted += count; batch = db.batch(); count = 0; }
       }
     }
-    auditLog = [];
-    renderLog();
+    auditLog = []; renderLog();
     showSaveStatus('saved','Cleared');
     showToast(`Cleared ${totalDeleted} log entries`, 'success');
-  } catch(e) {
-    console.error('Clear location logs failed', e);
-    showSaveStatus('error','Failed');
-    showToast('Failed to clear log: ' + e.message, 'error');
-  }
+  } catch(e) { showSaveStatus('error','Failed'); showToast('Failed: ' + e.message, 'error'); }
 }
-
 async function adminCreateLocation(){
   const name = document.getElementById('admLocName').value.trim();
   const code = document.getElementById('admLocCode').value.trim().toLowerCase();
@@ -1517,13 +2337,11 @@ async function adminCreateLocation(){
   if(!/^[a-z0-9]+$/.test(mgr)) { showToast('Manager username must be lowercase alphanumeric', 'error'); return; }
   if(mgrPass.length < 6) { showToast('Password must be at least 6 chars', 'error'); return; }
   try {
-    const locEx = await db.collection('locations').doc(code).get();
-    if(locEx.exists) { showToast('Location code already exists', 'error'); return; }
-    const userEx = await db.collection('users').doc(mgr).get();
-    if(userEx.exists) { showToast('Manager username already exists', 'error'); return; }
+    if((await db.collection('locations').doc(code).get()).exists) { showToast('Location code already exists', 'error'); return; }
+    if((await db.collection('users').doc(mgr).get()).exists) { showToast('Manager username already exists', 'error'); return; }
     await db.collection('locations').doc(code).set({ name, code, status: 'active', createdAt: new Date().toISOString() });
     await db.collection('users').doc(mgr).set({ username: mgr, fullName: mgrName || mgr, password: mgrPass, locationId: code, role: 'manager', permissions: DEFAULT_PERMISSIONS.manager, status: 'active', createdAt: new Date().toISOString(), createdBy: 'admin' });
-    const now = new Date(); const curKey = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0');
+    const curKey = currentCalendarMonthKey();
     await db.collection('locations').doc(code).collection('months').doc(curKey).set({ entries: [], expenses: [], closed: false, purchases: [] });
     document.getElementById('admLocName').value = ''; document.getElementById('admLocCode').value = '';
     document.getElementById('admLocManager').value = ''; document.getElementById('admLocManagerName').value = ''; document.getElementById('admLocManagerPass').value = '';
@@ -1602,23 +2420,34 @@ async function saveUserEdit(){
 async function toggleUserStatus(username){
   const u = allUsersCache[username]; if(!u) return;
   const newStatus = u.status === 'suspended' ? 'active' : 'suspended';
-  if(!confirm(`${newStatus === 'suspended' ? 'Suspend' : 'Activate'} user "${username}"?`)) return;
+  if(!confirm(`${newStatus === 'suspended' ? 'Suspend' : 'Activate'} "${username}"?`)) return;
   await db.collection('users').doc(username).update({ status: newStatus });
   showToast('User ' + newStatus, 'success');
   await loadAdminData(); renderAdminAccounts();
 }
 async function deleteUserConfirm(username){
   const un = username || document.getElementById('editUserKey').value;
-  if(!confirm(`Delete user "${un}"?`)) return;
-  await db.collection('users').doc(un).delete();
-  showToast('User deleted', 'success');
-  if(document.getElementById('userModal').classList.contains('active')) closeUserModal();
-  await loadAdminData(); renderAdminAccounts(); renderAdminOverview();
+  if(!un) return;
+  if(!confirm(`Delete user "${un}"? This cannot be undone.`)) return;
+  try {
+    await db.collection('users').doc(un).delete();
+    delete allUsersCache[un];
+    await new Promise(r => setTimeout(r, 400));
+    await loadAdminData();
+    if(!allUsersCache[un]) showToast('User deleted', 'success');
+    else {
+      await db.collection('users').doc(un).delete();
+      await new Promise(r => setTimeout(r, 600));
+      await loadAdminData();
+      delete allUsersCache[un];
+      showToast('User deleted', 'success');
+    }
+    if(document.getElementById('userModal').classList.contains('active')) closeUserModal();
+    renderAdminAccounts(); renderAdminOverview();
+  } catch(e) { showToast('Error: ' + e.message, 'error'); }
 }
 
-/* ============================================================
-   PASSWORD
-   ============================================================ */
+/* PASSWORD */
 function openChangePassword(){ document.getElementById('pwdCurrent').value=''; document.getElementById('pwdNew').value=''; document.getElementById('pwdNew2').value=''; document.getElementById('pwdModal').classList.add('active'); }
 function closeChangePassword(){ document.getElementById('pwdModal').classList.remove('active'); }
 async function saveUserPassword(){
@@ -1653,9 +2482,7 @@ async function saveAdminPassword(){
   } catch(e) { showToast('Error: ' + e.message, 'error'); }
 }
 
-/* ============================================================
-   SUPPLIERS
-   ============================================================ */
+/* SUPPLIERS */
 function renderSuppliersList(){
   const list = document.getElementById('suppliersList');
   if(!list) return;
@@ -1683,48 +2510,32 @@ async function addSupplier(){
   if(!name){ showToast('Supplier name required', 'error'); return; }
   try {
     const docId = name.replace(/[\/\\#?\[\]]/g,'_');
-    const ex = await db.collection('locations').doc(currentLocationId).collection('suppliers').doc(docId).get();
-    if(ex.exists){ showToast('Supplier already exists', 'error'); return; }
-    await db.collection('locations').doc(currentLocationId).collection('suppliers').doc(docId).set({
-      name, contact, phone, category, createdAt: new Date().toISOString(), createdBy: currentUser.username
-    });
+    if((await db.collection('locations').doc(currentLocationId).collection('suppliers').doc(docId).get()).exists) { showToast('Supplier already exists', 'error'); return; }
+    await db.collection('locations').doc(currentLocationId).collection('suppliers').doc(docId).set({ name, contact, phone, category, createdAt: new Date().toISOString(), createdBy: currentUser.username });
     addLog('Add Supplier', `${name}`);
-    document.getElementById('supName').value = '';
-    document.getElementById('supContact').value = '';
-    document.getElementById('supPhone').value = '';
-    document.getElementById('supCategory').value = '';
+    document.getElementById('supName').value = ''; document.getElementById('supContact').value = ''; document.getElementById('supPhone').value = ''; document.getElementById('supCategory').value = '';
     showToast('Supplier added', 'success');
     const sSnap = await db.collection('locations').doc(currentLocationId).collection('suppliers').get();
-    suppliersCache = [];
-    sSnap.forEach(doc => suppliersCache.push({ id: doc.id, ...doc.data() }));
+    suppliersCache = []; sSnap.forEach(doc => suppliersCache.push({ id: doc.id, ...doc.data() }));
     suppliersCache.sort((a,b) => (a.name || '').localeCompare(b.name || ''));
-    renderSuppliersList();
-    renderPurchases();
+    renderSuppliersList(); renderPurchases();
   } catch(e) { showToast('Error: ' + e.message, 'error'); }
 }
 async function editSupplier(id){
   if(!hasPerm('editPurchases')){ showToast('No permission', 'error'); return; }
   const s = suppliersCache.find(x => x.id === id); if(!s) return;
-  const newName = prompt('Supplier name:', s.name || '');
-  if(newName === null) return;
-  const newContact = prompt('Contact person (optional):', s.contact || '');
-  if(newContact === null) return;
-  const newPhone = prompt('Phone (optional):', s.phone || '');
-  if(newPhone === null) return;
-  const newCategory = prompt('Category (optional):', s.category || '');
-  if(newCategory === null) return;
+  const newName = prompt('Supplier name:', s.name || ''); if(newName === null) return;
+  const newContact = prompt('Contact person (optional):', s.contact || ''); if(newContact === null) return;
+  const newPhone = prompt('Phone (optional):', s.phone || ''); if(newPhone === null) return;
+  const newCategory = prompt('Category (optional):', s.category || ''); if(newCategory === null) return;
   try {
-    await db.collection('locations').doc(currentLocationId).collection('suppliers').doc(id).update({
-      name: newName, contact: newContact, phone: newPhone, category: newCategory
-    });
+    await db.collection('locations').doc(currentLocationId).collection('suppliers').doc(id).update({ name: newName, contact: newContact, phone: newPhone, category: newCategory });
     addLog('Edit Supplier', `${newName}`);
     showToast('Supplier updated', 'success');
     const sSnap = await db.collection('locations').doc(currentLocationId).collection('suppliers').get();
-    suppliersCache = [];
-    sSnap.forEach(doc => suppliersCache.push({ id: doc.id, ...doc.data() }));
+    suppliersCache = []; sSnap.forEach(doc => suppliersCache.push({ id: doc.id, ...doc.data() }));
     suppliersCache.sort((a,b) => (a.name || '').localeCompare(b.name || ''));
-    renderSuppliersList();
-    renderPurchases();
+    renderSuppliersList(); renderPurchases();
   } catch(e) { showToast('Error: ' + e.message, 'error'); }
 }
 async function deleteSupplier(id){
@@ -1736,27 +2547,36 @@ async function deleteSupplier(id){
     addLog('Delete Supplier', `${s.name}`);
     showToast('Supplier deleted', 'success');
     suppliersCache = suppliersCache.filter(x => x.id !== id);
-    renderSuppliersList();
-    renderPurchases();
+    renderSuppliersList(); renderPurchases();
   } catch(e) { showToast('Error: ' + e.message, 'error'); }
 }
 
-/* ============================================================
-   TEAM
-   ============================================================ */
+/* TEAM */
 function renderTeam(){ renderTeamPermissionGrid(DEFAULT_PERMISSIONS.manager); renderTeamMembers(); }
 function renderTeamPermissionGrid(selected){
   const perms = [
-    {key:'view', label:'View data'},{key:'editDaily', label:'Edit daily'},{key:'editPurchases', label:'Edit purchases'},{key:'editExpenses', label:'Edit expenses'},{key:'closeMonth', label:'Close month'},{key:'viewAudit', label:'View audit'},{key:'viewLog', label:'View log'},{key:'manageUsers', label:'Manage users'},
+    {key:'view', label:'View data'},
+    {key:'viewDaily', label:'See Daily Performance'},
+    {key:'viewPurchases', label:'See Daily Purchases'},
+    {key:'viewShifts', label:'See Shifts History'},
+    {key:'viewHistory', label:'See Month History'},
+    {key:'viewSuppliers', label:'See Suppliers'},
+    {key:'editDaily', label:'Edit daily'},
+    {key:'editPurchases', label:'Edit purchases'},
+    {key:'editExpenses', label:'Edit expenses'},
+    {key:'editShifts', label:'Start / End shift'},
+    {key:'closeMonth', label:'Close month'},
+    {key:'viewAudit', label:'View audit'},
+    {key:'viewLog', label:'View log'},
+    {key:'manageUsers', label:'Manage users'},
   ];
   const el = document.getElementById('teamPermissionGrid');
   if(el) el.innerHTML = perms.map(p => `<label class="perm-item"><input type="checkbox" data-perm="${p.key}" ${selected[p.key]?'checked':''}> ${p.label}</label>`).join('');
 }
 function onTeamRoleChange(){ const role = document.getElementById('teamUserRole').value; renderTeamPermissionGrid(DEFAULT_PERMISSIONS[role] || {}); }
-
 async function createTeamUser(){
   if(!currentUser){ showToast('Not logged in', 'error'); return; }
-  if(!hasPerm('manageUsers')){ showToast('You do not have permission to create users', 'error'); return; }
+  if(!hasPerm('manageUsers')){ showToast('No permission', 'error'); return; }
   const username = document.getElementById('teamUserName').value.trim().toLowerCase();
   const fullName = document.getElementById('teamUserFullName').value.trim();
   const password = document.getElementById('teamUserPass').value;
@@ -1767,8 +2587,7 @@ async function createTeamUser(){
   const permissions = {};
   document.querySelectorAll('#teamPermissionGrid input[data-perm]').forEach(cb => { permissions[cb.dataset.perm] = cb.checked; });
   try {
-    const existing = await db.collection('users').doc(username).get();
-    if(existing.exists){ showToast('Username already exists', 'error'); return; }
+    if((await db.collection('users').doc(username).get()).exists){ showToast('Username already exists', 'error'); return; }
     await db.collection('users').doc(username).set({ username, fullName, password, locationId: currentLocationId, role, permissions, status: 'active', createdAt: new Date().toISOString(), createdBy: currentUser.username });
     addLog('Create User', `${username} (${role}) created by ${currentUser.username}`);
     document.getElementById('teamUserName').value = ''; document.getElementById('teamUserFullName').value = ''; document.getElementById('teamUserPass').value = '';
@@ -1781,8 +2600,7 @@ async function renderTeamMembers(){
   if(!list) return;
   try {
     const snap = await db.collection('users').where('locationId','==',currentLocationId).get();
-    const users = [];
-    snap.forEach(d => users.push({ id: d.id, ...d.data() }));
+    const users = []; snap.forEach(d => users.push({ id: d.id, ...d.data() }));
     if(!users.length) { list.innerHTML = '<div style="text-align:center;padding:1.5rem;color:#7b8fa0;">No team members yet</div>'; return; }
     list.innerHTML = users.map(u => `
       <div class="user-row">
@@ -1798,8 +2616,7 @@ async function renderTeamMembers(){
 }
 async function teamToggleStatus(username){
   if(!hasPerm('manageUsers')){ showToast('No permission', 'error'); return; }
-  const doc = await db.collection('users').doc(username).get();
-  if(!doc.exists) return;
+  const doc = await db.collection('users').doc(username).get(); if(!doc.exists) return;
   const u = doc.data();
   const newStatus = u.status === 'suspended' ? 'active' : 'suspended';
   if(!confirm(`${newStatus === 'suspended' ? 'Suspend' : 'Activate'} ${username}?`)) return;
@@ -1812,23 +2629,20 @@ async function teamDeleteUser(username){
   if(!hasPerm('manageUsers')){ showToast('No permission', 'error'); return; }
   if(!confirm(`Delete user "${username}"?`)) return;
   await db.collection('users').doc(username).delete();
+  delete allUsersCache[username];
   addLog('Delete User', `${username} removed by ${currentUser.username}`);
   showToast('User deleted', 'success');
-  renderTeamMembers();
+  await renderTeamMembers();
 }
 async function editTeamUser(username){
   if(!hasPerm('manageUsers')){ showToast('No permission', 'error'); return; }
-  const doc = await db.collection('users').doc(username).get();
-  if(!doc.exists) return;
+  const doc = await db.collection('users').doc(username).get(); if(!doc.exists) return;
   const u = doc.data();
-  const newFullName = prompt('Full name:', u.fullName || '');
-  if(newFullName === null) return;
-  const newRole = prompt('Role (manager / accountant / cashier):', u.role || 'cashier');
-  if(newRole === null) return;
+  const newFullName = prompt('Full name:', u.fullName || ''); if(newFullName === null) return;
+  const newRole = prompt('Role (manager / accountant / cashier):', u.role || 'cashier'); if(newRole === null) return;
   const validRoles = ['manager','accountant','cashier'];
   if(!validRoles.includes(newRole.toLowerCase())){ showToast('Invalid role', 'error'); return; }
-  const newPassword = prompt('New password (leave blank to keep):', '');
-  if(newPassword === null) return;
+  const newPassword = prompt('New password (leave blank to keep):', ''); if(newPassword === null) return;
   const updates = { fullName: newFullName, role: newRole.toLowerCase(), permissions: DEFAULT_PERMISSIONS[newRole.toLowerCase()] };
   if(newPassword) { if(newPassword.length < 6){ showToast('Password too short', 'error'); return; } updates.password = newPassword; }
   await db.collection('users').doc(username).update(updates);
@@ -1837,26 +2651,24 @@ async function editTeamUser(username){
   renderTeamMembers();
 }
 
-/* ============================================================
-   TABS
-   ============================================================ */
+/* TABS */
 function switchTab(tab){
   activeTab = tab;
   document.querySelectorAll('#app .tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
   document.querySelectorAll('#app .tab-panel').forEach(p => p.classList.remove('active'));
   const panel = document.getElementById('tab-' + tab);
   if(panel) panel.classList.add('active');
+  if(tab === 'closure') { renderClosureView(); }
   if(tab === 'audit') renderAudit();
   if(tab === 'purchases') renderPurchases();
   if(tab === 'log') renderLog();
   if(tab === 'suppliers') renderSuppliersList();
+  if(tab === 'history') renderHistory();
+  if(tab === 'shifts') renderShifts();
   if(tab === 'team') renderTeam();
-  updateTabVisibility();
 }
 
-/* ============================================================
-   RENDER — DAILY
-   ============================================================ */
+/* RENDERS */
 function renderMonthSelect(){
   const sel = document.getElementById('monthSelect'); if(!sel) return;
   const months = Object.keys(allMonthsData).sort();
@@ -1883,7 +2695,7 @@ function renderTable(){
   const entries = currentEntries();
   const isClosed = allMonthsData[currentMonthKey]?.closed;
   const canEdit = hasPerm('editDaily') && !isClosed;
-  if(!entries.length){ tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:2rem;color:#7b8fa0;">No daily entries yet for ${monthLabel(currentMonthKey)}. Click <strong>Add row</strong> to start recording.</td></tr>`; return; }
+  if(!entries.length){ tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:2rem;color:#7b8fa0;">No daily entries yet for ${monthLabel(currentMonthKey)}.</td></tr>`; return; }
   tbody.innerHTML = entries.map((row,idx)=>{
     const gp = grossProfit(row);
     const ro = !canEdit ? 'readonly' : ''; const bg = !canEdit ? 'background:#f2f6fa;' : '';
@@ -1905,11 +2717,7 @@ function renderExpenseRows(){
   const ro = !canEdit ? 'readonly' : ''; const dis = !canEdit ? 'disabled' : ''; const bg = !canEdit ? 'background:#f2f6fa;' : '';
   const tbody = document.getElementById('expenseBody'); if(!tbody) return;
   if(!expenses.length) {
-    tbody.innerHTML = `<tr><td colspan="4" class="empty-state">
-      <i class="fas fa-receipt"></i>
-      <strong>No expenses recorded yet for ${monthLabel(currentMonthKey)}.</strong><br>
-      ${canEdit ? 'Click <strong>Add expense</strong> above to record salary, rent, utilities, or other monthly costs.' : 'No expenses have been recorded for this month.'}
-    </td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="4" class="empty-state"><i class="fas fa-receipt"></i><strong>No expenses recorded yet.</strong><br>${canEdit ? 'Click <strong>Add expense</strong> above.' : ''}</td></tr>`;
     document.getElementById('expenseTotal').textContent = 'UGX 0';
     return;
   }
@@ -1954,9 +2762,6 @@ function updateField(idx,field,value){
   if(allMonthsData[currentMonthKey]?.closed) return;
   const entries = currentEntries();
   if(field==='cost'||field==='sales'||field==='expenses') entries[idx][field] = value===''?0:parseFloat(value); else entries[idx][field] = value;
-  if(field==='cost') addLog('Edit Cost', `${entries[idx].day||''} ${entries[idx].date||''} → UGX ${fmt(entries[idx].cost)}`);
-  if(field==='sales') addLog('Edit Sales', `${entries[idx].day||''} ${entries[idx].date||''} → UGX ${fmt(entries[idx].sales)}`);
-  if(field==='expenses') addLog('Edit Expense', `${entries[idx].day||''} ${entries[idx].date||''} → UGX ${fmt(entries[idx].expenses)}`);
   renderTable(); renderSummary(); renderTotals(); scheduleSave();
 }
 function addRow(){
@@ -1965,14 +2770,12 @@ function addRow(){
   const entries = currentEntries(); const last = entries[entries.length-1];
   let newDate = ''; if(last && last.date){ const d = new Date(last.date); d.setDate(d.getDate()+1); newDate = d.toISOString().split('T')[0]; } else newDate = currentMonthKey + '-01';
   entries.push({day:'',date:newDate,cost:0,sales:0,expenses:0});
-  addLog('Add Row', `Daily entry for ${newDate}`);
   renderTable(); renderSummary(); renderTotals(); scheduleSave();
 }
 function removeRow(idx){
   if(!hasPerm('editDaily')) { showToast('No permission', 'error'); return; }
   if(allMonthsData[currentMonthKey]?.closed){ showToast('Month is closed'); return; }
-  const row = currentEntries()[idx]; currentEntries().splice(idx,1);
-  addLog('Delete Row', `Removed ${row?.date||'—'}`);
+  currentEntries().splice(idx,1);
   renderTable(); renderSummary(); renderTotals(); scheduleSave();
 }
 async function closeMonth(){
@@ -1980,20 +2783,41 @@ async function closeMonth(){
   if(allMonthsData[currentMonthKey]?.closed){ showToast('Month already closed'); return; }
   if(!confirm(`Close ${currentMonthKey}?`)) return;
   allMonthsData[currentMonthKey].closed = true;
-  addLog('Close Month', `${monthLabel(currentMonthKey)} locked`);
+  allMonthsData[currentMonthKey].closedAt = new Date().toISOString();
+  allMonthsData[currentMonthKey].closedBy = currentUser.username;
+  addLog('Close Month', `${monthLabel(currentMonthKey)} locked manually`);
   await saveMonthToFirestore(currentMonthKey);
-  renderMonthSelect(); renderPurchaseMonthSelect(); renderAll();
+  const m = allMonthsData[currentMonthKey];
+  const totalSales = (m.entries||[]).reduce((s,r)=>s+(parseFloat(r.sales)||0),0);
+  const totalCost = (m.entries||[]).reduce((s,r)=>s+(parseFloat(r.cost)||0),0);
+  const totalDailyExp = (m.entries||[]).reduce((s,r)=>s+(parseFloat(r.expenses)||0),0);
+  const gross = totalSales - totalCost - totalDailyExp;
+  const monthlyExp = totalMonthlyExpenses(m.expenses||[]);
+  const monthShifts = allShifts.filter(sh => sh.date && sh.date.slice(0,7) === currentMonthKey);
+  const shiftTotalDiff = monthShifts.reduce((s, sh) => s + (parseFloat(sh.difference) || 0), 0);
+  try {
+    await db.collection('locations').doc(currentLocationId).collection('monthHistory').doc(currentMonthKey).set({
+      monthKey: currentMonthKey, closedAt: m.closedAt, closedBy: currentUser.username,
+      totalSales, totalCost, totalDailyExp, gross,
+      monthlyExpenses: monthlyExp, netProfit: gross - monthlyExp,
+      entryCount: (m.entries||[]).length, purchaseCount: (m.purchases||[]).length,
+      closureCount: weeklyClosures.filter(w => w.date.startsWith(currentMonthKey)).length,
+      shiftCount: monthShifts.length, shiftTotalDifference: shiftTotalDiff
+    }, { merge: true });
+  } catch(e) {}
+  renderMonthSelect(); renderPurchaseMonthSelect(); renderAll(); renderHistory();
   showToast('Month closed', 'success');
 }
 function renderClosedDetail(){
   const data = allMonthsData[currentMonthKey]; if(!data) return;
-  const entries = data.entries; const exp = currentExpenses();
+  const entries = data.entries || []; const exp = currentExpenses();
   const totalSales = entries.reduce((s,r)=>s+(parseFloat(r.sales)||0),0);
   const totalCost = entries.reduce((s,r)=>s+(parseFloat(r.cost)||0),0);
   const totalExp = entries.reduce((s,r)=>s+(parseFloat(r.expenses)||0),0);
   const gross = totalSales-totalCost-totalExp; const monthlyExp = totalMonthlyExpenses(exp); const net = gross-monthlyExp;
   const el = document.getElementById('closedDetail'); if(!el) return;
-  el.innerHTML = `<h3><i class="fas fa-lock"></i> ${monthLabel(currentMonthKey)} — Closed <span class="closed-badge">FINAL</span></h3><p><strong>Entries:</strong> ${entries.length} days · <strong>Sales:</strong> UGX ${fmt(totalSales)} · <strong>Cost:</strong> UGX ${fmt(totalCost)} · <strong>Daily Exp:</strong> UGX ${fmt(totalExp)}</p><p><strong>Gross:</strong> UGX ${fmt(gross)} · <strong>Monthly Expenses:</strong> UGX ${fmt(monthlyExp)}</p><p style="font-size:1.1rem;margin-top:0.5rem;"><strong>Net Profit:</strong> <span style="color:${net>=0?'#1d7a4b':'#b33a3a'};">UGX ${fmt(net)}</span></p>`;
+  const reopened = data.closed && data.reopened;
+  el.innerHTML = `<h3><i class="fas fa-lock"></i> ${monthLabel(currentMonthKey)} — ${reopened ? 'Re-opened' : 'Closed'} <span class="closed-badge">${reopened ? 'EDITING' : 'FINAL'}</span></h3><p><strong>Entries:</strong> ${entries.length} days · <strong>Sales:</strong> UGX ${fmt(totalSales)} · <strong>Cost:</strong> UGX ${fmt(totalCost)}</p><p><strong>Gross:</strong> UGX ${fmt(gross)} · <strong>Monthly Expenses:</strong> UGX ${fmt(monthlyExp)}</p><p style="font-size:1.1rem;"><strong>Net Profit:</strong> <span style="color:${net>=0?'#1d7a4b':'#b33a3a'};">UGX ${fmt(net)}</span></p>`;
 }
 function renderClosedList(){
   const closed = Object.keys(allMonthsData).filter(m=>allMonthsData[m].closed);
@@ -2030,10 +2854,6 @@ function renderTotals(){
   const el = document.getElementById('totalsBody'); if(!el) return;
   el.innerHTML = rows.map(([k,v])=>`<tr><td style="font-weight:500;">${k}</td><td style="font-weight:600;">${v}</td></tr>`).join('');
 }
-
-/* ============================================================
-   RENDER — PURCHASES
-   ============================================================ */
 function renderPurchases(){
   const purchases = currentPurchases();
   const isClosed = allMonthsData[currentMonthKey]?.closed;
@@ -2054,7 +2874,7 @@ function renderPurchases(){
     <div class="sum-card"><div class="sum-label"><i class="fas fa-money-bill"></i> Cash vs Credit</div><div class="sum-value" style="font-size:1.1rem;">${fmt(cashPurchases)} / ${fmt(creditPurchases)}</div><div class="sum-sub">Cash / Credit</div></div>
   `;
   const tbody = document.getElementById('purchasesBody'); if(!tbody) return;
-  if(!purchases.length){ tbody.innerHTML = `<tr><td colspan="9" style="text-align:center;padding:2rem;color:#7b8fa0;">No purchases recorded yet for ${monthLabel(currentMonthKey)}. Click <strong>Add purchase</strong> to start.</td></tr>`; }
+  if(!purchases.length){ tbody.innerHTML = `<tr><td colspan="9" style="text-align:center;padding:2rem;color:#7b8fa0;">No purchases recorded yet.</td></tr>`; }
   else {
     const supplierOptions = suppliersCache.map(s => `<option value="${s.name}"></option>`).join('');
     tbody.innerHTML = purchases.map((p,idx)=>{
@@ -2087,7 +2907,6 @@ function updatePurchase(idx,field,value){
   const purchases = currentPurchases();
   if(field==='qty'||field==='unit'||field==='total'){ purchases[idx][field] = value===''?0:parseFloat(value); if((field==='qty'||field==='unit') && (purchases[idx].total===0 || purchases[idx].total===undefined)) purchases[idx].total = (purchases[idx].qty||0)*(purchases[idx].unit||0); }
   else purchases[idx][field] = value;
-  if(field==='total' && purchases[idx].supplier) addLog('Edit Purchase', `${purchases[idx].supplier} on ${purchases[idx].date} → UGX ${fmt(purchases[idx].total)}`);
   renderPurchases(); scheduleSave();
 }
 function addPurchaseRow(){
@@ -2104,14 +2923,9 @@ function addPurchaseRow(){
 function removePurchase(idx){
   if(!hasPerm('editPurchases')) { showToast('No permission', 'error'); return; }
   if(allMonthsData[currentMonthKey]?.closed){ showToast('Month is closed'); return; }
-  const p = currentPurchases()[idx]; currentPurchases().splice(idx,1);
-  addLog('Delete Purchase', `${p?.supplier||'—'} on ${p?.date||'—'}`);
+  currentPurchases().splice(idx,1);
   renderPurchases(); scheduleSave();
 }
-
-/* ============================================================
-   RENDER — AUDIT
-   ============================================================ */
 function computeAuditFlags(){
   const sorted = [...weeklyClosures].sort((a,b)=>new Date(a.date)-new Date(b.date));
   return sorted.map((row,i)=>{
@@ -2137,7 +2951,7 @@ function renderAudit(){
     <div class="audit-card ${latest && latest.cash<500000?'amber':'green'}"><div class="label"><i class="fas fa-money-bill-wave"></i> Latest cash</div><div class="value">${latest?fmt(latest.cash):'—'}</div><div class="detail">${latest?new Date(latest.date).toLocaleDateString():'No data'}</div></div>
   `;
   const tbody = document.getElementById('auditBody'); if(!tbody) return;
-  if(!audit.length){ tbody.innerHTML = `<tr><td colspan="9" style="text-align:center;padding:2rem;color:#7b8fa0;">No weekly closure records yet. Add your first closure entry below.</td></tr>`; return; }
+  if(!audit.length){ tbody.innerHTML = `<tr><td colspan="9" style="text-align:center;padding:2rem;color:#7b8fa0;">No weekly closure records yet.</td></tr>`; return; }
   tbody.innerHTML = audit.map((row,i)=>{
     const rowClass = row.flag==='red'?'red-flag-row':row.flag==='amber'?'amber-flag-row':'';
     const badge = row.flag==='red'?`<span class="flag-badge red"><i class="fas fa-flag"></i> RED</span>`:row.flag==='amber'?`<span class="flag-badge amber"><i class="fas fa-exclamation-triangle"></i> AMBER</span>`:`<span class="flag-badge green"><i class="fas fa-check"></i> OK</span>`;
@@ -2152,15 +2966,20 @@ async function addClosureEntry(){
   const date = document.getElementById('newClosureDate').value;
   const stock = parseFloat(document.getElementById('newClosureStock').value)||0;
   const credit = parseFloat(document.getElementById('newClosureCredit').value)||0;
-  const cash = parseFloat(document.getElementById('newClosureCash').value)||0;
+  let cash = parseFloat(document.getElementById('newClosureCash').value);
+  if(isNaN(cash)) {
+    const dayShifts = allShifts.filter(s => s.date === date);
+    cash = dayShifts.reduce((sum, s) => sum + (parseFloat(s.counted)||0), 0);
+  }
   if(!date){ showToast('Please enter a date', 'error'); return; }
-  if(stock===0&&credit===0&&cash===0){ showToast('Enter at least one value', 'error'); return; }
   const closure = {date,stock,credit,cash};
-  weeklyClosures.push(closure); weeklyClosures.sort((a,b)=>new Date(a.date)-new Date(b.date));
+  const existing = weeklyClosures.find(w => w.date === date);
+  if(existing) Object.assign(existing, closure); else weeklyClosures.push(closure);
+  weeklyClosures.sort((a,b)=>new Date(a.date)-new Date(b.date));
   await saveClosureToFirestore(closure);
   addLog('Add Closure', `${date} — stock ${fmt(stock)}, credit ${fmt(credit)}, cash ${fmt(cash)}`);
   document.getElementById('newClosureDate').value=''; document.getElementById('newClosureStock').value=''; document.getElementById('newClosureCredit').value=''; document.getElementById('newClosureCash').value='';
-  renderAudit(); showToast('Closure entry added', 'success');
+  renderAudit(); showToast('Closure entry saved', 'success');
 }
 function renderLog(){
   const tbody = document.getElementById('logBody'); if(!tbody) return;
@@ -2171,17 +2990,64 @@ function renderLog(){
     return `<tr><td style="font-size:0.78rem;color:#6a7f94;">${d.toLocaleString()}</td><td><strong>${l.user || '—'}</strong></td><td><span class="badge-pill ${badge}">${l.action}</span></td><td style="font-size:0.82rem;">${l.details} <span style="color:#6a7f94;">· ${monthLabel(l.month)}</span></td></tr>`;
   }).join('');
 }
+async function renderHistory(){
+  const grid = document.getElementById('historyGrid'); if(!grid) return;
+  grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:2rem;color:#7b8fa0;"><i class="fas fa-spinner fa-spin"></i> Loading history…</div>';
+  try {
+    const snap = await db.collection('locations').doc(currentLocationId).collection('monthHistory').get();
+    const items = []; snap.forEach(d => items.push({ id: d.id, ...d.data() }));
+    items.sort((a,b) => (b.monthKey||'').localeCompare(a.monthKey||''));
+    if(!items.length) { grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:2rem;color:#7b8fa0;">No closed months yet.</div>'; return; }
+    grid.innerHTML = items.map(h => {
+      const reopened = allMonthsData[h.monthKey] && !allMonthsData[h.monthKey].closed;
+      return `<div class="history-card">
+        <div class="head"><div class="title">${monthLabel(h.monthKey)}</div><div class="badge ${reopened?'reopened':''}">${reopened ? 'Re-opened' : 'Closed'}</div></div>
+        <div class="body">
+          <div class="row"><span>Sales</span><span>UGX ${fmt(h.totalSales||0)}</span></div>
+          <div class="row"><span>Gross</span><span>UGX ${fmt(h.gross||0)}</span></div>
+          <div class="row"><span>Net</span><span style="color:${(h.netProfit||0)>=0?'#1d7a4b':'#b33a3a'};">UGX ${fmt(h.netProfit||0)}</span></div>
+          <div class="row"><span>Shifts</span><span>${h.shiftCount||0} (diff ${fmtSigned(h.shiftTotalDifference||0)})</span></div>
+          <div class="row"><span>Closed</span><span>${h.closedAt ? new Date(h.closedAt).toLocaleDateString() : '—'}</span></div>
+        </div>
+        <div class="actions">
+          <button class="btn" onclick="viewHistoryMonth('${h.monthKey}')"><i class="fas fa-eye"></i> Open</button>
+          <button class="btn" onclick="runHistoryAudit('${h.monthKey}')"><i class="fas fa-magnifying-glass-chart"></i> Audit</button>
+          ${hasPerm('manageUsers') ? `<button class="btn btn-primary" onclick="reopenMonth('${h.monthKey}')"><i class="fas fa-lock-open"></i> Re-open</button>` : ''}
+        </div>
+      </div>`;
+    }).join('');
+  } catch(e) { console.error(e); grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:2rem;color:#7b8fa0;">Could not load history.</div>'; }
+}
+function refreshHistory(){ renderHistory(); showToast('History refreshed', 'success'); }
+function viewHistoryMonth(mKey){
+  currentMonthKey = mKey;
+  document.getElementById('monthSelect').value = mKey;
+  document.getElementById('purchaseMonthSelect').value = mKey;
+  renderAll(); renderPurchases();
+  switchTab('daily');
+  showToast('Viewing ' + monthLabel(mKey), 'success');
+}
+function runHistoryAudit(mKey){ currentMonthKey = mKey; document.getElementById('monthSelect').value = mKey; openAuditReport(); }
+async function reopenMonth(mKey){
+  if(!hasPerm('manageUsers')){ showToast('Only managers can re-open months', 'error'); return; }
+  if(!allMonthsData[mKey]){ showToast('Month data not loaded', 'error'); return; }
+  if(!confirm(`Re-open ${monthLabel(mKey)} for editing? All edits are logged.`)) return;
+  try {
+    allMonthsData[mKey].closed = false; allMonthsData[mKey].reopened = true;
+    allMonthsData[mKey].reopenedAt = new Date().toISOString(); allMonthsData[mKey].reopenedBy = currentUser.username;
+    await db.collection('locations').doc(currentLocationId).collection('months').doc(mKey).set(allMonthsData[mKey]);
+    addLog('Re-open Month', `${monthLabel(mKey)} re-opened by ${currentUser.username}`);
+    renderMonthSelect(); renderPurchaseMonthSelect(); renderAll(); renderHistory();
+    showToast('Month re-opened for editing', 'success');
+  } catch(e) { showToast('Error: ' + e.message, 'error'); }
+}
 
-/* ============================================================
-   AUDIT REPORT MODAL
-   ============================================================ */
+/* AUDIT REPORT MODAL */
 function openAuditReport(){
   if(!currentUser){ return; }
   const now = new Date();
-  const from = new Date(now.getFullYear(), now.getMonth(), 1);
-  const to = now;
-  document.getElementById('auditFrom').value = dateStr(from);
-  document.getElementById('auditTo').value = dateStr(to);
+  document.getElementById('auditFrom').value = dateStr(new Date(now.getFullYear(), now.getMonth(), 1));
+  document.getElementById('auditTo').value = dateStr(now);
   document.getElementById('auditReportMonth').textContent = monthLabel(currentMonthKey);
   document.getElementById('auditReportDate').textContent = `Location: ${currentUser?.locationName || currentLocationId}`;
   runAuditWithRange();
@@ -2217,6 +3083,7 @@ function runAuditWithRange(){
   });
   weeklyClosures.forEach(w => { if(w.date && new Date(w.date) >= fromDate && new Date(w.date) <= toDate) allClosures.push(w); });
   allClosures.sort((a,b)=>new Date(a.date)-new Date(b.date));
+  const shiftsInRange = allShifts.filter(s => s.date && new Date(s.date) >= fromDate && new Date(s.date) <= toDate);
   const totalSales = allEntries.reduce((s,r)=>s+(parseFloat(r.sales)||0),0);
   const totalCost = allEntries.reduce((s,r)=>s+(parseFloat(r.cost)||0),0);
   const totalDailyExp = allEntries.reduce((s,r)=>s+(parseFloat(r.expenses)||0),0);
@@ -2225,6 +3092,9 @@ function runAuditWithRange(){
   const monthlyExp = totalMonthlyExpenses(currentExpenses()) * monthSpan;
   const net = gross - monthlyExp;
   const totalPurchasesAmt = allPurchases.reduce((s,p)=>s+(parseFloat(p.total)||0),0);
+  const shiftExtra = shiftsInRange.filter(s => (parseFloat(s.difference)||0) > 0).reduce((sum, s) => sum + (parseFloat(s.difference)||0), 0);
+  const shiftLoss = shiftsInRange.filter(s => (parseFloat(s.difference)||0) < 0).reduce((sum, s) => sum + Math.abs(parseFloat(s.difference)||0), 0);
+  const shiftNet = shiftExtra - shiftLoss;
   let reconHtml = '';
   if(allClosures.length > 0){
     const openingStock = allClosures[0].stock;
@@ -2236,6 +3106,11 @@ function runAuditWithRange(){
     else issues.green.push({ title:'Stock Flow', desc:`Within <strong>UGX ${fmt(Math.abs(stockGap))}</strong>.` });
     reconHtml += `<div class="report-section"><div class="report-section-header"><i class="fas fa-boxes-stacked"></i> Stock Flow (${allClosures.length} closures)</div><div class="report-section-body"><div class="recon-box"><div class="row"><span class="lbl">Opening Stock</span><span>${fmt(openingStock)}</span></div><div class="row"><span class="lbl">+ Purchases</span><span>${fmt(totalPurchasesAmt)}</span></div><div class="row"><span class="lbl">− Recorded Cost</span><span>−${fmt(totalCost)}</span></div><div class="row"><span class="lbl">= Expected Closing</span><span>${fmt(expectedClosing)}</span></div><div class="row"><span class="lbl">Actual Closing</span><span>${fmt(closingStock)}</span></div><div class="row"><span class="lbl">Unaccounted</span><span style="color:${Math.abs(stockGap)>500000?'#b33a3a':'#1d7a4b'};">${fmtSigned(stockGap)}</span></div></div></div></div>`;
   }
+  if(shiftsInRange.length > 0){
+    if(shiftLoss > 0) issues.amber.push({ title:'Shift cash shortages', desc:`${shiftsInRange.filter(s => (parseFloat(s.difference)||0) < 0).length} shift(s) recorded cash <strong>UGX ${fmt(shiftLoss)}</strong> short.` });
+    if(shiftExtra > 0) issues.amber.push({ title:'Shift cash extras', desc:`${shiftsInRange.filter(s => (parseFloat(s.difference)||0) > 0).length} shift(s) recorded cash <strong>UGX ${fmt(shiftExtra)}</strong> above expected.` });
+    if(shiftLoss === 0 && shiftExtra === 0) issues.green.push({ title:'Shift closures', desc:`All ${shiftsInRange.length} shifts balanced.` });
+  }
   const marginPct = totalSales ? (gross/totalSales*100) : 0;
   if(totalSales > 0){
     if(marginPct < 15) issues.red.push({ title:'Low Gross Margin', desc:`<strong>${marginPct.toFixed(1)}%</strong>.` });
@@ -2246,7 +3121,7 @@ function runAuditWithRange(){
     else issues.green.push({ title:'Net Profit', desc:`<strong>UGX ${fmt(net)}</strong>.` });
   }
   let verdictClass, verdictIcon, verdictTitle, verdictSub;
-  if(allEntries.length === 0){ verdictClass='warn'; verdictIcon='fa-info-circle'; verdictTitle='No data in this range'; verdictSub='No entries recorded between the selected dates.'; }
+  if(allEntries.length === 0){ verdictClass='warn'; verdictIcon='fa-info-circle'; verdictTitle='No data in this range'; verdictSub='No entries recorded.'; }
   else if(issues.red.length > 0){ verdictClass='bad'; verdictIcon='fa-circle-exclamation'; verdictTitle='Action Required'; verdictSub=`${issues.red.length} red flag(s).`; }
   else if(issues.amber.length > 0){ verdictClass='warn'; verdictIcon='fa-triangle-exclamation'; verdictTitle='Review Recommended'; verdictSub=`${issues.amber.length} warning(s).`; }
   else { verdictClass='good'; verdictIcon='fa-circle-check'; verdictTitle='Clean Audit'; verdictSub='No red flags.'; }
@@ -2260,6 +3135,8 @@ function runAuditWithRange(){
     <div class="row"><span class="lbl">Entries</span><span>${allEntries.length}</span></div>
     <div class="row"><span class="lbl">Purchases</span><span>${allPurchases.length}</span></div>
     <div class="row"><span class="lbl">Closures</span><span>${allClosures.length}</span></div>
+    <div class="row"><span class="lbl">Shifts</span><span>${shiftsInRange.length}</span></div>
+    <div class="row"><span class="lbl">Shift net difference</span><span style="color:${shiftNet>0?'#1d7a4b':(shiftNet<0?'#b33a3a':'#5f7385')};">${fmtSigned(shiftNet)}</span></div>
     <div class="row"><span class="lbl">Total Sales</span><span>${fmt(totalSales)}</span></div>
     <div class="row"><span class="lbl">Total Cost</span><span>${fmt(totalCost)}</span></div>
     <div class="row"><span class="lbl">Gross Profit</span><span>${fmt(gross)}</span></div>
@@ -2267,13 +3144,12 @@ function runAuditWithRange(){
   container.innerHTML = verdictBanner + scoreGrid + rangeInfo + reconHtml + issuesHtml;
 }
 document.getElementById('auditModal').addEventListener('click', function(e){ if(e.target===this) closeAuditReport(); });
+document.getElementById('shiftSummaryModal').addEventListener('click', function(e){ if(e.target===this) closeShiftSummary(); });
 document.getElementById('pwdModal').addEventListener('click', function(e){ if(e.target===this) closeChangePassword(); });
 document.getElementById('adminPwdModal').addEventListener('click', function(e){ if(e.target===this) closeAdminChangePassword(); });
 document.getElementById('userModal').addEventListener('click', function(e){ if(e.target===this) closeUserModal(); });
 
-/* ============================================================
-   EXPORTS
-   ============================================================ */
+/* EXPORTS */
 function downloadExcel(){
   const wb = XLSX.utils.book_new();
   const entries = currentEntries(); const exp = currentExpenses(); const purchases = currentPurchases();
@@ -2285,12 +3161,31 @@ function downloadExcel(){
   }
   if(Array.isArray(exp) && exp.length){
     const expRows = exp.map(e => ({'Expense Type': e.type, 'Amount (UGX)': e.amount, 'Note': e.note || ''}));
-    expRows.push({ 'Expense Type': 'TOTAL', 'Amount (UGX)': totalMonthlyExpenses(exp), 'Note': '' });
     XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(expRows), 'Expenses');
   }
   if(purchases.length){
     const pRows = purchases.map(p=>({'Date':p.date||'','Supplier':p.supplier||'','Category':p.category||'','Quantity':parseFloat(p.qty)||0,'Unit Cost':parseFloat(p.unit)||0,'Total':parseFloat(p.total)||0,'Payment':p.payment||'','Reference':p.reference||''}));
     XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(pRows), 'Purchases');
+  }
+  if(allShifts.length){
+    const shRows = allShifts.map(s => ({
+      'Date': s.date, 'Period': periodLabel(s.period), 'Period Source': s.periodSource || 'auto',
+      'Clock Period At Start': periodLabel(s.clockPeriodAtStart || periodFromTimestamp(s.openedAt)),
+      'Off-Clock?': (isValidPeriod(s.period) && (s.clockPeriodAtStart || periodFromTimestamp(s.openedAt)) !== s.period) ? 'YES' : 'No',
+      'Cashier': s.cashierName || s.cashier,
+      'Sales': parseFloat(s.sales) || 0,
+      'MTN': parseFloat(s.mtn) || 0, 'Airtel': parseFloat(s.airtel) || 0,
+      'Expenses': parseFloat(s.expenses) || 0,
+      'Expense Breakdown': Array.isArray(s.expenseItems) && s.expenseItems.length
+        ? s.expenseItems.map(e => `${e.type}${e.description ? ' (' + e.description + ')' : ''}: ${fmt(e.amount)}`).join('; ')
+        : '',
+      'Opening Float': parseFloat(s.openingFloat) || 0,
+      'Expected': parseFloat(s.cashExpected) || 0,
+      'Counted': parseFloat(s.counted) || 0,
+      'Difference': parseFloat(s.difference) || 0,
+      'Status': s.status, 'Note': s.note || ''
+    }));
+    XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(shRows), 'Shifts');
   }
   XLSX.writeFile(wb, `BrightMesh_${currentLocationId || 'admin'}_${currentMonthKey}.xlsx`);
   showToast('Excel downloaded', 'success');
@@ -2307,23 +3202,45 @@ function downloadPDF(){
     const ts = entries.reduce((s,r)=>s+(parseFloat(r.sales)||0),0); const tc = entries.reduce((s,r)=>s+(parseFloat(r.cost)||0),0); const te = entries.reduce((s,r)=>s+(parseFloat(r.expenses)||0),0); const me = totalMonthlyExpenses(exp);
     doc.autoTable({startY:32, head:[['Metric','Value (UGX)']], body:[['Total sales',fmt(ts)],['Total cost',fmt(tc)],['Gross profit',fmt(ts-tc-te)],['Monthly expenses',fmt(me)],['Net profit',fmt(ts-tc-te-me)]], theme:'striped', headStyles:{fillColor:[29,122,75],textColor:255,fontSize:9}, bodyStyles:{fontSize:8.5}, margin:{left:14,right:14}});
   }
-  if(Array.isArray(exp) && exp.length){
-    const expBody = exp.map(e => [e.type, fmt(e.amount), e.note || '']);
-    doc.autoTable({startY:doc.lastAutoTable ? doc.lastAutoTable.finalY + 8 : 32, head:[['Expense Type','Amount (UGX)','Note']], body: expBody, theme:'grid', headStyles:{fillColor:[31,73,112],textColor:255,fontSize:8}, bodyStyles:{fontSize:7.5}, margin:{left:14,right:14}});
+  if(allShifts.length){
+    const shBody = allShifts.slice(0, 60).map(s => [
+      s.date, periodLabel(s.period), (s.cashierName || s.cashier || '').slice(0, 12),
+      fmt(s.sales), fmt(s.mtn), fmt(s.airtel), fmt(s.expenses),
+      fmt(s.cashExpected), fmt(s.counted), fmtSigned(s.difference), s.status
+    ]);
+    doc.autoTable({
+      startY:doc.lastAutoTable ? doc.lastAutoTable.finalY + 8 : 32,
+      head:[['Date','Period','Cashier','Sales','MTN','Airtel','Exp','Expected','Counted','Diff','Status']],
+      body: shBody, theme:'grid',
+      headStyles:{fillColor:[11,43,68],textColor:255,fontSize:7.5},
+      bodyStyles:{fontSize:7},
+      columnStyles:{3:{halign:'right'},4:{halign:'right'},5:{halign:'right'},6:{halign:'right'},7:{halign:'right'},8:{halign:'right'},9:{halign:'right',fontStyle:'bold'}},
+      margin:{left:14,right:14}
+    });
   }
   doc.save(`BrightMesh_${currentLocationId || 'admin'}_${currentMonthKey}.pdf`);
   showToast('PDF downloaded', 'success');
 }
 
-/* ============================================================
-   BOOTSTRAP
-   ============================================================ */
+/* BOOTSTRAP */
 renderTeamPermissionGrid(DEFAULT_PERMISSIONS.manager);
 window.addEventListener('DOMContentLoaded', async () => {
   if(firebaseReady) {
     await autoSeed();
     const restored = await restoreSession();
     if(!restored) console.log('[Session] No active session — showing landing page');
+    setInterval(() => {
+      if(currentUser && currentLocationId) { autoClosePastMonths(); autoClosePastShifts(); }
+    }, 30 * 60 * 1000);
+    setInterval(() => {
+      if(currentUser && currentLocationId) {
+        const now = new Date();
+        if(now.getHours() === 0 && now.getMinutes() < 2) {
+          autoClosePastShifts();
+          renderClosureView();
+        }
+      }
+    }, 60 * 1000);
   }
 });
 </script>
