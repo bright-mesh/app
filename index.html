@@ -406,7 +406,6 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
 .cashier-summary-tbl th{background:#edf3fa;color:#1e3a5f;padding:0.9rem 1rem;text-align:left;font-size:0.7rem;text-transform:uppercase;letter-spacing:0.3px;font-weight:700;border-bottom:2px solid #d2dfeb;}
 .cashier-summary-tbl td{padding:0.85rem 1rem;border-bottom:1px solid #eef3f8;}
 .cashier-summary-tbl tr:hover td{background:#fafdff;}
-/* Closure expense line-items */
 .closure-expense-row{display:grid;grid-template-columns:1.2fr 2fr 1fr auto;gap:0.5rem;align-items:center;margin-bottom:0.5rem;}
 .closure-expense-row select,.closure-expense-row input{padding:0.5rem;border-radius:8px;border:1px solid #d2dfeb;font-size:0.8rem;font-family:inherit;}
 .closure-expense-row input.amt{text-align:right;font-weight:600;color:#b33a3a;}
@@ -841,7 +840,6 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
       </div>
     </div>
 
-    <!-- Manager: cashier summary for closed month -->
     <div id="cashierSummaryWrap" style="display:none;margin-top:2rem;">
       <div class="section-title"><i class="fas fa-user-tie"></i> Cashier summary — <span id="cashierSummaryMonth"></span></div>
       <div class="table-card">
@@ -1128,6 +1126,7 @@ try { firebase.initializeApp(firebaseConfig); db = firebase.firestore(); firebas
 /* CONSTANTS */
 const EXPENSE_TYPES = ['Salary','Rent','Utilities (Electricity/Water)','Transport','Fuel','Packaging Materials','Cleaning Supplies','Security Services','Wifi / Internet','Telephone / Airtime','Waste Disposal','Licenses & Permits','Insurance','Marketing & Advertising','Repairs & Maintenance','Bank Charges','Loan Repayment','Taxes','Staff Welfare','Loss / Theft','Other'];
 const CLOSURE_EXPENSE_TYPES = ['Transport','Fuel','Packaging','Cleaning','Airtime','Waste','Repairs','Staff Welfare','Security','Electricity','Water','Other'];
+const LOCATION_SUBCOLLECTIONS = ['months','weeklyClosures','auditLog','shifts','suppliers','monthHistory'];
 
 const PERIOD_DEFS = {
   morning:   { label: 'Morning',   icon: 'fa-sun',       start: 0,  end: 12 },
@@ -1179,11 +1178,6 @@ function periodIcon(p){
   if(!isValidPeriod(p)) return 'fa-circle-question';
   return PERIOD_DEFS[p].icon;
 }
-/**
- * Renders a coloured period badge.
- * @param {string} p - 'morning' | 'afternoon' | 'evening' | anything else
- * @param {string} openedAtIso - optional; if provided and differs from the tagged period, an off-clock tag is added.
- */
 function periodBadgeHtml(p, openedAtIso){
   const safe = isValidPeriod(p) ? p : 'unknown';
   const label = periodLabel(p);
@@ -1272,8 +1266,10 @@ async function restoreSession(){
     if(!userDoc.exists) { clearSession(); return false; }
     const u = userDoc.data();
     if(u.status === 'suspended') { clearSession(); return false; }
+    // If the user's location no longer exists, kill the session.
     const locDoc = await db.collection('locations').doc(u.locationId).get();
-    const locData = locDoc.exists ? locDoc.data() : { name: u.locationId };
+    if(!locDoc.exists) { clearSession(); return false; }
+    const locData = locDoc.data();
     const userRole = u.role || 'cashier';
     const userPerms = u.permissions || {};
     currentUser = { username: s.username, fullName: u.fullName || s.username, locationId: u.locationId, locationName: locData.name || u.locationId, role: userRole, permissions: userPerms };
@@ -1311,14 +1307,52 @@ function applyTabPermissions(){
   }
 }
 
-/* AUTO-SEED */
+/* ============================================================
+   BATCHED DELETE HELPER (Firestore-safe: 450 ops per batch)
+   ============================================================ */
+async function deleteCollectionInBatches(collectionRef, onProgress){
+  let total = 0;
+  while(true){
+    const snap = await collectionRef.limit(450).get();
+    if(snap.empty) break;
+    const batch = db.batch();
+    snap.docs.forEach(d => batch.delete(d.ref));
+    await batch.commit();
+    total += snap.docs.length;
+    if(typeof onProgress === 'function') onProgress(total);
+    if(snap.docs.length < 450) break;
+  }
+  return total;
+}
+async function deleteQueryInBatches(query, onProgress){
+  let total = 0;
+  while(true){
+    const snap = await query.limit(450).get();
+    if(snap.empty) break;
+    const batch = db.batch();
+    snap.docs.forEach(d => batch.delete(d.ref));
+    await batch.commit();
+    total += snap.docs.length;
+    if(typeof onProgress === 'function') onProgress(total);
+    if(snap.docs.length < 450) break;
+  }
+  return total;
+}
+
+/* AUTO-SEED
+   Only seeds the demo location if neither the location nor the manager user exists.
+   This prevents the "deleted location keeps coming back" bug. */
 async function autoSeed() {
   if(!firebaseReady) return;
   try {
     const adminDoc = await db.collection('config').doc('admin').get();
     if(!adminDoc.exists) await db.collection('config').doc('admin').set({ password: 'admin', createdAt: new Date().toISOString() });
+
+    // Check BOTH the location and the user. If either exists, don't reseed.
+    const locDoc = await db.collection('locations').doc('wamombl1').get();
     const userDoc = await db.collection('users').doc('wamombl1').get();
-    if(userDoc.exists) return;
+    if(locDoc.exists || userDoc.exists) return;
+
     await db.collection('locations').doc('wamombl1').set({ name: 'Wamo Mbale 1', code: 'wamombl1', createdAt: new Date().toISOString(), status: 'active' });
     await db.collection('users').doc('wamombl1').set({ username:'wamombl1', fullName:'Ahmed', password:'wamo123@', locationId:'wamombl1', role:'manager', permissions: DEFAULT_PERMISSIONS.manager, status:'active', createdAt: new Date().toISOString() });
     const curKey = currentCalendarMonthKey();
@@ -1380,7 +1414,6 @@ async function autoClosePastShifts(){
   }
   if(changed) { renderShifts(); if(currentUser) addLog('Auto Close Shifts', 'Past day shifts automatically closed'); }
 }
-/* Backfill missing/invalid period on older shifts using openedAt time */
 async function backfillShiftPeriods(){
   if(!firebaseReady || !currentLocationId) return;
   let changed = 0;
@@ -1546,7 +1579,8 @@ async function doLogin(){
     if(userData.status === 'suspended') throw new Error('Account suspended. Contact admin.');
     if(userData.password !== p) throw new Error('Invalid password');
     const locDoc = await db.collection('locations').doc(userData.locationId).get();
-    const locData = locDoc.exists ? locDoc.data() : { name: userData.locationId };
+    if(!locDoc.exists) throw new Error('Your location has been removed. Please contact admin.');
+    const locData = locDoc.data();
     const userRole = userData.role || 'cashier';
     const userPerms = userData.permissions || {};
     currentUser = { username: u, fullName: userData.fullName || u, locationId: userData.locationId, locationName: locData.name || userData.locationId, role: userRole, permissions: userPerms };
@@ -1685,7 +1719,6 @@ async function startNewShift(){
   const nowIso = new Date().toISOString();
   const clockPeriod = periodFromClock();
 
-  // If the selected period doesn't match the clock, warn the cashier
   if(pendingPeriod !== clockPeriod){
     const ok = confirm(
       `You selected ${periodLabel(pendingPeriod)}, but the current time is ${new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})} ` +
@@ -1779,7 +1812,6 @@ function renderClosurePanel(){
   recalcClosure();
 }
 
-/* ===== CLOSURE EXPENSE LINE ITEMS ===== */
 function renderClosureExpenses(){
   const sh = currentShiftData;
   const wrap = document.getElementById('clExpenseList');
@@ -2291,14 +2323,8 @@ async function clearAllActivityLogs(){
   try {
     let totalDeleted = 0;
     for(const locId of Object.keys(allLocationsCache)) {
-      const snap = await db.collection('locations').doc(locId).collection('auditLog').get();
-      if(snap.empty) continue;
-      let batch = db.batch(), count = 0;
-      const docs = snap.docs;
-      for(let i = 0; i < docs.length; i++) {
-        batch.delete(docs[i].ref); count++;
-        if(count === 450 || i === docs.length - 1) { await batch.commit(); totalDeleted += count; batch = db.batch(); count = 0; }
-      }
+      const ref = db.collection('locations').doc(locId).collection('auditLog');
+      totalDeleted += await deleteCollectionInBatches(ref);
     }
     document.getElementById('adminActivityBody').innerHTML = '<tr><td colspan="5" style="text-align:center;padding:2rem;color:#7b8fa0;">No activity yet</td></tr>';
     showSaveStatus('saved','Cleared','admin');
@@ -2311,16 +2337,8 @@ async function clearLocationAuditLog(){
   if(!confirm('FINAL WARNING: The entire audit trail for this location will be erased. Continue?')) return;
   showSaveStatus('saving','Clearing...');
   try {
-    let totalDeleted = 0;
-    const snap = await db.collection('locations').doc(currentLocationId).collection('auditLog').get();
-    if(!snap.empty) {
-      let batch = db.batch(), count = 0;
-      const docs = snap.docs;
-      for(let i = 0; i < docs.length; i++) {
-        batch.delete(docs[i].ref); count++;
-        if(count === 450 || i === docs.length - 1) { await batch.commit(); totalDeleted += count; batch = db.batch(); count = 0; }
-      }
-    }
+    const ref = db.collection('locations').doc(currentLocationId).collection('auditLog');
+    const totalDeleted = await deleteCollectionInBatches(ref);
     auditLog = []; renderLog();
     showSaveStatus('saved','Cleared');
     showToast(`Cleared ${totalDeleted} log entries`, 'success');
@@ -2357,12 +2375,109 @@ async function toggleLocationStatus(id){
   showToast('Location ' + newStatus, 'success');
   await loadAdminData(); renderAdminLocations();
 }
+
+/* ============================================================
+   CASCADE DELETE — Location + every user + every subcollection doc
+   ============================================================ */
 async function deleteLocationConfirm(id){
-  if(!confirm(`Delete location "${id}"?`)) return;
-  await db.collection('locations').doc(id).delete();
-  showToast('Location deleted', 'success');
-  await loadAdminData(); renderAdminLocations(); renderAdminAccounts();
+  const l = allLocationsCache[id];
+  if(!l){ showToast('Location not found', 'error'); return; }
+
+  const usersHere = Object.entries(allUsersCache).filter(([_, u]) => u.locationId === id);
+
+  // Count subcollection docs so the admin knows exactly what's about to go.
+  showSaveStatus('saving','Counting records...','admin');
+  const counts = {};
+  try {
+    for(const sub of LOCATION_SUBCOLLECTIONS){
+      const snap = await db.collection('locations').doc(id).collection(sub).count().get();
+      counts[sub] = snap.data().count;
+    }
+  } catch(e) {
+    // Fallback if count() is not supported by an older SDK
+    for(const sub of LOCATION_SUBCOLLECTIONS){
+      const snap = await db.collection('locations').doc(id).collection(sub).get();
+      counts[sub] = snap.size;
+    }
+  }
+  showSaveStatus('saved','Ready','admin');
+
+  const totalDocs = Object.values(counts).reduce((s,n)=>s+n,0);
+  const breakdown = LOCATION_SUBCOLLECTIONS
+    .map(k => `${k}: ${counts[k]}`)
+    .join('\n  ');
+
+  const firstConfirm = confirm(
+    `Delete location "${l.name || id}"?\n\n` +
+    `This will permanently delete:\n` +
+    `  • The location document\n` +
+    `  • ${usersHere.length} user account(s) at this location\n` +
+    `  • ${totalDocs} record(s) across subcollections:\n  ${breakdown}\n\n` +
+    `This cannot be undone. Continue?`
+  );
+  if(!firstConfirm) return;
+
+  const typed = prompt(
+    `Type the location code "${id}" to confirm permanent deletion of ALL data for this location.`
+  );
+  if(typed !== id){ showToast('Deletion cancelled — code did not match', 'error'); return; }
+
+  showSaveStatus('saving','Deleting location data...','admin');
+  let deletedDocs = 0;
+  let deletedUsers = 0;
+  const errors = [];
+
+  // 1) Delete every subcollection document in batches
+  for(const sub of LOCATION_SUBCOLLECTIONS){
+    if(!counts[sub]) continue;
+    try {
+      const ref = db.collection('locations').doc(id).collection(sub);
+      const n = await deleteCollectionInBatches(ref, (running) => {
+        showSaveStatus('saving', `Deleting ${sub}… ${running}`, 'admin');
+      });
+      deletedDocs += n;
+    } catch(e) {
+      errors.push(`${sub}: ${e.message}`);
+      console.warn('[Cascade] Failed to clear subcollection', sub, e);
+    }
+  }
+
+  // 2) Delete every user whose locationId matches
+  try {
+    const usersQuery = db.collection('users').where('locationId', '==', id);
+    deletedUsers = await deleteQueryInBatches(usersQuery);
+    // Also drop them from the local cache so the UI is consistent
+    usersHere.forEach(([username]) => { delete allUsersCache[username]; });
+  } catch(e) {
+    errors.push(`users: ${e.message}`);
+    console.warn('[Cascade] Failed to delete users', e);
+  }
+
+  // 3) Finally delete the location document itself
+  try {
+    await db.collection('locations').doc(id).delete();
+    delete allLocationsCache[id];
+  } catch(e) {
+    errors.push(`location: ${e.message}`);
+  }
+
+  // 4) Refresh everything and report
+  await loadAdminData();
+  renderAdminLocations();
+  renderAdminAccounts();
+  renderAdminOverview();
+  renderAdminActivity();
+
+  if(errors.length){
+    showSaveStatus('error','Partial delete','admin');
+    showToast(`Deleted ${deletedUsers} user(s) + ${deletedDocs} record(s), but ${errors.length} operation(s) failed. See console.`, 'error');
+    console.warn('[Cascade] Errors:', errors);
+  } else {
+    showSaveStatus('saved','Deleted','admin');
+    showToast(`Deleted "${l.name || id}" — ${deletedUsers} user(s) + ${deletedDocs} record(s) removed`, 'success');
+  }
 }
+
 async function viewLocationDetail(id){
   const l = allLocationsCache[id]; if(!l) return;
   document.getElementById('locModalName').textContent = l.name || id;
