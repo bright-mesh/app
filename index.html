@@ -2065,6 +2065,11 @@ function renderShifts(){
     const diffLabel = d === 0 ? 'Balanced' : (d > 0 ? `+${fmt(d)}` : `−${fmt(-d)}`);
     const statusBadge = s.status === 'closed' ? '<span class="badge-pill green">Closed</span>' : '<span class="badge-pill amber">Open</span>';
     const dateTime = new Date(s.date).toLocaleDateString('en-GB', { day: '2-digit', month: 'short' }) + (s.openedAt ? ' · ' + new Date(s.openedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '');
+    // manager-only edit/delete
+    const managerActions = hasPerm('manageUsers') ? `
+      <button class="btn" style="padding:0.35rem 0.5rem;font-size:0.65rem;margin-right:0.2rem;" onclick="editShift('${s.id}')" title="Edit shift"><i class="fas fa-edit"></i></button>
+      <button class="btn btn-danger" style="padding:0.35rem 0.5rem;font-size:0.65rem;" onclick="deleteShift('${s.id}')" title="Delete shift"><i class="fas fa-trash"></i></button>
+    ` : '';
     return `<tr>
       <td>${dateTime}</td>
       <td>${periodBadgeHtml(s.period, s.openedAt)}</td>
@@ -2077,7 +2082,10 @@ function renderShifts(){
       <td>${fmt(s.counted || 0)}</td>
       <td class="${diffClass}">${diffLabel}</td>
       <td>${statusBadge}</td>
-      <td><button class="btn" style="padding:0.35rem 0.7rem;font-size:0.7rem;" onclick="viewShift('${s.id}')"><i class="fas fa-eye"></i></button></td>
+      <td style="white-space:nowrap;">
+        <button class="btn" style="padding:0.35rem 0.6rem;font-size:0.7rem;" onclick="viewShift('${s.id}')"><i class="fas fa-eye"></i></button>
+        ${managerActions}
+      </td>
     </tr>`;
   }).join('');
 
@@ -2180,6 +2188,116 @@ function showShiftSummary(sh){
   document.getElementById('shiftSummaryModal').classList.add('active');
 }
 function closeShiftSummary(){ document.getElementById('shiftSummaryModal').classList.remove('active'); }
+
+/* ============================================================
+   NEW: MANAGER EDIT / DELETE SHIFT
+   ============================================================ */
+async function editShift(id) {
+  if (!hasPerm('manageUsers')) { showToast('Only managers can edit shifts', 'error'); return; }
+  const sh = allShifts.find(s => s.id === id);
+  if (!sh) { showToast('Shift not found', 'error'); return; }
+
+  // Prompt for key fields. Simple prompts keep the UI lightweight and clear.
+  const newSales = prompt('Closing Sales (system total):', sh.closingSales ?? sh.sales ?? 0);
+  if (newSales === null) return;
+  const newMtn = prompt('MTN MOMO amount:', sh.mtn ?? 0);
+  if (newMtn === null) return;
+  const newAirtel = prompt('Airtel Money amount:', sh.airtel ?? 0);
+  if (newAirtel === null) return;
+  const newExpenses = prompt('Total expenses paid from till:', sh.expenses ?? 0);
+  if (newExpenses === null) return;
+  const newOpeningFloat = prompt('Opening float:', sh.openingFloat ?? 0);
+  if (newOpeningFloat === null) return;
+  const newCounted = prompt('Cash Counted (physical):', sh.counted ?? 0);
+  if (newCounted === null) return;
+  const newNote = prompt('Note (optional):', sh.note ?? '');
+  if (newNote === null) return;
+
+  // Also allow editing the expense breakdown as a JSON string (advanced but useful).
+  const currentItems = Array.isArray(sh.expenseItems) ? sh.expenseItems : [];
+  const itemsJson = prompt(
+    'Expense breakdown (JSON array, leave unchanged to keep):\nExample: [{"type":"Transport","description":"boda","amount":5000}]',
+    JSON.stringify(currentItems)
+  );
+  if (itemsJson === null) return;
+
+  let parsedItems = currentItems;
+  try {
+    if (itemsJson.trim()) parsedItems = JSON.parse(itemsJson);
+    if (!Array.isArray(parsedItems)) throw new Error('Not an array');
+  } catch (e) {
+    showToast('Invalid JSON in expense breakdown. Edit cancelled.', 'error');
+    return;
+  }
+
+  // Recompute values
+  const mtn = parseFloat(newMtn) || 0;
+  const airtel = parseFloat(newAirtel) || 0;
+  const closingSales = parseFloat(newSales) || 0;
+  const expenses = parseFloat(newExpenses) || 0;
+  const openingFloat = parseFloat(newOpeningFloat) || 0;
+  const counted = parseFloat(newCounted) || 0;
+  const sales = closingSales;
+  const cashExpected = openingFloat + (sales - mtn - airtel) - expenses;
+  const difference = counted - cashExpected;
+
+  // Keep original period, date, cashier etc.
+  const updated = {
+    ...sh,
+    mtn, airtel, closingSales, expenses, openingFloat, counted,
+    sales, cashExpected, difference, note: newNote,
+    expenseItems: parsedItems,
+    editedAt: new Date().toISOString(),
+    editedBy: currentUser.username
+  };
+
+  try {
+    if (firebaseReady && currentLocationId && !id.startsWith('local_')) {
+      await db.collection('locations').doc(currentLocationId).collection('shifts').doc(id).set(updated, { merge: true });
+    }
+    const idx = allShifts.findIndex(s => s.id === id);
+    if (idx >= 0) allShifts[idx] = updated;
+    addLog('Edit Shift', `Shift ${sh.date} ${periodLabel(sh.period)} edited by ${currentUser.username}`);
+    showToast('Shift updated', 'success');
+    renderShifts();
+    // If the edited shift is the currently open one, update the closure panel too
+    if (currentShiftId === id) {
+      currentShiftData = updated;
+      renderClosurePanel();
+    }
+  } catch (e) {
+    showToast('Failed to update shift: ' + e.message, 'error');
+  }
+}
+
+async function deleteShift(id) {
+  if (!hasPerm('manageUsers')) { showToast('Only managers can delete shifts', 'error'); return; }
+  const sh = allShifts.find(s => s.id === id);
+  if (!sh) { showToast('Shift not found', 'error'); return; }
+
+  if (!confirm(`Delete shift "${sh.date} ${periodLabel(sh.period)}" by ${sh.cashierName || sh.cashier}? This cannot be undone.`)) return;
+
+  try {
+    if (firebaseReady && currentLocationId && !id.startsWith('local_')) {
+      await db.collection('locations').doc(currentLocationId).collection('shifts').doc(id).delete();
+    }
+    allShifts = allShifts.filter(s => s.id !== id);
+    addLog('Delete Shift', `Shift ${sh.date} ${periodLabel(sh.period)} deleted by ${currentUser.username}`);
+
+    // If we deleted the currently open shift for this user, clear the closure panel
+    if (currentShiftId === id) {
+      currentShiftId = null;
+      currentShiftData = null;
+      renderClosureView();
+    }
+    showToast('Shift deleted', 'success');
+    renderShifts();
+  } catch (e) {
+    showToast('Failed to delete shift: ' + e.message, 'error');
+  }
+}
+
+/* END NEW MANAGER FUNCTIONS */
 
 async function closeAllShiftsForMonth(){
   if(!hasPerm('manageUsers')){ showToast('Only managers can close shifts', 'error'); return; }
