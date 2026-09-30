@@ -503,7 +503,7 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
       </div>
       <div class="faq-item" onclick="toggleFaq(this)">
         <div class="faq-question">What can each role do?<i class="fas fa-chevron-down icon"></i></div>
-        <div class="faq-answer"><div class="faq-answer-inner"><strong>Manager</strong> — full control: users, months, shifts, closures, reports.<br><br><strong>Accountant</strong> — can edit daily entries, purchases, expenses; cannot close months or manage users.<br><br><strong>Cashier</strong> — can start and end their own shift, record purchases, and view their own shift history.</div></div>
+        <div class="faq-answer"><div class="faq-answer-inner"><strong>Manager</strong> — full control: users, months, shifts, closures, reports.<br><br><strong>Accountant</strong> — can edit daily entries, purchases, expenses, and manage shift closures; cannot close months or manage users.<br><br><strong>Cashier</strong> — can start and end their own shift, record purchases, and view their own shift history.</div></div>
       </div>
       <div class="faq-item" onclick="toggleFaq(this)">
         <div class="faq-question">What does the audit engine check?<i class="fas fa-chevron-down icon"></i></div>
@@ -1135,9 +1135,9 @@ const PERIOD_DEFS = {
 };
 
 const DEFAULT_PERMISSIONS = {
-  manager:    { view:true, editDaily:true, editPurchases:true, editExpenses:true, closeMonth:true, viewAudit:true, viewLog:true, manageUsers:true, editShifts:true, viewDaily:true, viewPurchases:true, viewShifts:true, viewHistory:true, viewSuppliers:true },
-  accountant: { view:true, editDaily:true, editPurchases:true, editExpenses:true, closeMonth:false, viewAudit:true, viewLog:true, manageUsers:false, editShifts:true, viewDaily:true, viewPurchases:true, viewShifts:true, viewHistory:true, viewSuppliers:true },
-  cashier:    { view:true, editDaily:false, editPurchases:true, editExpenses:false, closeMonth:false, viewAudit:false, viewLog:false, manageUsers:false, editShifts:true, viewDaily:false, viewPurchases:true, viewShifts:true, viewHistory:false, viewSuppliers:false }
+  manager:    { view:true, editDaily:true, editPurchases:true, editExpenses:true, closeMonth:true, viewAudit:true, viewLog:true, manageUsers:true, editShifts:true, viewDaily:true, viewPurchases:true, viewShifts:true, viewHistory:true, viewSuppliers:true, manageShiftClosures:true },
+  accountant: { view:true, editDaily:true, editPurchases:true, editExpenses:true, closeMonth:false, viewAudit:true, viewLog:true, manageUsers:false, editShifts:true, viewDaily:true, viewPurchases:true, viewShifts:true, viewHistory:true, viewSuppliers:true, manageShiftClosures:true },
+  cashier:    { view:true, editDaily:false, editPurchases:true, editExpenses:false, closeMonth:false, viewAudit:false, viewLog:false, manageUsers:false, editShifts:true, viewDaily:false, viewPurchases:true, viewShifts:true, viewHistory:false, viewSuppliers:false, manageShiftClosures:false }
 };
 
 const SESSION_KEY = 'brightmesh_session_v5';
@@ -1236,6 +1236,7 @@ function hasPerm(perm){
   const saved = currentUser.permissions || {};
   const merged = { ...roleDefaults, ...saved };
   if(perm === 'manageUsers' && currentUser.role === 'manager' && saved.manageUsers !== false) return true;
+  if(perm === 'manageShiftClosures' && currentUser.role === 'manager' && saved.manageShiftClosures !== false) return true;
   return !!merged[perm];
 }
 
@@ -1788,7 +1789,7 @@ function renderClosurePanel(){
 
   if(!Array.isArray(sh.expenseItems)) sh.expenseItems = [];
 
-  const canEdit = !isClosed || hasPerm('manageUsers');
+  const canEdit = !isClosed || hasPerm('manageUsers') || hasPerm('manageShiftClosures');
   ['clMtn','clAirtel','clClosingSales','clCounted','clOpeningFloat','clNote'].forEach(id => {
     const el = document.getElementById(id);
     if(el) { el.readOnly = !canEdit; el.style.background = canEdit ? 'white' : '#f2f6fa'; }
@@ -1798,7 +1799,7 @@ function renderClosurePanel(){
 
   const actions = document.getElementById('closureActions');
   if(isClosed) {
-    if(hasPerm('manageUsers')) {
+    if(hasPerm('manageUsers') || hasPerm('manageShiftClosures')) {
       actions.innerHTML = `<button class="btn btn-primary" onclick="reopenShift()"><i class="fas fa-lock-open"></i> Re-open Shift</button>`;
     } else {
       actions.innerHTML = `<div style="width:100%;text-align:center;padding:0.7rem;background:#e3f0eb;border-radius:12px;color:#1d6b4f;font-weight:600;font-size:0.85rem;"><i class="fas fa-lock"></i> Shift is closed</div>`;
@@ -1817,7 +1818,7 @@ function renderClosureExpenses(){
   const wrap = document.getElementById('clExpenseList');
   if(!sh || !wrap) return;
   const isClosed = sh.status === 'closed';
-  const canEdit = !isClosed || hasPerm('manageUsers');
+  const canEdit = !isClosed || hasPerm('manageUsers') || hasPerm('manageShiftClosures');
   if(!Array.isArray(sh.expenseItems)) sh.expenseItems = [];
 
   if(!sh.expenseItems.length){
@@ -1845,7 +1846,7 @@ function renderClosureExpenses(){
 }
 function onClosureAmountInput(idx, value){
   if(!currentShiftData) return;
-  if(currentShiftData.status === 'closed' && !hasPerm('manageUsers')) return;
+  if(currentShiftData.status === 'closed' && !hasPerm('manageUsers') && !hasPerm('manageShiftClosures')) return;
   if(!currentShiftData.expenseItems[idx]) return;
   currentShiftData.expenseItems[idx].amount = value === '' ? 0 : (parseFloat(value) || 0);
   const total = currentShiftData.expenseItems.reduce((s, e) => s + (parseFloat(e.amount) || 0), 0);
@@ -1855,14 +1856,14 @@ function onClosureAmountInput(idx, value){
 }
 function onClosureAmountChange(idx, value){
   if(!currentShiftData) return;
-  if(currentShiftData.status === 'closed' && !hasPerm('manageUsers')) return;
+  if(currentShiftData.status === 'closed' && !hasPerm('manageUsers') && !hasPerm('manageShiftClosures')) return;
   if(!currentShiftData.expenseItems[idx]) return;
   currentShiftData.expenseItems[idx].amount = value === '' ? 0 : (parseFloat(value) || 0);
   saveClosureDraft();
 }
 function addClosureExpense(){
   if(!currentShiftData) return;
-  if(currentShiftData.status === 'closed' && !hasPerm('manageUsers')){ showToast('Shift is closed', 'error'); return; }
+  if(currentShiftData.status === 'closed' && !hasPerm('manageUsers') && !hasPerm('manageShiftClosures')){ showToast('Shift is closed', 'error'); return; }
   if(!Array.isArray(currentShiftData.expenseItems)) currentShiftData.expenseItems = [];
   currentShiftData.expenseItems.push({ type: 'Transport', description: '', amount: 0 });
   renderClosureExpenses();
@@ -1871,7 +1872,7 @@ function addClosureExpense(){
 }
 function removeClosureExpense(idx){
   if(!currentShiftData) return;
-  if(currentShiftData.status === 'closed' && !hasPerm('manageUsers')){ showToast('Shift is closed', 'error'); return; }
+  if(currentShiftData.status === 'closed' && !hasPerm('manageUsers') && !hasPerm('manageShiftClosures')){ showToast('Shift is closed', 'error'); return; }
   const removed = currentShiftData.expenseItems[idx];
   currentShiftData.expenseItems.splice(idx, 1);
   if(removed) addLog('Remove Shift Expense', `${removed.type} — UGX ${fmt(removed.amount)}`);
@@ -1881,7 +1882,7 @@ function removeClosureExpense(idx){
 }
 function updateClosureExpense(idx, field, value){
   if(!currentShiftData) return;
-  if(currentShiftData.status === 'closed' && !hasPerm('manageUsers')) return;
+  if(currentShiftData.status === 'closed' && !hasPerm('manageUsers') && !hasPerm('manageShiftClosures')) return;
   if(!currentShiftData.expenseItems[idx]) return;
   currentShiftData.expenseItems[idx][field] = value;
   recalcClosure();
@@ -1921,7 +1922,7 @@ function recalcClosure(){
       <div class="result-diff ${diffClass}">${diffLabel}<span class="meta">${diffSub}</span></div>
     `;
   }
-  if(currentShiftData && (currentShiftData.status !== 'closed' || hasPerm('manageUsers'))) {
+  if(currentShiftData && (currentShiftData.status !== 'closed' || hasPerm('manageUsers') || hasPerm('manageShiftClosures'))) {
     currentShiftData.mtn = mtn; currentShiftData.airtel = airtel;
     currentShiftData.closingSales = closingSales; currentShiftData.counted = counted;
     currentShiftData.expenses = expenses; currentShiftData.openingFloat = openingFloat;
@@ -1994,7 +1995,7 @@ async function endShift(){
 }
 
 async function reopenShift(){
-  if(!hasPerm('manageUsers')){ showToast('Only managers can re-open shifts', 'error'); return; }
+  if(!hasPerm('manageUsers') && !hasPerm('manageShiftClosures')){ showToast('Only managers or accountants can re-open shifts', 'error'); return; }
   if(!currentShiftData) return;
   if(!confirm('Re-open this shift for editing?')) return;
   try {
@@ -2065,8 +2066,8 @@ function renderShifts(){
     const diffLabel = d === 0 ? 'Balanced' : (d > 0 ? `+${fmt(d)}` : `−${fmt(-d)}`);
     const statusBadge = s.status === 'closed' ? '<span class="badge-pill green">Closed</span>' : '<span class="badge-pill amber">Open</span>';
     const dateTime = new Date(s.date).toLocaleDateString('en-GB', { day: '2-digit', month: 'short' }) + (s.openedAt ? ' · ' + new Date(s.openedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '');
-    // manager-only edit/delete
-    const managerActions = hasPerm('manageUsers') ? `
+    // managers and accountants can edit/delete
+    const managerActions = (hasPerm('manageUsers') || hasPerm('manageShiftClosures')) ? `
       <button class="btn" style="padding:0.35rem 0.5rem;font-size:0.65rem;margin-right:0.2rem;" onclick="editShift('${s.id}')" title="Edit shift"><i class="fas fa-edit"></i></button>
       <button class="btn btn-danger" style="padding:0.35rem 0.5rem;font-size:0.65rem;" onclick="deleteShift('${s.id}')" title="Delete shift"><i class="fas fa-trash"></i></button>
     ` : '';
@@ -2090,7 +2091,7 @@ function renderShifts(){
   }).join('');
 
   const wrap = document.getElementById('cashierSummaryWrap');
-  if(wrap && monthFilter && hasPerm('manageUsers')) {
+  if(wrap && monthFilter && (hasPerm('manageUsers') || hasPerm('manageShiftClosures'))) {
     const monthShifts = allShifts.filter(s => s.date && s.date.slice(0,7) === monthFilter && s.status === 'closed');
     if(monthShifts.length) {
       wrap.style.display = 'block';
@@ -2190,10 +2191,10 @@ function showShiftSummary(sh){
 function closeShiftSummary(){ document.getElementById('shiftSummaryModal').classList.remove('active'); }
 
 /* ============================================================
-   NEW: MANAGER EDIT / DELETE SHIFT
+   NEW: MANAGER / ACCOUNTANT EDIT / DELETE SHIFT
    ============================================================ */
 async function editShift(id) {
-  if (!hasPerm('manageUsers')) { showToast('Only managers can edit shifts', 'error'); return; }
+  if (!hasPerm('manageUsers') && !hasPerm('manageShiftClosures')) { showToast('You do not have permission to edit shifts', 'error'); return; }
   const sh = allShifts.find(s => s.id === id);
   if (!sh) { showToast('Shift not found', 'error'); return; }
 
@@ -2271,7 +2272,7 @@ async function editShift(id) {
 }
 
 async function deleteShift(id) {
-  if (!hasPerm('manageUsers')) { showToast('Only managers can delete shifts', 'error'); return; }
+  if (!hasPerm('manageUsers') && !hasPerm('manageShiftClosures')) { showToast('You do not have permission to delete shifts', 'error'); return; }
   const sh = allShifts.find(s => s.id === id);
   if (!sh) { showToast('Shift not found', 'error'); return; }
 
@@ -2297,10 +2298,10 @@ async function deleteShift(id) {
   }
 }
 
-/* END NEW MANAGER FUNCTIONS */
+/* END MANAGER / ACCOUNTANT FUNCTIONS */
 
 async function closeAllShiftsForMonth(){
-  if(!hasPerm('manageUsers')){ showToast('Only managers can close shifts', 'error'); return; }
+  if(!hasPerm('manageUsers') && !hasPerm('manageShiftClosures')){ showToast('Only managers or accountants can close shifts', 'error'); return; }
   const sel = document.getElementById('shiftMonthFilter');
   const monthKey = sel ? sel.value : '';
   if(!monthKey){ showToast('Select a specific month first', 'error'); return; }
@@ -2798,6 +2799,7 @@ function renderTeamPermissionGrid(selected){
     {key:'editPurchases', label:'Edit purchases'},
     {key:'editExpenses', label:'Edit expenses'},
     {key:'editShifts', label:'Start / End shift'},
+    {key:'manageShiftClosures', label:'Manage shift closures (edit/delete)'},
     {key:'closeMonth', label:'Close month'},
     {key:'viewAudit', label:'View audit'},
     {key:'viewLog', label:'View log'},
