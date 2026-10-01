@@ -758,10 +758,9 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
     <div class="section-title"><i class="fas fa-truck"></i> Daily purchases — <span id="purchaseMonthLabel"></span></div>
     <div class="table-card">
       <div class="table-scroll"><table id="purchasesTable"><thead><tr>
-        <th style="width:120px;">Date</th><th style="width:170px;">Supplier</th>
-        <th style="width:150px;">Category</th><th style="width:100px;">Qty</th>
-        <th style="width:120px;">Unit Cost</th><th style="width:130px;">Total Cost</th>
-        <th style="width:130px;">Payment Mode</th><th style="width:120px;">Reference</th><th style="width:60px;"></th>
+        <th style="width:130px;">Date</th><th style="width:220px;">Supplier</th>
+        <th style="width:160px;">Total Cost</th>
+        <th style="width:150px;">Payment Mode</th><th style="width:150px;">Reference</th><th style="width:60px;"></th>
       </tr></thead><tbody id="purchasesBody"></tbody></table></div>
       <div style="padding:0.8rem 1.2rem;border-top:1px solid #eef3f8;display:flex;justify-content:space-between;align-items:center;">
         <button class="add-row-btn editor-only" onclick="addPurchaseRow()"><i class="fas fa-plus-circle"></i> Add purchase</button>
@@ -770,11 +769,9 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
     </div>
     <div class="section-title"><i class="fas fa-chart-pie"></i> Supplier breakdown</div>
     <div class="table-card"><div class="table-scroll"><table id="supplierTable"><thead><tr><th>Supplier</th><th>Purchases (UGX)</th><th>% of Total</th><th># Orders</th><th>Avg Order</th></tr></thead><tbody id="supplierBody"></tbody></table></div></div>
-    <div class="section-title"><i class="fas fa-tags"></i> Category breakdown</div>
-    <div class="table-card"><div class="table-scroll"><table id="categoryTable"><thead><tr><th>Category</th><th>Purchases (UGX)</th><th>% of Total</th><th># Orders</th></tr></thead><tbody id="categoryBody"></tbody></table></div></div>
   </div>
 
-  <!-- DAILY BALANCING (formerly Closure Audit) -->
+  <!-- DAILY BALANCING -->
   <div class="tab-panel" id="tab-audit">
     <div style="background:white;padding:1.2rem 1.5rem;border-radius:16px;border:1px solid #e3ebf3;margin-bottom:1.5rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">
       <i class="fas fa-scale-balanced" style="font-size:1.8rem;color:#1d7a4b;"></i>
@@ -1341,16 +1338,13 @@ async function deleteQueryInBatches(query, onProgress){
   return total;
 }
 
-/* AUTO-SEED
-   Only seeds the demo location if neither the location nor the manager user exists.
-   This prevents the "deleted location keeps coming back" bug. */
+/* AUTO-SEED */
 async function autoSeed() {
   if(!firebaseReady) return;
   try {
     const adminDoc = await db.collection('config').doc('admin').get();
     if(!adminDoc.exists) await db.collection('config').doc('admin').set({ password: 'admin', createdAt: new Date().toISOString() });
 
-    // Check BOTH the location and the user. If either exists, don't reseed.
     const locDoc = await db.collection('locations').doc('wamombl1').get();
     const userDoc = await db.collection('users').doc('wamombl1').get();
     if(locDoc.exists || userDoc.exists) return;
@@ -2067,7 +2061,6 @@ function renderShifts(){
     const diffLabel = d === 0 ? 'Balanced' : (d > 0 ? `+${fmt(d)}` : `−${fmt(-d)}`);
     const statusBadge = s.status === 'closed' ? '<span class="badge-pill green">Closed</span>' : '<span class="badge-pill amber">Open</span>';
     const dateTime = new Date(s.date).toLocaleDateString('en-GB', { day: '2-digit', month: 'short' }) + (s.openedAt ? ' · ' + new Date(s.openedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '');
-    // managers and accountants can edit/delete
     const managerActions = (hasPerm('manageUsers') || hasPerm('manageShiftClosures')) ? `
       <button class="btn" style="padding:0.35rem 0.5rem;font-size:0.65rem;margin-right:0.2rem;" onclick="editShift('${s.id}')" title="Edit shift"><i class="fas fa-edit"></i></button>
       <button class="btn btn-danger" style="padding:0.35rem 0.5rem;font-size:0.65rem;" onclick="deleteShift('${s.id}')" title="Delete shift"><i class="fas fa-trash"></i></button>
@@ -2199,7 +2192,6 @@ async function editShift(id) {
   const sh = allShifts.find(s => s.id === id);
   if (!sh) { showToast('Shift not found', 'error'); return; }
 
-  // Prompt for key fields. Simple prompts keep the UI lightweight and clear.
   const newSales = prompt('Closing Sales (system total):', sh.closingSales ?? sh.sales ?? 0);
   if (newSales === null) return;
   const newMtn = prompt('MTN MOMO amount:', sh.mtn ?? 0);
@@ -2215,7 +2207,6 @@ async function editShift(id) {
   const newNote = prompt('Note (optional):', sh.note ?? '');
   if (newNote === null) return;
 
-  // Also allow editing the expense breakdown as a JSON string (advanced but useful).
   const currentItems = Array.isArray(sh.expenseItems) ? sh.expenseItems : [];
   const itemsJson = prompt(
     'Expense breakdown (JSON array, leave unchanged to keep):\nExample: [{"type":"Transport","description":"boda","amount":5000}]',
@@ -2232,7 +2223,6 @@ async function editShift(id) {
     return;
   }
 
-  // Recompute values
   const mtn = parseFloat(newMtn) || 0;
   const airtel = parseFloat(newAirtel) || 0;
   const closingSales = parseFloat(newSales) || 0;
@@ -2243,7 +2233,6 @@ async function editShift(id) {
   const cashExpected = openingFloat + (sales - mtn - airtel) - expenses;
   const difference = counted - cashExpected;
 
-  // Keep original period, date, cashier etc.
   const updated = {
     ...sh,
     mtn, airtel, closingSales, expenses, openingFloat, counted,
@@ -2262,7 +2251,6 @@ async function editShift(id) {
     addLog('Edit Shift', `Shift ${sh.date} ${periodLabel(sh.period)} edited by ${currentUser.username}`);
     showToast('Shift updated', 'success');
     renderShifts();
-    // If the edited shift is the currently open one, update the closure panel too
     if (currentShiftId === id) {
       currentShiftData = updated;
       renderClosurePanel();
@@ -2286,7 +2274,6 @@ async function deleteShift(id) {
     allShifts = allShifts.filter(s => s.id !== id);
     addLog('Delete Shift', `Shift ${sh.date} ${periodLabel(sh.period)} deleted by ${currentUser.username}`);
 
-    // If we deleted the currently open shift for this user, clear the closure panel
     if (currentShiftId === id) {
       currentShiftId = null;
       currentShiftData = null;
@@ -2298,8 +2285,6 @@ async function deleteShift(id) {
     showToast('Failed to delete shift: ' + e.message, 'error');
   }
 }
-
-/* END MANAGER / ACCOUNTANT FUNCTIONS */
 
 async function closeAllShiftsForMonth(){
   if(!hasPerm('manageUsers') && !hasPerm('manageShiftClosures')){ showToast('Only managers or accountants can close shifts', 'error'); return; }
@@ -2496,16 +2481,13 @@ async function toggleLocationStatus(id){
   await loadAdminData(); renderAdminLocations();
 }
 
-/* ============================================================
-   CASCADE DELETE — Location + every user + every subcollection doc
-   ============================================================ */
+/* CASCADE DELETE */
 async function deleteLocationConfirm(id){
   const l = allLocationsCache[id];
   if(!l){ showToast('Location not found', 'error'); return; }
 
   const usersHere = Object.entries(allUsersCache).filter(([_, u]) => u.locationId === id);
 
-  // Count subcollection docs so the admin knows exactly what's about to go.
   showSaveStatus('saving','Counting records...','admin');
   const counts = {};
   try {
@@ -2514,7 +2496,6 @@ async function deleteLocationConfirm(id){
       counts[sub] = snap.data().count;
     }
   } catch(e) {
-    // Fallback if count() is not supported by an older SDK
     for(const sub of LOCATION_SUBCOLLECTIONS){
       const snap = await db.collection('locations').doc(id).collection(sub).get();
       counts[sub] = snap.size;
@@ -2547,7 +2528,6 @@ async function deleteLocationConfirm(id){
   let deletedUsers = 0;
   const errors = [];
 
-  // 1) Delete every subcollection document in batches
   for(const sub of LOCATION_SUBCOLLECTIONS){
     if(!counts[sub]) continue;
     try {
@@ -2562,18 +2542,15 @@ async function deleteLocationConfirm(id){
     }
   }
 
-  // 2) Delete every user whose locationId matches
   try {
     const usersQuery = db.collection('users').where('locationId', '==', id);
     deletedUsers = await deleteQueryInBatches(usersQuery);
-    // Also drop them from the local cache so the UI is consistent
     usersHere.forEach(([username]) => { delete allUsersCache[username]; });
   } catch(e) {
     errors.push(`users: ${e.message}`);
     console.warn('[Cascade] Failed to delete users', e);
   }
 
-  // 3) Finally delete the location document itself
   try {
     await db.collection('locations').doc(id).delete();
     delete allLocationsCache[id];
@@ -2581,7 +2558,6 @@ async function deleteLocationConfirm(id){
     errors.push(`location: ${e.message}`);
   }
 
-  // 4) Refresh everything and report
   await loadAdminData();
   renderAdminLocations();
   renderAdminAccounts();
@@ -3111,7 +3087,7 @@ function renderPurchases(){
     <div class="sum-card"><div class="sum-label"><i class="fas fa-money-bill"></i> Cash vs Credit</div><div class="sum-value" style="font-size:1.1rem;">${fmt(cashPurchases)} / ${fmt(creditPurchases)}</div><div class="sum-sub">Cash / Credit</div></div>
   `;
   const tbody = document.getElementById('purchasesBody'); if(!tbody) return;
-  if(!purchases.length){ tbody.innerHTML = `<tr><td colspan="9" style="text-align:center;padding:2rem;color:#7b8fa0;">No purchases recorded yet.</td></tr>`; }
+  if(!purchases.length){ tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;padding:2rem;color:#7b8fa0;">No purchases recorded yet.</td></tr>`; }
   else {
     const supplierOptions = suppliersCache.map(s => `<option value="${s.name}"></option>`).join('');
     tbody.innerHTML = purchases.map((p,idx)=>{
@@ -3119,9 +3095,6 @@ function renderPurchases(){
       return `<tr>
         <td><input type="date" value="${p.date||''}" ${ro} onchange="updatePurchase(${idx},'date',this.value)" style="${bg}"></td>
         <td><input type="text" list="supplierList" value="${p.supplier||''}" ${ro} onchange="updatePurchase(${idx},'supplier',this.value)" placeholder="Type or pick supplier" style="${bg}"></td>
-        <td><input type="text" value="${p.category||''}" ${ro} onchange="updatePurchase(${idx},'category',this.value)" style="${bg}"></td>
-        <td><input type="number" step="0.01" value="${p.qty??''}" ${ro} onchange="updatePurchase(${idx},'qty',this.value)" style="${bg}"></td>
-        <td><input type="number" step="0.01" value="${p.unit??''}" ${ro} onchange="updatePurchase(${idx},'unit',this.value)" style="${bg}"></td>
         <td><input type="number" step="0.01" value="${p.total??''}" ${ro} onchange="updatePurchase(${idx},'total',this.value)" style="font-weight:600;color:#0b4b2b;${bg}"></td>
         <td><select ${ro} onchange="updatePurchase(${idx},'payment',this.value)" style="${bg}"><option value="Cash" ${p.payment==='Cash'?'selected':''}>Cash</option><option value="Credit" ${p.payment==='Credit'?'selected':''}>Credit</option><option value="Mobile Money" ${p.payment==='Mobile Money'?'selected':''}>Mobile Money</option><option value="Bank" ${p.payment==='Bank'?'selected':''}>Bank</option></select></td>
         <td><input type="text" value="${p.reference||''}" ${ro} onchange="updatePurchase(${idx},'reference',this.value)" style="${bg}"></td>
@@ -3133,16 +3106,12 @@ function renderPurchases(){
   const supArr = Object.entries(supMap).sort((a,b)=>b[1].total-a[1].total);
   const supBody = document.getElementById('supplierBody');
   if(supBody) supBody.innerHTML = supArr.length ? supArr.map(([name,s])=>{ const pct = total ? (s.total/total*100) : 0; const avg = s.count ? s.total/s.count : 0; return `<tr><td><strong>${name}</strong></td><td>${fmt(s.total)}</td><td>${pct.toFixed(1)}%</td><td>${s.count}</td><td>${fmt(avg)}</td></tr>`; }).join('') : `<tr><td colspan="5" style="text-align:center;padding:1.5rem;color:#7b8fa0;">No supplier data</td></tr>`;
-  const catMap = {}; purchases.forEach(p=>{ const c = p.category||'(Uncategorised)'; if(!catMap[c]) catMap[c]={total:0,count:0}; catMap[c].total += parseFloat(p.total)||0; catMap[c].count++; });
-  const catArr = Object.entries(catMap).sort((a,b)=>b[1].total-a[1].total);
-  const catBody = document.getElementById('categoryBody');
-  if(catBody) catBody.innerHTML = catArr.length ? catArr.map(([name,c])=>{ const pct = total ? (c.total/total*100) : 0; return `<tr><td><strong>${name}</strong></td><td>${fmt(c.total)}</td><td>${pct.toFixed(1)}%</td><td>${c.count}</td></tr>`; }).join('') : `<tr><td colspan="4" style="text-align:center;padding:1.5rem;color:#7b8fa0;">No category data</td></tr>`;
 }
 function updatePurchase(idx,field,value){
   if(!hasPerm('editPurchases')) { showToast('No permission', 'error'); return; }
   if(allMonthsData[currentMonthKey]?.closed) return;
   const purchases = currentPurchases();
-  if(field==='qty'||field==='unit'||field==='total'){ purchases[idx][field] = value===''?0:parseFloat(value); if((field==='qty'||field==='unit') && (purchases[idx].total===0 || purchases[idx].total===undefined)) purchases[idx].total = (purchases[idx].qty||0)*(purchases[idx].unit||0); }
+  if(field==='total'){ purchases[idx][field] = value===''?0:parseFloat(value); }
   else purchases[idx][field] = value;
   renderPurchases(); scheduleSave();
 }
@@ -3152,7 +3121,7 @@ function addPurchaseRow(){
   const purchases = currentPurchases();
   let newDate = new Date().toISOString().split('T')[0];
   if(purchases.length && purchases[purchases.length-1].date) newDate = purchases[purchases.length-1].date;
-  purchases.push({date:newDate,supplier:'',category:'',qty:0,unit:0,total:0,payment:'Cash',reference:''});
+  purchases.push({date:newDate,supplier:'',total:0,payment:'Cash',reference:''});
   addLog('Add Purchase', `New purchase for ${newDate}`);
   renderPurchases(); scheduleSave();
   setTimeout(()=>{ const t = document.getElementById('purchasesBody'); if(t && t.lastElementChild) t.lastElementChild.scrollIntoView({behavior:'smooth',block:'center'}); },100);
@@ -3204,9 +3173,7 @@ function renderAudit(){
   }).join('');
 }
 
-/* ============================================================
-   DAILY BALANCING — edit / delete (manager + accountant)
-   ============================================================ */
+/* DAILY BALANCING — edit / delete (manager + accountant) */
 async function editDailyBalancing(dateStr){
   if(!hasPerm('manageUsers') && !hasPerm('manageDailyBalancing')){ showToast('You do not have permission to edit daily balancing records', 'error'); return; }
   const rec = weeklyClosures.find(w => w.date === dateStr);
@@ -3454,7 +3421,7 @@ function downloadExcel(){
     XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(expRows), 'Expenses');
   }
   if(purchases.length){
-    const pRows = purchases.map(p=>({'Date':p.date||'','Supplier':p.supplier||'','Category':p.category||'','Quantity':parseFloat(p.qty)||0,'Unit Cost':parseFloat(p.unit)||0,'Total':parseFloat(p.total)||0,'Payment':p.payment||'','Reference':p.reference||''}));
+    const pRows = purchases.map(p=>({'Date':p.date||'','Supplier':p.supplier||'','Total':parseFloat(p.total)||0,'Payment':p.payment||'','Reference':p.reference||''}));
     XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(pRows), 'Purchases');
   }
   if(allShifts.length){
