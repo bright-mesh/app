@@ -860,9 +860,15 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
       <i class="fas fa-clock-rotate-left" style="font-size:1.8rem;color:#1d7a4b;"></i>
       <div>
         <div style="font-weight:700;color:#0b2b44;font-size:1rem;">Month History</div>
-        <div style="font-size:0.8rem;color:#5f7385;">Past months are closed automatically. Managers can re-open a month to fix wrong entries.</div>
+        <div style="font-size:0.8rem;color:#5f7385;">Past months are closed automatically. Managers can re-open or delete a month.</div>
       </div>
-      <button class="btn" style="margin-left:auto;" onclick="refreshHistory()"><i class="fas fa-rotate"></i> Refresh</button>
+      <div style="margin-left:auto;display:flex;gap:0.5rem;align-items:center;flex-wrap:wrap;">
+        <label style="font-size:0.75rem;font-weight:600;color:#5f7385;text-transform:uppercase;margin:0;">Filter:</label>
+        <select id="historyMonthFilter" onchange="renderHistory()" style="padding:0.5rem 0.8rem;border-radius:10px;border:1px solid #d2dfeb;font-family:inherit;font-size:0.82rem;min-width:200px;">
+          <option value="">All months</option>
+        </select>
+        <button class="btn" onclick="refreshHistory()"><i class="fas fa-rotate"></i> Refresh</button>
+      </div>
     </div>
     <div class="history-grid" id="historyGrid"></div>
   </div>
@@ -926,9 +932,15 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
             <option value="cashier">Cashier — closure &amp; purchases only</option>
           </select>
         </div>
-        <label style="font-size:0.72rem;font-weight:600;color:#5f7385;text-transform:uppercase;">Custom Permissions</label>
+        <label style="font-size:0.72rem;font-weight:600;color:#5f7385;text-transform:uppercase;">Custom Permissions for this Role</label>
         <div class="permission-grid" id="teamPermissionGrid"></div>
-        <button class="btn btn-primary" onclick="createTeamUser()" style="width:100%;justify-content:center;margin-top:1rem;"><i class="fas fa-user-plus"></i> Create User</button>
+        <div style="font-size:0.7rem;color:#7b8fa0;margin-top:0.5rem;line-height:1.4;"><i class="fas fa-info-circle"></i> Changes here apply to <strong>all users</strong> with the selected role at this location. Click <strong>Save Role Permissions</strong> to apply.</div>
+        <div style="display:flex;gap:0.5rem;margin-top:0.8rem;">
+          <button class="btn" style="flex:1;justify-content:center;" onclick="resetRolePermissionsToDefault()"><i class="fas fa-rotate-left"></i> Reset to Default</button>
+          <button class="btn btn-primary" style="flex:1;justify-content:center;" onclick="saveRolePermissions()"><i class="fas fa-save"></i> Save Role Permissions</button>
+        </div>
+        <hr style="border:none;border-top:1px solid #eef3f8;margin:1.2rem 0;">
+        <button class="btn btn-primary" onclick="createTeamUser()" style="width:100%;justify-content:center;"><i class="fas fa-user-plus"></i> Create User</button>
       </div>
       <div class="admin-card">
         <h3><i class="fas fa-users"></i> Team Members</h3>
@@ -1133,6 +1145,7 @@ const PERIOD_DEFS = {
   evening:   { label: 'Evening',   icon: 'fa-moon',      start: 17, end: 24 }
 };
 
+/* Default permissions per role. These are now stored PER LOCATION and can be edited. */
 const DEFAULT_PERMISSIONS = {
   manager:    { view:true, editDaily:true, editPurchases:true, editExpenses:true, closeMonth:true, viewAudit:true, viewLog:true, manageUsers:true, editShifts:true, viewDaily:true, viewPurchases:true, viewShifts:true, viewHistory:true, viewSuppliers:true, manageShiftClosures:true, manageDailyBalancing:true },
   accountant: { view:true, editDaily:true, editPurchases:true, editExpenses:true, closeMonth:false, viewAudit:true, viewLog:true, manageUsers:false, editShifts:true, viewDaily:true, viewPurchases:true, viewShifts:true, viewHistory:true, viewSuppliers:true, manageShiftClosures:true, manageDailyBalancing:true },
@@ -1151,6 +1164,7 @@ let suppliersCache = [];
 let captchaVerified = false;
 let currentShiftId = null, currentShiftData = null;
 let pendingPeriod = null;
+let currentMonthHistory = []; // cached monthHistory records for current location
 
 /* ============================================================
    PERIOD HELPERS
@@ -1228,16 +1242,55 @@ function todayStr(){ const d = new Date(); return d.getFullYear() + '-' + String
 function currentCalendarMonthKey(){ const n = new Date(); return n.getFullYear() + '-' + String(n.getMonth()+1).padStart(2,'0'); }
 function nowTimeStr(){ const d = new Date(); return d.toTimeString().slice(0,5); }
 
+/* -----------------------------------------------------------
+   ROLE PERMISSIONS (per-location, editable)
+   -----------------------------------------------------------
+   Resolution order:
+   1. rolePermissions[role] from location config  (if present)
+   2. DEFAULT_PERMISSIONS[role]
+   Only `manageUsers` is overridden for managers on the fly.
+----------------------------------------------------------- */
+function getRolePermissions(role){
+  const locPerms = (allLocationsCache[currentLocationId] && allLocationsCache[currentLocationId].rolePermissions) || {};
+  if(locPerms[role]) return { ...DEFAULT_PERMISSIONS[role], ...locPerms[role] };
+  return { ...(DEFAULT_PERMISSIONS[role] || DEFAULT_PERMISSIONS.cashier) };
+}
+
 function hasPerm(perm){
   if(!currentUser) return false;
   if(currentUser.role === 'admin' || currentUser.role === 'superadmin') return true;
-  const roleDefaults = DEFAULT_PERMISSIONS[currentUser.role] || DEFAULT_PERMISSIONS.cashier;
-  const saved = currentUser.permissions || {};
-  const merged = { ...roleDefaults, ...saved };
-  if(perm === 'manageUsers' && currentUser.role === 'manager' && saved.manageUsers !== false) return true;
-  if(perm === 'manageShiftClosures' && currentUser.role === 'manager' && saved.manageShiftClosures !== false) return true;
-  if(perm === 'manageDailyBalancing' && currentUser.role === 'manager' && saved.manageDailyBalancing !== false) return true;
+  const merged = getRolePermissions(currentUser.role);
+  if(perm === 'manageUsers' && currentUser.role === 'manager' && merged.manageUsers !== false) return true;
   return !!merged[perm];
+}
+
+/* Apply tab visibility based on current role permissions. Hides tabs immediately when access is removed. */
+function applyTabPermissions(){
+  const allPanels = ['closure','purchases','daily','audit','shifts','history','log','suppliers','team'];
+  const permMap = {
+    closure: 'editShifts',
+    purchases: 'viewPurchases',
+    daily: 'viewDaily',
+    audit: 'viewAudit',
+    shifts: 'viewShifts',
+    history: 'viewHistory',
+    log: 'viewLog',
+    suppliers: 'viewSuppliers',
+    team: 'manageUsers'
+  };
+  document.querySelectorAll('#userTabNav .tab-btn').forEach(btn => {
+    const tab = btn.dataset.tab;
+    const perm = permMap[tab];
+    if(!perm) return;
+    if(hasPerm(perm)) btn.classList.remove('hidden');
+    else btn.classList.add('hidden');
+  });
+  // If current tab is hidden, switch to the first visible one
+  const activeBtn = document.querySelector('#userTabNav .tab-btn.active');
+  if(!activeBtn || activeBtn.classList.contains('hidden')){
+    const firstVisible = document.querySelector('#userTabNav .tab-btn:not(.hidden)');
+    if(firstVisible) switchTab(firstVisible.dataset.tab);
+  }
 }
 
 function saveSession(){
@@ -1270,9 +1323,9 @@ async function restoreSession(){
     const locDoc = await db.collection('locations').doc(u.locationId).get();
     if(!locDoc.exists) { clearSession(); return false; }
     const locData = locDoc.data();
+    allLocationsCache[u.locationId] = locData;
     const userRole = u.role || 'cashier';
-    const userPerms = u.permissions || {};
-    currentUser = { username: s.username, fullName: u.fullName || s.username, locationId: u.locationId, locationName: locData.name || u.locationId, role: userRole, permissions: userPerms };
+    currentUser = { username: s.username, fullName: u.fullName || s.username, locationId: u.locationId, locationName: locData.name || u.locationId, role: userRole, permissions: u.permissions || {} };
     currentLocationId = u.locationId;
     await showUserDashboard();
     return true;
@@ -1288,23 +1341,6 @@ function showSaveStatus(status, msg, target){
   if(status==='saving'){ el.classList.add('saving'); el.querySelector('i').className='fas fa-spinner fa-spin'; txt.textContent='Saving...'; }
   else if(status==='saved'){ el.classList.add('saved'); el.querySelector('i').className='fas fa-cloud-check'; const t = new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit',second:'2-digit'}); txt.textContent = msg || `Saved ${t}`; }
   else { el.classList.add('error'); el.querySelector('i').className='fas fa-exclamation-triangle'; txt.textContent = msg || 'Save failed'; }
-}
-
-function applyTabPermissions(){
-  document.querySelectorAll('#userTabNav .tab-btn').forEach(btn => {
-    const perm = btn.dataset.perm;
-    if(!perm) return;
-    if(hasPerm(perm)) btn.classList.remove('hidden');
-    else btn.classList.add('hidden');
-  });
-  const activeBtn = document.querySelector('#userTabNav .tab-btn.active');
-  if(!activeBtn || activeBtn.classList.contains('hidden')) {
-    const closureBtn = document.querySelector('#userTabNav .tab-btn[data-tab="closure"]');
-    const purchasesBtn = document.querySelector('#userTabNav .tab-btn[data-tab="purchases"]');
-    if(closureBtn && !closureBtn.classList.contains('hidden')) switchTab('closure');
-    else if(purchasesBtn && !purchasesBtn.classList.contains('hidden')) switchTab('purchases');
-    else switchTab('daily');
-  }
 }
 
 /* BATCHED DELETE HELPER */
@@ -1348,7 +1384,7 @@ async function autoSeed() {
     const userDoc = await db.collection('users').doc('wamombl1').get();
     if(locDoc.exists || userDoc.exists) return;
 
-    await db.collection('locations').doc('wamombl1').set({ name: 'Wamo Mbale 1', code: 'wamombl1', createdAt: new Date().toISOString(), status: 'active' });
+    await db.collection('locations').doc('wamombl1').set({ name: 'Wamo Mbale 1', code: 'wamombl1', createdAt: new Date().toISOString(), status: 'active', rolePermissions: {} });
     await db.collection('users').doc('wamombl1').set({ username:'wamombl1', fullName:'Ahmed', password:'wamo123@', locationId:'wamombl1', role:'manager', permissions: DEFAULT_PERMISSIONS.manager, status:'active', createdAt: new Date().toISOString() });
     const curKey = currentCalendarMonthKey();
     await db.collection('locations').doc('wamombl1').collection('months').doc(curKey).set({ entries: [], expenses: [], closed: false, purchases: [] });
@@ -1429,6 +1465,10 @@ async function loadLocationData(locationId) {
   if(!firebaseReady) { showSaveStatus('error','No Firebase'); return; }
   showSaveStatus('saving','Loading...');
   try {
+    // Reload location doc to pick up any role permission changes
+    const locDoc = await db.collection('locations').doc(locationId).get();
+    if(locDoc.exists) allLocationsCache[locationId] = locDoc.data();
+
     const snap = await db.collection('locations').doc(locationId).collection('months').get();
     allMonthsData = {}; snap.forEach(doc => { allMonthsData[doc.id] = doc.data(); });
     const wSnap = await db.collection('locations').doc(locationId).collection('weeklyClosures').get();
@@ -1455,8 +1495,19 @@ async function loadLocationData(locationId) {
     if(!currentMonthKey || !allMonthsData[currentMonthKey]) currentMonthKey = monthsSorted.length ? monthsSorted[monthsSorted.length-1] : curKey;
     await autoClosePastMonths();
     await autoClosePastShifts();
+    await loadMonthHistoryCache();
     showSaveStatus('saved','Loaded');
   } catch(e) { console.error(e); showSaveStatus('error','Load failed'); }
+}
+
+async function loadMonthHistoryCache(){
+  if(!firebaseReady || !currentLocationId) return;
+  try {
+    const snap = await db.collection('locations').doc(currentLocationId).collection('monthHistory').get();
+    currentMonthHistory = []; snap.forEach(d => currentMonthHistory.push({ id: d.id, ...d.data() }));
+    currentMonthHistory.sort((a,b) => (b.monthKey||'').localeCompare(a.monthKey||''));
+    renderHistoryFilter();
+  } catch(e) { console.warn('Month history load failed', e); }
 }
 
 async function saveMonthToFirestore(monthKey) {
@@ -1576,9 +1627,9 @@ async function doLogin(){
     const locDoc = await db.collection('locations').doc(userData.locationId).get();
     if(!locDoc.exists) throw new Error('Your location has been removed. Please contact admin.');
     const locData = locDoc.data();
+    allLocationsCache[userData.locationId] = locData;
     const userRole = userData.role || 'cashier';
-    const userPerms = userData.permissions || {};
-    currentUser = { username: u, fullName: userData.fullName || u, locationId: userData.locationId, locationName: locData.name || userData.locationId, role: userRole, permissions: userPerms };
+    currentUser = { username: u, fullName: userData.fullName || u, locationId: userData.locationId, locationName: locData.name || userData.locationId, role: userRole, permissions: userData.permissions || {} };
     currentLocationId = userData.locationId;
     saveSession();
     await showUserDashboard();
@@ -1638,7 +1689,7 @@ function doLogout(){
   if(!confirm('Sign out?')) return;
   clearSession();
   currentUser = null; currentLocationId = null;
-  allMonthsData = {}; weeklyClosures = []; auditLog = []; suppliersCache = []; allShifts = [];
+  allMonthsData = {}; weeklyClosures = []; auditLog = []; suppliersCache = []; allShifts = []; currentMonthHistory = [];
   currentShiftId = null; currentShiftData = null;
   document.getElementById('landingPage').style.display = 'block';
   document.getElementById('app').style.display = 'none';
@@ -1652,14 +1703,9 @@ function doLogout(){
 /* ============================================================
    DAILY CLOSURE / SHIFTS
    ============================================================ */
-
 function findTodaysOpenShiftForMe(){
   const today = todayStr();
-  return allShifts.find(sh =>
-    sh.date === today &&
-    sh.cashier === currentUser?.username &&
-    sh.status === 'open'
-  );
+  return allShifts.find(sh => sh.date === today && sh.cashier === currentUser?.username && sh.status === 'open');
 }
 function findTodaysShifts(){
   const today = todayStr();
@@ -1724,27 +1770,17 @@ async function startNewShift(){
   }
 
   const newShift = {
-    date: today,
-    period: pendingPeriod,
-    periodSource: 'manual',
-    clockPeriodAtStart: clockPeriod,
-    cashier: currentUser?.username || 'unknown',
-    cashierName: currentUser?.fullName || currentUser?.username || 'unknown',
+    date: today, period: pendingPeriod, periodSource: 'manual', clockPeriodAtStart: clockPeriod,
+    cashier: currentUser?.username || 'unknown', cashierName: currentUser?.fullName || currentUser?.username || 'unknown',
     mtn: 0, airtel: 0, closingSales: 0, expenses: 0, openingFloat: 0, counted: 0,
-    sales: 0, cashExpected: 0, difference: 0,
-    expenseItems: [],
-    note: '',
-    status: 'open',
-    openedAt: nowIso,
-    openedAtTime: nowTimeStr()
+    sales: 0, cashExpected: 0, difference: 0, expenseItems: [], note: '',
+    status: 'open', openedAt: nowIso, openedAtTime: nowTimeStr()
   };
   try {
     if(firebaseReady && currentLocationId) {
       const ref = await db.collection('locations').doc(currentLocationId).collection('shifts').add(newShift);
       newShift.id = ref.id;
-    } else {
-      newShift.id = 'local_' + Date.now();
-    }
+    } else { newShift.id = 'local_' + Date.now(); }
     allShifts.unshift(newShift);
     currentShiftId = newShift.id;
     currentShiftData = newShift;
@@ -1890,8 +1926,7 @@ function recalcClosure(){
   const closingSales = getNum('clClosingSales');
   const counted = getNum('clCounted');
   const expenses = (currentShiftData && Array.isArray(currentShiftData.expenseItems))
-    ? currentShiftData.expenseItems.reduce((s, e) => s + (parseFloat(e.amount) || 0), 0)
-    : 0;
+    ? currentShiftData.expenseItems.reduce((s, e) => s + (parseFloat(e.amount) || 0), 0) : 0;
   const openingFloat = getNum('clOpeningFloat');
   const sales = closingSales;
   const cashExpected = openingFloat + (sales - mtn - airtel) - expenses;
@@ -2189,36 +2224,23 @@ async function editShift(id) {
   const sh = allShifts.find(s => s.id === id);
   if (!sh) { showToast('Shift not found', 'error'); return; }
 
-  const newSales = prompt('Closing Sales (system total):', sh.closingSales ?? sh.sales ?? 0);
-  if (newSales === null) return;
-  const newMtn = prompt('MTN MOMO amount:', sh.mtn ?? 0);
-  if (newMtn === null) return;
-  const newAirtel = prompt('Airtel Money amount:', sh.airtel ?? 0);
-  if (newAirtel === null) return;
-  const newExpenses = prompt('Total expenses paid from till:', sh.expenses ?? 0);
-  if (newExpenses === null) return;
-  const newOpeningFloat = prompt('Opening float:', sh.openingFloat ?? 0);
-  if (newOpeningFloat === null) return;
-  const newCounted = prompt('Cash Counted (physical):', sh.counted ?? 0);
-  if (newCounted === null) return;
-  const newNote = prompt('Note (optional):', sh.note ?? '');
-  if (newNote === null) return;
+  const newSales = prompt('Closing Sales (system total):', sh.closingSales ?? sh.sales ?? 0); if (newSales === null) return;
+  const newMtn = prompt('MTN MOMO amount:', sh.mtn ?? 0); if (newMtn === null) return;
+  const newAirtel = prompt('Airtel Money amount:', sh.airtel ?? 0); if (newAirtel === null) return;
+  const newExpenses = prompt('Total expenses paid from till:', sh.expenses ?? 0); if (newExpenses === null) return;
+  const newOpeningFloat = prompt('Opening float:', sh.openingFloat ?? 0); if (newOpeningFloat === null) return;
+  const newCounted = prompt('Cash Counted (physical):', sh.counted ?? 0); if (newCounted === null) return;
+  const newNote = prompt('Note (optional):', sh.note ?? ''); if (newNote === null) return;
 
   const currentItems = Array.isArray(sh.expenseItems) ? sh.expenseItems : [];
-  const itemsJson = prompt(
-    'Expense breakdown (JSON array, leave unchanged to keep):\nExample: [{"type":"Transport","description":"boda","amount":5000}]',
-    JSON.stringify(currentItems)
-  );
+  const itemsJson = prompt('Expense breakdown (JSON array, leave unchanged to keep):\nExample: [{"type":"Transport","description":"boda","amount":5000}]', JSON.stringify(currentItems));
   if (itemsJson === null) return;
 
   let parsedItems = currentItems;
   try {
     if (itemsJson.trim()) parsedItems = JSON.parse(itemsJson);
     if (!Array.isArray(parsedItems)) throw new Error('Not an array');
-  } catch (e) {
-    showToast('Invalid JSON in expense breakdown. Edit cancelled.', 'error');
-    return;
-  }
+  } catch (e) { showToast('Invalid JSON in expense breakdown. Edit cancelled.', 'error'); return; }
 
   const mtn = parseFloat(newMtn) || 0;
   const airtel = parseFloat(newAirtel) || 0;
@@ -2230,14 +2252,7 @@ async function editShift(id) {
   const cashExpected = openingFloat + (sales - mtn - airtel) - expenses;
   const difference = counted - cashExpected;
 
-  const updated = {
-    ...sh,
-    mtn, airtel, closingSales, expenses, openingFloat, counted,
-    sales, cashExpected, difference, note: newNote,
-    expenseItems: parsedItems,
-    editedAt: new Date().toISOString(),
-    editedBy: currentUser.username
-  };
+  const updated = { ...sh, mtn, airtel, closingSales, expenses, openingFloat, counted, sales, cashExpected, difference, note: newNote, expenseItems: parsedItems, editedAt: new Date().toISOString(), editedBy: currentUser.username };
 
   try {
     if (firebaseReady && currentLocationId && !id.startsWith('local_')) {
@@ -2248,39 +2263,25 @@ async function editShift(id) {
     addLog('Edit Shift', `Shift ${sh.date} ${periodLabel(sh.period)} edited by ${currentUser.username}`);
     showToast('Shift updated', 'success');
     renderShifts();
-    if (currentShiftId === id) {
-      currentShiftData = updated;
-      renderClosurePanel();
-    }
-  } catch (e) {
-    showToast('Failed to update shift: ' + e.message, 'error');
-  }
+    if (currentShiftId === id) { currentShiftData = updated; renderClosurePanel(); }
+  } catch (e) { showToast('Failed to update shift: ' + e.message, 'error'); }
 }
 
 async function deleteShift(id) {
   if (!hasPerm('manageUsers') && !hasPerm('manageShiftClosures')) { showToast('You do not have permission to delete shifts', 'error'); return; }
   const sh = allShifts.find(s => s.id === id);
   if (!sh) { showToast('Shift not found', 'error'); return; }
-
   if (!confirm(`Delete shift "${sh.date} ${periodLabel(sh.period)}" by ${sh.cashierName || sh.cashier}? This cannot be undone.`)) return;
-
   try {
     if (firebaseReady && currentLocationId && !id.startsWith('local_')) {
       await db.collection('locations').doc(currentLocationId).collection('shifts').doc(id).delete();
     }
     allShifts = allShifts.filter(s => s.id !== id);
     addLog('Delete Shift', `Shift ${sh.date} ${periodLabel(sh.period)} deleted by ${currentUser.username}`);
-
-    if (currentShiftId === id) {
-      currentShiftId = null;
-      currentShiftData = null;
-      renderClosureView();
-    }
+    if (currentShiftId === id) { currentShiftId = null; currentShiftData = null; renderClosureView(); }
     showToast('Shift deleted', 'success');
     renderShifts();
-  } catch (e) {
-    showToast('Failed to delete shift: ' + e.message, 'error');
-  }
+  } catch (e) { showToast('Failed to delete shift: ' + e.message, 'error'); }
 }
 
 async function closeAllShiftsForMonth(){
@@ -2295,9 +2296,7 @@ async function closeAllShiftsForMonth(){
   let closed = 0;
   for(const sh of openShifts){
     try {
-      await db.collection('locations').doc(currentLocationId).collection('shifts').doc(sh.id).update({
-        status: 'closed', closedAt: new Date().toISOString(), closedBy: currentUser.username
-      });
+      await db.collection('locations').doc(currentLocationId).collection('shifts').doc(sh.id).update({ status: 'closed', closedAt: new Date().toISOString(), closedBy: currentUser.username });
       sh.status = 'closed'; sh.closedAt = new Date().toISOString(); sh.closedBy = currentUser.username;
       closed++;
     } catch(e) { console.warn('Close shift failed', sh.id, e); }
@@ -2459,7 +2458,7 @@ async function adminCreateLocation(){
   try {
     if((await db.collection('locations').doc(code).get()).exists) { showToast('Location code already exists', 'error'); return; }
     if((await db.collection('users').doc(mgr).get()).exists) { showToast('Manager username already exists', 'error'); return; }
-    await db.collection('locations').doc(code).set({ name, code, status: 'active', createdAt: new Date().toISOString() });
+    await db.collection('locations').doc(code).set({ name, code, status: 'active', createdAt: new Date().toISOString(), rolePermissions: {} });
     await db.collection('users').doc(mgr).set({ username: mgr, fullName: mgrName || mgr, password: mgrPass, locationId: code, role: 'manager', permissions: DEFAULT_PERMISSIONS.manager, status: 'active', createdAt: new Date().toISOString(), createdBy: 'admin' });
     const curKey = currentCalendarMonthKey();
     await db.collection('locations').doc(code).collection('months').doc(curKey).set({ entries: [], expenses: [], closed: false, purchases: [] });
@@ -2501,65 +2500,38 @@ async function deleteLocationConfirm(id){
   showSaveStatus('saved','Ready','admin');
 
   const totalDocs = Object.values(counts).reduce((s,n)=>s+n,0);
-  const breakdown = LOCATION_SUBCOLLECTIONS
-    .map(k => `${k}: ${counts[k]}`)
-    .join('\n  ');
+  const breakdown = LOCATION_SUBCOLLECTIONS.map(k => `${k}: ${counts[k]}`).join('\n  ');
 
   const firstConfirm = confirm(
-    `Delete location "${l.name || id}"?\n\n` +
-    `This will permanently delete:\n` +
-    `  • The location document\n` +
-    `  • ${usersHere.length} user account(s) at this location\n` +
-    `  • ${totalDocs} record(s) across subcollections:\n  ${breakdown}\n\n` +
-    `This cannot be undone. Continue?`
+    `Delete location "${l.name || id}"?\n\nThis will permanently delete:\n  • The location document\n  • ${usersHere.length} user account(s) at this location\n  • ${totalDocs} record(s) across subcollections:\n  ${breakdown}\n\nThis cannot be undone. Continue?`
   );
   if(!firstConfirm) return;
 
-  const typed = prompt(
-    `Type the location code "${id}" to confirm permanent deletion of ALL data for this location.`
-  );
+  const typed = prompt(`Type the location code "${id}" to confirm permanent deletion of ALL data for this location.`);
   if(typed !== id){ showToast('Deletion cancelled — code did not match', 'error'); return; }
 
   showSaveStatus('saving','Deleting location data...','admin');
-  let deletedDocs = 0;
-  let deletedUsers = 0;
-  const errors = [];
+  let deletedDocs = 0; let deletedUsers = 0; const errors = [];
 
   for(const sub of LOCATION_SUBCOLLECTIONS){
     if(!counts[sub]) continue;
     try {
       const ref = db.collection('locations').doc(id).collection(sub);
-      const n = await deleteCollectionInBatches(ref, (running) => {
-        showSaveStatus('saving', `Deleting ${sub}… ${running}`, 'admin');
-      });
+      const n = await deleteCollectionInBatches(ref, (running) => { showSaveStatus('saving', `Deleting ${sub}… ${running}`, 'admin'); });
       deletedDocs += n;
-    } catch(e) {
-      errors.push(`${sub}: ${e.message}`);
-      console.warn('[Cascade] Failed to clear subcollection', sub, e);
-    }
+    } catch(e) { errors.push(`${sub}: ${e.message}`); console.warn('[Cascade] Failed to clear subcollection', sub, e); }
   }
 
   try {
     const usersQuery = db.collection('users').where('locationId', '==', id);
     deletedUsers = await deleteQueryInBatches(usersQuery);
     usersHere.forEach(([username]) => { delete allUsersCache[username]; });
-  } catch(e) {
-    errors.push(`users: ${e.message}`);
-    console.warn('[Cascade] Failed to delete users', e);
-  }
+  } catch(e) { errors.push(`users: ${e.message}`); console.warn('[Cascade] Failed to delete users', e); }
 
-  try {
-    await db.collection('locations').doc(id).delete();
-    delete allLocationsCache[id];
-  } catch(e) {
-    errors.push(`location: ${e.message}`);
-  }
+  try { await db.collection('locations').doc(id).delete(); delete allLocationsCache[id]; } catch(e) { errors.push(`location: ${e.message}`); }
 
   await loadAdminData();
-  renderAdminLocations();
-  renderAdminAccounts();
-  renderAdminOverview();
-  renderAdminActivity();
+  renderAdminLocations(); renderAdminAccounts(); renderAdminOverview(); renderAdminActivity();
 
   if(errors.length){
     showSaveStatus('error','Partial delete','admin');
@@ -2617,7 +2589,7 @@ async function saveUserEdit(){
   const status = document.getElementById('editStatus').value;
   const newPass = document.getElementById('editNewPass').value;
   try {
-    const updates = { fullName, locationId, role, status, permissions: DEFAULT_PERMISSIONS[role] };
+    const updates = { fullName, locationId, role, status };
     if(newPass) { if(newPass.length < 6) { showToast('Password too short', 'error'); return; } updates.password = newPass; }
     await db.collection('users').doc(username).update(updates);
     showToast('User updated', 'success');
@@ -2760,7 +2732,11 @@ async function deleteSupplier(id){
 }
 
 /* TEAM */
-function renderTeam(){ renderTeamPermissionGrid(DEFAULT_PERMISSIONS.manager); renderTeamMembers(); }
+function renderTeam(){
+  const role = document.getElementById('teamUserRole')?.value || 'manager';
+  renderTeamPermissionGrid(getRolePermissions(role));
+  renderTeamMembers();
+}
 function renderTeamPermissionGrid(selected){
   const perms = [
     {key:'view', label:'View data'},
@@ -2783,7 +2759,55 @@ function renderTeamPermissionGrid(selected){
   const el = document.getElementById('teamPermissionGrid');
   if(el) el.innerHTML = perms.map(p => `<label class="perm-item"><input type="checkbox" data-perm="${p.key}" ${selected[p.key]?'checked':''}> ${p.label}</label>`).join('');
 }
-function onTeamRoleChange(){ const role = document.getElementById('teamUserRole').value; renderTeamPermissionGrid(DEFAULT_PERMISSIONS[role] || {}); }
+function onTeamRoleChange(){
+  const role = document.getElementById('teamUserRole').value;
+  renderTeamPermissionGrid(getRolePermissions(role));
+}
+
+/* Save role-level permissions to the location doc. These apply to ALL users of that role. */
+async function saveRolePermissions(){
+  if(!hasPerm('manageUsers')){ showToast('No permission', 'error'); return; }
+  const role = document.getElementById('teamUserRole').value;
+  const permissions = {};
+  document.querySelectorAll('#teamPermissionGrid input[data-perm]').forEach(cb => { permissions[cb.dataset.perm] = cb.checked; });
+  try {
+    const locRef = db.collection('locations').doc(currentLocationId);
+    const locDoc = await locRef.get();
+    const locData = locDoc.exists ? locDoc.data() : {};
+    const rolePermissions = { ...(locData.rolePermissions || {}) };
+    rolePermissions[role] = permissions;
+    await locRef.set({ rolePermissions }, { merge: true });
+    // Update local cache so hasPerm() reflects changes immediately
+    allLocationsCache[currentLocationId] = { ...(allLocationsCache[currentLocationId] || {}), rolePermissions };
+    // If we changed our own role, re-apply UI
+    if(currentUser && currentUser.role === role){
+      applyPermissions();
+      applyTabPermissions();
+    }
+    addLog('Update Role Permissions', `${role} — ${Object.entries(permissions).filter(([_,v])=>v).map(([k])=>k).join(', ') || 'no permissions'}`);
+    showToast(`Permissions saved for ${role}. All users of this role now affected.`, 'success');
+  } catch(e) { showToast('Failed to save permissions: ' + e.message, 'error'); }
+}
+
+async function resetRolePermissionsToDefault(){
+  if(!hasPerm('manageUsers')){ showToast('No permission', 'error'); return; }
+  const role = document.getElementById('teamUserRole').value;
+  if(!confirm(`Reset ${role} permissions to system defaults?\n\nThis will affect all users with this role at this location.`)) return;
+  try {
+    const locRef = db.collection('locations').doc(currentLocationId);
+    const locDoc = await locRef.get();
+    const locData = locDoc.exists ? locDoc.data() : {};
+    const rolePermissions = { ...(locData.rolePermissions || {}) };
+    delete rolePermissions[role];
+    await locRef.set({ rolePermissions }, { merge: true });
+    allLocationsCache[currentLocationId] = { ...(allLocationsCache[currentLocationId] || {}), rolePermissions };
+    renderTeamPermissionGrid(getRolePermissions(role));
+    if(currentUser && currentUser.role === role){ applyPermissions(); applyTabPermissions(); }
+    addLog('Reset Role Permissions', `${role} reset to default`);
+    showToast(`${role} permissions reset to default.`, 'success');
+  } catch(e) { showToast('Failed to reset: ' + e.message, 'error'); }
+}
+
 async function createTeamUser(){
   if(!currentUser){ showToast('Not logged in', 'error'); return; }
   if(!hasPerm('manageUsers')){ showToast('No permission', 'error'); return; }
@@ -2794,11 +2818,9 @@ async function createTeamUser(){
   if(!username || !password){ showToast('Fill username and password', 'error'); return; }
   if(password.length < 6){ showToast('Password must be at least 6 chars', 'error'); return; }
   if(!/^[a-z0-9]+$/.test(username)){ showToast('Username must be lowercase alphanumeric', 'error'); return; }
-  const permissions = {};
-  document.querySelectorAll('#teamPermissionGrid input[data-perm]').forEach(cb => { permissions[cb.dataset.perm] = cb.checked; });
   try {
     if((await db.collection('users').doc(username).get()).exists){ showToast('Username already exists', 'error'); return; }
-    await db.collection('users').doc(username).set({ username, fullName, password, locationId: currentLocationId, role, permissions, status: 'active', createdAt: new Date().toISOString(), createdBy: currentUser.username });
+    await db.collection('users').doc(username).set({ username, fullName, password, locationId: currentLocationId, role, permissions: {}, status: 'active', createdAt: new Date().toISOString(), createdBy: currentUser.username });
     addLog('Create User', `${username} (${role}) created by ${currentUser.username}`);
     document.getElementById('teamUserName').value = ''; document.getElementById('teamUserFullName').value = ''; document.getElementById('teamUserPass').value = '';
     showToast('User created: ' + username, 'success');
@@ -2853,7 +2875,7 @@ async function editTeamUser(username){
   const validRoles = ['manager','accountant','cashier'];
   if(!validRoles.includes(newRole.toLowerCase())){ showToast('Invalid role', 'error'); return; }
   const newPassword = prompt('New password (leave blank to keep):', ''); if(newPassword === null) return;
-  const updates = { fullName: newFullName, role: newRole.toLowerCase(), permissions: DEFAULT_PERMISSIONS[newRole.toLowerCase()] };
+  const updates = { fullName: newFullName, role: newRole.toLowerCase() };
   if(newPassword) { if(newPassword.length < 6){ showToast('Password too short', 'error'); return; } updates.password = newPassword; }
   await db.collection('users').doc(username).update(updates);
   addLog('Edit User', `${username} updated by ${currentUser.username}`);
@@ -3186,18 +3208,14 @@ async function editDailyBalancing(dateStr){
   const rec = weeklyClosures.find(w => w.date === dateStr);
   if(!rec){ showToast('Record not found', 'error'); return; }
 
-  const newStockCost = prompt('Total Stock Cost (UGX):', rec.stockCost ?? rec.stock ?? 0);
-  if(newStockCost === null) return;
-  const newStockPrice = prompt('Total Stock Price (UGX):', rec.stockPrice ?? 0);
-  if(newStockPrice === null) return;
-  const newCredit = prompt('Total Credit (UGX):', rec.credit ?? 0);
-  if(newCredit === null) return;
-  const newCash = prompt('Cash at Hand (UGX):', rec.cash ?? 0);
-  if(newCash === null) return;
+  const newStockCost = prompt('Total Stock Cost (UGX):', rec.stockCost ?? rec.stock ?? 0); if(newStockCost === null) return;
+  const newStockPrice = prompt('Total Stock Price (UGX):', rec.stockPrice ?? 0); if(newStockPrice === null) return;
+  const newCredit = prompt('Total Credit (UGX):', rec.credit ?? 0); if(newCredit === null) return;
+  const newCash = prompt('Cash at Hand (UGX):', rec.cash ?? 0); if(newCash === null) return;
 
   rec.stockCost = parseFloat(newStockCost) || 0;
   rec.stockPrice = parseFloat(newStockPrice) || 0;
-  rec.stock = rec.stockCost; // keep legacy field in sync
+  rec.stock = rec.stockCost;
   rec.credit = parseFloat(newCredit) || 0;
   rec.cash = parseFloat(newCash) || 0;
   rec.editedAt = new Date().toISOString();
@@ -3215,9 +3233,7 @@ async function deleteDailyBalancing(dateStr){
   if(!hasPerm('manageUsers') && !hasPerm('manageDailyBalancing')){ showToast('You do not have permission to delete daily balancing records', 'error'); return; }
   const rec = weeklyClosures.find(w => w.date === dateStr);
   if(!rec){ showToast('Record not found', 'error'); return; }
-
   if(!confirm(`Delete daily balancing record for ${dateStr}?\n\nStock Cost: ${fmt(rec.stockCost||rec.stock||0)}\nStock Price: ${fmt(rec.stockPrice||0)}\nCredit: ${fmt(rec.credit)}\nCash: ${fmt(rec.cash)}\n\nThis cannot be undone.`)) return;
-
   try {
     if(firebaseReady && currentLocationId){
       await db.collection('locations').doc(currentLocationId).collection('weeklyClosures').doc(dateStr).delete();
@@ -3263,16 +3279,28 @@ function renderLog(){
     return `<tr><td style="font-size:0.78rem;color:#6a7f94;">${d.toLocaleString()}</td><td><strong>${l.user || '—'}</strong></td><td><span class="badge-pill ${badge}">${l.action}</span></td><td style="font-size:0.82rem;">${l.details} <span style="color:#6a7f94;">· ${monthLabel(l.month)}</span></td></tr>`;
   }).join('');
 }
+
+/* -----------------------------------------------------------
+   MONTH HISTORY: selector + show all + delete
+----------------------------------------------------------- */
+function renderHistoryFilter(){
+  const sel = document.getElementById('historyMonthFilter'); if(!sel) return;
+  const currentVal = sel.value;
+  const months = currentMonthHistory.map(h => h.monthKey).filter(Boolean).sort().reverse();
+  sel.innerHTML = '<option value="">All months</option>' + months.map(m => `<option value="${m}">${monthLabel(m)}</option>`).join('');
+  if(currentVal && months.includes(currentVal)) sel.value = currentVal;
+}
 async function renderHistory(){
   const grid = document.getElementById('historyGrid'); if(!grid) return;
   grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:2rem;color:#7b8fa0;"><i class="fas fa-spinner fa-spin"></i> Loading history…</div>';
   try {
-    const snap = await db.collection('locations').doc(currentLocationId).collection('monthHistory').get();
-    const items = []; snap.forEach(d => items.push({ id: d.id, ...d.data() }));
-    items.sort((a,b) => (b.monthKey||'').localeCompare(a.monthKey||''));
+    await loadMonthHistoryCache();
+    const filterVal = document.getElementById('historyMonthFilter')?.value || '';
+    const items = filterVal ? currentMonthHistory.filter(h => h.monthKey === filterVal) : currentMonthHistory;
     if(!items.length) { grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:2rem;color:#7b8fa0;">No closed months yet.</div>'; return; }
     grid.innerHTML = items.map(h => {
       const reopened = allMonthsData[h.monthKey] && !allMonthsData[h.monthKey].closed;
+      const canDelete = hasPerm('manageUsers');
       return `<div class="history-card">
         <div class="head"><div class="title">${monthLabel(h.monthKey)}</div><div class="badge ${reopened?'reopened':''}">${reopened ? 'Re-opened' : 'Closed'}</div></div>
         <div class="body">
@@ -3286,6 +3314,7 @@ async function renderHistory(){
           <button class="btn" onclick="viewHistoryMonth('${h.monthKey}')"><i class="fas fa-eye"></i> Open</button>
           <button class="btn" onclick="runHistoryAudit('${h.monthKey}')"><i class="fas fa-magnifying-glass-chart"></i> Audit</button>
           ${hasPerm('manageUsers') ? `<button class="btn btn-primary" onclick="reopenMonth('${h.monthKey}')"><i class="fas fa-lock-open"></i> Re-open</button>` : ''}
+          ${canDelete ? `<button class="btn btn-danger" onclick="deleteMonthHistory('${h.monthKey}')"><i class="fas fa-trash"></i> Delete</button>` : ''}
         </div>
       </div>`;
     }).join('');
@@ -3313,6 +3342,44 @@ async function reopenMonth(mKey){
     renderMonthSelect(); renderPurchaseMonthSelect(); renderAll(); renderHistory();
     showToast('Month re-opened for editing', 'success');
   } catch(e) { showToast('Error: ' + e.message, 'error'); }
+}
+async function deleteMonthHistory(mKey){
+  if(!hasPerm('manageUsers')){ showToast('Only managers can delete month history', 'error'); return; }
+  const h = currentMonthHistory.find(x => x.monthKey === mKey); if(!h) return;
+  if(!confirm(`Delete the archived month history for ${monthLabel(mKey)}?\n\nThis permanently removes:\n  • The monthHistory document\n  • The corresponding month data (entries, expenses, purchases)\n  • Daily balancing records for that month\n\nThis cannot be undone. Continue?`)) return;
+  if(!confirm(`FINAL WARNING — deleting ${monthLabel(mKey)} is irreversible. Continue?`)) return;
+
+  showSaveStatus('saving','Deleting month...');
+  try {
+    const locRef = db.collection('locations').doc(currentLocationId);
+    // 1) Delete monthHistory doc
+    await locRef.collection('monthHistory').doc(mKey).delete();
+    // 2) Delete month doc
+    await locRef.collection('months').doc(mKey).delete();
+    // 3) Delete daily balancing (weeklyClosures) records for that month
+    const wcSnap = await locRef.collection('weeklyClosures').get();
+    const batch = db.batch();
+    let count = 0;
+    wcSnap.forEach(d => { const data = d.data(); if(data.date && data.date.startsWith(mKey)){ batch.delete(d.ref); count++; } });
+    if(count > 0) await batch.commit();
+
+    // Update caches and UI
+    delete allMonthsData[mKey];
+    currentMonthHistory = currentMonthHistory.filter(x => x.monthKey !== mKey);
+    weeklyClosures = weeklyClosures.filter(w => !w.date || !w.date.startsWith(mKey));
+
+    addLog('Delete Month History', `${monthLabel(mKey)} deleted by ${currentUser.username} (history + month + ${count} balancing records)`);
+    if(currentMonthKey === mKey){
+      const remaining = Object.keys(allMonthsData).sort();
+      currentMonthKey = remaining.length ? remaining[remaining.length-1] : currentCalendarMonthKey();
+    }
+    renderMonthSelect(); renderPurchaseMonthSelect(); renderAll(); renderAudit(); renderHistory();
+    showSaveStatus('saved','Deleted');
+    showToast(`Deleted ${monthLabel(mKey)}`, 'success');
+  } catch(e) {
+    showSaveStatus('error','Delete failed');
+    showToast('Failed to delete month: ' + e.message, 'error');
+  }
 }
 
 /* AUDIT REPORT MODAL */
@@ -3547,7 +3614,6 @@ function downloadPDF(){
 }
 
 /* BOOTSTRAP */
-renderTeamPermissionGrid(DEFAULT_PERMISSIONS.manager);
 window.addEventListener('DOMContentLoaded', async () => {
   if(firebaseReady) {
     await autoSeed();
