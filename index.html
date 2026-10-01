@@ -503,7 +503,7 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
       </div>
       <div class="faq-item" onclick="toggleFaq(this)">
         <div class="faq-question">What can each role do?<i class="fas fa-chevron-down icon"></i></div>
-        <div class="faq-answer"><div class="faq-answer-inner"><strong>Manager</strong> — full control: users, months, shifts, closures, reports.<br><br><strong>Accountant</strong> — can edit daily entries, purchases, expenses, and manage shift closures; cannot close months or manage users.<br><br><strong>Cashier</strong> — can start and end their own shift, record purchases, and view their own shift history.</div></div>
+        <div class="faq-answer"><div class="faq-answer-inner"><strong>Manager</strong> — full control: users, months, shifts, closures, reports.<br><br><strong>Accountant</strong> — can edit daily entries, purchases, expenses, manage shift closures and daily balancing records; cannot close months or manage users.<br><br><strong>Cashier</strong> — can start and end their own shift, record purchases, and view their own shift history.</div></div>
       </div>
       <div class="faq-item" onclick="toggleFaq(this)">
         <div class="faq-question">What does the audit engine check?<i class="fas fa-chevron-down icon"></i></div>
@@ -590,7 +590,7 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
     <button class="tab-btn" data-tab="closure" data-perm="editShifts" onclick="switchTab('closure')"><i class="fas fa-cash-register"></i> Daily Closure</button>
     <button class="tab-btn" data-tab="purchases" data-perm="viewPurchases" onclick="switchTab('purchases')"><i class="fas fa-truck"></i> Daily Purchases</button>
     <button class="tab-btn" data-tab="daily" data-perm="viewDaily" onclick="switchTab('daily')"><i class="fas fa-calendar-day"></i> Daily Performance</button>
-    <button class="tab-btn" data-tab="audit" data-perm="viewAudit" onclick="switchTab('audit')"><i class="fas fa-shield-halved"></i> Closure Audit</button>
+    <button class="tab-btn" data-tab="audit" data-perm="viewAudit" onclick="switchTab('audit')"><i class="fas fa-shield-halved"></i> Daily Balancing</button>
     <button class="tab-btn" data-tab="shifts" data-perm="viewShifts" onclick="switchTab('shifts')"><i class="fas fa-clock"></i> Shifts History</button>
     <button class="tab-btn" data-tab="history" data-perm="viewHistory" onclick="switchTab('history')"><i class="fas fa-clock-rotate-left"></i> Month History</button>
     <button class="tab-btn" data-tab="log" data-perm="viewLog" onclick="switchTab('log')"><i class="fas fa-history"></i> Audit Log</button>
@@ -774,25 +774,25 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
     <div class="table-card"><div class="table-scroll"><table id="categoryTable"><thead><tr><th>Category</th><th>Purchases (UGX)</th><th>% of Total</th><th># Orders</th></tr></thead><tbody id="categoryBody"></tbody></table></div></div>
   </div>
 
-  <!-- CLOSURE AUDIT -->
+  <!-- DAILY BALANCING (formerly Closure Audit) -->
   <div class="tab-panel" id="tab-audit">
     <div style="background:white;padding:1.2rem 1.5rem;border-radius:16px;border:1px solid #e3ebf3;margin-bottom:1.5rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">
-      <i class="fas fa-shield-halved" style="font-size:1.8rem;color:#1d7a4b;"></i>
+      <i class="fas fa-scale-balanced" style="font-size:1.8rem;color:#1d7a4b;"></i>
       <div>
-        <div style="font-weight:700;color:#0b2b44;font-size:1rem;">Weekly Closure Audit</div>
-        <div style="font-size:0.8rem;color:#5f7385;">Week-to-week movement in stock, credit and cash.</div>
+        <div style="font-weight:700;color:#0b2b44;font-size:1rem;">Daily Balancing</div>
+        <div style="font-size:0.8rem;color:#5f7385;">Day-to-day movement in stock, credit and cash.</div>
       </div>
       <button class="btn btn-audit" style="margin-left:auto;" onclick="openAuditReport()"><i class="fas fa-magnifying-glass-chart"></i> Run full audit</button>
     </div>
     <div class="audit-summary" id="auditSummary"></div>
-    <div class="section-title"><i class="fas fa-table"></i> Weekly closure records</div>
+    <div class="section-title"><i class="fas fa-table"></i> Daily balancing records</div>
     <div class="table-card">
       <div class="table-scroll"><table id="auditTable"><thead><tr>
         <th style="width:40px;"></th><th style="width:130px;">Date</th>
         <th style="width:140px;">Total Stock</th><th style="width:140px;">Total Credit</th>
         <th style="width:140px;">Cash at Hand</th>
         <th style="width:120px;">Stock Δ</th><th style="width:120px;">Credit Δ</th>
-        <th style="width:120px;">Cash Δ</th><th style="width:180px;">Flag</th>
+        <th style="width:120px;">Cash Δ</th><th style="width:180px;">Flag</th><th style="width:110px;"></th>
       </tr></thead><tbody id="auditBody"></tbody></table></div>
       <div class="legend">
         <div class="legend-item"><span class="legend-dot red"></span> <strong>Red flag</strong></div>
@@ -800,7 +800,7 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
         <div class="legend-item"><span class="legend-dot green"></span> <strong>Green</strong></div>
       </div>
     </div>
-    <div class="section-title editor-only"><i class="fas fa-plus-circle"></i> Add weekly closure entry</div>
+    <div class="section-title editor-only"><i class="fas fa-plus-circle"></i> Add daily balancing entry</div>
     <div class="table-card editor-only" style="padding:1.2rem;">
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;">
         <div><label style="font-size:0.75rem;font-weight:600;color:#5f7385;text-transform:uppercase;">Date</label><input type="date" id="newClosureDate" style="margin-top:0.3rem;"></div>
@@ -1135,9 +1135,9 @@ const PERIOD_DEFS = {
 };
 
 const DEFAULT_PERMISSIONS = {
-  manager:    { view:true, editDaily:true, editPurchases:true, editExpenses:true, closeMonth:true, viewAudit:true, viewLog:true, manageUsers:true, editShifts:true, viewDaily:true, viewPurchases:true, viewShifts:true, viewHistory:true, viewSuppliers:true, manageShiftClosures:true },
-  accountant: { view:true, editDaily:true, editPurchases:true, editExpenses:true, closeMonth:false, viewAudit:true, viewLog:true, manageUsers:false, editShifts:true, viewDaily:true, viewPurchases:true, viewShifts:true, viewHistory:true, viewSuppliers:true, manageShiftClosures:true },
-  cashier:    { view:true, editDaily:false, editPurchases:true, editExpenses:false, closeMonth:false, viewAudit:false, viewLog:false, manageUsers:false, editShifts:true, viewDaily:false, viewPurchases:true, viewShifts:true, viewHistory:false, viewSuppliers:false, manageShiftClosures:false }
+  manager:    { view:true, editDaily:true, editPurchases:true, editExpenses:true, closeMonth:true, viewAudit:true, viewLog:true, manageUsers:true, editShifts:true, viewDaily:true, viewPurchases:true, viewShifts:true, viewHistory:true, viewSuppliers:true, manageShiftClosures:true, manageDailyBalancing:true },
+  accountant: { view:true, editDaily:true, editPurchases:true, editExpenses:true, closeMonth:false, viewAudit:true, viewLog:true, manageUsers:false, editShifts:true, viewDaily:true, viewPurchases:true, viewShifts:true, viewHistory:true, viewSuppliers:true, manageShiftClosures:true, manageDailyBalancing:true },
+  cashier:    { view:true, editDaily:false, editPurchases:true, editExpenses:false, closeMonth:false, viewAudit:false, viewLog:false, manageUsers:false, editShifts:true, viewDaily:false, viewPurchases:true, viewShifts:true, viewHistory:false, viewSuppliers:false, manageShiftClosures:false, manageDailyBalancing:false }
 };
 
 const SESSION_KEY = 'brightmesh_session_v5';
@@ -1237,6 +1237,7 @@ function hasPerm(perm){
   const merged = { ...roleDefaults, ...saved };
   if(perm === 'manageUsers' && currentUser.role === 'manager' && saved.manageUsers !== false) return true;
   if(perm === 'manageShiftClosures' && currentUser.role === 'manager' && saved.manageShiftClosures !== false) return true;
+  if(perm === 'manageDailyBalancing' && currentUser.role === 'manager' && saved.manageDailyBalancing !== false) return true;
   return !!merged[perm];
 }
 
@@ -2191,7 +2192,7 @@ function showShiftSummary(sh){
 function closeShiftSummary(){ document.getElementById('shiftSummaryModal').classList.remove('active'); }
 
 /* ============================================================
-   NEW: MANAGER / ACCOUNTANT EDIT / DELETE SHIFT
+   MANAGER / ACCOUNTANT EDIT / DELETE SHIFT
    ============================================================ */
 async function editShift(id) {
   if (!hasPerm('manageUsers') && !hasPerm('manageShiftClosures')) { showToast('You do not have permission to edit shifts', 'error'); return; }
@@ -2800,6 +2801,7 @@ function renderTeamPermissionGrid(selected){
     {key:'editExpenses', label:'Edit expenses'},
     {key:'editShifts', label:'Start / End shift'},
     {key:'manageShiftClosures', label:'Manage shift closures (edit/delete)'},
+    {key:'manageDailyBalancing', label:'Manage daily balancing (edit/delete)'},
     {key:'closeMonth', label:'Close month'},
     {key:'viewAudit', label:'View audit'},
     {key:'viewLog', label:'View log'},
@@ -3186,16 +3188,69 @@ function renderAudit(){
     <div class="audit-card ${latest && latest.cash<500000?'amber':'green'}"><div class="label"><i class="fas fa-money-bill-wave"></i> Latest cash</div><div class="value">${latest?fmt(latest.cash):'—'}</div><div class="detail">${latest?new Date(latest.date).toLocaleDateString():'No data'}</div></div>
   `;
   const tbody = document.getElementById('auditBody'); if(!tbody) return;
-  if(!audit.length){ tbody.innerHTML = `<tr><td colspan="9" style="text-align:center;padding:2rem;color:#7b8fa0;">No weekly closure records yet.</td></tr>`; return; }
+  if(!audit.length){ tbody.innerHTML = `<tr><td colspan="10" style="text-align:center;padding:2rem;color:#7b8fa0;">No daily balancing records yet.</td></tr>`; return; }
   tbody.innerHTML = audit.map((row,i)=>{
     const rowClass = row.flag==='red'?'red-flag-row':row.flag==='amber'?'amber-flag-row':'';
     const badge = row.flag==='red'?`<span class="flag-badge red"><i class="fas fa-flag"></i> RED</span>`:row.flag==='amber'?`<span class="flag-badge amber"><i class="fas fa-exclamation-triangle"></i> AMBER</span>`:`<span class="flag-badge green"><i class="fas fa-check"></i> OK</span>`;
     const sd = row.stockDelta!==null?`<span style="color:${row.stockDelta<0?'#b33a3a':'#1d7a4b'};font-weight:600;">${fmtSigned(row.stockDelta)}</span>`:'—';
     const cd = row.creditDelta!==null?`<span style="color:${row.creditDelta<0?'#b33a3a':'#1d7a4b'};font-weight:600;">${fmtSigned(row.creditDelta)}</span>`:'—';
     const cad = row.cashDelta!==null?`<span style="color:${row.cashDelta<0?'#b33a3a':'#1d7a4b'};font-weight:600;">${fmtSigned(row.cashDelta)}</span>`:'—';
-    return `<tr class="${rowClass}"><td style="font-weight:600;color:#6a7f94;">${audit.length-i}</td><td>${new Date(row.date).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'})}</td><td style="font-weight:600;">${fmt(row.stock)}</td><td style="font-weight:600;">${fmt(row.credit)}</td><td style="font-weight:600;">${fmt(row.cash)}</td><td>${sd}</td><td>${cd}</td><td>${cad}</td><td>${badge} <span style="font-size:0.72rem;color:#5f7385;display:block;margin-top:0.2rem;">${row.flagNote}</span></td></tr>`;
+    const canManage = hasPerm('manageUsers') || hasPerm('manageDailyBalancing');
+    const actionBtns = canManage ? `
+      <button class="btn" style="padding:0.3rem 0.55rem;font-size:0.65rem;margin-right:0.15rem;" onclick="editDailyBalancing('${row.date}')" title="Edit"><i class="fas fa-edit"></i></button>
+      <button class="btn btn-danger" style="padding:0.3rem 0.55rem;font-size:0.65rem;" onclick="deleteDailyBalancing('${row.date}')" title="Delete"><i class="fas fa-trash"></i></button>
+    ` : '';
+    return `<tr class="${rowClass}"><td style="font-weight:600;color:#6a7f94;">${audit.length-i}</td><td>${new Date(row.date).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'})}</td><td style="font-weight:600;">${fmt(row.stock)}</td><td style="font-weight:600;">${fmt(row.credit)}</td><td style="font-weight:600;">${fmt(row.cash)}</td><td>${sd}</td><td>${cd}</td><td>${cad}</td><td>${badge} <span style="font-size:0.72rem;color:#5f7385;display:block;margin-top:0.2rem;">${row.flagNote}</span></td><td>${actionBtns}</td></tr>`;
   }).join('');
 }
+
+/* ============================================================
+   DAILY BALANCING — edit / delete (manager + accountant)
+   ============================================================ */
+async function editDailyBalancing(dateStr){
+  if(!hasPerm('manageUsers') && !hasPerm('manageDailyBalancing')){ showToast('You do not have permission to edit daily balancing records', 'error'); return; }
+  const rec = weeklyClosures.find(w => w.date === dateStr);
+  if(!rec){ showToast('Record not found', 'error'); return; }
+
+  const newStock = prompt('Total Stock (UGX):', rec.stock ?? 0);
+  if(newStock === null) return;
+  const newCredit = prompt('Total Credit (UGX):', rec.credit ?? 0);
+  if(newCredit === null) return;
+  const newCash = prompt('Cash at Hand (UGX):', rec.cash ?? 0);
+  if(newCash === null) return;
+
+  rec.stock = parseFloat(newStock) || 0;
+  rec.credit = parseFloat(newCredit) || 0;
+  rec.cash = parseFloat(newCash) || 0;
+  rec.editedAt = new Date().toISOString();
+  rec.editedBy = currentUser.username;
+
+  try {
+    await saveClosureToFirestore(rec);
+    addLog('Edit Daily Balancing', `${dateStr} — stock ${fmt(rec.stock)}, credit ${fmt(rec.credit)}, cash ${fmt(rec.cash)}`);
+    renderAudit();
+    showToast('Daily balancing record updated', 'success');
+  } catch(e) { showToast('Failed to update: ' + e.message, 'error'); }
+}
+
+async function deleteDailyBalancing(dateStr){
+  if(!hasPerm('manageUsers') && !hasPerm('manageDailyBalancing')){ showToast('You do not have permission to delete daily balancing records', 'error'); return; }
+  const rec = weeklyClosures.find(w => w.date === dateStr);
+  if(!rec){ showToast('Record not found', 'error'); return; }
+
+  if(!confirm(`Delete daily balancing record for ${dateStr}?\n\nStock: ${fmt(rec.stock)}\nCredit: ${fmt(rec.credit)}\nCash: ${fmt(rec.cash)}\n\nThis cannot be undone.`)) return;
+
+  try {
+    if(firebaseReady && currentLocationId){
+      await db.collection('locations').doc(currentLocationId).collection('weeklyClosures').doc(dateStr).delete();
+    }
+    weeklyClosures = weeklyClosures.filter(w => w.date !== dateStr);
+    addLog('Delete Daily Balancing', `${dateStr} removed by ${currentUser.username}`);
+    renderAudit();
+    showToast('Daily balancing record deleted', 'success');
+  } catch(e) { showToast('Failed to delete: ' + e.message, 'error'); }
+}
+
 async function addClosureEntry(){
   if(!hasPerm('editDaily')){ showToast('No permission', 'error'); return; }
   const date = document.getElementById('newClosureDate').value;
@@ -3214,7 +3269,7 @@ async function addClosureEntry(){
   await saveClosureToFirestore(closure);
   addLog('Add Closure', `${date} — stock ${fmt(stock)}, credit ${fmt(credit)}, cash ${fmt(cash)}`);
   document.getElementById('newClosureDate').value=''; document.getElementById('newClosureStock').value=''; document.getElementById('newClosureCredit').value=''; document.getElementById('newClosureCash').value='';
-  renderAudit(); showToast('Closure entry saved', 'success');
+  renderAudit(); showToast('Daily balancing entry saved', 'success');
 }
 function renderLog(){
   const tbody = document.getElementById('logBody'); if(!tbody) return;
@@ -3339,7 +3394,7 @@ function runAuditWithRange(){
     if(Math.abs(stockGap) > 500000) issues.red.push({ title:'Stock Flow Mismatch', desc:`Gap <strong>UGX ${fmtSigned(stockGap)}</strong>.` });
     else if(Math.abs(stockGap) > 200000) issues.amber.push({ title:'Stock Flow Variance', desc:`Gap <strong>UGX ${fmtSigned(stockGap)}</strong>.` });
     else issues.green.push({ title:'Stock Flow', desc:`Within <strong>UGX ${fmt(Math.abs(stockGap))}</strong>.` });
-    reconHtml += `<div class="report-section"><div class="report-section-header"><i class="fas fa-boxes-stacked"></i> Stock Flow (${allClosures.length} closures)</div><div class="report-section-body"><div class="recon-box"><div class="row"><span class="lbl">Opening Stock</span><span>${fmt(openingStock)}</span></div><div class="row"><span class="lbl">+ Purchases</span><span>${fmt(totalPurchasesAmt)}</span></div><div class="row"><span class="lbl">− Recorded Cost</span><span>−${fmt(totalCost)}</span></div><div class="row"><span class="lbl">= Expected Closing</span><span>${fmt(expectedClosing)}</span></div><div class="row"><span class="lbl">Actual Closing</span><span>${fmt(closingStock)}</span></div><div class="row"><span class="lbl">Unaccounted</span><span style="color:${Math.abs(stockGap)>500000?'#b33a3a':'#1d7a4b'};">${fmtSigned(stockGap)}</span></div></div></div></div>`;
+    reconHtml += `<div class="report-section"><div class="report-section-header"><i class="fas fa-boxes-stacked"></i> Stock Flow (${allClosures.length} balancing records)</div><div class="report-section-body"><div class="recon-box"><div class="row"><span class="lbl">Opening Stock</span><span>${fmt(openingStock)}</span></div><div class="row"><span class="lbl">+ Purchases</span><span>${fmt(totalPurchasesAmt)}</span></div><div class="row"><span class="lbl">− Recorded Cost</span><span>−${fmt(totalCost)}</span></div><div class="row"><span class="lbl">= Expected Closing</span><span>${fmt(expectedClosing)}</span></div><div class="row"><span class="lbl">Actual Closing</span><span>${fmt(closingStock)}</span></div><div class="row"><span class="lbl">Unaccounted</span><span style="color:${Math.abs(stockGap)>500000?'#b33a3a':'#1d7a4b'};">${fmtSigned(stockGap)}</span></div></div></div></div>`;
   }
   if(shiftsInRange.length > 0){
     if(shiftLoss > 0) issues.amber.push({ title:'Shift cash shortages', desc:`${shiftsInRange.filter(s => (parseFloat(s.difference)||0) < 0).length} shift(s) recorded cash <strong>UGX ${fmt(shiftLoss)}</strong> short.` });
@@ -3369,7 +3424,7 @@ function runAuditWithRange(){
   const rangeInfo = `<div class="report-section"><div class="report-section-header"><i class="fas fa-calendar"></i> Range: ${fromStr} → ${toStr}</div><div class="report-section-body"><div class="recon-box">
     <div class="row"><span class="lbl">Entries</span><span>${allEntries.length}</span></div>
     <div class="row"><span class="lbl">Purchases</span><span>${allPurchases.length}</span></div>
-    <div class="row"><span class="lbl">Closures</span><span>${allClosures.length}</span></div>
+    <div class="row"><span class="lbl">Balancing records</span><span>${allClosures.length}</span></div>
     <div class="row"><span class="lbl">Shifts</span><span>${shiftsInRange.length}</span></div>
     <div class="row"><span class="lbl">Shift net difference</span><span style="color:${shiftNet>0?'#1d7a4b':(shiftNet<0?'#b33a3a':'#5f7385')};">${fmtSigned(shiftNet)}</span></div>
     <div class="row"><span class="lbl">Total Sales</span><span>${fmt(totalSales)}</span></div>
