@@ -777,7 +777,7 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
       <i class="fas fa-scale-balanced" style="font-size:1.8rem;color:#1d7a4b;"></i>
       <div>
         <div style="font-weight:700;color:#0b2b44;font-size:1rem;">Daily Balancing</div>
-        <div style="font-size:0.8rem;color:#5f7385;">Day-to-day movement in stock, credit and cash.</div>
+        <div style="font-size:0.8rem;color:#5f7385;">Day-to-day movement in stock cost, stock price, credit and cash. Stock cost is cross-checked against purchases to surface leakages.</div>
       </div>
       <button class="btn btn-audit" style="margin-left:auto;" onclick="openAuditReport()"><i class="fas fa-magnifying-glass-chart"></i> Run full audit</button>
     </div>
@@ -786,9 +786,10 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
     <div class="table-card">
       <div class="table-scroll"><table id="auditTable"><thead><tr>
         <th style="width:40px;"></th><th style="width:130px;">Date</th>
-        <th style="width:140px;">Total Stock</th><th style="width:140px;">Total Credit</th>
-        <th style="width:140px;">Cash at Hand</th>
-        <th style="width:120px;">Stock Δ</th><th style="width:120px;">Credit Δ</th>
+        <th style="width:150px;">Total Stock Cost</th><th style="width:150px;">Total Stock Price</th>
+        <th style="width:130px;">Total Credit</th>
+        <th style="width:130px;">Cash at Hand</th>
+        <th style="width:120px;">Stock Cost Δ</th><th style="width:120px;">Credit Δ</th>
         <th style="width:120px;">Cash Δ</th><th style="width:180px;">Flag</th><th style="width:110px;"></th>
       </tr></thead><tbody id="auditBody"></tbody></table></div>
       <div class="legend">
@@ -801,7 +802,8 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
     <div class="table-card editor-only" style="padding:1.2rem;">
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;">
         <div><label style="font-size:0.75rem;font-weight:600;color:#5f7385;text-transform:uppercase;">Date</label><input type="date" id="newClosureDate" style="margin-top:0.3rem;"></div>
-        <div><label style="font-size:0.75rem;font-weight:600;color:#5f7385;text-transform:uppercase;">Total Stock (UGX)</label><input type="number" id="newClosureStock" placeholder="0" style="margin-top:0.3rem;"></div>
+        <div><label style="font-size:0.75rem;font-weight:600;color:#5f7385;text-transform:uppercase;">Total Stock Cost (UGX)</label><input type="number" id="newClosureStock" placeholder="0" style="margin-top:0.3rem;"><div style="font-size:0.68rem;color:#7b8fa0;margin-top:0.25rem;">Cost value of stock on hand</div></div>
+        <div><label style="font-size:0.75rem;font-weight:600;color:#5f7385;text-transform:uppercase;">Total Stock Price (UGX)</label><input type="number" id="newClosureStockPrice" placeholder="0" style="margin-top:0.3rem;"><div style="font-size:0.68rem;color:#7b8fa0;margin-top:0.25rem;">Retail value of stock on hand</div></div>
         <div><label style="font-size:0.75rem;font-weight:600;color:#5f7385;text-transform:uppercase;">Total Credit (UGX)</label><input type="number" id="newClosureCredit" placeholder="0" style="margin-top:0.3rem;"></div>
         <div><label style="font-size:0.75rem;font-weight:600;color:#5f7385;text-transform:uppercase;">Cash at Hand (UGX)</label><input type="number" id="newClosureCash" placeholder="0" style="margin-top:0.3rem;"><div style="font-size:0.68rem;color:#7b8fa0;margin-top:0.25rem;">Auto-filled from shift closures if blank</div></div>
         <div style="display:flex;align-items:flex-end;"><button class="btn btn-primary" onclick="addClosureEntry()" style="width:100%;justify-content:center;"><i class="fas fa-plus"></i> Add entry</button></div>
@@ -1265,7 +1267,6 @@ async function restoreSession(){
     if(!userDoc.exists) { clearSession(); return false; }
     const u = userDoc.data();
     if(u.status === 'suspended') { clearSession(); return false; }
-    // If the user's location no longer exists, kill the session.
     const locDoc = await db.collection('locations').doc(u.locationId).get();
     if(!locDoc.exists) { clearSession(); return false; }
     const locData = locDoc.data();
@@ -1306,9 +1307,7 @@ function applyTabPermissions(){
   }
 }
 
-/* ============================================================
-   BATCHED DELETE HELPER (Firestore-safe: 450 ops per batch)
-   ============================================================ */
+/* BATCHED DELETE HELPER */
 async function deleteCollectionInBatches(collectionRef, onProgress){
   let total = 0;
   while(true){
@@ -1360,7 +1359,7 @@ async function autoSeed() {
   } catch(e) { console.error('Auto-seed failed', e); }
 }
 
-/* AUTO-CLOSE PAST MONTHS + SHIFTS */
+/* AUTO-CLOSE */
 async function autoClosePastMonths(){
   if(!firebaseReady || !currentLocationId) return;
   const curKey = currentCalendarMonthKey();
@@ -2184,9 +2183,7 @@ function showShiftSummary(sh){
 }
 function closeShiftSummary(){ document.getElementById('shiftSummaryModal').classList.remove('active'); }
 
-/* ============================================================
-   MANAGER / ACCOUNTANT EDIT / DELETE SHIFT
-   ============================================================ */
+/* MANAGER / ACCOUNTANT EDIT / DELETE SHIFT */
 async function editShift(id) {
   if (!hasPerm('manageUsers') && !hasPerm('manageShiftClosures')) { showToast('You do not have permission to edit shifts', 'error'); return; }
   const sh = allShifts.find(s => s.id === id);
@@ -3135,14 +3132,24 @@ function removePurchase(idx){
 function computeAuditFlags(){
   const sorted = [...weeklyClosures].sort((a,b)=>new Date(a.date)-new Date(b.date));
   return sorted.map((row,i)=>{
-    if(i===0) return {...row,stockDelta:null,creditDelta:null,cashDelta:null,flag:'green',flagNote:'First record (baseline)'};
+    if(i===0) return {...row,stockCostDelta:null,stockPriceDelta:null,creditDelta:null,cashDelta:null,flag:'green',flagNote:'First record (baseline)'};
     const prev = sorted[i-1];
-    const sd = row.stock - prev.stock, cd = row.credit - prev.credit, cad = row.cash - prev.cash;
-    const sp = prev.stock ? (sd/prev.stock)*100 : 0; const cp = prev.credit ? (cd/prev.credit)*100 : 0; const cap = prev.cash ? (cad/prev.cash)*100 : 0;
+    const scd = (row.stockCost||0) - (prev.stockCost||0);
+    const spd = (row.stockPrice||0) - (prev.stockPrice||0);
+    const cd = row.credit - prev.credit, cad = row.cash - prev.cash;
+    const scp = prev.stockCost ? (scd/prev.stockCost)*100 : 0;
+    const cp = prev.credit ? (cd/prev.credit)*100 : 0;
+    const cap = prev.cash ? (cad/prev.cash)*100 : 0;
     let flag='green', note='Normal range';
-    if(sp<-12){flag='red';note=`Stock dropped ${Math.abs(sp).toFixed(1)}%`;} else if(cp<-20){flag='red';note=`Credit dropped ${Math.abs(cp).toFixed(1)}%`;} else if(cap<-25){flag='red';note=`Cash dropped ${Math.abs(cap).toFixed(1)}%`;} else if(cp>30){flag='red';note=`Credit jumped ${cp.toFixed(1)}%`;}
-    else if(sp<-6){flag='amber';note=`Stock dropped ${Math.abs(sp).toFixed(1)}%`;} else if(cp<-10){flag='amber';note=`Credit dropped ${Math.abs(cp).toFixed(1)}%`;} else if(cap<-15){flag='amber';note=`Cash dropped ${Math.abs(cap).toFixed(1)}%`;} else if(cp>18){flag='amber';note=`Credit increased ${cp.toFixed(1)}%`;}
-    return {...row,stockDelta:sd,creditDelta:cd,cashDelta:cad,stockPct:sp,creditPct:cp,cashPct:cap,flag,flagNote:note};
+    if(scp<-12){flag='red';note=`Stock cost dropped ${Math.abs(scp).toFixed(1)}%`;}
+    else if(cp<-20){flag='red';note=`Credit dropped ${Math.abs(cp).toFixed(1)}%`;}
+    else if(cap<-25){flag='red';note=`Cash dropped ${Math.abs(cap).toFixed(1)}%`;}
+    else if(cp>30){flag='red';note=`Credit jumped ${cp.toFixed(1)}%`;}
+    else if(scp<-6){flag='amber';note=`Stock cost dropped ${Math.abs(scp).toFixed(1)}%`;}
+    else if(cp<-10){flag='amber';note=`Credit dropped ${Math.abs(cp).toFixed(1)}%`;}
+    else if(cap<-15){flag='amber';note=`Cash dropped ${Math.abs(cap).toFixed(1)}%`;}
+    else if(cp>18){flag='amber';note=`Credit increased ${cp.toFixed(1)}%`;}
+    return {...row,stockCostDelta:scd,stockPriceDelta:spd,creditDelta:cd,cashDelta:cad,stockPct:scp,creditPct:cp,cashPct:cap,flag,flagNote:note};
   });
 }
 function renderAudit(){
@@ -3157,11 +3164,11 @@ function renderAudit(){
     <div class="audit-card ${latest && latest.cash<500000?'amber':'green'}"><div class="label"><i class="fas fa-money-bill-wave"></i> Latest cash</div><div class="value">${latest?fmt(latest.cash):'—'}</div><div class="detail">${latest?new Date(latest.date).toLocaleDateString():'No data'}</div></div>
   `;
   const tbody = document.getElementById('auditBody'); if(!tbody) return;
-  if(!audit.length){ tbody.innerHTML = `<tr><td colspan="10" style="text-align:center;padding:2rem;color:#7b8fa0;">No daily balancing records yet.</td></tr>`; return; }
+  if(!audit.length){ tbody.innerHTML = `<tr><td colspan="11" style="text-align:center;padding:2rem;color:#7b8fa0;">No daily balancing records yet.</td></tr>`; return; }
   tbody.innerHTML = audit.map((row,i)=>{
     const rowClass = row.flag==='red'?'red-flag-row':row.flag==='amber'?'amber-flag-row':'';
     const badge = row.flag==='red'?`<span class="flag-badge red"><i class="fas fa-flag"></i> RED</span>`:row.flag==='amber'?`<span class="flag-badge amber"><i class="fas fa-exclamation-triangle"></i> AMBER</span>`:`<span class="flag-badge green"><i class="fas fa-check"></i> OK</span>`;
-    const sd = row.stockDelta!==null?`<span style="color:${row.stockDelta<0?'#b33a3a':'#1d7a4b'};font-weight:600;">${fmtSigned(row.stockDelta)}</span>`:'—';
+    const scd = row.stockCostDelta!==null?`<span style="color:${row.stockCostDelta<0?'#b33a3a':'#1d7a4b'};font-weight:600;">${fmtSigned(row.stockCostDelta)}</span>`:'—';
     const cd = row.creditDelta!==null?`<span style="color:${row.creditDelta<0?'#b33a3a':'#1d7a4b'};font-weight:600;">${fmtSigned(row.creditDelta)}</span>`:'—';
     const cad = row.cashDelta!==null?`<span style="color:${row.cashDelta<0?'#b33a3a':'#1d7a4b'};font-weight:600;">${fmtSigned(row.cashDelta)}</span>`:'—';
     const canManage = hasPerm('manageUsers') || hasPerm('manageDailyBalancing');
@@ -3169,7 +3176,7 @@ function renderAudit(){
       <button class="btn" style="padding:0.3rem 0.55rem;font-size:0.65rem;margin-right:0.15rem;" onclick="editDailyBalancing('${row.date}')" title="Edit"><i class="fas fa-edit"></i></button>
       <button class="btn btn-danger" style="padding:0.3rem 0.55rem;font-size:0.65rem;" onclick="deleteDailyBalancing('${row.date}')" title="Delete"><i class="fas fa-trash"></i></button>
     ` : '';
-    return `<tr class="${rowClass}"><td style="font-weight:600;color:#6a7f94;">${audit.length-i}</td><td>${new Date(row.date).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'})}</td><td style="font-weight:600;">${fmt(row.stock)}</td><td style="font-weight:600;">${fmt(row.credit)}</td><td style="font-weight:600;">${fmt(row.cash)}</td><td>${sd}</td><td>${cd}</td><td>${cad}</td><td>${badge} <span style="font-size:0.72rem;color:#5f7385;display:block;margin-top:0.2rem;">${row.flagNote}</span></td><td>${actionBtns}</td></tr>`;
+    return `<tr class="${rowClass}"><td style="font-weight:600;color:#6a7f94;">${audit.length-i}</td><td>${new Date(row.date).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'})}</td><td style="font-weight:600;">${fmt(row.stockCost||row.stock||0)}</td><td style="font-weight:600;color:#0b5d99;">${fmt(row.stockPrice||0)}</td><td style="font-weight:600;">${fmt(row.credit)}</td><td style="font-weight:600;">${fmt(row.cash)}</td><td>${scd}</td><td>${cd}</td><td>${cad}</td><td>${badge} <span style="font-size:0.72rem;color:#5f7385;display:block;margin-top:0.2rem;">${row.flagNote}</span></td><td>${actionBtns}</td></tr>`;
   }).join('');
 }
 
@@ -3179,14 +3186,18 @@ async function editDailyBalancing(dateStr){
   const rec = weeklyClosures.find(w => w.date === dateStr);
   if(!rec){ showToast('Record not found', 'error'); return; }
 
-  const newStock = prompt('Total Stock (UGX):', rec.stock ?? 0);
-  if(newStock === null) return;
+  const newStockCost = prompt('Total Stock Cost (UGX):', rec.stockCost ?? rec.stock ?? 0);
+  if(newStockCost === null) return;
+  const newStockPrice = prompt('Total Stock Price (UGX):', rec.stockPrice ?? 0);
+  if(newStockPrice === null) return;
   const newCredit = prompt('Total Credit (UGX):', rec.credit ?? 0);
   if(newCredit === null) return;
   const newCash = prompt('Cash at Hand (UGX):', rec.cash ?? 0);
   if(newCash === null) return;
 
-  rec.stock = parseFloat(newStock) || 0;
+  rec.stockCost = parseFloat(newStockCost) || 0;
+  rec.stockPrice = parseFloat(newStockPrice) || 0;
+  rec.stock = rec.stockCost; // keep legacy field in sync
   rec.credit = parseFloat(newCredit) || 0;
   rec.cash = parseFloat(newCash) || 0;
   rec.editedAt = new Date().toISOString();
@@ -3194,7 +3205,7 @@ async function editDailyBalancing(dateStr){
 
   try {
     await saveClosureToFirestore(rec);
-    addLog('Edit Daily Balancing', `${dateStr} — stock ${fmt(rec.stock)}, credit ${fmt(rec.credit)}, cash ${fmt(rec.cash)}`);
+    addLog('Edit Daily Balancing', `${dateStr} — cost ${fmt(rec.stockCost)}, price ${fmt(rec.stockPrice)}, credit ${fmt(rec.credit)}, cash ${fmt(rec.cash)}`);
     renderAudit();
     showToast('Daily balancing record updated', 'success');
   } catch(e) { showToast('Failed to update: ' + e.message, 'error'); }
@@ -3205,7 +3216,7 @@ async function deleteDailyBalancing(dateStr){
   const rec = weeklyClosures.find(w => w.date === dateStr);
   if(!rec){ showToast('Record not found', 'error'); return; }
 
-  if(!confirm(`Delete daily balancing record for ${dateStr}?\n\nStock: ${fmt(rec.stock)}\nCredit: ${fmt(rec.credit)}\nCash: ${fmt(rec.cash)}\n\nThis cannot be undone.`)) return;
+  if(!confirm(`Delete daily balancing record for ${dateStr}?\n\nStock Cost: ${fmt(rec.stockCost||rec.stock||0)}\nStock Price: ${fmt(rec.stockPrice||0)}\nCredit: ${fmt(rec.credit)}\nCash: ${fmt(rec.cash)}\n\nThis cannot be undone.`)) return;
 
   try {
     if(firebaseReady && currentLocationId){
@@ -3221,7 +3232,8 @@ async function deleteDailyBalancing(dateStr){
 async function addClosureEntry(){
   if(!hasPerm('editDaily')){ showToast('No permission', 'error'); return; }
   const date = document.getElementById('newClosureDate').value;
-  const stock = parseFloat(document.getElementById('newClosureStock').value)||0;
+  const stockCost = parseFloat(document.getElementById('newClosureStock').value)||0;
+  const stockPrice = parseFloat(document.getElementById('newClosureStockPrice').value)||0;
   const credit = parseFloat(document.getElementById('newClosureCredit').value)||0;
   let cash = parseFloat(document.getElementById('newClosureCash').value);
   if(isNaN(cash)) {
@@ -3229,13 +3241,17 @@ async function addClosureEntry(){
     cash = dayShifts.reduce((sum, s) => sum + (parseFloat(s.counted)||0), 0);
   }
   if(!date){ showToast('Please enter a date', 'error'); return; }
-  const closure = {date,stock,credit,cash};
+  const closure = {date, stockCost, stockPrice, stock: stockCost, credit, cash};
   const existing = weeklyClosures.find(w => w.date === date);
   if(existing) Object.assign(existing, closure); else weeklyClosures.push(closure);
   weeklyClosures.sort((a,b)=>new Date(a.date)-new Date(b.date));
   await saveClosureToFirestore(closure);
-  addLog('Add Closure', `${date} — stock ${fmt(stock)}, credit ${fmt(credit)}, cash ${fmt(cash)}`);
-  document.getElementById('newClosureDate').value=''; document.getElementById('newClosureStock').value=''; document.getElementById('newClosureCredit').value=''; document.getElementById('newClosureCash').value='';
+  addLog('Add Closure', `${date} — cost ${fmt(stockCost)}, price ${fmt(stockPrice)}, credit ${fmt(credit)}, cash ${fmt(cash)}`);
+  document.getElementById('newClosureDate').value='';
+  document.getElementById('newClosureStock').value='';
+  document.getElementById('newClosureStockPrice').value='';
+  document.getElementById('newClosureCredit').value='';
+  document.getElementById('newClosureCash').value='';
   renderAudit(); showToast('Daily balancing entry saved', 'success');
 }
 function renderLog(){
@@ -3354,14 +3370,37 @@ function runAuditWithRange(){
   const shiftNet = shiftExtra - shiftLoss;
   let reconHtml = '';
   if(allClosures.length > 0){
-    const openingStock = allClosures[0].stock;
-    const closingStock = allClosures[allClosures.length-1].stock;
-    const expectedClosing = openingStock + totalPurchasesAmt - totalCost;
-    const stockGap = closingStock - expectedClosing;
-    if(Math.abs(stockGap) > 500000) issues.red.push({ title:'Stock Flow Mismatch', desc:`Gap <strong>UGX ${fmtSigned(stockGap)}</strong>.` });
-    else if(Math.abs(stockGap) > 200000) issues.amber.push({ title:'Stock Flow Variance', desc:`Gap <strong>UGX ${fmtSigned(stockGap)}</strong>.` });
-    else issues.green.push({ title:'Stock Flow', desc:`Within <strong>UGX ${fmt(Math.abs(stockGap))}</strong>.` });
-    reconHtml += `<div class="report-section"><div class="report-section-header"><i class="fas fa-boxes-stacked"></i> Stock Flow (${allClosures.length} balancing records)</div><div class="report-section-body"><div class="recon-box"><div class="row"><span class="lbl">Opening Stock</span><span>${fmt(openingStock)}</span></div><div class="row"><span class="lbl">+ Purchases</span><span>${fmt(totalPurchasesAmt)}</span></div><div class="row"><span class="lbl">− Recorded Cost</span><span>−${fmt(totalCost)}</span></div><div class="row"><span class="lbl">= Expected Closing</span><span>${fmt(expectedClosing)}</span></div><div class="row"><span class="lbl">Actual Closing</span><span>${fmt(closingStock)}</span></div><div class="row"><span class="lbl">Unaccounted</span><span style="color:${Math.abs(stockGap)>500000?'#b33a3a':'#1d7a4b'};">${fmtSigned(stockGap)}</span></div></div></div></div>`;
+    const openingCost = allClosures[0].stockCost || allClosures[0].stock || 0;
+    const closingCost = allClosures[allClosures.length-1].stockCost || allClosures[allClosures.length-1].stock || 0;
+    const openingPrice = allClosures[0].stockPrice || 0;
+    const closingPrice = allClosures[allClosures.length-1].stockPrice || 0;
+    const expectedClosingCost = openingCost + totalPurchasesAmt - totalCost;
+    const stockCostGap = closingCost - expectedClosingCost;
+    if(Math.abs(stockCostGap) > 500000) issues.red.push({ title:'Stock Cost Flow Mismatch', desc:`Cost gap <strong>UGX ${fmtSigned(stockCostGap)}</strong>. Stock cost doesn't reconcile with purchases minus recorded cost — possible leakage or unrecorded stock movement.` });
+    else if(Math.abs(stockCostGap) > 200000) issues.amber.push({ title:'Stock Cost Flow Variance', desc:`Cost gap <strong>UGX ${fmtSigned(stockCostGap)}</strong>. Review purchases and stock cost entries.` });
+    else issues.green.push({ title:'Stock Cost Flow', desc:`Within <strong>UGX ${fmt(Math.abs(stockCostGap))}</strong>.` });
+    if(openingPrice && closingPrice){
+      const priceDelta = closingPrice - openingPrice;
+      const marginPct = closingPrice ? ((closingPrice - closingCost) / closingPrice * 100) : 0;
+      if(priceDelta < 0) issues.amber.push({ title:'Stock Price Reduced', desc:`Stock price moved from <strong>${fmt(openingPrice)}</strong> to <strong>${fmt(closingPrice)}</strong> (Δ ${fmtSigned(priceDelta)}).` });
+      else if(priceDelta > 0) issues.green.push({ title:'Stock Price Increased', desc:`Stock price moved from <strong>${fmt(openingPrice)}</strong> to <strong>${fmt(closingPrice)}</strong> (Δ ${fmtSigned(priceDelta)}).` });
+      if(marginPct < 5) issues.amber.push({ title:'Low Stock Margin', desc:`Closing stock margin is <strong>${marginPct.toFixed(1)}%</strong> — check pricing.` });
+      else issues.green.push({ title:'Stock Margin', desc:`Closing stock margin <strong>${marginPct.toFixed(1)}%</strong>.` });
+    }
+    reconHtml += `<div class="report-section"><div class="report-section-header"><i class="fas fa-boxes-stacked"></i> Stock Cost Flow (${allClosures.length} balancing records)</div><div class="report-section-body"><div class="recon-box">
+      <div class="row"><span class="lbl">Opening Stock Cost</span><span>${fmt(openingCost)}</span></div>
+      <div class="row"><span class="lbl">+ Purchases</span><span>${fmt(totalPurchasesAmt)}</span></div>
+      <div class="row"><span class="lbl">− Recorded Cost</span><span>−${fmt(totalCost)}</span></div>
+      <div class="row"><span class="lbl">= Expected Closing Cost</span><span>${fmt(expectedClosingCost)}</span></div>
+      <div class="row"><span class="lbl">Actual Closing Cost</span><span>${fmt(closingCost)}</span></div>
+      <div class="row"><span class="lbl">Unaccounted Cost</span><span style="color:${Math.abs(stockCostGap)>500000?'#b33a3a':'#1d7a4b'};">${fmtSigned(stockCostGap)}</span></div>
+    </div>
+    <div class="recon-box" style="margin-top:0.6rem;">
+      <div class="row"><span class="lbl">Opening Stock Price</span><span>${fmt(openingPrice)}</span></div>
+      <div class="row"><span class="lbl">Closing Stock Price</span><span>${fmt(closingPrice)}</span></div>
+      <div class="row"><span class="lbl">Price Δ</span><span style="color:${(closingPrice-openingPrice)>=0?'#1d7a4b':'#b33a3a'};">${fmtSigned(closingPrice-openingPrice)}</span></div>
+      <div class="row"><span class="lbl">Closing Margin (Price−Cost)/Price</span><span>${closingPrice ? (((closingPrice-closingCost)/closingPrice)*100).toFixed(1)+'%' : '—'}</span></div>
+    </div></div></div>`;
   }
   if(shiftsInRange.length > 0){
     if(shiftLoss > 0) issues.amber.push({ title:'Shift cash shortages', desc:`${shiftsInRange.filter(s => (parseFloat(s.difference)||0) < 0).length} shift(s) recorded cash <strong>UGX ${fmt(shiftLoss)}</strong> short.` });
@@ -3444,6 +3483,16 @@ function downloadExcel(){
     }));
     XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(shRows), 'Shifts');
   }
+  if(weeklyClosures.length){
+    const balRows = weeklyClosures.map(w => ({
+      'Date': w.date,
+      'Total Stock Cost': parseFloat(w.stockCost||w.stock) || 0,
+      'Total Stock Price': parseFloat(w.stockPrice) || 0,
+      'Total Credit': parseFloat(w.credit) || 0,
+      'Cash at Hand': parseFloat(w.cash) || 0
+    }));
+    XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(balRows), 'Daily Balancing');
+  }
   XLSX.writeFile(wb, `BrightMesh_${currentLocationId || 'admin'}_${currentMonthKey}.xlsx`);
   showToast('Excel downloaded', 'success');
 }
@@ -3472,6 +3521,24 @@ function downloadPDF(){
       headStyles:{fillColor:[11,43,68],textColor:255,fontSize:7.5},
       bodyStyles:{fontSize:7},
       columnStyles:{3:{halign:'right'},4:{halign:'right'},5:{halign:'right'},6:{halign:'right'},7:{halign:'right'},8:{halign:'right'},9:{halign:'right',fontStyle:'bold'}},
+      margin:{left:14,right:14}
+    });
+  }
+  if(weeklyClosures.length){
+    const balBody = weeklyClosures.map(w => [
+      w.date,
+      fmt(w.stockCost||w.stock||0),
+      fmt(w.stockPrice||0),
+      fmt(w.credit),
+      fmt(w.cash)
+    ]);
+    doc.autoTable({
+      startY:doc.lastAutoTable ? doc.lastAutoTable.finalY + 8 : 32,
+      head:[['Date','Stock Cost','Stock Price','Credit','Cash at Hand']],
+      body: balBody, theme:'grid',
+      headStyles:{fillColor:[124,45,18],textColor:255,fontSize:8},
+      bodyStyles:{fontSize:7.5},
+      columnStyles:{1:{halign:'right'},2:{halign:'right'},3:{halign:'right'},4:{halign:'right'}},
       margin:{left:14,right:14}
     });
   }
