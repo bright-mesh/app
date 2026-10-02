@@ -157,6 +157,20 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
 .recon-box .row{display:flex;justify-content:space-between;padding:0.25rem 0;border-bottom:1px dashed #e3ebf3;}
 .recon-box .row:last-child{border-bottom:none;font-weight:700;color:#0b2b44;padding-top:0.5rem;}
 .recon-box .row .lbl{color:#5f7385;}
+/* NEW: audit formula blocks */
+.formula-block{background:#fbfdff;border:1px solid #dce9f5;border-radius:12px;padding:1rem 1.1rem;margin-bottom:0.8rem;font-size:0.82rem;line-height:1.6;}
+.formula-block .formula-title{font-weight:700;color:#0b2b44;margin-bottom:0.4rem;display:flex;align-items:center;gap:0.4rem;}
+.formula-block .formula-title i{color:#1d7a4b;}
+.formula-block code{background:#eef5fc;color:#0b3b6b;padding:0.15rem 0.4rem;border-radius:6px;font-size:0.78rem;font-family:'SF Mono',Menlo,Consolas,monospace;}
+.formula-block .why{color:#6a7f94;font-size:0.75rem;margin-top:0.4rem;}
+.audit-kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:0.8rem;margin-bottom:1rem;}
+.audit-kpi{background:white;border-radius:14px;padding:0.9rem 1rem;border:1px solid #e3ebf3;}
+.audit-kpi .kpi-lbl{font-size:0.68rem;text-transform:uppercase;letter-spacing:0.3px;color:#6a7f94;font-weight:600;}
+.audit-kpi .kpi-val{font-size:1.15rem;font-weight:700;color:#0b2b44;margin-top:0.25rem;line-height:1.2;}
+.audit-kpi .kpi-val.red{color:#b33a3a;}
+.audit-kpi .kpi-val.amber{color:#d48a00;}
+.audit-kpi .kpi-val.green{color:#1d7a4b;}
+.audit-kpi .kpi-sub{font-size:0.72rem;color:#6a7f94;margin-top:0.2rem;}
 .landing{min-height:100vh;background:#0b2b44;color:white;overflow-x:hidden;position:relative;}
 .landing::before{content:'';position:absolute;top:0;left:0;right:0;height:100%;background:radial-gradient(ellipse at top right,rgba(29,122,75,0.25) 0%,transparent 50%),radial-gradient(ellipse at bottom left,rgba(31,73,112,0.5) 0%,transparent 50%);pointer-events:none;}
 .landing-nav{position:relative;z-index:2;display:flex;justify-content:space-between;align-items:center;padding:1.5rem 3rem;max-width:1400px;margin:0 auto;}
@@ -456,7 +470,7 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
         <button class="btn-hero-outline" onclick="document.getElementById('features').scrollIntoView({behavior:'smooth'})"><i class="fas fa-play-circle"></i> See Features</button>
       </div>
       <div class="hero-stats">
-        <div class="hero-stat"><div class="num">15+</div><div class="lbl">Audit Checks</div></div>
+        <div class="hero-stat"><div class="num">20+</div><div class="lbl">Audit Checks</div></div>
         <div class="hero-stat"><div class="num">∞</div><div class="lbl">Locations</div></div>
         <div class="hero-stat"><div class="num">100%</div><div class="lbl">Free</div></div>
       </div>
@@ -483,7 +497,7 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
         <div class="feature-card"><div class="feature-icon"><i class="fas fa-cash-register"></i></div><h3>Shift-based Daily Closure</h3><p>Cashiers start their shift, record sales, MOMO, itemised expenses and counted cash. Extra or loss is computed instantly.</p></div>
         <div class="feature-card"><div class="feature-icon"><i class="fas fa-clock"></i></div><h3>Morning / Afternoon / Evening</h3><p>Every shift is tagged with its period so you can track performance across the day.</p></div>
         <div class="feature-card"><div class="feature-icon"><i class="fas fa-user-shield"></i></div><h3>Role-Based Menus</h3><p>Cashiers only see what they need. Managers get full oversight. No clutter, no mistakes.</p></div>
-        <div class="feature-card"><div class="feature-icon"><i class="fas fa-shield-halved"></i></div><h3>15+ Audit Checks</h3><p>Stock flow, cash flow, duplicate purchases, round-number detection, Benford's Law, and more.</p></div>
+        <div class="feature-card"><div class="feature-icon"><i class="fas fa-shield-halved"></i></div><h3>20+ Audit Checks</h3><p>Stock-cost flow vs purchases, stock-price margin, cash reconciliation, shift differences, and cross-checks against daily performance.</p></div>
         <div class="feature-card"><div class="feature-icon"><i class="fas fa-file-export"></i></div><h3>Excel &amp; PDF Export</h3><p>Download detailed reports with one click. Perfect for accountants, auditors, and tax season.</p></div>
         <div class="feature-card"><div class="feature-icon"><i class="fas fa-cloud"></i></div><h3>Cloud Sync</h3><p>Powered by Firebase. Every entry is synced in real-time across all devices — safe and backed up.</p></div>
       </div>
@@ -507,7 +521,7 @@ input[readonly]{background:#f2f6fa;color:#2a4a6a;font-weight:500;}
       </div>
       <div class="faq-item" onclick="toggleFaq(this)">
         <div class="faq-question">What does the audit engine check?<i class="fas fa-chevron-down icon"></i></div>
-        <div class="faq-answer"><div class="faq-answer-inner">The audit engine runs 15+ checks: stock flow mismatches, credit movement, cash shortages, low margins, negative net profit, shift differences, purchase variances and more. Each finding is rated <strong>Red</strong> (action required), <strong>Amber</strong> (review), or <strong>Green</strong> (passed).</div></div>
+        <div class="faq-answer"><div class="faq-answer-inner">The audit engine runs 20+ checks: stock-cost flow mismatches, stock-price margin, cash flow, credit movement, purchase variances, shift differences, low margins, negative net profit, stock-cost drops, and cross-checks between daily balancing and daily performance entries. Each finding is rated <strong>Red</strong> (action required), <strong>Amber</strong> (review), or <strong>Green</strong> (passed).</div></div>
       </div>
       <div class="faq-item" onclick="toggleFaq(this)">
         <div class="faq-question">What happens when a month ends?<i class="fas fa-chevron-down icon"></i></div>
@@ -1145,7 +1159,6 @@ const PERIOD_DEFS = {
   evening:   { label: 'Evening',   icon: 'fa-moon',      start: 17, end: 24 }
 };
 
-/* Default permissions per role. These are now stored PER LOCATION and can be edited. */
 const DEFAULT_PERMISSIONS = {
   manager:    { view:true, editDaily:true, editPurchases:true, editExpenses:true, closeMonth:true, viewAudit:true, viewLog:true, manageUsers:true, editShifts:true, viewDaily:true, viewPurchases:true, viewShifts:true, viewHistory:true, viewSuppliers:true, manageShiftClosures:true, manageDailyBalancing:true },
   accountant: { view:true, editDaily:true, editPurchases:true, editExpenses:true, closeMonth:false, viewAudit:true, viewLog:true, manageUsers:false, editShifts:true, viewDaily:true, viewPurchases:true, viewShifts:true, viewHistory:true, viewSuppliers:true, manageShiftClosures:true, manageDailyBalancing:true },
@@ -1164,7 +1177,7 @@ let suppliersCache = [];
 let captchaVerified = false;
 let currentShiftId = null, currentShiftData = null;
 let pendingPeriod = null;
-let currentMonthHistory = []; // cached monthHistory records for current location
+let currentMonthHistory = [];
 
 /* ============================================================
    PERIOD HELPERS
@@ -1235,6 +1248,7 @@ function currentPurchases(){
 function grossProfit(row){const c=parseFloat(row.cost)||0,s=parseFloat(row.sales)||0,e=parseFloat(row.expenses)||0;return s-c-e;}
 function fmt(n){if(n===undefined||n===null||isNaN(n))return '0';return Number(n).toLocaleString('en-UG',{maximumFractionDigits:0});}
 function fmtSigned(n){if(n===undefined||n===null||isNaN(n))return '—';const a=Math.abs(n).toLocaleString('en-UG',{maximumFractionDigits:0});return (n>=0?'+':'−')+a;}
+function fmtPct(n){if(n===undefined||n===null||isNaN(n))return '—';return n.toFixed(1)+'%';}
 function monthLabel(key){return new Date(key+'-01').toLocaleString('en',{month:'long',year:'numeric'});}
 function shortMonth(key){return new Date(key+'-01').toLocaleString('en',{month:'short',year:'numeric'});}
 function dateStr(d){ return d.toISOString().split('T')[0]; }
@@ -1242,20 +1256,12 @@ function todayStr(){ const d = new Date(); return d.getFullYear() + '-' + String
 function currentCalendarMonthKey(){ const n = new Date(); return n.getFullYear() + '-' + String(n.getMonth()+1).padStart(2,'0'); }
 function nowTimeStr(){ const d = new Date(); return d.toTimeString().slice(0,5); }
 
-/* -----------------------------------------------------------
-   ROLE PERMISSIONS (per-location, editable)
-   -----------------------------------------------------------
-   Resolution order:
-   1. rolePermissions[role] from location config  (if present)
-   2. DEFAULT_PERMISSIONS[role]
-   Only `manageUsers` is overridden for managers on the fly.
------------------------------------------------------------ */
+/* ROLE PERMISSIONS */
 function getRolePermissions(role){
   const locPerms = (allLocationsCache[currentLocationId] && allLocationsCache[currentLocationId].rolePermissions) || {};
   if(locPerms[role]) return { ...DEFAULT_PERMISSIONS[role], ...locPerms[role] };
   return { ...(DEFAULT_PERMISSIONS[role] || DEFAULT_PERMISSIONS.cashier) };
 }
-
 function hasPerm(perm){
   if(!currentUser) return false;
   if(currentUser.role === 'admin' || currentUser.role === 'superadmin') return true;
@@ -1263,21 +1269,8 @@ function hasPerm(perm){
   if(perm === 'manageUsers' && currentUser.role === 'manager' && merged.manageUsers !== false) return true;
   return !!merged[perm];
 }
-
-/* Apply tab visibility based on current role permissions. Hides tabs immediately when access is removed. */
 function applyTabPermissions(){
-  const allPanels = ['closure','purchases','daily','audit','shifts','history','log','suppliers','team'];
-  const permMap = {
-    closure: 'editShifts',
-    purchases: 'viewPurchases',
-    daily: 'viewDaily',
-    audit: 'viewAudit',
-    shifts: 'viewShifts',
-    history: 'viewHistory',
-    log: 'viewLog',
-    suppliers: 'viewSuppliers',
-    team: 'manageUsers'
-  };
+  const permMap = { closure: 'editShifts', purchases: 'viewPurchases', daily: 'viewDaily', audit: 'viewAudit', shifts: 'viewShifts', history: 'viewHistory', log: 'viewLog', suppliers: 'viewSuppliers', team: 'manageUsers' };
   document.querySelectorAll('#userTabNav .tab-btn').forEach(btn => {
     const tab = btn.dataset.tab;
     const perm = permMap[tab];
@@ -1285,7 +1278,6 @@ function applyTabPermissions(){
     if(hasPerm(perm)) btn.classList.remove('hidden');
     else btn.classList.add('hidden');
   });
-  // If current tab is hidden, switch to the first visible one
   const activeBtn = document.querySelector('#userTabNav .tab-btn.active');
   if(!activeBtn || activeBtn.classList.contains('hidden')){
     const firstVisible = document.querySelector('#userTabNav .tab-btn:not(.hidden)');
@@ -1296,11 +1288,7 @@ function applyTabPermissions(){
 function saveSession(){
   if(!currentUser) { try { sessionStorage.removeItem(SESSION_KEY); } catch(e){} return; }
   try {
-    sessionStorage.setItem(SESSION_KEY, JSON.stringify({
-      username: currentUser.username,
-      locationId: currentLocationId,
-      isAdmin: currentUser.role === 'admin' || currentUser.role === 'superadmin'
-    }));
+    sessionStorage.setItem(SESSION_KEY, JSON.stringify({ username: currentUser.username, locationId: currentLocationId, isAdmin: currentUser.role === 'admin' || currentUser.role === 'superadmin' }));
   } catch(e) {}
 }
 function loadSession(){ try { const raw = sessionStorage.getItem(SESSION_KEY); return raw ? JSON.parse(raw) : null; } catch(e) { return null; } }
@@ -1343,7 +1331,7 @@ function showSaveStatus(status, msg, target){
   else { el.classList.add('error'); el.querySelector('i').className='fas fa-exclamation-triangle'; txt.textContent = msg || 'Save failed'; }
 }
 
-/* BATCHED DELETE HELPER */
+/* BATCHED DELETE */
 async function deleteCollectionInBatches(collectionRef, onProgress){
   let total = 0;
   while(true){
@@ -1379,19 +1367,15 @@ async function autoSeed() {
   try {
     const adminDoc = await db.collection('config').doc('admin').get();
     if(!adminDoc.exists) await db.collection('config').doc('admin').set({ password: 'admin', createdAt: new Date().toISOString() });
-
     const locDoc = await db.collection('locations').doc('wamombl1').get();
     const userDoc = await db.collection('users').doc('wamombl1').get();
     if(locDoc.exists || userDoc.exists) return;
-
     await db.collection('locations').doc('wamombl1').set({ name: 'Wamo Mbale 1', code: 'wamombl1', createdAt: new Date().toISOString(), status: 'active', rolePermissions: {} });
     await db.collection('users').doc('wamombl1').set({ username:'wamombl1', fullName:'Ahmed', password:'wamo123@', locationId:'wamombl1', role:'manager', permissions: DEFAULT_PERMISSIONS.manager, status:'active', createdAt: new Date().toISOString() });
     const curKey = currentCalendarMonthKey();
     await db.collection('locations').doc('wamombl1').collection('months').doc(curKey).set({ entries: [], expenses: [], closed: false, purchases: [] });
     const seedSuppliers = ['Mukwano Distributors','Bidco Uganda','Kakira Sugar','Fresh Foods Ltd'];
-    for(const s of seedSuppliers) {
-      await db.collection('locations').doc('wamombl1').collection('suppliers').doc(s).set({ name: s, createdAt: new Date().toISOString() });
-    }
+    for(const s of seedSuppliers) await db.collection('locations').doc('wamombl1').collection('suppliers').doc(s).set({ name: s, createdAt: new Date().toISOString() });
   } catch(e) { console.error('Auto-seed failed', e); }
 }
 
@@ -1416,8 +1400,7 @@ async function autoClosePastMonths(){
       const shiftTotalDiff = monthShifts.reduce((s, sh) => s + (parseFloat(sh.difference) || 0), 0);
       await db.collection('locations').doc(currentLocationId).collection('monthHistory').doc(mKey).set({
         monthKey: mKey, closedAt: m.closedAt, closedBy: 'auto',
-        totalSales, totalCost, totalDailyExp, gross,
-        monthlyExpenses: monthlyExp, netProfit: gross - monthlyExp,
+        totalSales, totalCost, totalDailyExp, gross, monthlyExpenses: monthlyExp, netProfit: gross - monthlyExp,
         entryCount: (m.entries||[]).length, purchaseCount: (m.purchases||[]).length,
         closureCount: weeklyClosures.filter(w => w.date.startsWith(mKey)).length,
         shiftCount: monthShifts.length, shiftTotalDifference: shiftTotalDiff
@@ -1452,10 +1435,7 @@ async function backfillShiftPeriods(){
     if(isValidPeriod(sh.period)) continue;
     const inferred = periodFromTimestamp(sh.openedAt);
     sh.period = inferred;
-    try {
-      await db.collection('locations').doc(currentLocationId).collection('shifts').doc(sh.id).update({ period: inferred });
-      changed++;
-    } catch(e) { console.warn('[Backfill Period] Failed', sh.id, e); }
+    try { await db.collection('locations').doc(currentLocationId).collection('shifts').doc(sh.id).update({ period: inferred }); changed++; } catch(e) { console.warn('[Backfill Period] Failed', sh.id, e); }
   }
   if(changed) console.log(`[Backfill Period] Tagged ${changed} legacy shift(s).`);
 }
@@ -1465,7 +1445,6 @@ async function loadLocationData(locationId) {
   if(!firebaseReady) { showSaveStatus('error','No Firebase'); return; }
   showSaveStatus('saving','Loading...');
   try {
-    // Reload location doc to pick up any role permission changes
     const locDoc = await db.collection('locations').doc(locationId).get();
     if(locDoc.exists) allLocationsCache[locationId] = locDoc.data();
 
@@ -1481,10 +1460,7 @@ async function loadLocationData(locationId) {
     suppliersCache.sort((a,b) => (a.name || '').localeCompare(b.name || ''));
     const shSnap = await db.collection('locations').doc(locationId).collection('shifts').orderBy('date','desc').limit(500).get();
     allShifts = []; shSnap.forEach(doc => allShifts.push({ id: doc.id, ...doc.data() }));
-    allShifts.sort((a,b) => {
-      if(a.date !== b.date) return (b.date||'').localeCompare(a.date||'');
-      return (b.openedAt||'').localeCompare(a.openedAt||'');
-    });
+    allShifts.sort((a,b) => { if(a.date !== b.date) return (b.date||'').localeCompare(a.date||''); return (b.openedAt||'').localeCompare(a.openedAt||''); });
     await backfillShiftPeriods();
     const curKey = currentCalendarMonthKey();
     if(!allMonthsData[curKey]) {
@@ -1499,7 +1475,6 @@ async function loadLocationData(locationId) {
     showSaveStatus('saved','Loaded');
   } catch(e) { console.error(e); showSaveStatus('error','Load failed'); }
 }
-
 async function loadMonthHistoryCache(){
   if(!firebaseReady || !currentLocationId) return;
   try {
@@ -1509,7 +1484,6 @@ async function loadMonthHistoryCache(){
     renderHistoryFilter();
   } catch(e) { console.warn('Month history load failed', e); }
 }
-
 async function saveMonthToFirestore(monthKey) {
   if(!firebaseReady || !currentLocationId) return;
   try { const data = allMonthsData[monthKey]; if(!data) return; await db.collection('locations').doc(currentLocationId).collection('months').doc(monthKey).set(data); } catch(e) { console.error(e); }
@@ -1700,17 +1674,12 @@ function doLogout(){
   document.getElementById('signin-section').scrollIntoView({behavior:'smooth'});
 }
 
-/* ============================================================
-   DAILY CLOSURE / SHIFTS
-   ============================================================ */
+/* DAILY CLOSURE / SHIFTS */
 function findTodaysOpenShiftForMe(){
   const today = todayStr();
   return allShifts.find(sh => sh.date === today && sh.cashier === currentUser?.username && sh.status === 'open');
 }
-function findTodaysShifts(){
-  const today = todayStr();
-  return allShifts.filter(sh => sh.date === today);
-}
+function findTodaysShifts(){ const today = todayStr(); return allShifts.filter(sh => sh.date === today); }
 
 function renderClosureView(){
   const todayOpen = findTodaysOpenShiftForMe();
@@ -1747,9 +1716,7 @@ function renderClosureView(){
 
 function selectShiftPeriod(period){
   pendingPeriod = period;
-  document.querySelectorAll('.period-opt').forEach(el => {
-    el.classList.toggle('selected', el.dataset.period === period);
-  });
+  document.querySelectorAll('.period-opt').forEach(el => { el.classList.toggle('selected', el.dataset.period === period); });
   document.getElementById('startShiftBtn').disabled = false;
 }
 
@@ -1759,16 +1726,10 @@ async function startNewShift(){
   const today = todayStr();
   const nowIso = new Date().toISOString();
   const clockPeriod = periodFromClock();
-
   if(pendingPeriod !== clockPeriod){
-    const ok = confirm(
-      `You selected ${periodLabel(pendingPeriod)}, but the current time is ${new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})} ` +
-      `which falls in the ${periodLabel(clockPeriod)} window.\n\n` +
-      `Continue anyway? The shift will be tagged as ${periodLabel(pendingPeriod)} and flagged as "off-clock" for managers.`
-    );
+    const ok = confirm(`You selected ${periodLabel(pendingPeriod)}, but the current time is ${new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})} which falls in the ${periodLabel(clockPeriod)} window.\n\nContinue anyway?`);
     if(!ok) return;
   }
-
   const newShift = {
     date: today, period: pendingPeriod, periodSource: 'manual', clockPeriodAtStart: clockPeriod,
     cashier: currentUser?.username || 'unknown', cashierName: currentUser?.fullName || currentUser?.username || 'unknown',
@@ -1780,11 +1741,11 @@ async function startNewShift(){
     if(firebaseReady && currentLocationId) {
       const ref = await db.collection('locations').doc(currentLocationId).collection('shifts').add(newShift);
       newShift.id = ref.id;
-    } else { newShift.id = 'local_' + Date.now(); }
+    } else newShift.id = 'local_' + Date.now();
     allShifts.unshift(newShift);
     currentShiftId = newShift.id;
     currentShiftData = newShift;
-    addLog('Start Shift', `${newShift.date} ${periodLabel(newShift.period)} — by ${currentUser.username}${newShift.period !== clockPeriod ? ' [OFF-CLOCK: clock=' + periodLabel(clockPeriod) + ']' : ''}`);
+    addLog('Start Shift', `${newShift.date} ${periodLabel(newShift.period)} — by ${currentUser.username}`);
     showToast(`Shift started — tagged ${periodLabel(newShift.period)}`, 'success');
     renderClosureView();
     renderShifts();
@@ -1852,9 +1813,7 @@ function renderClosureExpenses(){
   if(!Array.isArray(sh.expenseItems)) sh.expenseItems = [];
 
   if(!sh.expenseItems.length){
-    wrap.innerHTML = `<div class="closure-expense-empty">
-      No expenses recorded for this shift yet.${canEdit ? ' Click <strong>Add expense</strong> below.' : ''}
-    </div>`;
+    wrap.innerHTML = `<div class="closure-expense-empty">No expenses recorded for this shift yet.${canEdit ? ' Click <strong>Add expense</strong> below.' : ''}</div>`;
   } else {
     wrap.innerHTML = sh.expenseItems.map((e, idx) => {
       const ro = !canEdit ? 'readonly' : '';
@@ -1864,8 +1823,8 @@ function renderClosureExpenses(){
         <select ${dis} onchange="updateClosureExpense(${idx},'type',this.value)" style="${bg}">
           ${CLOSURE_EXPENSE_TYPES.map(t => `<option value="${t}" ${e.type === t ? 'selected' : ''}>${t}</option>`).join('')}
         </select>
-        <input type="text" value="${(e.description||'').replace(/"/g,'&quot;')}" ${ro} placeholder="Description (e.g. boda to market)" onchange="updateClosureExpense(${idx},'description',this.value)" style="${bg}">
-        <input type="number" step="0.01" class="amt" value="${e.amount ?? ''}" ${ro} placeholder="0" data-exp-amt="${idx}" oninput="onClosureAmountInput(${idx}, this.value)" onchange="onClosureAmountChange(${idx}, this.value)" style="${bg}">
+        <input type="text" value="${(e.description||'').replace(/"/g,'&quot;')}" ${ro} placeholder="Description" onchange="updateClosureExpense(${idx},'description',this.value)" style="${bg}">
+        <input type="number" step="0.01" class="amt" value="${e.amount ?? ''}" ${ro} placeholder="0" oninput="onClosureAmountInput(${idx}, this.value)" onchange="onClosureAmountChange(${idx}, this.value)" style="${bg}">
         <button type="button" class="remove-btn" ${canEdit ? '' : 'disabled'} onclick="removeClosureExpense(${idx})"><i class="fas fa-trash-alt"></i></button>
       </div>`;
     }).join('');
@@ -1896,9 +1855,7 @@ function addClosureExpense(){
   if(currentShiftData.status === 'closed' && !hasPerm('manageUsers') && !hasPerm('manageShiftClosures')){ showToast('Shift is closed', 'error'); return; }
   if(!Array.isArray(currentShiftData.expenseItems)) currentShiftData.expenseItems = [];
   currentShiftData.expenseItems.push({ type: 'Transport', description: '', amount: 0 });
-  renderClosureExpenses();
-  recalcClosure();
-  saveClosureDraft();
+  renderClosureExpenses(); recalcClosure(); saveClosureDraft();
 }
 function removeClosureExpense(idx){
   if(!currentShiftData) return;
@@ -1906,17 +1863,14 @@ function removeClosureExpense(idx){
   const removed = currentShiftData.expenseItems[idx];
   currentShiftData.expenseItems.splice(idx, 1);
   if(removed) addLog('Remove Shift Expense', `${removed.type} — UGX ${fmt(removed.amount)}`);
-  renderClosureExpenses();
-  recalcClosure();
-  saveClosureDraft();
+  renderClosureExpenses(); recalcClosure(); saveClosureDraft();
 }
 function updateClosureExpense(idx, field, value){
   if(!currentShiftData) return;
   if(currentShiftData.status === 'closed' && !hasPerm('manageUsers') && !hasPerm('manageShiftClosures')) return;
   if(!currentShiftData.expenseItems[idx]) return;
   currentShiftData.expenseItems[idx][field] = value;
-  recalcClosure();
-  saveClosureDraft();
+  recalcClosure(); saveClosureDraft();
 }
 
 function getNum(id){ const el = document.getElementById(id); if(!el) return 0; const v = parseFloat(el.value); return isNaN(v) ? 0 : v; }
@@ -1925,8 +1879,7 @@ function recalcClosure(){
   const airtel = getNum('clAirtel');
   const closingSales = getNum('clClosingSales');
   const counted = getNum('clCounted');
-  const expenses = (currentShiftData && Array.isArray(currentShiftData.expenseItems))
-    ? currentShiftData.expenseItems.reduce((s, e) => s + (parseFloat(e.amount) || 0), 0) : 0;
+  const expenses = (currentShiftData && Array.isArray(currentShiftData.expenseItems)) ? currentShiftData.expenseItems.reduce((s, e) => s + (parseFloat(e.amount) || 0), 0) : 0;
   const openingFloat = getNum('clOpeningFloat');
   const sales = closingSales;
   const cashExpected = openingFloat + (sales - mtn - airtel) - expenses;
@@ -1945,7 +1898,7 @@ function recalcClosure(){
       <div class="result-row"><span class="lbl">Mobile Money Total</span><span class="v">UGX ${fmt(mtn + airtel)}</span></div>
       <div class="result-row"><span class="lbl">Cash portion of sales</span><span class="v">UGX ${fmt(Math.max(0, sales - mtn - airtel))}</span></div>
       <div class="result-row"><span class="lbl">Opening float</span><span class="v">UGX ${fmt(openingFloat)}</span></div>
-      <div class="result-row"><span class="lbl">Expenses paid (${(currentShiftData?.expenseItems||[]).length} item${(currentShiftData?.expenseItems||[]).length===1?'':'s'})</span><span class="v">−UGX ${fmt(expenses)}</span></div>
+      <div class="result-row"><span class="lbl">Expenses paid (${(currentShiftData?.expenseItems||[]).length})</span><span class="v">−UGX ${fmt(expenses)}</span></div>
       <div class="result-row"><span class="lbl">Cash Expected</span><span class="v">UGX ${fmt(cashExpected)}</span></div>
       <div class="result-row"><span class="lbl">Cash Counted</span><span class="v">UGX ${fmt(counted)}</span></div>
       <div class="result-diff ${diffClass}">${diffLabel}<span class="meta">${diffSub}</span></div>
@@ -2033,16 +1986,13 @@ async function reopenShift(){
     currentShiftData.reopenedAt = new Date().toISOString();
     currentShiftData.reopenedBy = currentUser.username;
     if(firebaseReady && currentLocationId && currentShiftId && !currentShiftId.startsWith('local_')) {
-      await db.collection('locations').doc(currentLocationId).collection('shifts').doc(currentShiftId).update({
-        status: 'open', reopened: true, reopenedAt: currentShiftData.reopenedAt, reopenedBy: currentUser.username
-      });
+      await db.collection('locations').doc(currentLocationId).collection('shifts').doc(currentShiftId).update({ status: 'open', reopened: true, reopenedAt: currentShiftData.reopenedAt, reopenedBy: currentUser.username });
     }
     const idx = allShifts.findIndex(s => s.id === currentShiftId);
     if(idx >= 0) allShifts[idx] = { ...currentShiftData };
     addLog('Re-open Shift', `${currentShiftData.date} ${periodLabel(currentShiftData.period)} re-opened by ${currentUser.username}`);
     showToast('Shift re-opened', 'success');
-    renderClosurePanel();
-    renderShifts();
+    renderClosurePanel(); renderShifts();
   } catch(e) { showToast('Failed to re-open: ' + e.message, 'error'); }
 }
 
@@ -2053,10 +2003,7 @@ async function syncCashToClosureAudit(){
   const totalCounted = todaysShifts.reduce((sum, sh) => sum + (parseFloat(sh.counted) || 0), 0);
   try {
     const existing = weeklyClosures.find(w => w.date === today);
-    if(existing) {
-      existing.cash = totalCounted;
-      await db.collection('locations').doc(currentLocationId).collection('weeklyClosures').doc(today).set(existing);
-    }
+    if(existing) { existing.cash = totalCounted; await db.collection('locations').doc(currentLocationId).collection('weeklyClosures').doc(today).set(existing); }
     renderAudit();
   } catch(e) { console.warn('Cash sync failed', e); }
 }
@@ -2066,9 +2013,7 @@ function renderShifts(){
   const sel = document.getElementById('shiftMonthFilter');
   if(sel && sel.options.length <= 1){
     const months = new Set(allShifts.map(s => s.date ? s.date.slice(0,7) : '').filter(Boolean));
-    Array.from(months).sort().reverse().forEach(m => {
-      const o = document.createElement('option'); o.value = m; o.textContent = monthLabel(m); sel.appendChild(o);
-    });
+    Array.from(months).sort().reverse().forEach(m => { const o = document.createElement('option'); o.value = m; o.textContent = monthLabel(m); sel.appendChild(o); });
   }
   const monthFilter = sel ? sel.value : '';
   const filtered = allShifts.filter(s => !monthFilter || (s.date && s.date.slice(0,7) === monthFilter));
@@ -2166,11 +2111,7 @@ function showShiftSummary(sh){
   const exp = parseFloat(sh.expenses) || 0;
   const items = Array.isArray(sh.expenseItems) ? sh.expenseItems : [];
   const itemRows = items.length
-    ? items.map(e => `<tr>
-        <td>${e.type || '—'}</td>
-        <td>${e.description || '—'}</td>
-        <td style="text-align:right;font-weight:600;color:#b33a3a;">UGX ${fmt(e.amount)}</td>
-      </tr>`).join('')
+    ? items.map(e => `<tr><td>${e.type || '—'}</td><td>${e.description || '—'}</td><td style="text-align:right;font-weight:600;color:#b33a3a;">UGX ${fmt(e.amount)}</td></tr>`).join('')
     : `<tr><td colspan="3" style="text-align:center;color:#7b8fa0;padding:1rem;">No itemised expenses</td></tr>`;
 
   const d = parseFloat(sh.difference) || 0;
@@ -2218,12 +2159,10 @@ function showShiftSummary(sh){
 }
 function closeShiftSummary(){ document.getElementById('shiftSummaryModal').classList.remove('active'); }
 
-/* MANAGER / ACCOUNTANT EDIT / DELETE SHIFT */
 async function editShift(id) {
   if (!hasPerm('manageUsers') && !hasPerm('manageShiftClosures')) { showToast('You do not have permission to edit shifts', 'error'); return; }
   const sh = allShifts.find(s => s.id === id);
   if (!sh) { showToast('Shift not found', 'error'); return; }
-
   const newSales = prompt('Closing Sales (system total):', sh.closingSales ?? sh.sales ?? 0); if (newSales === null) return;
   const newMtn = prompt('MTN MOMO amount:', sh.mtn ?? 0); if (newMtn === null) return;
   const newAirtel = prompt('Airtel Money amount:', sh.airtel ?? 0); if (newAirtel === null) return;
@@ -2231,16 +2170,12 @@ async function editShift(id) {
   const newOpeningFloat = prompt('Opening float:', sh.openingFloat ?? 0); if (newOpeningFloat === null) return;
   const newCounted = prompt('Cash Counted (physical):', sh.counted ?? 0); if (newCounted === null) return;
   const newNote = prompt('Note (optional):', sh.note ?? ''); if (newNote === null) return;
-
   const currentItems = Array.isArray(sh.expenseItems) ? sh.expenseItems : [];
-  const itemsJson = prompt('Expense breakdown (JSON array, leave unchanged to keep):\nExample: [{"type":"Transport","description":"boda","amount":5000}]', JSON.stringify(currentItems));
+  const itemsJson = prompt('Expense breakdown (JSON array, leave unchanged to keep):', JSON.stringify(currentItems));
   if (itemsJson === null) return;
-
   let parsedItems = currentItems;
-  try {
-    if (itemsJson.trim()) parsedItems = JSON.parse(itemsJson);
-    if (!Array.isArray(parsedItems)) throw new Error('Not an array');
-  } catch (e) { showToast('Invalid JSON in expense breakdown. Edit cancelled.', 'error'); return; }
+  try { if (itemsJson.trim()) parsedItems = JSON.parse(itemsJson); if (!Array.isArray(parsedItems)) throw new Error('Not an array'); }
+  catch (e) { showToast('Invalid JSON in expense breakdown. Edit cancelled.', 'error'); return; }
 
   const mtn = parseFloat(newMtn) || 0;
   const airtel = parseFloat(newAirtel) || 0;
@@ -2253,7 +2188,6 @@ async function editShift(id) {
   const difference = counted - cashExpected;
 
   const updated = { ...sh, mtn, airtel, closingSales, expenses, openingFloat, counted, sales, cashExpected, difference, note: newNote, expenseItems: parsedItems, editedAt: new Date().toISOString(), editedBy: currentUser.username };
-
   try {
     if (firebaseReady && currentLocationId && !id.startsWith('local_')) {
       await db.collection('locations').doc(currentLocationId).collection('shifts').doc(id).set(updated, { merge: true });
@@ -2481,66 +2415,41 @@ async function toggleLocationStatus(id){
 async function deleteLocationConfirm(id){
   const l = allLocationsCache[id];
   if(!l){ showToast('Location not found', 'error'); return; }
-
   const usersHere = Object.entries(allUsersCache).filter(([_, u]) => u.locationId === id);
-
   showSaveStatus('saving','Counting records...','admin');
   const counts = {};
   try {
-    for(const sub of LOCATION_SUBCOLLECTIONS){
-      const snap = await db.collection('locations').doc(id).collection(sub).count().get();
-      counts[sub] = snap.data().count;
-    }
+    for(const sub of LOCATION_SUBCOLLECTIONS){ const snap = await db.collection('locations').doc(id).collection(sub).count().get(); counts[sub] = snap.data().count; }
   } catch(e) {
-    for(const sub of LOCATION_SUBCOLLECTIONS){
-      const snap = await db.collection('locations').doc(id).collection(sub).get();
-      counts[sub] = snap.size;
-    }
+    for(const sub of LOCATION_SUBCOLLECTIONS){ const snap = await db.collection('locations').doc(id).collection(sub).get(); counts[sub] = snap.size; }
   }
   showSaveStatus('saved','Ready','admin');
-
   const totalDocs = Object.values(counts).reduce((s,n)=>s+n,0);
   const breakdown = LOCATION_SUBCOLLECTIONS.map(k => `${k}: ${counts[k]}`).join('\n  ');
-
-  const firstConfirm = confirm(
-    `Delete location "${l.name || id}"?\n\nThis will permanently delete:\n  • The location document\n  • ${usersHere.length} user account(s) at this location\n  • ${totalDocs} record(s) across subcollections:\n  ${breakdown}\n\nThis cannot be undone. Continue?`
-  );
+  const firstConfirm = confirm(`Delete location "${l.name || id}"?\n\nThis will permanently delete:\n  • The location document\n  • ${usersHere.length} user account(s)\n  • ${totalDocs} record(s):\n  ${breakdown}\n\nContinue?`);
   if(!firstConfirm) return;
-
-  const typed = prompt(`Type the location code "${id}" to confirm permanent deletion of ALL data for this location.`);
+  const typed = prompt(`Type the location code "${id}" to confirm permanent deletion.`);
   if(typed !== id){ showToast('Deletion cancelled — code did not match', 'error'); return; }
-
   showSaveStatus('saving','Deleting location data...','admin');
   let deletedDocs = 0; let deletedUsers = 0; const errors = [];
-
   for(const sub of LOCATION_SUBCOLLECTIONS){
     if(!counts[sub]) continue;
     try {
       const ref = db.collection('locations').doc(id).collection(sub);
       const n = await deleteCollectionInBatches(ref, (running) => { showSaveStatus('saving', `Deleting ${sub}… ${running}`, 'admin'); });
       deletedDocs += n;
-    } catch(e) { errors.push(`${sub}: ${e.message}`); console.warn('[Cascade] Failed to clear subcollection', sub, e); }
+    } catch(e) { errors.push(`${sub}: ${e.message}`); }
   }
-
   try {
     const usersQuery = db.collection('users').where('locationId', '==', id);
     deletedUsers = await deleteQueryInBatches(usersQuery);
     usersHere.forEach(([username]) => { delete allUsersCache[username]; });
-  } catch(e) { errors.push(`users: ${e.message}`); console.warn('[Cascade] Failed to delete users', e); }
-
+  } catch(e) { errors.push(`users: ${e.message}`); }
   try { await db.collection('locations').doc(id).delete(); delete allLocationsCache[id]; } catch(e) { errors.push(`location: ${e.message}`); }
-
   await loadAdminData();
   renderAdminLocations(); renderAdminAccounts(); renderAdminOverview(); renderAdminActivity();
-
-  if(errors.length){
-    showSaveStatus('error','Partial delete','admin');
-    showToast(`Deleted ${deletedUsers} user(s) + ${deletedDocs} record(s), but ${errors.length} operation(s) failed. See console.`, 'error');
-    console.warn('[Cascade] Errors:', errors);
-  } else {
-    showSaveStatus('saved','Deleted','admin');
-    showToast(`Deleted "${l.name || id}" — ${deletedUsers} user(s) + ${deletedDocs} record(s) removed`, 'success');
-  }
+  if(errors.length){ showSaveStatus('error','Partial delete','admin'); showToast(`Deleted with ${errors.length} error(s)`, 'error'); }
+  else { showSaveStatus('saved','Deleted','admin'); showToast(`Deleted "${l.name || id}" — ${deletedUsers} user(s) + ${deletedDocs} record(s)`, 'success'); }
 }
 
 async function viewLocationDetail(id){
@@ -2561,7 +2470,7 @@ async function viewLocationDetail(id){
     </div>
     <div class="section-title" style="margin-top:1rem;"><i class="fas fa-users"></i> Users at this location</div>
     <div>${users.length ? users.map(([u, d]) => `
-      <div class="user-row"><div class="uinfo"><div class="uname"><i class="fas fa-user-circle" style="color:#6a7f94;"></i> <strong>${u}</strong> <span class="badge-pill ${d.role === 'manager' ? 'green' : d.role === 'accountant' ? 'amber' : 'blue'}">${d.role || 'cashier'}</span>${d.createdBy ? `<span class="badge-pill blue" style="margin-left:0.3rem;">by ${d.createdBy}</span>` : ''}</div><div class="umeta">${d.fullName || '—'} · ${d.status || 'active'}</div></div><div class="actions"><button class="btn" onclick="closeLocModal();openUserEdit('${u}')"><i class="fas fa-edit"></i> Edit</button></div></div>
+      <div class="user-row"><div class="uinfo"><div class="uname"><i class="fas fa-user-circle" style="color:#6a7f94;"></i> <strong>${u}</strong> <span class="badge-pill ${d.role === 'manager' ? 'green' : d.role === 'accountant' ? 'amber' : 'blue'}">${d.role || 'cashier'}</span></div><div class="umeta">${d.fullName || '—'} · ${d.status || 'active'}</div></div><div class="actions"><button class="btn" onclick="closeLocModal();openUserEdit('${u}')"><i class="fas fa-edit"></i> Edit</button></div></div>
     `).join('') : '<div style="text-align:center;padding:1.5rem;color:#7b8fa0;">No users</div>'}</div>
   `;
   document.getElementById('locModal').classList.add('active');
@@ -2615,13 +2524,7 @@ async function deleteUserConfirm(username){
     await new Promise(r => setTimeout(r, 400));
     await loadAdminData();
     if(!allUsersCache[un]) showToast('User deleted', 'success');
-    else {
-      await db.collection('users').doc(un).delete();
-      await new Promise(r => setTimeout(r, 600));
-      await loadAdminData();
-      delete allUsersCache[un];
-      showToast('User deleted', 'success');
-    }
+    else { await db.collection('users').doc(un).delete(); await new Promise(r => setTimeout(r, 600)); await loadAdminData(); delete allUsersCache[un]; showToast('User deleted', 'success'); }
     if(document.getElementById('userModal').classList.contains('active')) closeUserModal();
     renderAdminAccounts(); renderAdminOverview();
   } catch(e) { showToast('Error: ' + e.message, 'error'); }
@@ -2669,14 +2572,8 @@ function renderSuppliersList(){
   if(!suppliersCache.length) { list.innerHTML = '<div style="text-align:center;padding:1.5rem;color:#7b8fa0;">No suppliers yet. Add your first supplier on the left.</div>'; return; }
   list.innerHTML = suppliersCache.map(s => `
     <div class="user-row">
-      <div class="uinfo">
-        <div class="uname"><i class="fas fa-truck" style="color:#1d7a4b;"></i> <strong>${s.name}</strong></div>
-        <div class="umeta">${s.contact ? s.contact + ' · ' : ''}${s.phone ? s.phone + ' · ' : ''}${s.category ? s.category : ''}</div>
-      </div>
-      <div class="actions editor-only">
-        <button class="btn" onclick="editSupplier('${s.id}')"><i class="fas fa-edit"></i> Edit</button>
-        <button class="btn btn-danger" onclick="deleteSupplier('${s.id}')"><i class="fas fa-trash"></i></button>
-      </div>
+      <div class="uinfo"><div class="uname"><i class="fas fa-truck" style="color:#1d7a4b;"></i> <strong>${s.name}</strong></div><div class="umeta">${s.contact ? s.contact + ' · ' : ''}${s.phone ? s.phone + ' · ' : ''}${s.category ? s.category : ''}</div></div>
+      <div class="actions editor-only"><button class="btn" onclick="editSupplier('${s.id}')"><i class="fas fa-edit"></i> Edit</button><button class="btn btn-danger" onclick="deleteSupplier('${s.id}')"><i class="fas fa-trash"></i></button></div>
     </div>
   `).join('');
   applyPermissions();
@@ -2763,8 +2660,6 @@ function onTeamRoleChange(){
   const role = document.getElementById('teamUserRole').value;
   renderTeamPermissionGrid(getRolePermissions(role));
 }
-
-/* Save role-level permissions to the location doc. These apply to ALL users of that role. */
 async function saveRolePermissions(){
   if(!hasPerm('manageUsers')){ showToast('No permission', 'error'); return; }
   const role = document.getElementById('teamUserRole').value;
@@ -2777,18 +2672,12 @@ async function saveRolePermissions(){
     const rolePermissions = { ...(locData.rolePermissions || {}) };
     rolePermissions[role] = permissions;
     await locRef.set({ rolePermissions }, { merge: true });
-    // Update local cache so hasPerm() reflects changes immediately
     allLocationsCache[currentLocationId] = { ...(allLocationsCache[currentLocationId] || {}), rolePermissions };
-    // If we changed our own role, re-apply UI
-    if(currentUser && currentUser.role === role){
-      applyPermissions();
-      applyTabPermissions();
-    }
+    if(currentUser && currentUser.role === role){ applyPermissions(); applyTabPermissions(); }
     addLog('Update Role Permissions', `${role} — ${Object.entries(permissions).filter(([_,v])=>v).map(([k])=>k).join(', ') || 'no permissions'}`);
     showToast(`Permissions saved for ${role}. All users of this role now affected.`, 'success');
   } catch(e) { showToast('Failed to save permissions: ' + e.message, 'error'); }
 }
-
 async function resetRolePermissionsToDefault(){
   if(!hasPerm('manageUsers')){ showToast('No permission', 'error'); return; }
   const role = document.getElementById('teamUserRole').value;
@@ -2807,7 +2696,6 @@ async function resetRolePermissionsToDefault(){
     showToast(`${role} permissions reset to default.`, 'success');
   } catch(e) { showToast('Failed to reset: ' + e.message, 'error'); }
 }
-
 async function createTeamUser(){
   if(!currentUser){ showToast('Not logged in', 'error'); return; }
   if(!hasPerm('manageUsers')){ showToast('No permission', 'error'); return; }
@@ -3030,8 +2918,7 @@ async function closeMonth(){
   try {
     await db.collection('locations').doc(currentLocationId).collection('monthHistory').doc(currentMonthKey).set({
       monthKey: currentMonthKey, closedAt: m.closedAt, closedBy: currentUser.username,
-      totalSales, totalCost, totalDailyExp, gross,
-      monthlyExpenses: monthlyExp, netProfit: gross - monthlyExp,
+      totalSales, totalCost, totalDailyExp, gross, monthlyExpenses: monthlyExp, netProfit: gross - monthlyExp,
       entryCount: (m.entries||[]).length, purchaseCount: (m.purchases||[]).length,
       closureCount: weeklyClosures.filter(w => w.date.startsWith(currentMonthKey)).length,
       shiftCount: monthShifts.length, shiftTotalDifference: shiftTotalDiff
@@ -3151,17 +3038,28 @@ function removePurchase(idx){
   currentPurchases().splice(idx,1);
   renderPurchases(); scheduleSave();
 }
+
+/* -----------------------------------------------------------
+   DAILY BALANCING TABLE FLAGS (per-row movement)
+----------------------------------------------------------- */
 function computeAuditFlags(){
   const sorted = [...weeklyClosures].sort((a,b)=>new Date(a.date)-new Date(b.date));
   return sorted.map((row,i)=>{
-    if(i===0) return {...row,stockCostDelta:null,stockPriceDelta:null,creditDelta:null,cashDelta:null,flag:'green',flagNote:'First record (baseline)'};
+    const stockCost = parseFloat(row.stockCost || row.stock || 0);
+    const stockPrice = parseFloat(row.stockPrice || 0);
+    const credit = parseFloat(row.credit || 0);
+    const cash = parseFloat(row.cash || 0);
+    if(i===0) return { ...row, stockCost, stockPrice, credit, cash, stockCostDelta:null, creditDelta:null, cashDelta:null, flag:'green', flagNote:'First record (baseline)' };
     const prev = sorted[i-1];
-    const scd = (row.stockCost||0) - (prev.stockCost||0);
-    const spd = (row.stockPrice||0) - (prev.stockPrice||0);
-    const cd = row.credit - prev.credit, cad = row.cash - prev.cash;
-    const scp = prev.stockCost ? (scd/prev.stockCost)*100 : 0;
-    const cp = prev.credit ? (cd/prev.credit)*100 : 0;
-    const cap = prev.cash ? (cad/prev.cash)*100 : 0;
+    const prevCost = parseFloat(prev.stockCost || prev.stock || 0);
+    const prevCredit = parseFloat(prev.credit || 0);
+    const prevCash = parseFloat(prev.cash || 0);
+    const scd = stockCost - prevCost;
+    const cd = credit - prevCredit;
+    const cad = cash - prevCash;
+    const scp = prevCost ? (scd/prevCost)*100 : 0;
+    const cp = prevCredit ? (cd/prevCredit)*100 : 0;
+    const cap = prevCash ? (cad/prevCash)*100 : 0;
     let flag='green', note='Normal range';
     if(scp<-12){flag='red';note=`Stock cost dropped ${Math.abs(scp).toFixed(1)}%`;}
     else if(cp<-20){flag='red';note=`Credit dropped ${Math.abs(cp).toFixed(1)}%`;}
@@ -3171,7 +3069,7 @@ function computeAuditFlags(){
     else if(cp<-10){flag='amber';note=`Credit dropped ${Math.abs(cp).toFixed(1)}%`;}
     else if(cap<-15){flag='amber';note=`Cash dropped ${Math.abs(cap).toFixed(1)}%`;}
     else if(cp>18){flag='amber';note=`Credit increased ${cp.toFixed(1)}%`;}
-    return {...row,stockCostDelta:scd,stockPriceDelta:spd,creditDelta:cd,cashDelta:cad,stockPct:scp,creditPct:cp,cashPct:cap,flag,flagNote:note};
+    return { ...row, stockCost, stockPrice, credit, cash, stockCostDelta:scd, creditDelta:cd, cashDelta:cad, stockPct:scp, creditPct:cp, cashPct:cap, flag, flagNote:note };
   });
 }
 function renderAudit(){
@@ -3183,7 +3081,7 @@ function renderAudit(){
     <div class="audit-card ${redCount>0?'red':'green'}"><div class="label"><i class="fas fa-flag"></i> Red flags</div><div class="value">${redCount}</div><div class="detail">Critical</div></div>
     <div class="audit-card ${amberCount>0?'amber':'green'}"><div class="label"><i class="fas fa-exclamation-triangle"></i> Warnings</div><div class="value">${amberCount}</div><div class="detail">Monitor</div></div>
     <div class="audit-card green"><div class="label"><i class="fas fa-check-circle"></i> Normal</div><div class="value">${greenCount}</div><div class="detail">In range</div></div>
-    <div class="audit-card ${latest && latest.cash<500000?'amber':'green'}"><div class="label"><i class="fas fa-money-bill-wave"></i> Latest cash</div><div class="value">${latest?fmt(latest.cash):'—'}</div><div class="detail">${latest?new Date(latest.date).toLocaleDateString():'No data'}</div></div>
+    <div class="audit-card ${latest && (latest.stockCost||latest.stock||0)===0?'amber':'green'}"><div class="label"><i class="fas fa-boxes-stacked"></i> Latest stock cost</div><div class="value">${latest?fmt(latest.stockCost||latest.stock||0):'—'}</div><div class="detail">${latest?new Date(latest.date).toLocaleDateString():'No data'}</div></div>
   `;
   const tbody = document.getElementById('auditBody'); if(!tbody) return;
   if(!audit.length){ tbody.innerHTML = `<tr><td colspan="11" style="text-align:center;padding:2rem;color:#7b8fa0;">No daily balancing records yet.</td></tr>`; return; }
@@ -3198,21 +3096,19 @@ function renderAudit(){
       <button class="btn" style="padding:0.3rem 0.55rem;font-size:0.65rem;margin-right:0.15rem;" onclick="editDailyBalancing('${row.date}')" title="Edit"><i class="fas fa-edit"></i></button>
       <button class="btn btn-danger" style="padding:0.3rem 0.55rem;font-size:0.65rem;" onclick="deleteDailyBalancing('${row.date}')" title="Delete"><i class="fas fa-trash"></i></button>
     ` : '';
-    return `<tr class="${rowClass}"><td style="font-weight:600;color:#6a7f94;">${audit.length-i}</td><td>${new Date(row.date).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'})}</td><td style="font-weight:600;">${fmt(row.stockCost||row.stock||0)}</td><td style="font-weight:600;color:#0b5d99;">${fmt(row.stockPrice||0)}</td><td style="font-weight:600;">${fmt(row.credit)}</td><td style="font-weight:600;">${fmt(row.cash)}</td><td>${scd}</td><td>${cd}</td><td>${cad}</td><td>${badge} <span style="font-size:0.72rem;color:#5f7385;display:block;margin-top:0.2rem;">${row.flagNote}</span></td><td>${actionBtns}</td></tr>`;
+    return `<tr class="${rowClass}"><td style="font-weight:600;color:#6a7f94;">${audit.length-i}</td><td>${new Date(row.date).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'})}</td><td style="font-weight:600;">${fmt(row.stockCost)}</td><td style="font-weight:600;color:#0b5d99;">${fmt(row.stockPrice)}</td><td style="font-weight:600;">${fmt(row.credit)}</td><td style="font-weight:600;">${fmt(row.cash)}</td><td>${scd}</td><td>${cd}</td><td>${cad}</td><td>${badge} <span style="font-size:0.72rem;color:#5f7385;display:block;margin-top:0.2rem;">${row.flagNote}</span></td><td>${actionBtns}</td></tr>`;
   }).join('');
 }
 
-/* DAILY BALANCING — edit / delete (manager + accountant) */
+/* DAILY BALANCING — edit / delete */
 async function editDailyBalancing(dateStr){
   if(!hasPerm('manageUsers') && !hasPerm('manageDailyBalancing')){ showToast('You do not have permission to edit daily balancing records', 'error'); return; }
   const rec = weeklyClosures.find(w => w.date === dateStr);
   if(!rec){ showToast('Record not found', 'error'); return; }
-
   const newStockCost = prompt('Total Stock Cost (UGX):', rec.stockCost ?? rec.stock ?? 0); if(newStockCost === null) return;
   const newStockPrice = prompt('Total Stock Price (UGX):', rec.stockPrice ?? 0); if(newStockPrice === null) return;
   const newCredit = prompt('Total Credit (UGX):', rec.credit ?? 0); if(newCredit === null) return;
   const newCash = prompt('Cash at Hand (UGX):', rec.cash ?? 0); if(newCash === null) return;
-
   rec.stockCost = parseFloat(newStockCost) || 0;
   rec.stockPrice = parseFloat(newStockPrice) || 0;
   rec.stock = rec.stockCost;
@@ -3220,7 +3116,6 @@ async function editDailyBalancing(dateStr){
   rec.cash = parseFloat(newCash) || 0;
   rec.editedAt = new Date().toISOString();
   rec.editedBy = currentUser.username;
-
   try {
     await saveClosureToFirestore(rec);
     addLog('Edit Daily Balancing', `${dateStr} — cost ${fmt(rec.stockCost)}, price ${fmt(rec.stockPrice)}, credit ${fmt(rec.credit)}, cash ${fmt(rec.cash)}`);
@@ -3228,23 +3123,19 @@ async function editDailyBalancing(dateStr){
     showToast('Daily balancing record updated', 'success');
   } catch(e) { showToast('Failed to update: ' + e.message, 'error'); }
 }
-
 async function deleteDailyBalancing(dateStr){
   if(!hasPerm('manageUsers') && !hasPerm('manageDailyBalancing')){ showToast('You do not have permission to delete daily balancing records', 'error'); return; }
   const rec = weeklyClosures.find(w => w.date === dateStr);
   if(!rec){ showToast('Record not found', 'error'); return; }
   if(!confirm(`Delete daily balancing record for ${dateStr}?\n\nStock Cost: ${fmt(rec.stockCost||rec.stock||0)}\nStock Price: ${fmt(rec.stockPrice||0)}\nCredit: ${fmt(rec.credit)}\nCash: ${fmt(rec.cash)}\n\nThis cannot be undone.`)) return;
   try {
-    if(firebaseReady && currentLocationId){
-      await db.collection('locations').doc(currentLocationId).collection('weeklyClosures').doc(dateStr).delete();
-    }
+    if(firebaseReady && currentLocationId){ await db.collection('locations').doc(currentLocationId).collection('weeklyClosures').doc(dateStr).delete(); }
     weeklyClosures = weeklyClosures.filter(w => w.date !== dateStr);
     addLog('Delete Daily Balancing', `${dateStr} removed by ${currentUser.username}`);
     renderAudit();
     showToast('Daily balancing record deleted', 'success');
   } catch(e) { showToast('Failed to delete: ' + e.message, 'error'); }
 }
-
 async function addClosureEntry(){
   if(!hasPerm('editDaily')){ showToast('No permission', 'error'); return; }
   const date = document.getElementById('newClosureDate').value;
@@ -3252,10 +3143,7 @@ async function addClosureEntry(){
   const stockPrice = parseFloat(document.getElementById('newClosureStockPrice').value)||0;
   const credit = parseFloat(document.getElementById('newClosureCredit').value)||0;
   let cash = parseFloat(document.getElementById('newClosureCash').value);
-  if(isNaN(cash)) {
-    const dayShifts = allShifts.filter(s => s.date === date);
-    cash = dayShifts.reduce((sum, s) => sum + (parseFloat(s.counted)||0), 0);
-  }
+  if(isNaN(cash)) { const dayShifts = allShifts.filter(s => s.date === date); cash = dayShifts.reduce((sum, s) => sum + (parseFloat(s.counted)||0), 0); }
   if(!date){ showToast('Please enter a date', 'error'); return; }
   const closure = {date, stockCost, stockPrice, stock: stockCost, credit, cash};
   const existing = weeklyClosures.find(w => w.date === date);
@@ -3280,9 +3168,7 @@ function renderLog(){
   }).join('');
 }
 
-/* -----------------------------------------------------------
-   MONTH HISTORY: selector + show all + delete
------------------------------------------------------------ */
+/* MONTH HISTORY */
 function renderHistoryFilter(){
   const sel = document.getElementById('historyMonthFilter'); if(!sel) return;
   const currentVal = sel.value;
@@ -3348,26 +3234,19 @@ async function deleteMonthHistory(mKey){
   const h = currentMonthHistory.find(x => x.monthKey === mKey); if(!h) return;
   if(!confirm(`Delete the archived month history for ${monthLabel(mKey)}?\n\nThis permanently removes:\n  • The monthHistory document\n  • The corresponding month data (entries, expenses, purchases)\n  • Daily balancing records for that month\n\nThis cannot be undone. Continue?`)) return;
   if(!confirm(`FINAL WARNING — deleting ${monthLabel(mKey)} is irreversible. Continue?`)) return;
-
   showSaveStatus('saving','Deleting month...');
   try {
     const locRef = db.collection('locations').doc(currentLocationId);
-    // 1) Delete monthHistory doc
     await locRef.collection('monthHistory').doc(mKey).delete();
-    // 2) Delete month doc
     await locRef.collection('months').doc(mKey).delete();
-    // 3) Delete daily balancing (weeklyClosures) records for that month
     const wcSnap = await locRef.collection('weeklyClosures').get();
     const batch = db.batch();
     let count = 0;
     wcSnap.forEach(d => { const data = d.data(); if(data.date && data.date.startsWith(mKey)){ batch.delete(d.ref); count++; } });
     if(count > 0) await batch.commit();
-
-    // Update caches and UI
     delete allMonthsData[mKey];
     currentMonthHistory = currentMonthHistory.filter(x => x.monthKey !== mKey);
     weeklyClosures = weeklyClosures.filter(w => !w.date || !w.date.startsWith(mKey));
-
     addLog('Delete Month History', `${monthLabel(mKey)} deleted by ${currentUser.username} (history + month + ${count} balancing records)`);
     if(currentMonthKey === mKey){
       const remaining = Object.keys(allMonthsData).sort();
@@ -3376,13 +3255,50 @@ async function deleteMonthHistory(mKey){
     renderMonthSelect(); renderPurchaseMonthSelect(); renderAll(); renderAudit(); renderHistory();
     showSaveStatus('saved','Deleted');
     showToast(`Deleted ${monthLabel(mKey)}`, 'success');
-  } catch(e) {
-    showSaveStatus('error','Delete failed');
-    showToast('Failed to delete month: ' + e.message, 'error');
-  }
+  } catch(e) { showSaveStatus('error','Delete failed'); showToast('Failed to delete month: ' + e.message, 'error'); }
 }
 
-/* AUDIT REPORT MODAL */
+/* ============================================================
+   AUDIT REPORT MODAL — FULL STOCK/COST/CASH AUDIT
+   ============================================================
+   Recommended calculations used:
+   1. Stock Cost Flow:
+        Expected Closing Stock Cost = Opening Stock Cost + Purchases − Recorded Daily Cost
+        Stock Cost Gap = Actual Closing Stock Cost − Expected Closing Stock Cost
+      Rationale: stock cost should rise by what was bought and fall by what was sold (recorded as daily cost).
+      A positive gap = unaccounted stock on hand (unrecorded purchases or under-recorded cost).
+      A negative gap = stock missing (leakage, theft, unrecorded sales, or over-recorded cost).
+
+   2. Stock Price Flow:
+        Closing Stock Margin % = (Closing Stock Price − Closing Stock Cost) / Closing Stock Price × 100
+      Rationale: if margin collapses, retail prices may be under-recorded or cost over-stated.
+
+   3. Cash Flow:
+        Cash Expected = Opening Cash + (Sales − MOMO − Airtel) − Expenses (from daily entries)
+        Cash Gap = Actual Cash at Hand − Cash Expected
+      Rationale: cash should equal what came in (cash portion of sales) minus what was paid out.
+
+   4. Credit Flow:
+        Credit % change vs previous balancing
+      Rationale: sudden jumps or drops in credit may hide unrecorded sales or write-offs.
+
+   5. Purchases vs Recorded Cost:
+        Purchase–Cost Variance = Total Purchases − Recorded Daily Cost
+      Rationale: purchases should roughly match the cost of goods recorded as sold plus stock build-up.
+      A large positive variance = purchases not reflected in cost (possible stock build-up or unrecorded sales).
+
+   6. Shift Difference:
+        Sum of shift differences in range
+      Rationale: shift-level cash shortages/extras must tie into the daily balancing cash figure.
+
+   7. Cross-check: balancing cash vs shift cash
+        Balancing Cash − Sum of Shift Counted Cash
+      Rationale: the cash counted on the balancing sheet should match what cashiers counted.
+
+   8. Zero / negative values:
+        Stock cost = 0, stock price < stock cost, negative credit or cash
+      Rationale: indicate data-entry errors that would distort all downstream figures.
+   ============================================================ */
 function openAuditReport(){
   if(!currentUser){ return; }
   const now = new Date();
@@ -3407,6 +3323,7 @@ function setAuditRange(which){
   document.getElementById('auditTo').value = dateStr(to);
   runAuditWithRange();
 }
+
 function runAuditWithRange(){
   const fromStr = document.getElementById('auditFrom').value;
   const toStr = document.getElementById('auditTo').value;
@@ -3415,6 +3332,8 @@ function runAuditWithRange(){
   const container = document.getElementById('auditReportContent');
   const issues = { red:[], amber:[], green:[] };
   const fromDate = new Date(fromStr); const toDate = new Date(toStr);
+
+  // ---- Gather all in-range data ----
   const allEntries = []; const allPurchases = []; const allClosures = [];
   Object.keys(allMonthsData).forEach(mKey => {
     const m = allMonthsData[mKey];
@@ -3424,6 +3343,8 @@ function runAuditWithRange(){
   weeklyClosures.forEach(w => { if(w.date && new Date(w.date) >= fromDate && new Date(w.date) <= toDate) allClosures.push(w); });
   allClosures.sort((a,b)=>new Date(a.date)-new Date(b.date));
   const shiftsInRange = allShifts.filter(s => s.date && new Date(s.date) >= fromDate && new Date(s.date) <= toDate);
+
+  // ---- Core totals ----
   const totalSales = allEntries.reduce((s,r)=>s+(parseFloat(r.sales)||0),0);
   const totalCost = allEntries.reduce((s,r)=>s+(parseFloat(r.cost)||0),0);
   const totalDailyExp = allEntries.reduce((s,r)=>s+(parseFloat(r.expenses)||0),0);
@@ -3432,79 +3353,450 @@ function runAuditWithRange(){
   const monthlyExp = totalMonthlyExpenses(currentExpenses()) * monthSpan;
   const net = gross - monthlyExp;
   const totalPurchasesAmt = allPurchases.reduce((s,p)=>s+(parseFloat(p.total)||0),0);
+
+  // ---- Shift figures ----
   const shiftExtra = shiftsInRange.filter(s => (parseFloat(s.difference)||0) > 0).reduce((sum, s) => sum + (parseFloat(s.difference)||0), 0);
   const shiftLoss = shiftsInRange.filter(s => (parseFloat(s.difference)||0) < 0).reduce((sum, s) => sum + Math.abs(parseFloat(s.difference)||0), 0);
   const shiftNet = shiftExtra - shiftLoss;
-  let reconHtml = '';
+  const shiftCountedSum = shiftsInRange.reduce((sum, s) => sum + (parseFloat(s.counted)||0), 0);
+  const shiftSalesSum = shiftsInRange.reduce((sum, s) => sum + (parseFloat(s.sales)||0), 0);
+
+  // ---- Balancing stock cost / price / credit / cash ----
+  let openingCost = 0, closingCost = 0, openingPrice = 0, closingPrice = 0;
+  let openingCredit = 0, closingCredit = 0, openingCash = 0, closingCash = 0;
   if(allClosures.length > 0){
-    const openingCost = allClosures[0].stockCost || allClosures[0].stock || 0;
-    const closingCost = allClosures[allClosures.length-1].stockCost || allClosures[allClosures.length-1].stock || 0;
-    const openingPrice = allClosures[0].stockPrice || 0;
-    const closingPrice = allClosures[allClosures.length-1].stockPrice || 0;
-    const expectedClosingCost = openingCost + totalPurchasesAmt - totalCost;
-    const stockCostGap = closingCost - expectedClosingCost;
-    if(Math.abs(stockCostGap) > 500000) issues.red.push({ title:'Stock Cost Flow Mismatch', desc:`Cost gap <strong>UGX ${fmtSigned(stockCostGap)}</strong>. Stock cost doesn't reconcile with purchases minus recorded cost — possible leakage or unrecorded stock movement.` });
-    else if(Math.abs(stockCostGap) > 200000) issues.amber.push({ title:'Stock Cost Flow Variance', desc:`Cost gap <strong>UGX ${fmtSigned(stockCostGap)}</strong>. Review purchases and stock cost entries.` });
-    else issues.green.push({ title:'Stock Cost Flow', desc:`Within <strong>UGX ${fmt(Math.abs(stockCostGap))}</strong>.` });
+    const first = allClosures[0], last = allClosures[allClosures.length-1];
+    openingCost = parseFloat(first.stockCost || first.stock || 0);
+    closingCost = parseFloat(last.stockCost || last.stock || 0);
+    openingPrice = parseFloat(first.stockPrice || 0);
+    closingPrice = parseFloat(last.stockPrice || 0);
+    openingCredit = parseFloat(first.credit || 0);
+    closingCredit = parseFloat(last.credit || 0);
+    openingCash = parseFloat(first.cash || 0);
+    closingCash = parseFloat(last.cash || 0);
+  }
+  const closingMargin = closingPrice ? ((closingPrice - closingCost) / closingPrice * 100) : 0;
+
+  // ---- 1. Stock Cost Flow ----
+  const expectedClosingCost = openingCost + totalPurchasesAmt - totalCost;
+  const stockCostGap = closingCost - expectedClosingCost;
+  const stockCostGapPct = expectedClosingCost ? (stockCostGap / expectedClosingCost * 100) : 0;
+
+  // ---- 2. Purchase–Cost variance ----
+  const purchaseCostVar = totalPurchasesAmt - totalCost;
+  const purchaseCostVarPct = totalCost ? (purchaseCostVar / totalCost * 100) : (totalPurchasesAmt ? 100 : 0);
+
+  // ---- 3. Cash Flow ----
+  // Cash expected = opening cash + cash portion of sales − expenses (daily entries)
+  const cashPortionOfSales = totalSales - shiftsInRange.reduce((sum,s)=>sum + (parseFloat(s.mtn)||0) + (parseFloat(s.airtel)||0), 0);
+  const cashExpected = openingCash + cashPortionOfSales - totalDailyExp;
+  const cashGap = closingCash - cashExpected;
+  const cashGapPct = cashExpected ? (cashGap / cashExpected * 100) : 0;
+
+  // ---- 4. Credit flow ----
+  const creditDelta = closingCredit - openingCredit;
+  const creditPct = openingCredit ? (creditDelta / openingCredit * 100) : 0;
+
+  // ---- 5. Balancing cash vs shift counted cash ----
+  const balancingVsShiftCashGap = closingCash - shiftCountedSum;
+
+  // ---- 6. Data quality checks ----
+  const zeroStockRecords = allClosures.filter(c => (parseFloat(c.stockCost || c.stock || 0)) === 0).length;
+  const priceBelowCostRecords = allClosures.filter(c => {
+    const p = parseFloat(c.stockPrice || 0), k = parseFloat(c.stockCost || c.stock || 0);
+    return p > 0 && k > 0 && p < k;
+  }).length;
+  const negativeCreditRecords = allClosures.filter(c => (parseFloat(c.credit)||0) < 0).length;
+  const negativeCashRecords = allClosures.filter(c => (parseFloat(c.cash)||0) < 0).length;
+
+  // ============================================================
+  // Build the recommended-calculations block (always shown)
+  // ============================================================
+  const formulasHtml = `
+    <div class="report-section">
+      <div class="report-section-header"><i class="fas fa-flask"></i> Recommended Audit Calculations (using figures in the system)</div>
+      <div class="report-section-body">
+        <div class="formula-block">
+          <div class="formula-title"><i class="fas fa-boxes-stacked"></i> 1. Stock Cost Flow</div>
+          <div><code>Expected Closing Stock Cost = Opening Stock Cost + Total Purchases − Recorded Daily Cost</code></div>
+          <div><code>Stock Cost Gap = Actual Closing Stock Cost − Expected Closing Stock Cost</code></div>
+          <div class="why"><strong>Why:</strong> stock cost should increase by what you bought and decrease by the cost of goods sold (recorded as daily cost). A positive gap means stock cost is higher than expected (unrecorded purchases or under-recorded cost). A negative gap means stock is lower than expected — a classic leakage indicator (theft, unrecorded sales, over-recorded cost).</div>
+        </div>
+        <div class="formula-block">
+          <div class="formula-title"><i class="fas fa-tag"></i> 2. Stock Price &amp; Margin</div>
+          <div><code>Closing Stock Margin % = (Closing Stock Price − Closing Stock Cost) / Closing Stock Price × 100</code></div>
+          <div class="why"><strong>Why:</strong> if the retail value of stock does not keep a healthy margin above its cost, prices may be under-recorded or cost over-stated. This catches silent margin erosion.</div>
+        </div>
+        <div class="formula-block">
+          <div class="formula-title"><i class="fas fa-money-bill-wave"></i> 3. Cash Flow</div>
+          <div><code>Cash Portion of Sales = Total Sales − (MTN + Airtel) from shifts in range</code></div>
+          <div><code>Cash Expected = Opening Cash at Hand + Cash Portion of Sales − Daily Expenses</code></div>
+          <div><code>Cash Gap = Actual Closing Cash at Hand − Cash Expected</code></div>
+          <div class="why"><strong>Why:</strong> cash should equal what came in (cash sales only) minus what was paid out. A negative gap = missing cash; a positive gap = unrecorded cash inflow or overstated expenses.</div>
+        </div>
+        <div class="formula-block">
+          <div class="formula-title"><i class="fas fa-scale-balanced"></i> 4. Purchases vs Recorded Cost</div>
+          <div><code>Purchase–Cost Variance = Total Purchases − Recorded Daily Cost</code></div>
+          <div class="why"><strong>Why:</strong> purchases should roughly match the cost of goods sold plus any stock build-up. A large positive variance means purchases are not reflected in cost — possible stock build-up or unrecorded sales. A large negative variance means cost is being recorded without matching purchases.</div>
+        </div>
+        <div class="formula-block">
+          <div class="formula-title"><i class="fas fa-clock"></i> 5. Shift Cash Tie-out</div>
+          <div><code>Balancing Cash − Sum of Shift Counted Cash</code></div>
+          <div class="why"><strong>Why:</strong> the cash counted on the daily balancing sheet should match what the cashiers counted at end of shift. Any difference means either the balancing cash figure or the shift figures are wrong.</div>
+        </div>
+        <div class="formula-block">
+          <div class="formula-title"><i class="fas fa-shield-halved"></i> 6. Data-Entry Sanity Checks</div>
+          <div><code>Stock Cost = 0 · Stock Price &lt; Stock Cost · Negative Credit · Negative Cash</code></div>
+          <div class="why"><strong>Why:</strong> these are impossible or implausible values that distort every downstream figure. They must be corrected before trusting any of the above calculations.</div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  // ============================================================
+  // KPIs
+  // ============================================================
+  const kpiHtml = `
+    <div class="report-section">
+      <div class="report-section-header"><i class="fas fa-gauge-high"></i> Key Audit Figures</div>
+      <div class="report-section-body">
+        <div class="audit-kpi-grid">
+          <div class="audit-kpi"><div class="kpi-lbl">Opening Stock Cost</div><div class="kpi-val">${fmt(openingCost)}</div><div class="kpi-sub">First balancing record</div></div>
+          <div class="audit-kpi"><div class="kpi-lbl">Purchases in range</div><div class="kpi-val">${fmt(totalPurchasesAmt)}</div><div class="kpi-sub">${allPurchases.length} purchase entries</div></div>
+          <div class="audit-kpi"><div class="kpi-lbl">Recorded Daily Cost</div><div class="kpi-val">${fmt(totalCost)}</div><div class="kpi-sub">From daily entries</div></div>
+          <div class="audit-kpi"><div class="kpi-lbl">Expected Closing Cost</div><div class="kpi-val">${fmt(expectedClosingCost)}</div><div class="kpi-sub">Opening + Purchases − Cost</div></div>
+          <div class="audit-kpi"><div class="kpi-lbl">Actual Closing Cost</div><div class="kpi-val">${fmt(closingCost)}</div><div class="kpi-sub">Last balancing record</div></div>
+          <div class="audit-kpi"><div class="kpi-lbl">Stock Cost Gap</div><div class="kpi-val ${Math.abs(stockCostGapPct)>10?'red':(Math.abs(stockCostGapPct)>5?'amber':'green')}">${fmtSigned(stockCostGap)}</div><div class="kpi-sub">${fmtPct(stockCostGapPct)} vs expected</div></div>
+          <div class="audit-kpi"><div class="kpi-lbl">Closing Margin</div><div class="kpi-val ${closingMargin<5?'red':(closingMargin<10?'amber':'green')}">${fmtPct(closingMargin)}</div><div class="kpi-sub">(Price − Cost) / Price</div></div>
+          <div class="audit-kpi"><div class="kpi-lbl">Purchase–Cost Variance</div><div class="kpi-val ${Math.abs(purchaseCostVarPct)>20?'amber':'green'}">${fmtSigned(purchaseCostVar)}</div><div class="kpi-sub">${fmtPct(purchaseCostVarPct)} vs cost</div></div>
+          <div class="audit-kpi"><div class="kpi-lbl">Cash Expected</div><div class="kpi-val">${fmt(cashExpected)}</div><div class="kpi-sub">Opening + Cash sales − Exp</div></div>
+          <div class="audit-kpi"><div class="kpi-lbl">Actual Cash at Hand</div><div class="kpi-val">${fmt(closingCash)}</div><div class="kpi-sub">Last balancing record</div></div>
+          <div class="audit-kpi"><div class="kpi-lbl">Cash Gap</div><div class="kpi-val ${Math.abs(cashGapPct)>10?'red':(Math.abs(cashGapPct)>5?'amber':'green')}">${fmtSigned(cashGap)}</div><div class="kpi-sub">${fmtPct(cashGapPct)} vs expected</div></div>
+          <div class="audit-kpi"><div class="kpi-lbl">Shift Cash vs Balancing</div><div class="kpi-val ${Math.abs(balancingVsShiftCashGap)>20000?'amber':'green'}">${fmtSigned(balancingVsShiftCashGap)}</div><div class="kpi-sub">Balancing − Shift counted</div></div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  // ============================================================
+  // 1. STOCK COST FLOW CHECKS
+  // ============================================================
+  if(allClosures.length >= 2){
+    if(Math.abs(stockCostGapPct) > 10){
+      issues.red.push({
+        title: 'Stock Cost Flow Mismatch',
+        desc: `Expected closing stock cost <strong>${fmt(expectedClosingCost)}</strong> but actual is <strong>${fmt(closingCost)}</strong>. Gap <strong>${fmtSigned(stockCostGap)}</strong> (${fmtPct(stockCostGapPct)}). ${
+          stockCostGap < 0
+            ? 'Negative gap = stock missing. Likely leakage, theft, unrecorded sales, or over-recorded daily cost.'
+            : 'Positive gap = unaccounted stock on hand. Likely unrecorded purchases or under-recorded daily cost.'
+        }`
+      });
+    } else if(Math.abs(stockCostGapPct) > 5){
+      issues.amber.push({
+        title: 'Stock Cost Flow Variance',
+        desc: `Gap <strong>${fmtSigned(stockCostGap)}</strong> (${fmtPct(stockCostGapPct)}). Review purchases and daily cost entries for the period.`
+      });
+    } else {
+      issues.green.push({
+        title: 'Stock Cost Flow',
+        desc: `Closing stock cost reconciles within <strong>${fmt(Math.abs(stockCostGap))}</strong> (${fmtPct(stockCostGapPct)}).`
+      });
+    }
+  } else if(allClosures.length === 1){
+    issues.amber.push({ title:'Only one balancing record', desc:'At least two daily balancing records are needed to compute stock cost flow. Add more records for reliable audit.' });
+  } else {
+    issues.amber.push({ title:'No daily balancing records', desc:'No stock cost, price, credit, or cash figures have been recorded in this range. The audit cannot verify stock or cash flow.' });
+  }
+
+  // ============================================================
+  // 2. STOCK PRICE / MARGIN CHECKS
+  // ============================================================
+  if(closingPrice > 0 && closingCost > 0){
+    if(closingPrice < closingCost){
+      issues.red.push({
+        title: 'Stock Price Below Cost',
+        desc: `Closing stock price <strong>${fmt(closingPrice)}</strong> is below closing stock cost <strong>${fmt(closingCost)}</strong>. This guarantees losses — check pricing or cost entries.`
+      });
+    } else if(closingMargin < 5){
+      issues.red.push({
+        title: 'Critically Low Stock Margin',
+        desc: `Closing stock margin is <strong>${fmtPct(closingMargin)}</strong>. Prices are barely above cost — verify the stock price and stock cost figures.`
+      });
+    } else if(closingMargin < 10){
+      issues.amber.push({
+        title: 'Low Stock Margin',
+        desc: `Closing stock margin is <strong>${fmtPct(closingMargin)}</strong>. Review pricing and cost entries.`
+      });
+    } else {
+      issues.green.push({
+        title: 'Stock Margin Healthy',
+        desc: `Closing stock margin is <strong>${fmtPct(closingMargin)}</strong>.`
+      });
+    }
     if(openingPrice && closingPrice){
       const priceDelta = closingPrice - openingPrice;
-      const marginPct = closingPrice ? ((closingPrice - closingCost) / closingPrice * 100) : 0;
-      if(priceDelta < 0) issues.amber.push({ title:'Stock Price Reduced', desc:`Stock price moved from <strong>${fmt(openingPrice)}</strong> to <strong>${fmt(closingPrice)}</strong> (Δ ${fmtSigned(priceDelta)}).` });
-      else if(priceDelta > 0) issues.green.push({ title:'Stock Price Increased', desc:`Stock price moved from <strong>${fmt(openingPrice)}</strong> to <strong>${fmt(closingPrice)}</strong> (Δ ${fmtSigned(priceDelta)}).` });
-      if(marginPct < 5) issues.amber.push({ title:'Low Stock Margin', desc:`Closing stock margin is <strong>${marginPct.toFixed(1)}%</strong> — check pricing.` });
-      else issues.green.push({ title:'Stock Margin', desc:`Closing stock margin <strong>${marginPct.toFixed(1)}%</strong>.` });
+      const priceDeltaPct = openingPrice ? (priceDelta/openingPrice*100) : 0;
+      if(Math.abs(priceDeltaPct) > 20){
+        issues.amber.push({
+          title: 'Stock Price Moved Sharply',
+          desc: `Stock price moved from <strong>${fmt(openingPrice)}</strong> to <strong>${fmt(closingPrice)}</strong> (Δ ${fmtSigned(priceDelta)}, ${fmtPct(priceDeltaPct)}). Verify the change is real.`
+        });
+      }
     }
-    reconHtml += `<div class="report-section"><div class="report-section-header"><i class="fas fa-boxes-stacked"></i> Stock Cost Flow (${allClosures.length} balancing records)</div><div class="report-section-body"><div class="recon-box">
-      <div class="row"><span class="lbl">Opening Stock Cost</span><span>${fmt(openingCost)}</span></div>
-      <div class="row"><span class="lbl">+ Purchases</span><span>${fmt(totalPurchasesAmt)}</span></div>
-      <div class="row"><span class="lbl">− Recorded Cost</span><span>−${fmt(totalCost)}</span></div>
-      <div class="row"><span class="lbl">= Expected Closing Cost</span><span>${fmt(expectedClosingCost)}</span></div>
-      <div class="row"><span class="lbl">Actual Closing Cost</span><span>${fmt(closingCost)}</span></div>
-      <div class="row"><span class="lbl">Unaccounted Cost</span><span style="color:${Math.abs(stockCostGap)>500000?'#b33a3a':'#1d7a4b'};">${fmtSigned(stockCostGap)}</span></div>
-    </div>
-    <div class="recon-box" style="margin-top:0.6rem;">
-      <div class="row"><span class="lbl">Opening Stock Price</span><span>${fmt(openingPrice)}</span></div>
-      <div class="row"><span class="lbl">Closing Stock Price</span><span>${fmt(closingPrice)}</span></div>
-      <div class="row"><span class="lbl">Price Δ</span><span style="color:${(closingPrice-openingPrice)>=0?'#1d7a4b':'#b33a3a'};">${fmtSigned(closingPrice-openingPrice)}</span></div>
-      <div class="row"><span class="lbl">Closing Margin (Price−Cost)/Price</span><span>${closingPrice ? (((closingPrice-closingCost)/closingPrice)*100).toFixed(1)+'%' : '—'}</span></div>
-    </div></div></div>`;
+  } else if(closingPrice === 0 || closingCost === 0){
+    issues.amber.push({
+      title: 'Missing Stock Price or Cost',
+      desc: `Closing stock price is <strong>${fmt(closingPrice)}</strong> and closing stock cost is <strong>${fmt(closingCost)}</strong>. At least one is zero — margin cannot be verified.`
+    });
+  }
+
+  // ============================================================
+  // 3. CASH FLOW CHECKS
+  // ============================================================
+  if(allClosures.length >= 2){
+    if(Math.abs(cashGapPct) > 10){
+      issues.red.push({
+        title: 'Cash Flow Mismatch',
+        desc: `Cash expected <strong>${fmt(cashExpected)}</strong> but actual cash at hand is <strong>${fmt(closingCash)}</strong>. Gap <strong>${fmtSigned(cashGap)}</strong> (${fmtPct(cashGapPct)}). ${
+          cashGap < 0
+            ? 'Negative gap = missing cash. Check cashier closures, unrecorded payouts, or theft.'
+            : 'Positive gap = unrecorded cash inflow or overstated expenses.'
+        }`
+      });
+    } else if(Math.abs(cashGapPct) > 5){
+      issues.amber.push({
+        title: 'Cash Flow Variance',
+        desc: `Gap <strong>${fmtSigned(cashGap)}</strong> (${fmtPct(cashGapPct)}). Review cashier shift closures and daily expenses.`
+      });
+    } else {
+      issues.green.push({
+        title: 'Cash Flow',
+        desc: `Cash reconciles within <strong>${fmt(Math.abs(cashGap))}</strong> (${fmtPct(cashGapPct)}).`
+      });
+    }
+  }
+
+  // ============================================================
+  // 4. CREDIT FLOW CHECKS
+  // ============================================================
+  if(allClosures.length >= 2 && openingCredit > 0){
+    if(creditPct < -20){
+      issues.red.push({
+        title: 'Credit Dropped Sharply',
+        desc: `Credit moved from <strong>${fmt(openingCredit)}</strong> to <strong>${fmt(closingCredit)}</strong> (${fmtPct(creditPct)}). A sharp drop may hide unrecorded debt write-offs or customer payments not deposited.`
+      });
+    } else if(creditPct > 30){
+      issues.red.push({
+        title: 'Credit Jumped Sharply',
+        desc: `Credit moved from <strong>${fmt(openingCredit)}</strong> to <strong>${fmt(closingCredit)}</strong> (${fmtPct(creditPct)}). A sharp rise may indicate unrecorded sales on credit or over-stated receivables.`
+      });
+    } else if(Math.abs(creditPct) > 15){
+      issues.amber.push({
+        title: 'Credit Movement',
+        desc: `Credit changed by ${fmtPct(creditPct)}. Review customer credit movements.`
+      });
+    } else {
+      issues.green.push({ title:'Credit Flow', desc:`Credit movement within ${fmtPct(Math.abs(creditPct))}.` });
+    }
+  }
+
+  // ============================================================
+  // 5. PURCHASES VS RECORDED COST
+  // ============================================================
+  if(totalPurchasesAmt > 0 && totalCost > 0){
+    if(Math.abs(purchaseCostVarPct) > 40){
+      issues.amber.push({
+        title: 'Large Purchases–Cost Variance',
+        desc: `Purchases <strong>${fmt(totalPurchasesAmt)}</strong> vs recorded daily cost <strong>${fmt(totalCost)}</strong> — variance <strong>${fmtSigned(purchaseCostVar)}</strong> (${fmtPct(purchaseCostVarPct)}). ${
+          purchaseCostVar > 0
+            ? 'Purchases are much higher than recorded cost — possible stock build-up or unrecorded sales.'
+            : 'Recorded cost is higher than purchases — possible unrecorded purchases or over-recorded cost.'
+        }`
+      });
+    } else if(Math.abs(purchaseCostVarPct) > 20){
+      issues.amber.push({
+        title: 'Moderate Purchases–Cost Variance',
+        desc: `Variance <strong>${fmtSigned(purchaseCostVar)}</strong> (${fmtPct(purchaseCostVarPct)}). Monitor over time.`
+      });
+    } else {
+      issues.green.push({
+        title: 'Purchases vs Recorded Cost',
+        desc: `Variance within <strong>${fmt(Math.abs(purchaseCostVar))}</strong> (${fmtPct(purchaseCostVarPct)}).`
+      });
+    }
+  } else if(totalPurchasesAmt === 0 && totalCost > 0){
+    issues.amber.push({ title:'No purchases recorded', desc:`Recorded daily cost is <strong>${fmt(totalCost)}</strong> but no purchases were logged. Either purchases are missing or cost is being recorded from opening stock.` });
+  } else if(totalPurchasesAmt > 0 && totalCost === 0){
+    issues.amber.push({ title:'No recorded daily cost', desc:`Purchases are <strong>${fmt(totalPurchasesAmt)}</strong> but no daily cost was recorded. Sales cost is missing.` });
+  }
+
+  // ============================================================
+  // 6. SHIFT CASH TIE-OUT
+  // ============================================================
+  if(shiftsInRange.length > 0 && allClosures.length > 0){
+    if(Math.abs(balancingVsShiftCashGap) > 50000){
+      issues.amber.push({
+        title: 'Balancing Cash vs Shift Cash Mismatch',
+        desc: `Balancing cash <strong>${fmt(closingCash)}</strong> vs sum of shift counted cash <strong>${fmt(shiftCountedSum)}</strong> — gap <strong>${fmtSigned(balancingVsShiftCashGap)}</strong>. The two cash figures should match; one of them is wrong.`
+      });
+    } else {
+      issues.green.push({
+        title: 'Balancing Cash vs Shift Cash',
+        desc: `Within <strong>${fmt(Math.abs(balancingVsShiftCashGap))}</strong>.`
+      });
+    }
   }
   if(shiftsInRange.length > 0){
-    if(shiftLoss > 0) issues.amber.push({ title:'Shift cash shortages', desc:`${shiftsInRange.filter(s => (parseFloat(s.difference)||0) < 0).length} shift(s) recorded cash <strong>UGX ${fmt(shiftLoss)}</strong> short.` });
-    if(shiftExtra > 0) issues.amber.push({ title:'Shift cash extras', desc:`${shiftsInRange.filter(s => (parseFloat(s.difference)||0) > 0).length} shift(s) recorded cash <strong>UGX ${fmt(shiftExtra)}</strong> above expected.` });
-    if(shiftLoss === 0 && shiftExtra === 0) issues.green.push({ title:'Shift closures', desc:`All ${shiftsInRange.length} shifts balanced.` });
+    if(shiftLoss > 0){
+      issues.amber.push({
+        title: 'Shift Cash Shortages',
+        desc: `${shiftsInRange.filter(s => (parseFloat(s.difference)||0) < 0).length} shift(s) recorded cash <strong>${fmt(shiftLoss)}</strong> short. Cashiers' losses must tie into the balancing cash figure.`
+      });
+    }
+    if(shiftExtra > 0){
+      issues.amber.push({
+        title: 'Shift Cash Extras',
+        desc: `${shiftsInRange.filter(s => (parseFloat(s.difference)||0) > 0).length} shift(s) recorded cash <strong>${fmt(shiftExtra)}</strong> above expected.`
+      });
+    }
+    if(shiftLoss === 0 && shiftExtra === 0){
+      issues.green.push({ title:'Shift Cash Balanced', desc:`All ${shiftsInRange.length} shifts balanced.` });
+    }
   }
+
+  // ============================================================
+  // 7. DATA-ENTRY SANITY CHECKS
+  // ============================================================
+  if(zeroStockRecords > 0){
+    issues.red.push({
+      title: 'Stock Cost Recorded as Zero',
+      desc: `<strong>${zeroStockRecords}</strong> balancing record(s) have stock cost = 0. This makes stock-flow reconciliation impossible — enter the real stock cost.`
+    });
+  }
+  if(priceBelowCostRecords > 0){
+    issues.red.push({
+      title: 'Stock Price Below Stock Cost',
+      desc: `<strong>${priceBelowCostRecords}</strong> balancing record(s) have stock price &lt; stock cost. This guarantees a loss on those days — fix the figures.`
+    });
+  }
+  if(negativeCreditRecords > 0){
+    issues.red.push({
+      title: 'Negative Credit Recorded',
+      desc: `<strong>${negativeCreditRecords}</strong> balancing record(s) have negative credit. Credit (money owed to you) cannot be negative — fix the entries.`
+    });
+  }
+  if(negativeCashRecords > 0){
+    issues.red.push({
+      title: 'Negative Cash Recorded',
+      desc: `<strong>${negativeCashRecords}</strong> balancing record(s) have negative cash at hand. Cash cannot be negative — fix the entries.`
+    });
+  }
+  if(zeroStockRecords === 0 && priceBelowCostRecords === 0 && negativeCreditRecords === 0 && negativeCashRecords === 0){
+    issues.green.push({ title:'Data-Entry Sanity', desc:'No impossible or implausible values detected in the balancing records.' });
+  }
+
+  // ============================================================
+  // 8. PROFITABILITY CHECKS
+  // ============================================================
   const marginPct = totalSales ? (gross/totalSales*100) : 0;
   if(totalSales > 0){
-    if(marginPct < 15) issues.red.push({ title:'Low Gross Margin', desc:`<strong>${marginPct.toFixed(1)}%</strong>.` });
-    else if(marginPct < 20) issues.amber.push({ title:'Moderate Gross Margin', desc:`<strong>${marginPct.toFixed(1)}%</strong>.` });
-    else issues.green.push({ title:'Gross Margin', desc:`<strong>${marginPct.toFixed(1)}%</strong>.` });
-    if(net < 0) issues.red.push({ title:'Negative Net Profit', desc:`<strong>UGX ${fmt(net)}</strong>.` });
-    else if(net < 500000) issues.amber.push({ title:'Low Net Profit', desc:`<strong>UGX ${fmt(net)}</strong>.` });
+    if(marginPct < 15) issues.red.push({ title:'Low Gross Margin', desc:`Gross margin is <strong>${fmtPct(marginPct)}</strong>.` });
+    else if(marginPct < 20) issues.amber.push({ title:'Moderate Gross Margin', desc:`Gross margin is <strong>${fmtPct(marginPct)}</strong>.` });
+    else issues.green.push({ title:'Gross Margin', desc:`<strong>${fmtPct(marginPct)}</strong>.` });
+
+    if(net < 0) issues.red.push({ title:'Negative Net Profit', desc:`Net profit is <strong>UGX ${fmt(net)}</strong>.` });
+    else if(net < 500000) issues.amber.push({ title:'Low Net Profit', desc:`Net profit is <strong>UGX ${fmt(net)}</strong>.` });
     else issues.green.push({ title:'Net Profit', desc:`<strong>UGX ${fmt(net)}</strong>.` });
   }
+
+  // ============================================================
+  // Verdict
+  // ============================================================
   let verdictClass, verdictIcon, verdictTitle, verdictSub;
-  if(allEntries.length === 0){ verdictClass='warn'; verdictIcon='fa-info-circle'; verdictTitle='No data in this range'; verdictSub='No entries recorded.'; }
-  else if(issues.red.length > 0){ verdictClass='bad'; verdictIcon='fa-circle-exclamation'; verdictTitle='Action Required'; verdictSub=`${issues.red.length} red flag(s).`; }
-  else if(issues.amber.length > 0){ verdictClass='warn'; verdictIcon='fa-triangle-exclamation'; verdictTitle='Review Recommended'; verdictSub=`${issues.amber.length} warning(s).`; }
-  else { verdictClass='good'; verdictIcon='fa-circle-check'; verdictTitle='Clean Audit'; verdictSub='No red flags.'; }
-  const scoreGrid = `<div class="score-grid"><div class="score-item"><div class="num ${issues.red.length>0?'red':'green'}">${issues.red.length}</div><div class="lbl">Red</div></div><div class="score-item"><div class="num ${issues.amber.length>0?'amber':'green'}">${issues.amber.length}</div><div class="lbl">Warnings</div></div><div class="score-item"><div class="num green">${issues.green.length}</div><div class="lbl">Passed</div></div><div class="score-item"><div class="num">${fmt(totalSales)}</div><div class="lbl">Sales</div></div><div class="score-item"><div class="num ${net>0?'green':(net<0?'red':'')}">${fmt(net)}</div><div class="lbl">Net</div></div></div>`;
+  if(allEntries.length === 0 && allClosures.length === 0){
+    verdictClass='warn'; verdictIcon='fa-info-circle'; verdictTitle='No data in this range'; verdictSub='No daily entries or balancing records.';
+  } else if(issues.red.length > 0){
+    verdictClass='bad'; verdictIcon='fa-circle-exclamation'; verdictTitle='Action Required'; verdictSub=`${issues.red.length} red flag(s) — wrong figures or likely leakage.`;
+  } else if(issues.amber.length > 0){
+    verdictClass='warn'; verdictIcon='fa-triangle-exclamation'; verdictTitle='Review Recommended'; verdictSub=`${issues.amber.length} warning(s).`;
+  } else {
+    verdictClass='good'; verdictIcon='fa-circle-check'; verdictTitle='Clean Audit'; verdictSub='All stock, cash and margin checks passed.';
+  }
+  const scoreGrid = `<div class="score-grid">
+    <div class="score-item"><div class="num ${issues.red.length>0?'red':'green'}">${issues.red.length}</div><div class="lbl">Red</div></div>
+    <div class="score-item"><div class="num ${issues.amber.length>0?'amber':'green'}">${issues.amber.length}</div><div class="lbl">Warnings</div></div>
+    <div class="score-item"><div class="num green">${issues.green.length}</div><div class="lbl">Passed</div></div>
+    <div class="score-item"><div class="num">${fmt(totalSales)}</div><div class="lbl">Sales</div></div>
+    <div class="score-item"><div class="num ${net>0?'green':(net<0?'red':'')}">${fmt(net)}</div><div class="lbl">Net</div></div>
+  </div>`;
   const verdictBanner = `<div class="verdict-banner ${verdictClass}"><i class="fas ${verdictIcon} verdict-icon"></i><div class="verdict-text"><div class="title">${verdictTitle}</div><div class="sub">${verdictSub}</div></div></div>`;
+
   let issuesHtml = '';
   if(issues.red.length) issuesHtml += `<div class="report-section"><div class="report-section-header" style="background:#fdeeee;color:#b33a3a;"><i class="fas fa-flag" style="color:#b33a3a;"></i> Red Flags (${issues.red.length})</div><div class="report-section-body">${issues.red.map(i=>`<div class="report-item"><div class="icon red"><i class="fas fa-exclamation"></i></div><div class="content"><div class="title">${i.title}</div><div class="desc">${i.desc}</div></div></div>`).join('')}</div></div>`;
   if(issues.amber.length) issuesHtml += `<div class="report-section"><div class="report-section-header" style="background:#fff8ec;color:#b06d00;"><i class="fas fa-triangle-exclamation" style="color:#b06d00;"></i> Warnings (${issues.amber.length})</div><div class="report-section-body">${issues.amber.map(i=>`<div class="report-item"><div class="icon amber"><i class="fas fa-exclamation-triangle"></i></div><div class="content"><div class="title">${i.title}</div><div class="desc">${i.desc}</div></div></div>`).join('')}</div></div>`;
   if(issues.green.length) issuesHtml += `<div class="report-section"><div class="report-section-header" style="background:#e9f5ef;color:#1d6b4f;"><i class="fas fa-check-circle" style="color:#1d6b4f;"></i> Passed (${issues.green.length})</div><div class="report-section-body">${issues.green.map(i=>`<div class="report-item"><div class="icon green"><i class="fas fa-check"></i></div><div class="content"><div class="title">${i.title}</div><div class="desc">${i.desc}</div></div></div>`).join('')}</div></div>`;
+
+  // ============================================================
+  // Reconciliation detail table
+  // ============================================================
+  const reconHtml = `
+    <div class="report-section">
+      <div class="report-section-header"><i class="fas fa-list-check"></i> Full Reconciliation Detail</div>
+      <div class="report-section-body">
+        <div class="recon-box">
+          <div class="row"><span class="lbl">Entries</span><span>${allEntries.length}</span></div>
+          <div class="row"><span class="lbl">Purchases</span><span>${allPurchases.length}</span></div>
+          <div class="row"><span class="lbl">Balancing records</span><span>${allClosures.length}</span></div>
+          <div class="row"><span class="lbl">Shifts</span><span>${shiftsInRange.length}</span></div>
+          <div class="row"><span class="lbl">Total Sales</span><span>${fmt(totalSales)}</span></div>
+          <div class="row"><span class="lbl">Total Cost</span><span>${fmt(totalCost)}</span></div>
+          <div class="row"><span class="lbl">Daily Expenses</span><span>${fmt(totalDailyExp)}</span></div>
+          <div class="row"><span class="lbl">Gross Profit</span><span>${fmt(gross)}</span></div>
+          <div class="row"><span class="lbl">Monthly Expenses (scaled)</span><span>−${fmt(monthlyExp)}</span></div>
+          <div class="row"><span class="lbl">Net Profit</span><span style="color:${net>=0?'#1d7a4b':'#b33a3a'};">${fmt(net)}</span></div>
+        </div>
+        <div class="recon-box">
+          <div class="row"><span class="lbl">Opening Stock Cost</span><span>${fmt(openingCost)}</span></div>
+          <div class="row"><span class="lbl">+ Purchases</span><span>${fmt(totalPurchasesAmt)}</span></div>
+          <div class="row"><span class="lbl">− Recorded Daily Cost</span><span>−${fmt(totalCost)}</span></div>
+          <div class="row"><span class="lbl">= Expected Closing Cost</span><span>${fmt(expectedClosingCost)}</span></div>
+          <div class="row"><span class="lbl">Actual Closing Stock Cost</span><span>${fmt(closingCost)}</span></div>
+          <div class="row"><span class="lbl">Stock Cost Gap</span><span style="color:${Math.abs(stockCostGapPct)>10?'#b33a3a':(Math.abs(stockCostGapPct)>5?'#b06d00':'#1d7a4b')};">${fmtSigned(stockCostGap)} (${fmtPct(stockCostGapPct)})</span></div>
+        </div>
+        <div class="recon-box">
+          <div class="row"><span class="lbl">Opening Stock Price</span><span>${fmt(openingPrice)}</span></div>
+          <div class="row"><span class="lbl">Closing Stock Price</span><span>${fmt(closingPrice)}</span></div>
+          <div class="row"><span class="lbl">Price Δ</span><span style="color:${(closingPrice-openingPrice)>=0?'#1d7a4b':'#b33a3a'};">${fmtSigned(closingPrice-openingPrice)}</span></div>
+          <div class="row"><span class="lbl">Closing Margin</span><span style="color:${closingMargin<5?'#b33a3a':(closingMargin<10?'#b06d00':'#1d7a4b')};">${fmtPct(closingMargin)}</span></div>
+        </div>
+        <div class="recon-box">
+          <div class="row"><span class="lbl">Opening Cash</span><span>${fmt(openingCash)}</span></div>
+          <div class="row"><span class="lbl">+ Cash Portion of Sales</span><span>${fmt(cashPortionOfSales)}</span></div>
+          <div class="row"><span class="lbl">− Daily Expenses</span><span>−${fmt(totalDailyExp)}</span></div>
+          <div class="row"><span class="lbl">= Cash Expected</span><span>${fmt(cashExpected)}</span></div>
+          <div class="row"><span class="lbl">Actual Cash at Hand</span><span>${fmt(closingCash)}</span></div>
+          <div class="row"><span class="lbl">Cash Gap</span><span style="color:${Math.abs(cashGapPct)>10?'#b33a3a':(Math.abs(cashGapPct)>5?'#b06d00':'#1d7a4b')};">${fmtSigned(cashGap)} (${fmtPct(cashGapPct)})</span></div>
+        </div>
+        <div class="recon-box">
+          <div class="row"><span class="lbl">Opening Credit</span><span>${fmt(openingCredit)}</span></div>
+          <div class="row"><span class="lbl">Closing Credit</span><span>${fmt(closingCredit)}</span></div>
+          <div class="row"><span class="lbl">Credit Δ</span><span style="color:${(creditDelta)>=0?'#1d7a4b':'#b33a3a'};">${fmtSigned(creditDelta)} (${fmtPct(creditPct)})</span></div>
+          <div class="row"><span class="lbl">Sum of Shift Counted Cash</span><span>${fmt(shiftCountedSum)}</span></div>
+          <div class="row"><span class="lbl">Balancing Cash − Shift Cash</span><span style="color:${Math.abs(balancingVsShiftCashGap)>50000?'#b06d00':'#1d7a4b'};">${fmtSigned(balancingVsShiftCashGap)}</span></div>
+        </div>
+      </div>
+    </div>
+  `;
+
   const rangeInfo = `<div class="report-section"><div class="report-section-header"><i class="fas fa-calendar"></i> Range: ${fromStr} → ${toStr}</div><div class="report-section-body"><div class="recon-box">
     <div class="row"><span class="lbl">Entries</span><span>${allEntries.length}</span></div>
     <div class="row"><span class="lbl">Purchases</span><span>${allPurchases.length}</span></div>
     <div class="row"><span class="lbl">Balancing records</span><span>${allClosures.length}</span></div>
     <div class="row"><span class="lbl">Shifts</span><span>${shiftsInRange.length}</span></div>
     <div class="row"><span class="lbl">Shift net difference</span><span style="color:${shiftNet>0?'#1d7a4b':(shiftNet<0?'#b33a3a':'#5f7385')};">${fmtSigned(shiftNet)}</span></div>
-    <div class="row"><span class="lbl">Total Sales</span><span>${fmt(totalSales)}</span></div>
-    <div class="row"><span class="lbl">Total Cost</span><span>${fmt(totalCost)}</span></div>
-    <div class="row"><span class="lbl">Gross Profit</span><span>${fmt(gross)}</span></div>
   </div></div></div>`;
-  container.innerHTML = verdictBanner + scoreGrid + rangeInfo + reconHtml + issuesHtml;
+
+  container.innerHTML = verdictBanner + scoreGrid + rangeInfo + formulasHtml + kpiHtml + reconHtml + issuesHtml;
 }
 document.getElementById('auditModal').addEventListener('click', function(e){ if(e.target===this) closeAuditReport(); });
 document.getElementById('shiftSummaryModal').addEventListener('click', function(e){ if(e.target===this) closeShiftSummary(); });
@@ -3532,21 +3824,11 @@ function downloadExcel(){
   }
   if(allShifts.length){
     const shRows = allShifts.map(s => ({
-      'Date': s.date, 'Period': periodLabel(s.period), 'Period Source': s.periodSource || 'auto',
-      'Clock Period At Start': periodLabel(s.clockPeriodAtStart || periodFromTimestamp(s.openedAt)),
-      'Off-Clock?': (isValidPeriod(s.period) && (s.clockPeriodAtStart || periodFromTimestamp(s.openedAt)) !== s.period) ? 'YES' : 'No',
-      'Cashier': s.cashierName || s.cashier,
-      'Sales': parseFloat(s.sales) || 0,
-      'MTN': parseFloat(s.mtn) || 0, 'Airtel': parseFloat(s.airtel) || 0,
-      'Expenses': parseFloat(s.expenses) || 0,
-      'Expense Breakdown': Array.isArray(s.expenseItems) && s.expenseItems.length
-        ? s.expenseItems.map(e => `${e.type}${e.description ? ' (' + e.description + ')' : ''}: ${fmt(e.amount)}`).join('; ')
-        : '',
-      'Opening Float': parseFloat(s.openingFloat) || 0,
-      'Expected': parseFloat(s.cashExpected) || 0,
-      'Counted': parseFloat(s.counted) || 0,
-      'Difference': parseFloat(s.difference) || 0,
-      'Status': s.status, 'Note': s.note || ''
+      'Date': s.date, 'Period': periodLabel(s.period), 'Cashier': s.cashierName || s.cashier,
+      'Sales': parseFloat(s.sales) || 0, 'MTN': parseFloat(s.mtn) || 0, 'Airtel': parseFloat(s.airtel) || 0,
+      'Expenses': parseFloat(s.expenses) || 0, 'Opening Float': parseFloat(s.openingFloat) || 0,
+      'Expected': parseFloat(s.cashExpected) || 0, 'Counted': parseFloat(s.counted) || 0,
+      'Difference': parseFloat(s.difference) || 0, 'Status': s.status, 'Note': s.note || ''
     }));
     XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(shRows), 'Shifts');
   }
